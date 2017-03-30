@@ -4,9 +4,7 @@
 package com.tlkzzz.jeesite.modules.test.entity;
 
 import org.hibernate.validator.constraints.Length;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.validation.constraints.NotNull;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
 

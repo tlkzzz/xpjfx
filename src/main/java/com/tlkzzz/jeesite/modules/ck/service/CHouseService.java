@@ -5,7 +5,6 @@ package com.tlkzzz.jeesite.modules.ck.service;
 
 import java.util.List;
 
-import com.tlkzzz.jeesite.modules.ck.entity.CSupplier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

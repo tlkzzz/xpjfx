@@ -6,10 +6,8 @@ package com.tlkzzz.jeesite.modules.sys.service;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
-import com.tlkzzz.jeesite.modules.cms.entity.Site;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

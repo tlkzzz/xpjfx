@@ -4,7 +4,6 @@
 package com.tlkzzz.jeesite.modules.ck.entity;
 
 import com.tlkzzz.jeesite.modules.sys.entity.User;
-import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
 

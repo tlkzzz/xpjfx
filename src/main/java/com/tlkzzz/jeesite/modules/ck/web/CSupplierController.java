@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.common.utils.DateUtils;
 import com.tlkzzz.jeesite.common.utils.excel.ExportExcel;
-import com.tlkzzz.jeesite.modules.ck.entity.CCar;
-import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
-import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

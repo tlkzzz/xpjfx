@@ -5,8 +5,7 @@ package com.tlkzzz.jeesite.modules.ck.entity;
 
 import com.tlkzzz.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotNull;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;

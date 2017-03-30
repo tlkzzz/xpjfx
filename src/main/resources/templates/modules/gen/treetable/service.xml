@@ -50,5 +50,5 @@ public class ${ClassName}Service extends TreeService<${ClassName}Dao, ${ClassNam
 	}
 	
 }]]>
-	</content>
+    </content>
 </template>

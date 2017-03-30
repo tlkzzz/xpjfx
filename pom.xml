@@ -586,7 +586,7 @@
 		
 		<!-- 自定义jar依赖包
 		<dependency>
-			<groupId>com.tlkzzz.jeesite</groupId>
+			<groupId>com.tlkzzz.xpjfxgroupId>
 			<artifactId>test-core</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>

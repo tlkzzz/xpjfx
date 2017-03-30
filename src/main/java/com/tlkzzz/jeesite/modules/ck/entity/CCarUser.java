@@ -3,7 +3,6 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
-import org.hibernate.validator.constraints.Length;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import javax.validation.constraints.NotNull;
 

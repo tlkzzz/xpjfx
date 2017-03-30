@@ -22,7 +22,6 @@ import com.tlkzzz.jeesite.modules.sys.entity.Office;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import com.tlkzzz.jeesite.modules.sys.service.SystemService;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
-import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

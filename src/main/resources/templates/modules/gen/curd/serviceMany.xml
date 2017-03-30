@@ -94,5 +94,5 @@ public class ${ClassName}Service extends CrudService<${ClassName}Dao, ${ClassNam
 	}
 	
 }]]>
-	</content>
+    </content>
 </template>

@@ -3,7 +3,6 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
-import com.tlkzzz.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;

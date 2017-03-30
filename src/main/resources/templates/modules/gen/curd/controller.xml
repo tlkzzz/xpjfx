@@ -87,5 +87,5 @@ public class ${ClassName}Controller extends BaseController {
 	}
 
 }]]>
-	</content>
+    </content>
 </template>

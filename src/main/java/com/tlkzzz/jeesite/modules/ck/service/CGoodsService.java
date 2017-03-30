@@ -4,11 +4,9 @@
 package com.tlkzzz.jeesite.modules.ck.service;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.tlkzzz.jeesite.common.utils.StringUtils;
-import com.tlkzzz.jeesite.modules.ck.entity.CUnit;
 import com.tlkzzz.jeesite.modules.ck.entity.CUnit;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import org.springframework.stereotype.Service;

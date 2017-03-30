@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
-import com.tlkzzz.jeesite.modules.ck.entity.CSupplier;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

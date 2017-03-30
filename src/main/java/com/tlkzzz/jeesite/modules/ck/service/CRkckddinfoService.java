@@ -6,8 +6,6 @@ package com.tlkzzz.jeesite.modules.ck.service;
 import java.util.Date;
 import java.util.List;
 
-import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
-import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
