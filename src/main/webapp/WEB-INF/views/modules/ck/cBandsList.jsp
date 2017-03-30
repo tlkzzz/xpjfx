@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cBands/">品牌列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cBands/">品牌列表s</a></li>
 		<shiro:hasPermission name="ck:cBands:edit"><li><a href="${ctx}/ck/cBands/form">品牌添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cBands" action="${ctx}/ck/cBands/" method="post" class="breadcrumb form-search">
