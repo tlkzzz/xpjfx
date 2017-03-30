@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.test.dao.ShopWxpacketDao">
+    
+	<sql id="shopWxpacketColumns">
+		a.id AS "id",
+		a.goodsid AS "goods.id",
+		a.sjzfc AS "sjzfc",
+		a.spbh AS "spbh",
+		a.smr AS "smr",
+		a.smsj AS "smsj",
+		a.nb AS "nb",
+		a.state AS "state",
+		a.cjsj AS "cjsj",
+		a.bz AS "bz"
+	</sql>
+	
+	<sql id="shopWxpacketJoins">
+	</sql>
+    
+	<select id="get" resultType="ShopWxpacket">
+		SELECT 
+			<include refid="shopWxpacketColumns"/>
+		FROM shop_wxpacket a
+		<include refid="shopWxpacketJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ShopWxpacket">
+		SELECT 
+			<include refid="shopWxpacketColumns"/>
+		FROM shop_wxpacket a
+		<include refid="shopWxpacketJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ShopWxpacket">
+		SELECT 
+			<include refid="shopWxpacketColumns"/>
+		FROM shop_wxpacket a
+		<include refid="shopWxpacketJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO shop_wxpacket(
+			id,
+			goodsid,
+			sjzfc,
+			spbh,
+			smr,
+			smsj,
+			nb,
+			state,
+			cjsj,
+			bz
+		) VALUES (
+			#{id},
+			#{goods.id},
+			#{sjzfc},
+			#{spbh},
+			#{smr},
+			#{smsj},
+			#{nb},
+			#{state},
+			#{cjsj},
+			#{bz}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE shop_wxpacket SET 	
+			goodsid = #{goods.id},
+			sjzfc = #{sjzfc},
+			spbh = #{spbh},
+			smr = #{smr},
+			smsj = #{smsj},
+			nb = #{nb},
+			state = #{state},
+			cjsj = #{cjsj},
+			bz = #{bz}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM shop_wxpacket
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteBygoods" parameterType="java.lang.String">
+		DELETE FROM shop_wxpacket
+		WHERE goodsid = #{goodsID}
+	</update>
+	
+</mapper>

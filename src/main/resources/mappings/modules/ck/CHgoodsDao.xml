@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CHgoodsDao">
+    
+	<sql id="cHgoodsColumns">
+		a.id AS "id",
+		a.goodsid AS "goods.id",
+		cg.name AS "goods.name",
+		cg.big AS "goods.big.id",
+		cuna.name AS "goods.big.name",
+		cg.zong AS "goods.zong.id",
+		cunb.name AS "goods.zong.name",
+		cg.small AS "goods.small.id",
+		cunc.name AS "goods.small.name",
+		cg.sptp AS "goods.sptp",
+		cg.sort AS "goods.sort",
+		cg.bzq AS "goods.bzq",
+		cg.spbm AS "goods.spbm",
+		cg.bandsid AS "goods.bands.id",
+		cb.name AS "goods.bands.name",
+		cg.tm AS "goods.tm",
+		cg.cd AS "goods.cd",
+		cg.sccs AS "goods.sccs",
+		cg.pzwh AS "goods.pzwh",
+		cg.zjbgh AS "goods.zjbgh",
+		cg.spxkz AS "goods.spxkz",
+		cg.gycpxkz AS "goods.gycpxkz",
+		cg.scxkz AS "goods.scxkz",
+		cg.supplierid AS "goods.supplier.id",
+		cs.name AS "goods.supplier.name",
+		cg.gclassid AS "goods.gclass.id",
+		cgc.name AS "goods.gclass.name",
+		cg.uniid AS "goods.unit.id",
+		cg.specid AS "goods.spec.id",
+		csp.name AS "goods.spec.name",
+		cg.cbj AS "goods.cbj",
+		cg.sj AS "goods.sj",
+		a.housid AS "house.id",
+		ch.name AS "house.name",
+		a.nub AS "nub",
+		a.yjnub AS "yjnub",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cHgoodsJoins">
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_house ch ON a.housid=ch.id
+		LEFT JOIN c_unit cuna ON cg.big=cuna.id
+		LEFT JOIN c_unit cunb ON cg.zong=cunb.id
+		LEFT JOIN c_unit cunc ON cg.small=cunc.id
+		LEFT JOIN c_bands cb ON cg.bandsid=cb.id
+		LEFT JOIN c_supplier cs ON cg.supplierid=cs.id
+		LEFT JOIN c_gclass cgc ON cg.gclassid=cgc.id
+		LEFT JOIN c_spec csp ON cg.specid=csp.id
+	</sql>
+    
+	<select id="get" resultType="CHgoods">
+		SELECT 
+			<include refid="cHgoodsColumns"/>
+		FROM c_hgoods a
+		<include refid="cHgoodsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CHgoods">
+		SELECT 
+			<include refid="cHgoodsColumns"/>
+		FROM c_hgoods a
+		<include refid="cHgoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND cg.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.name != null and goods.name != ''">
+				AND cg.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{goods.name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{goods.name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.housid = #{house.id}
+			</if>
+			<if test="updateDate != null and updateDate!=''">
+				AND a.update_date &lt;= #{updateDate}
+			</if>
+			<if test="house != null and house.name != null and house.name != ''">
+				AND ch.name LIKE
+				<if test="dbName == 'oracsql'">'%'+#{house.name}+'%'</if>
+				<if test="dbName == le'">'%'||#{house.name}||'%'</if>
+				<if test="dbName == 'ms'mysql'">concat('%',#{house.name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CHgoods">
+		SELECT 
+			<include refid="cHgoodsColumns"/>
+		FROM c_hgoods a
+		<include refid="cHgoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND cg.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findHGByHG" resultType="CHgoods">
+		SELECT
+		<include refid="cHgoodsColumns"/>
+		FROM c_hgoods a
+		<include refid="cHgoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND cg.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.housid = #{house.id} AND a.goodsid = #{goods.id}
+		</where>
+	</select>
+	
+	<select id="findStockSumNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT
+			SUM(a.nub)
+		FROM c_hgoods a
+		WHERE a.goodsid=#{goodsId}
+	</select>
+
+	<select id="findStockNum" resultType="java.lang.Integer">
+		SELECT
+			a.nub
+		FROM c_hgoods a
+		WHERE a.housid=#{house.id} AND a.goodsid=#{goods.id}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_hgoods(
+			id,
+			goodsid,
+			housid,
+			nub,
+			yjnub,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{goods.id},
+			#{house.id},
+			#{nub},
+			#{yjnub},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_hgoods SET
+			goodsid = #{goods.id},
+			housid = #{house.id},
+			nub = #{nub},
+			yjnub = #{yjnub},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="addStock">
+		UPDATE c_hgoods a SET
+		 	nub=nub + #{nub}
+		WHERE a.housid=#{house.id} AND a.goodsid=#{goods.id}
+	</update>
+
+	<update id="minStock">
+		UPDATE c_hgoods a SET
+		 	nub=nub - #{nub}
+		WHERE a.housid=#{house.id} AND a.goodsid=#{goods.id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_hgoods SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

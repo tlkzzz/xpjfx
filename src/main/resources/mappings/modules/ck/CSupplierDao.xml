@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CSupplierDao">
+    
+	<sql id="cSupplierColumns">
+		a.id AS "id",
+		a.yzbm AS "yzbm",
+		a.code AS "code",
+		a.dh AS "dh",
+		a.khzh AS "khzh",
+		a.sfzz AS "sfzz",
+		a.yyzz AS "yyzz",
+		a.gysjc AS "gysjc",
+		a.lxr AS "lxr",
+		a.xxdz AS "xxdz",
+		a.khh AS "khh",
+		a.khr AS "khr",
+		a.gszy AS "gszy",
+		a.email AS "email",
+		a.name AS "name",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cSupplierJoins">
+	</sql>
+    
+	<select id="get" resultType="CSupplier">
+		SELECT 
+			<include refid="cSupplierColumns"/>
+		FROM c_supplier a
+		<include refid="cSupplierJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getname" resultType="CSupplier">
+		SELECT
+		<include refid="cSupplierColumns"/>
+		FROM c_supplier a
+		<include refid="cSupplierJoins"/>
+		WHERE a.name = #{name}
+	</select>
+
+	<select id="getcode" resultType="CSupplier">
+		SELECT
+		<include refid="cSupplierColumns"/>
+		FROM c_supplier a
+		<include refid="cSupplierJoins"/>
+		WHERE a.code = #{code}
+	</select>
+	
+	<select id="findList" resultType="CSupplier">
+		SELECT 
+			<include refid="cSupplierColumns"/>
+		FROM c_supplier a
+		<include refid="cSupplierJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="code != null and code != ''">
+				AND a.code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{code}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{code}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{code},'%')</if>
+			</if>
+			<if test="sfzz != null and sfzz != ''">
+				AND a.sfzz = #{sfzz}
+			</if>
+			<if test="yyzz != null and yyzz != ''">
+				AND a.yyzz LIKE 
+					<if test="dbName == 'oracle'">'%'||#{yyzz}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{yyzz}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{yyzz},'%')</if>
+			</if>
+			<if test="gysjc != null and gysjc != ''">
+				AND a.gysjc LIKE 
+					<if test="dbName == 'oracle'">'%'||#{gysjc}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{gysjc}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{gysjc},'%')</if>
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CSupplier">
+		SELECT 
+			<include refid="cSupplierColumns"/>
+		FROM c_supplier a
+		<include refid="cSupplierJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_supplier(
+			id,
+			yzbm,
+			code,
+			dh,
+			khzh,
+			sfzz,
+			yyzz,
+			gysjc,
+			lxr,
+			xxdz,
+			khh,
+			khr,
+			gszy,
+			email,
+			name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{yzbm},
+			#{code},
+			#{dh},
+			#{khzh},
+			#{sfzz},
+			#{yyzz},
+			#{gysjc},
+			#{lxr},
+			#{xxdz},
+			#{khh},
+			#{khr},
+			#{gszy},
+			#{email},
+			#{name},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_supplier SET 	
+			yzbm = #{yzbm},
+			code = #{code},
+			dh = #{dh},
+			khzh = #{khzh},
+			sfzz = #{sfzz},
+			yyzz = #{yyzz},
+			gysjc = #{gysjc},
+			lxr = #{lxr},
+			xxdz = #{xxdz},
+			khh = #{khh},
+			khr = #{khr},
+			gszy = #{gszy},
+			email = #{email},
+			name = #{name},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_supplier SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

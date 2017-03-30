@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CCkinfoDao">
+    
+	<sql id="cCkinfoColumns">
+		a.id AS "id",
+		a.je AS "je",
+		a.ckqcbj AS "ckqcbj",
+		a.ckhcbj AS "ckhcbj",
+		a.nub AS "nub",
+		a.supplierid AS "supplier.id",
+		csu.name AS "supplier.name",
+		a.goodsid AS "goods.id",
+		cg.name AS "goods.name",
+		a.housid AS "house.id",
+		ch.name AS "house.name",
+		a.storeid AS "store.id",
+		cst.name AS "store.name",
+		a.ckdate AS "ckdate",
+		a.state AS "state",
+		a.issp AS "issp",
+		a.jsr AS "jsr.id",
+		su.name AS "jsr.name",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cCkinfoJoins">
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_house	ch ON a.housid=ch.id
+		LEFT JOIN c_store cst ON a.storeid=cst.id
+		LEFT JOIN c_supplier csu ON a.supplierid=csu.id
+		LEFT JOIN sys_user su ON a.jsr=su.id
+	</sql>
+    
+	<select id="get" resultType="CCkinfo">
+		SELECT 
+			<include refid="cCkinfoColumns"/>
+		FROM c_ckinfo a
+		<include refid="cCkinfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CCkinfo">
+		SELECT 
+			<include refid="cCkinfoColumns"/>
+		FROM c_ckinfo a
+		<include refid="cCkinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplierid = #{supplier.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.housid = #{house.id}
+			</if>
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.storeid = #{store.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CCkinfo">
+		SELECT 
+			<include refid="cCkinfoColumns"/>
+		FROM c_ckinfo a
+		<include refid="cCkinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_ckinfo(
+			id,
+			je,
+			ckqcbj,
+			ckhcbj,
+			nub,
+			supplierid,
+			goodsid,
+			housid,
+			storeid,
+			ckdate,
+			state,
+			issp,
+			jsr,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{je},
+			#{ckqcbj},
+			#{ckhcbj},
+			#{nub},
+			#{supplier.id},
+			#{goods.id},
+			#{house.id},
+			#{store.id},
+			#{ckdate},
+			#{state},
+			#{issp},
+			#{jsr.id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_ckinfo SET 	
+			je = #{je},
+			ckqcbj = #{ckqcbj},
+			ckhcbj = #{ckhcbj},
+			nub = #{nub},
+			supplierid = #{supplier.id},
+			goodsid = #{goods.id},
+			housid = #{house.id},
+			storeid = #{store.id},
+			ckdate = #{ckdate},
+			state = #{state},
+			issp = #{issp},
+			jsr = #{jsr.id},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_ckinfo SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

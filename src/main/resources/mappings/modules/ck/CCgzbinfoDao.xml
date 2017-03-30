@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CCgzbinfoDao">
+    
+	<sql id="cCgzbinfoColumns">
+		a.id AS "id",
+		a.goodsid AS "goods.id",
+		cg.name AS "goods.name",
+		cg.big AS "goods.big.id",
+		cuna.name AS "goods.big.name",
+		cg.zong AS "goods.zong.id",
+		cunb.name AS "goods.zong.name",
+		cg.small AS "goods.small.id",
+		cunc.name AS "goods.small.name",
+		cg.specid AS "goods.spec.id",
+		csp.name AS "goods.spec.name",
+		a.nub AS "nub",
+		a.jg AS "jg",
+		a.rknub AS "rknub",
+		a.rk_date AS "rkDate",
+		crk.id AS "rkinfo.id",
+		csu.id AS "rkinfo.supplier.id",
+		csu.name AS "rkinfo.supplier.name",
+		a.state AS "state",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cCgzbinfoJoins">
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_rkinfo crk ON a.id=crk.cgzbid
+		LEFT JOIN c_supplier csu ON crk.supplierid=csu.id
+		LEFT JOIN c_unit cuna ON cg.`big`=cuna.`id`
+		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
+		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
+		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+	</sql>
+    
+	<select id="get" resultType="CCgzbinfo">
+		SELECT 
+			<include refid="cCgzbinfoColumns"/>
+		FROM c_cgzbinfo a
+		<include refid="cCgzbinfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getZbByGoodsAndState" resultType="CCgzbinfo" parameterType="java.lang.String">
+		SELECT
+			<include refid="cCgzbinfoColumns"/>
+		FROM c_cgzbinfo a
+		<include refid="cCgzbinfoJoins"/>
+		WHERE a.goodsid = #{param1} AND a.state = #{param2}
+	</select>
+	
+	<select id="findList" resultType="CCgzbinfo">
+		SELECT 
+			<include refid="cCgzbinfoColumns"/>
+		FROM c_cgzbinfo a
+		<include refid="cCgzbinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CCgzbinfo">
+		SELECT 
+			<include refid="cCgzbinfoColumns"/>
+		FROM c_cgzbinfo a
+		<include refid="cCgzbinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_cgzbinfo(
+			id,
+			goodsid,
+			nub,
+			jg,
+			rknub,
+			rk_date,
+			state,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{goods.id},
+			#{nub},
+			#{jg},
+			#{rknub},
+			#{rkDate},
+			#{state},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_cgzbinfo SET 	
+			goodsid = #{goods.id},
+			nub = #{nub},
+			jg = #{jg},
+			rknub = #{rknub},
+			rk_date = #{rkDate},
+			state = #{state},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeState" parameterType="java.lang.String">
+		UPDATE c_cgzbinfo a SET
+			a.state = #{param2}
+		WHERE id = #{param1}
+	</update>
+
+	<update id="delete">
+		UPDATE c_cgzbinfo SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

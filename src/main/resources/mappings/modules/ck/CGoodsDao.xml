@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao">
+    
+	<sql id="cGoodsColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.big AS "big.id",
+		cuna.name AS "big.name",
+		a.zong AS "zong.id",
+		cunb.name AS "zong.name",
+		a.small AS "small.id",
+		cunc.name AS "small.name",
+		a.sptp AS "sptp",
+		a.sort AS "sort",
+		a.bzq AS "bzq",
+		a.spbm AS "spbm",
+		a.bandsid AS "bands.id",
+		cb.name AS "bands.name",
+		a.tm AS "tm",
+		a.cd AS "cd",
+		a.sccs AS "sccs",
+		a.pzwh AS "pzwh",
+		a.zjbgh AS "zjbgh",
+		a.spxkz AS "spxkz",
+		a.gycpxkz AS "gycpxkz",
+		a.scxkz AS "scxkz",
+		a.supplierid AS "supplier.id",
+		cs.name AS "supplier.name",
+		a.houid AS "houid",
+		a.gclassid AS "gclass.id",
+		cgc.name AS "gclass.name",
+		a.uniid AS "unit.id",
+		a.specid AS "spec.id",
+		csp.name AS "spec.name",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.cbj AS "cbj",
+		a.sj AS "sj",
+		a.yjsj AS "yjsj",
+		a.ckcbj AS "ckcbj"
+	</sql>
+	
+	<sql id="cGoodsJoins">
+		LEFT JOIN c_unit cuna ON a.`big`=cuna.`id`
+		LEFT JOIN c_unit cunb ON a.`zong`=cunb.`id`
+		LEFT JOIN c_unit cunc ON a.`small`=cunc.`id`
+		LEFT JOIN c_bands cb ON a.`bandsid`=cb.`id`
+		LEFT JOIN c_supplier cs ON a.`supplierid`=cs.`id`
+		LEFT JOIN c_gclass cgc ON a.`gclassid`=cgc.`id`
+		LEFT JOIN c_spec csp ON a.`specid`=csp.`id`
+	</sql>
+    
+	<select id="get" resultType="CGoods">
+		SELECT 
+			<include refid="cGoodsColumns"/>
+		FROM c_goods a
+		<include refid="cGoodsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getsort" resultType="CGoods">
+		SELECT
+		<include refid="cGoodsColumns"/>
+		FROM c_goods a
+		<include refid="cGoodsJoins"/>
+		WHERE a.sort = #{sort}
+	</select>
+	
+	<select id="findList" resultType="CGoods">
+		SELECT 
+			<include refid="cGoodsColumns"/>
+		FROM c_goods a
+		<include refid="cGoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="sort != null and sort != ''">
+				AND a.sort LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sort}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sort}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sort},'%')</if>
+			</if>
+			<if test="spbm != null and spbm != ''">
+				AND a.spbm LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spbm}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spbm}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spbm},'%')</if>
+			</if>
+			<if test="bands != null and bands.id != null and bands.id != ''">
+				AND a.bandsid = #{bands.id}
+			</if>
+			<if test="bands != null and bands.name != null and bands.name != ''">
+				AND ab.name LIKE
+					<if test="dbName == 'oracle'">'%'||#{bands.name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{bands.name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{bands.name},'%')</if>
+			</if>
+			<if test="tm != null and tm != ''">
+				AND a.tm = #{tm}
+			</if>
+			<if test="sccs != null and sccs != ''">
+				AND a.sccs = #{sccs}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplierid = #{supplier.id}
+			</if>
+			<if test="supplier != null and supplier.name != null and supplier.name != ''">
+				AND cs.name LIKE
+					<if test="dbName == 'oracle'">'%'||#{supplier.name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{supplier.name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{supplier.name},'%')</if>
+			</if>
+			<if test="houid != null and houid != ''">
+				AND a.houid = #{houid}
+			</if>
+			<if test="gclass != null and gclass.name != null and gclass.name != ''">
+				AND cgc.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{gclass.name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{gclass.name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{gclass.name},'%')</if>
+			</if>
+			<if test="gclass != null and gclass.id != null and gclass.id != ''">
+				AND (cgc.parent_ids LIKE concat('%',#{gclass.id},'%') OR a.gclassid=#{gclass.id})
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CGoods">
+		SELECT 
+			<include refid="cGoodsColumns"/>
+		FROM c_goods a
+		<include refid="cGoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_goods(
+			id,
+			name,
+			big,
+			zong,
+			small,
+			sptp,
+			sort,
+			bzq,
+			spbm,
+			bandsid,
+			tm,
+			cd,
+			sccs,
+			pzwh,
+			zjbgh,
+			spxkz,
+			gycpxkz,
+			scxkz,
+			supplierid,
+			houid,
+			gclassid,
+			uniid,
+			specid,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			cbj,
+			sj,
+			yjsj,
+			ckcbj
+		) VALUES (
+			#{id},
+			#{name},
+			#{big.id},
+			#{zong.id},
+			#{small.id},
+			#{sptp},
+			#{sort},
+			#{bzq},
+			#{spbm},
+			#{bands.id},
+			#{tm},
+			#{cd},
+			#{sccs},
+			#{pzwh},
+			#{zjbgh},
+			#{spxkz},
+			#{gycpxkz},
+			#{scxkz},
+			#{supplier.id},
+			#{houid},
+			#{gclass.id},
+			#{unit.id},
+			#{spec.id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{cbj},
+			#{sj},
+			#{yjsj},
+			#{ckcbj}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_goods SET 	
+			name = #{name},
+			big = #{big.id},
+			zong = #{zong.id},
+			small = #{small.id},
+			sptp = #{sptp},
+			sort = #{sort},
+			bzq = #{bzq},
+			spbm = #{spbm},
+			bandsid = #{bands.id},
+			tm = #{tm},
+			cd = #{cd},
+			sccs = #{sccs},
+			pzwh = #{pzwh},
+			zjbgh = #{zjbgh},
+			spxkz = #{spxkz},
+			gycpxkz = #{gycpxkz},
+			scxkz = #{scxkz},
+			supplierid = #{supplier.id},
+			houid = #{houid},
+			gclassid = #{gclass.id},
+			uniid = #{unit.id},
+			specid = #{spec.id},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			cbj = #{cbj},
+			sj = #{sj},
+			yjsj = #{yjsj},
+			ckcbj= #{ckcbj}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCBJ">
+		UPDATE c_goods SET
+			cbj = #{cbj}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_goods SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

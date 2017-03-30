@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CShopDao">
+    
+	<sql id="cShopColumns">
+		a.id AS "id",
+		a.userid AS "userid",
+		a.spbh AS "spbh",
+		a.goodsid AS "goods.id",
+		cg.name AS "goods.name",
+		a.supplierid AS "supplier.id",
+		csu.name AS "supplier.name",
+		a.storeid AS "store.id",
+		cs.name AS "store.name",
+		a.nub AS "nub",
+		a.je AS "je",
+		a.state AS "state",
+		a.xqdate AS "xqdate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cShopJoins">
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_store cs ON a.storeid=cs.id
+		LEFT JOIN c_supplier csu ON a.supplierid=csu.id
+	</sql>
+    
+	<select id="get" resultType="CShop">
+		SELECT 
+			<include refid="cShopColumns"/>
+		FROM c_shop a
+		<include refid="cShopJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getShopByGoods" resultType="CShop">
+		SELECT
+			<include refid="cShopColumns"/>
+		FROM c_shop a
+		<include refid="cShopJoins"/>
+		WHERE a.goodsid = #{goods.id} AND a.userid = #{userid}
+	</select>
+	
+	<select id="findList" resultType="CShop">
+		SELECT 
+			<include refid="cShopColumns"/>
+		FROM c_shop a
+		<include refid="cShopJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="userid != null and userid != ''">
+				AND a.userid = #{userid}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplierid = #{supplier.id}
+			</if>
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.storeid = #{store.id}
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CShop">
+		SELECT 
+			<include refid="cShopColumns"/>
+		FROM c_shop a
+		<include refid="cShopJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_shop(
+			id,
+			userid,
+			spbh,
+			goodsid,
+			supplierid,
+			storeid,
+			nub,
+			je,
+			state,
+			xqdate,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{userid},
+			#{spbh},
+			#{goods.id},
+			#{supplier.id},
+			#{store.id},
+			#{nub},
+			#{je},
+			#{state},
+			#{xqdate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_shop SET 	
+			goodsid = #{goods.id},
+			userid = #{userid},
+			spbh = #{spbh},
+			supplierid = #{supplier.id},
+			storeid = #{store.id},
+			nub = #{nub},
+			je = #{je},
+			state = #{state},
+			xqdate = #{xqdate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM c_shop WHERE id = #{id}
+	</delete>
+
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+		DELETE FROM c_shop WHERE userid = #{userid}
+	</delete>
+	
+</mapper>

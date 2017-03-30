@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CStoreDao">
+    
+	<sql id="cStoreColumns">
+		a.id AS "id",
+		a.dpmc AS "dpmc",
+		a.khjc AS "khjc",
+		a.lxr AS "lxr",
+		a.dz AS "dz",
+		a.yb AS "yb",
+		a.dh AS "dh",
+		a.phone AS "phone",
+		a.email AS "email",
+		a.jfxs AS "jfxs",
+		a.khh AS "khh",
+		a.khhzh AS "khhzh",
+		a.khr AS "khr",
+		a.yyzz AS "yyzz",
+		a.sfzz AS "sfzz",
+		a.jd AS "jd",
+		a.wd AS "wd",
+		a.mdtp AS "mdtp",
+		a.sclassid AS "sclass.id",
+		csc.name AS "sclass.name",
+		a.areaid AS "area.id",
+		area.name AS "area.name",
+		a.name AS "name",
+		a.state AS "state",
+		a.cgy AS "cgy",
+		a.cgydh AS "cgydh",
+		a.hzzq AS "hzzq",
+		a.weixin AS "weixin",
+		a.qq AS "qq",
+		a.edu AS "edu",
+		a.xsqd AS "xsqd",
+		a.jhqd AS "jhqd",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cStoreJoins">
+		LEFT JOIN sys_area area ON area.id=a.areaid
+		LEFT JOIN c_sclass csc ON csc.id=a.sclassid
+	</sql>
+    
+	<select id="get" resultType="CStore">
+		SELECT 
+			<include refid="cStoreColumns"/>
+		FROM c_store a
+		<include refid="cStoreJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CStore">
+		SELECT 
+			<include refid="cStoreColumns"/>
+		FROM c_store a
+		<include refid="cStoreJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="dpmc != null and dpmc != ''">
+				AND a.dpmc LIKE 
+					<if test="dbName == 'oracle'">'%'||#{dpmc}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{dpmc}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{dpmc},'%')</if>
+			</if>
+			<if test="khjc != null and khjc != ''">
+				AND a.khjc LIKE 
+					<if test="dbName == 'oracle'">'%'||#{khjc}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{khjc}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{khjc},'%')</if>
+			</if>
+			<if test="yyzz != null and yyzz != ''">
+				AND a.yyzz = #{yyzz}
+			</if>
+			<if test="sclass != null and sclass.id != null and sclass.id != ''">
+				AND a.sclassid = #{sclass.id}
+			</if>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND (area.parent_ids LIKE concat('%',#{area.id},'%')OR a.areaid = #{area.id})
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CStore">
+		SELECT 
+			<include refid="cStoreColumns"/>
+		FROM c_store a
+		<include refid="cStoreJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_store(
+			id,
+			dpmc,
+			khjc,
+			lxr,
+			dz,
+			yb,
+			dh,
+			phone,
+			email,
+			jfxs,
+			khh,
+			khhzh,
+			khr,
+			yyzz,
+			sfzz,
+			jd,
+			wd,
+			mdtp,
+			sclassid,
+			areaid,
+			name,
+			state,
+			cgy,
+			cgydh,
+			hzzq,
+			weixin,
+			qq,
+			edu,
+			xsqd,
+			jhqd,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{dpmc},
+			#{khjc},
+			#{lxr},
+			#{dz},
+			#{yb},
+			#{dh},
+			#{phone},
+			#{email},
+			#{jfxs},
+			#{khh},
+			#{khhzh},
+			#{khr},
+			#{yyzz},
+			#{sfzz},
+			#{jd},
+			#{wd},
+			#{mdtp},
+			#{sclass.id},
+			#{area.id},
+			#{name},
+			#{state},
+			#{cgy},
+			#{cgydh},
+			#{hzzq},
+			#{weixin},
+			#{qq},
+			#{edu},
+			#{xsqd},
+			#{jhqd},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_store SET 	
+			dpmc = #{dpmc},
+			khjc = #{khjc},
+			lxr = #{lxr},
+			dz = #{dz},
+			yb = #{yb},
+			dh = #{dh},
+			phone = #{phone},
+			email = #{email},
+			jfxs = #{jfxs},
+			khh = #{khh},
+			khhzh = #{khhzh},
+			khr = #{khr},
+			yyzz = #{yyzz},
+			sfzz = #{sfzz},
+			jd = #{jd},
+			wd = #{wd},
+			mdtp = #{mdtp},
+			sclassid = #{sclass.id},
+			areaid = #{area.id},
+			name = #{name},
+			state = #{state},
+			cgy = #{cgy},
+			cgydh = #{cgydh},
+			hzzq = #{hzzq},
+			weixin = #{weixin},
+			qq = #{qq},
+			edu = #{edu},
+			xsqd = #{xsqd},
+			jhqd = #{jhqd},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_store SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

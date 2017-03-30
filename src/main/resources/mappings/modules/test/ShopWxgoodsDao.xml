@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.test.dao.ShopWxgoodsDao">
+    
+	<sql id="shopWxgoodsColumns">
+		a.id AS "id",
+		a.spbh AS "spbh",
+		a.name AS "name",
+		a.xsqy AS "xsqy",
+		a.scs AS "scs",
+		a.state AS "state",
+		a.scsj AS "scsj",
+		a.je AS "je",
+		a.hdmc AS "hdmc",
+		a.bz AS "bz",
+		a.cjsj AS "cjsj",
+		a.fszmc AS "fszmc",
+		a.tgfmc AS "tgfmc",
+		a.hbzfy AS "hbzfy",
+		a.num AS "num"
+	</sql>
+	
+	<sql id="shopWxgoodsJoins">
+	</sql>
+    
+	<select id="get" resultType="ShopWxgoods">
+		SELECT 
+			<include refid="shopWxgoodsColumns"/>
+		FROM shop_wxgoods a
+		<include refid="shopWxgoodsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ShopWxgoods">
+		SELECT 
+			<include refid="shopWxgoodsColumns"/>
+		FROM shop_wxgoods a
+		<include refid="shopWxgoodsJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ShopWxgoods">
+		SELECT 
+			<include refid="shopWxgoodsColumns"/>
+		FROM shop_wxgoods a
+		<include refid="shopWxgoodsJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO shop_wxgoods(
+			id,
+			spbh,
+			name,
+			xsqy,
+			scs,
+			state,
+			scsj,
+			je,
+			hdmc,
+			bz,
+			cjsj,
+			fszmc,
+			tgfmc,
+			hbzfy,
+			num
+		) VALUES (
+			#{id},
+			#{spbh},
+			#{name},
+			#{xsqy},
+			#{scs},
+			#{state},
+			#{scsj},
+			#{je},
+			#{hdmc},
+			#{bz},
+			#{cjsj},
+			#{fszmc},
+			#{tgfmc},
+			#{hbzfy},
+			#{num}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE shop_wxgoods SET 	
+			spbh = #{spbh},
+			name = #{name},
+			xsqy = #{xsqy},
+			scs = #{scs},
+			state = #{state},
+			scsj = #{scsj},
+			je = #{je},
+			hdmc = #{hdmc},
+			bz = #{bz},
+			cjsj = #{cjsj},
+			fszmc = #{fszmc},
+			tgfmc = #{tgfmc},
+			hbzfy = #{hbzfy},
+			num = #{num}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM shop_wxgoods
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

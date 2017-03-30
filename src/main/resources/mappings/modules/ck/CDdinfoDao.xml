@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CDdinfoDao">
+    
+	<sql id="cDdinfoColumns">
+		a.id AS "id",
+		a.rkckddinfoid AS "rkckddinfo.id",
+		crkck.ddbh AS "rkckddinfo.ddbh",
+		crkck.state AS "rkckddinfo.state",
+		crkck.issp AS "rkckddinfo.issp",
+		a.cgzbinfo = "cgzbinfo.id",
+		a.hous_id AS "house.id",
+		ch.name AS "house.name",
+		a.goods_id AS "goods.id",
+		cg.name AS "goods.name",
+		a.supplier_id AS "supplier.id",
+		csu.name AS "supplier.name",
+		a.store_id AS "store.id",
+		cst.name AS "store.name",
+		a.je AS "je",
+		a.rkckdate AS "rkckdate",
+		a.ddbh AS "ddbh",
+		a.nub AS "nub",
+		a.rkqcbj AS "rkqcbj",
+		a.rksjcbj AS "rksjcbj",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cDdinfoJoins">
+		LEFT JOIN c_rkckddinfo crkck ON a.rkckddinfoid=crkck.id
+		LEFT JOIN c_house ch ON a.hous_id=ch.id
+		LEFT JOIN c_goods cg ON a.goods_id=cg.id
+		LEFT JOIN c_supplier csu ON a.supplier_id=csu.id
+		LEFT JOIN c_store cst	ON a.store_id=cst.id
+	</sql>
+    
+	<select id="get" resultType="CDdinfo">
+		SELECT 
+			<include refid="cDdinfoColumns"/>
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CDdinfo">
+		SELECT 
+			<include refid="cDdinfoColumns"/>
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.hous_id = #{house.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goods_id = #{goods.id}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.store_id = #{store.id}
+			</if>
+			<if test="cgzbinfo != null and cgzbinfo.id != null and cgzbinfo.id != ''">
+				AND a.cgzbinfo = #{cgzbinfo.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CDdinfo">
+		SELECT 
+			<include refid="cDdinfoColumns"/>
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_ddinfo(
+			id,
+			rkckddinfoid,
+			cgzbinfo,
+			hous_id,
+			goods_id,
+			supplier_id,
+			store_id,
+			je,
+			rkckdate,
+			ddbh,
+			nub,
+			rkqcbj,
+			rksjcbj,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{rkckddinfo.id},
+			#{cgzbinfo.id},
+			#{house.id},
+			#{goods.id},
+			#{supplier.id},
+			#{store.id},
+			#{je},
+			#{rkckdate},
+			#{ddbh},
+			#{nub},
+			#{rkqcbj},
+			#{rksjcbj},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_ddinfo SET 	
+			rkckddinfoid = #{rkckddinfo.id},
+			cgzbinfo = #{cgzbinfo.id},
+			hous_id = #{house.id},
+			goods_id = #{goods.id},
+			supplier_id = #{supplier.id},
+			store_id = #{store.id},
+			je = #{je},
+			rkckdate = #{rkckdate},
+			ddbh = #{ddbh},
+			nub = #{nub},
+			rkqcbj = #{rkqcbj},
+			rksjcbj = #{rksjcbj},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCgzbInfo">
+		UPDATE c_ddinfo SET 
+			cgzbinfo = #{cgzbinfo.id}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE c_ddinfo SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

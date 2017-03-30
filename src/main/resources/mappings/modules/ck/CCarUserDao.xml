@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CCarUserDao">
+    
+	<sql id="cCarUserColumns">
+		a.carid AS "car.id",
+		a.userid AS "user.id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cCarUserJoins">
+	</sql>
+    
+	<select id="get" resultType="CCarUser">
+		SELECT 
+			<include refid="cCarUserColumns"/>
+		FROM c_car_user a
+		<include refid="cCarUserJoins"/>
+		WHERE a.carid = #{id}
+	</select>
+	
+	<select id="findList" resultType="CCarUser">
+		SELECT 
+			<include refid="cCarUserColumns"/>
+		FROM c_car_user a
+		<include refid="cCarUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="car != null and car.id != null and car.id != ''">
+				AND a.carid = #{car.id}
+			</if>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.userid = #{user.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findListByCar" resultType="User">
+		SELECT
+			su.id AS "id",
+			su.name AS "name"
+		FROM c_car_user a
+		LEFT JOIN sys_user su ON su.id=a.userid
+		<where>
+			su.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="car != null and car.id != null and car.id != ''">
+				AND a.carid = #{car.id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="CCarUser">
+		SELECT 
+			<include refid="cCarUserColumns"/>
+		FROM c_car_user a
+		<include refid="cCarUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_car_user(
+			carid,
+			userid,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{car.id},
+			#{user.id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_car_user SET 	
+			carid = #{car.id},
+			userid = #{user.id},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_car_user SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE carid = #{id}
+	</update>
+
+	<delete id="deleteByCar">
+		DELETE FROM c_car_user
+		WHERE carid = #{car.id}
+	</delete>
+	
+</mapper>

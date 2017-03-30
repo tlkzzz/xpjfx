@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CRkckddinfoDao">
+    
+	<sql id="cRkckddinfoColumns">
+		a.id AS "id",
+		a.ddbh AS "ddbh",
+		a.je AS "je",
+		a.lx AS "lx",
+		a.state AS "state",
+		a.issp AS "issp",
+		a.spr AS "spr",
+		a.spsj AS "spsj",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cRkckddinfoJoins">
+	</sql>
+    
+	<select id="get" resultType="CRkckddinfo">
+		SELECT 
+			<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CRkckddinfo">
+		SELECT 
+			<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CRkckddinfo">
+		SELECT 
+			<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_rkckddinfo(
+			id,
+			ddbh,
+			je,
+			lx,
+			state,
+			issp,
+			spr,
+			spsj,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{ddbh},
+			#{je},
+			#{lx},
+			#{state},
+			#{issp},
+			#{spr},
+			#{spsj},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_rkckddinfo SET 	
+			ddbh = #{ddbh},
+			je = #{je},
+			lx = #{lx},
+			state = #{state},
+			issp = #{issp},
+			spr = #{spr},
+			spsj = #{spsj},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="changeIssp">
+		UPDATE c_rkckddinfo SET 
+			issp = #{issp},
+			spr = #{spr},
+			spsj = #{spsj}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateJe">
+		UPDATE c_rkckddinfo SET
+			je = #{je}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE c_rkckddinfo SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

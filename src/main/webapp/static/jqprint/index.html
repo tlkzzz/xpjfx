@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery打印插件jqprint</title>
+<!-- jqprint打印控件 -->
+<script src="${ctxStatic}/jqprint/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jqprint/jquery.jqprint-0.3.js" type="text/javascript"></script>
+<script language="javascript">
+
+function aa(){
+	$("#ddd").jqprint();
+}
+</script>
+</head>
+
+<body>
+<div>
+  <table>
+    <tr id="ddd">
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+      <td>test</td>
+    </tr>
+  </table>
+</div>
+<input type="button" onclick="aa()" value="打印"/>
+</body>
+</html>
