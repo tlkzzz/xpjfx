@@ -39,7 +39,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/ck/cBands/">品牌列表</a></li>
+		<li><a href="${ctx}/ck/cBands/">品牌列3表</a></li>
 		<li class="active"><a href="${ctx}/ck/cBands/form?id=${cBands.id}">品牌<shiro:hasPermission name="ck:cBands:edit">${not empty cBands.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cBands:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="cBands" action="${ctx}/ck/cBands/save" method="post" class="form-horizontal">
