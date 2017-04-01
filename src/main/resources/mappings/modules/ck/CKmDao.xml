@@ -1,0 +1,122 @@
+	<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CKmDao">
+    
+	<sql id="cKmColumns">
+		a.id AS "id",
+		a.kmlbid AS "kmlbid",
+		a.kmnb AS "kmnb",
+		a.kmname AS "kmname",
+		a.zh AS "zh",
+		a.je AS "je",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cKmJoins">
+	</sql>
+    
+	<select id="get" resultType="CKm">
+		SELECT 
+			<include refid="cKmColumns"/>
+		FROM c_km a
+		<include refid="cKmJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CKm">
+		SELECT 
+			<include refid="cKmColumns"/>
+		FROM c_km a
+		<include refid="cKmJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="kmname != null and kmname != ''">
+				AND a.kmname LIKE 
+					<if test="dbName == 'oracle'">'%'||#{kmname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{kmname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{kmname},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CKm">
+		SELECT 
+			<include refid="cKmColumns"/>
+		FROM c_km a
+		<include refid="cKmJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_km(
+			id,
+			kmlbid,
+			kmnb,
+			kmname,
+			zh,
+			je,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{kmlbid},
+			#{kmnb},
+			#{kmname},
+			#{zh},
+			#{je},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_km SET 	
+			kmlbid = #{kmlbid},
+			kmnb = #{kmnb},
+			kmname = #{kmname},
+			zh = #{zh},
+			je = #{je},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_km SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
