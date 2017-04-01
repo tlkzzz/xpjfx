@@ -24,7 +24,7 @@ import com.tlkzzz.jeesite.modules.ck.service.CYkinfoService;
 
 /**
  * 移库记录Controller
- * @author xrc
+ * @author  xrc
  * @version 2017-03-15
  */
 @Controller
