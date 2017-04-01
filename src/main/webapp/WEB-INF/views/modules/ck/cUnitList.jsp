@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cUnit/">单位列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cUnit/">单位列表1</a></li>
 		<shiro:hasPermission name="ck:cUnit:edit"><li><a href="${ctx}/ck/cUnit/form">单位添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cUnit" action="${ctx}/ck/cUnit/" method="post" class="breadcrumb form-search">
