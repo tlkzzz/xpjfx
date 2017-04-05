@@ -48,7 +48,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/ck/cKm/">科目类别列4</a></li>
+		<li><a href="${ctx}/ck/cKm/">科目类别列</a></li>
 		<li class="active"><a href="${ctx}/ck/cKm/form?id=${cKm.id}">科目类别表<shiro:hasPermission name="ck:cKm:edit">${not empty cKm.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cKm:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="cKm" action="${ctx}/ck/cKm/save" method="post" class="form-horizontal">
