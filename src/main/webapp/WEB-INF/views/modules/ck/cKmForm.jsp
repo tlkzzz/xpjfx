@@ -44,18 +44,32 @@
 			}
 
 		}
+		function check(){
+            $("#b").show
+            var reg = /^\d{1,9}(\.\d{1,4})?$/
+            if(!reg.test($("#je").val())){
+                $("#b").text("× 请输入最多4位小数的14位数值！")
+            }else{
+                $("#b").text("√")
+            }
+        }
+        $(function(){
+            $("#je").blur(function(){
+                check();
+            })
+        })
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/ck/cKm/">科目类别列</a></li>
+		<li><a href="${ctx}/ck/cKm/">科目类别列表</a></li>
 		<li class="active"><a href="${ctx}/ck/cKm/form?id=${cKm.id}">科目类别表<shiro:hasPermission name="ck:cKm:edit">${not empty cKm.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cKm:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="cKm" action="${ctx}/ck/cKm/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">科目类别IDs：</label>
+			<label class="control-label">科目类别ID：</label>
 			<div class="controls">
 				<form:select path="kmlbid" class="input-xlarge required" onclick="hide()" id="kmlbid">
 					<form:option value="" label="请选择"/>
@@ -92,7 +106,8 @@
 		<div class="control-group" id="yue">
 			<label class="control-label">余额：</label>
 			<div class="controls">
-				<form:input path="je" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="je" id="je" htmlEscape="false" class="input-xlarge " pattern="^\d{1,9}(\.\d{1,4})?$"/>
+                <span class="help-inline" id="b"><font color="red"></font> </span>
 			</div>
 		</div>
 
