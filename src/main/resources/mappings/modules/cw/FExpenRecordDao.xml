@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FExpenRecordDao">
+    
+	<sql id="fExpenRecordColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.expen_account AS "expenAccount",
+		a.travel_account AS "travelAccount",
+		a.expen_money AS "expenMoney",
+		a.expen_date AS "expenDate",
+		a.jsr AS "jsr",
+		a.expen_mode AS "expenMode",
+		a.expen_type AS "expenType",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fExpenRecordJoins">
+	</sql>
+    
+	<select id="get" resultType="FExpenRecord">
+		SELECT 
+			<include refid="fExpenRecordColumns"/>
+		FROM f_expen_record a
+		<include refid="fExpenRecordJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FExpenRecord">
+		SELECT 
+			<include refid="fExpenRecordColumns"/>
+		FROM f_expen_record a
+		<include refid="fExpenRecordJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FExpenRecord">
+		SELECT 
+			<include refid="fExpenRecordColumns"/>
+		FROM f_expen_record a
+		<include refid="fExpenRecordJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO f_expen_record(
+			id,
+			order_id,
+			expen_account,
+			travel_account,
+			expen_money,
+			expen_date,
+			jsr,
+			expen_mode,
+			expen_type,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{expenAccount},
+			#{travelAccount},
+			#{expenMoney},
+			#{expenDate},
+			#{jsr},
+			#{expenMode},
+			#{expenType},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE f_expen_record SET 	
+			order_id = #{orderId},
+			expen_account = #{expenAccount},
+			travel_account = #{travelAccount},
+			expen_money = #{expenMoney},
+			expen_date = #{expenDate},
+			jsr = #{jsr},
+			expen_mode = #{expenMode},
+			expen_type = #{expenType},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM f_expen_record
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

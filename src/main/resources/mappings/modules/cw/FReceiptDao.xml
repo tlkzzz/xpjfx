@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FReceiptDao">
+    
+	<sql id="fReceiptColumns">
+		a.id AS "id",
+		a.receipt_date AS "receiptDate",
+		a.receipt_code AS "receiptCode",
+		a.travel_unit AS "travelUnit",
+		a.travel_account AS "travelAccount",
+		a.receipt_account AS "receiptAccount",
+		a.receipt_type AS "receiptType",
+		a.receipt_mode AS "receiptMode",
+		a.jsr AS "jsr",
+		a.subject_code AS "subjectCode",
+		a.approval_status AS "approvalStatus",
+		a.auditor AS "auditor",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fReceiptJoins">
+	</sql>
+    
+	<select id="get" resultType="FReceipt">
+		SELECT 
+			<include refid="fReceiptColumns"/>
+		FROM f_receipt a
+		<include refid="fReceiptJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FReceipt">
+		SELECT 
+			<include refid="fReceiptColumns"/>
+		FROM f_receipt a
+		<include refid="fReceiptJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FReceipt">
+		SELECT 
+			<include refid="fReceiptColumns"/>
+		FROM f_receipt a
+		<include refid="fReceiptJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO f_receipt(
+			id,
+			receipt_date,
+			receipt_code,
+			travel_unit,
+			travel_account,
+			receipt_account,
+			receipt_type,
+			receipt_mode,
+			jsr,
+			subject_code,
+			approval_status,
+			auditor,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{receiptDate},
+			#{receiptCode},
+			#{travelUnit},
+			#{travelAccount},
+			#{receiptAccount},
+			#{receiptType},
+			#{receiptMode},
+			#{jsr},
+			#{subjectCode},
+			#{approvalStatus},
+			#{auditor},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE f_receipt SET 	
+			receipt_date = #{receiptDate},
+			receipt_code = #{receiptCode},
+			travel_unit = #{travelUnit},
+			travel_account = #{travelAccount},
+			receipt_account = #{receiptAccount},
+			receipt_type = #{receiptType},
+			receipt_mode = #{receiptMode},
+			jsr = #{jsr},
+			subject_code = #{subjectCode},
+			approval_status = #{approvalStatus},
+			auditor = #{auditor},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM f_receipt
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

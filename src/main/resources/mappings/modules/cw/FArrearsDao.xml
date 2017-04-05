@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FArrearsDao">
+    
+	<sql id="fArrearsColumns">
+		a.id AS "id",
+		a.arrears_unit AS "arrearsUnit",
+		a.arrears_type AS "arrearsType",
+		a.arrears_mode AS "arrearsMode",
+		a.total AS "total",
+		a.arrears_date AS "arrearsDate",
+		a.repayment_date AS "repaymentDate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fArrearsJoins">
+	</sql>
+    
+	<select id="get" resultType="FArrears">
+		SELECT 
+			<include refid="fArrearsColumns"/>
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FArrears">
+		SELECT 
+			<include refid="fArrearsColumns"/>
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		<where>
+			
+			<if test="arrearsUnit != null and arrearsUnit != ''">
+				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FArrears">
+		SELECT 
+			<include refid="fArrearsColumns"/>
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO f_arrears(
+			id,
+			arrears_unit,
+			arrears_type,
+			arrears_mode,
+			total,
+			arrears_date,
+			repayment_date,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{arrearsUnit},
+			#{arrearsType},
+			#{arrearsMode},
+			#{total},
+			#{arrearsDate},
+			#{repaymentDate},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE f_arrears SET 	
+			arrears_unit = #{arrearsUnit},
+			arrears_type = #{arrearsType},
+			arrears_mode = #{arrearsMode},
+			total = #{total},
+			arrears_date = #{arrearsDate},
+			repayment_date = #{repaymentDate},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM f_arrears
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

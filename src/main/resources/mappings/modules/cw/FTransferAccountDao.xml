@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FTransferAccountDao">
+    
+	<sql id="fTransferAccountColumns">
+		a.id AS "id",
+		a.transfer_type AS "transferType",
+		a.out_account AS "outAccount",
+		a.in_account AS "inAccount",
+		a.travel_unit AS "travelUnit",
+		a.trans_money AS "transMoney",
+		a.transfer_date AS "transferDate",
+		a.jsr AS "jsr",
+		a.subject_code AS "subjectCode",
+		a.approval_status AS "approvalStatus",
+		a.auditor AS "auditor",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fTransferAccountJoins">
+	</sql>
+    
+	<select id="get" resultType="FTransferAccount">
+		SELECT 
+			<include refid="fTransferAccountColumns"/>
+		FROM f_transfer_account a
+		<include refid="fTransferAccountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FTransferAccount">
+		SELECT 
+			<include refid="fTransferAccountColumns"/>
+		FROM f_transfer_account a
+		<include refid="fTransferAccountJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FTransferAccount">
+		SELECT 
+			<include refid="fTransferAccountColumns"/>
+		FROM f_transfer_account a
+		<include refid="fTransferAccountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO f_transfer_account(
+			id,
+			transfer_type,
+			out_account,
+			in_account,
+			travel_unit,
+			trans_money,
+			transfer_date,
+			jsr,
+			subject_code,
+			approval_status,
+			auditor,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{transferType},
+			#{outAccount},
+			#{inAccount},
+			#{travelUnit},
+			#{transMoney},
+			#{transferDate},
+			#{jsr},
+			#{subjectCode},
+			#{approvalStatus},
+			#{auditor},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE f_transfer_account SET 	
+			transfer_type = #{transferType},
+			out_account = #{outAccount},
+			in_account = #{inAccount},
+			travel_unit = #{travelUnit},
+			trans_money = #{transMoney},
+			transfer_date = #{transferDate},
+			jsr = #{jsr},
+			subject_code = #{subjectCode},
+			approval_status = #{approvalStatus},
+			auditor = #{auditor},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM f_transfer_account
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FFixedAssetsCgbmDao">
+    
+	<sql id="fFixedAssetsCgbmColumns">
+		a.id AS "id",
+		a.assets_id AS "assetsId",
+		a.travel_unit AS "travelUnit",
+		a.payment_account AS "paymentAccount",
+		a.travel_account AS "travelAccount",
+		a.total AS "total",
+		a.payment_mode AS "paymentMode",
+		a.approval_status AS "approvalStatus",
+		a.auditor AS "auditor",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fFixedAssetsCgbmJoins">
+	</sql>
+    
+	<select id="get" resultType="FFixedAssetsCgbm">
+		SELECT 
+			<include refid="fFixedAssetsCgbmColumns"/>
+		FROM f_fixed_assets_cgbm a
+		<include refid="fFixedAssetsCgbmJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FFixedAssetsCgbm">
+		SELECT 
+			<include refid="fFixedAssetsCgbmColumns"/>
+		FROM f_fixed_assets_cgbm a
+		<include refid="fFixedAssetsCgbmJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FFixedAssetsCgbm">
+		SELECT 
+			<include refid="fFixedAssetsCgbmColumns"/>
+		FROM f_fixed_assets_cgbm a
+		<include refid="fFixedAssetsCgbmJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO f_fixed_assets_cgbm(
+			id,
+			assets_id,
+			travel_unit,
+			payment_account,
+			travel_account,
+			total,
+			payment_mode,
+			approval_status,
+			auditor,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{assetsId},
+			#{travelUnit},
+			#{paymentAccount},
+			#{travelAccount},
+			#{total},
+			#{paymentMode},
+			#{approvalStatus},
+			#{auditor},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE f_fixed_assets_cgbm SET 	
+			assets_id = #{assetsId},
+			travel_unit = #{travelUnit},
+			payment_account = #{paymentAccount},
+			travel_account = #{travelAccount},
+			total = #{total},
+			payment_mode = #{paymentMode},
+			approval_status = #{approvalStatus},
+			auditor = #{auditor},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM f_fixed_assets_cgbm
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
