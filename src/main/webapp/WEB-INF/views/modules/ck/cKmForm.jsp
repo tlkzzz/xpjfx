@@ -34,7 +34,7 @@
                 document.getElementById("zhanghu").style.visibility = "visible";
                 document.getElementById("zhanghu").style.height = "30px";
                 document.getElementById("yue").style.visibility = "visible";
-                document.getElementById("zhanghu").style.height = "40px";
+                document.getElementById("yue").style.height = "30px";
                 document.getElementById("baocun").style.height = "50px";
 			}else if(kmlbid=""){
                 document.getElementById("zhanghu").style.visibility = "hidden";
