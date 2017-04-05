@@ -4,11 +4,11 @@
     
 	<sql id="cKmColumns">
 		a.id AS "id",
-		a.kmlbid AS "kmlbid",
-		a.kmnb AS "kmnb",
 		a.kmname AS "kmname",
-		a.zh AS "zh",
-		a.je AS "je",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.kmnb AS "kmnb",
+		a.kmlbid AS "kmlbid",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
@@ -41,15 +41,19 @@
 					<if test="dbName == 'mssql'">'%'+#{kmname}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{kmname},'%')</if>
 			</if>
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+			<if test="parentIds != null and parentIds != ''">
+				AND a.parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parentIds}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parentIds}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parentIds},'%')</if>
+			</if>
+			<if test="kmlbid != null and kmlbid != ''">
+				AND a.kmlbid = #{kmlbid}
+			</if>
 		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
 	</select>
 	
 	<select id="findAllList" resultType="CKm">
@@ -59,25 +63,30 @@
 		<include refid="cKmJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
+		</where>
+	</select>
+	
+	<select id="findByParentIdsLike" resultType="CKm">
+		SELECT
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids
+		FROM c_km a
+		<include refid="cKmJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.parent_ids LIKE #{parentIds}
+		</where>
 	</select>
 	
 	<insert id="insert">
 		INSERT INTO c_km(
 			id,
-			kmlbid,
-			kmnb,
 			kmname,
-			zh,
-			je,
+			parent_id,
+			parent_ids,
+			kmnb,
+			kmlbid,
 			create_date,
 			create_by,
 			update_date,
@@ -86,11 +95,11 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{kmlbid},
-			#{kmnb},
 			#{kmname},
-			#{zh},
-			#{je},
+			#{parent.id},
+			#{parentIds},
+			#{kmnb},
+			#{kmlbid},
 			#{createDate},
 			#{createBy.id},
 			#{updateDate},
@@ -102,21 +111,28 @@
 	
 	<update id="update">
 		UPDATE c_km SET 	
-			kmlbid = #{kmlbid},
-			kmnb = #{kmnb},
 			kmname = #{kmname},
-			zh = #{zh},
-			je = #{je},
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds},
+			kmnb = #{kmnb},
+			kmlbid = #{kmlbid},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateParentIds">
+		UPDATE c_km SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
 	<update id="delete">
 		UPDATE c_km SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
 	</update>
 	
 </mapper>

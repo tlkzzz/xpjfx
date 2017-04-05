@@ -4,88 +4,98 @@
 <head>
 	<title>科目类别表管理</title>
 	<meta name="decorator" content="default"/>
+	<%@include file="/WEB-INF/views/include/treetable.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			var tpl = $("#treeTableTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+			var data = ${fns:toJson(list)}, ids = [], rootIds = [];
+			for (var i=0; i<data.length; i++){
+				ids.push(data[i].id);
+			}
+			ids = ',' + ids.join(',') + ',';
+			for (var i=0; i<data.length; i++){
+				if (ids.indexOf(','+data[i].parentId+',') == -1){
+					if ((','+rootIds.join(',')+',').indexOf(','+data[i].parentId+',') == -1){
+						rootIds.push(data[i].parentId);
+					}
+				}
+			}
+			for (var i=0; i<rootIds.length; i++){
+				addRow("#treeTableList", tpl, data, rootIds[i], true);
+			}
+			$("#treeTable").treeTable({expandLevel : 5});
 		});
-		function page(n,s){
-			$("#pageNo").val(n);
-			$("#pageSize").val(s);
-			$("#searchForm").submit();
-        	return false;
-        }
+		function addRow(list, tpl, data, pid, root){
+			for (var i=0; i<data.length; i++){
+				var row = data[i];
+				if ((${fns:jsGetVal('row.parentId')}) == pid){
+					$(list).append(Mustache.render(tpl, {
+						dict: {
+						blank123:0}, pid: (root?0:pid), row: row
+					}));
+					addRow(list, tpl, data, row.id);
+				}
+			}
+		}
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cKm/">科目类别列表</a></li>
-		<shiro:hasPermission name="ck:cKm:edit"><li><a href="${ctx}/ck/cKm/form">科目类别添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/ck/cKm/">科目类别表列表</a></li>
+		<shiro:hasPermission name="ck:cKm:edit"><li><a href="${ctx}/ck/cKm/form">科目类别表添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cKm" action="${ctx}/ck/cKm/" method="post" class="breadcrumb form-search">
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>科目名称：</label>
 				<form:input path="kmname" htmlEscape="false" maxlength="64" class="input-medium"/>
+			</li>
+			<li><label>所有父级Id：</label>
+				<form:input path="parentIds" htmlEscape="false" maxlength="64" class="input-medium"/>
+			</li>
+			<li><label>科目类别Id：</label>
+				<form:input path="kmlbid" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="treeTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>科目类别ID</th>
-				<th>科目编号</th>
 				<th>科目名称</th>
-				<th>账户</th>
-				<th>余额</th>
-				<th>创建时间</th>
-				<th>创建人</th>
+				<th>科目编号</th>
+				<th>科目类别Id</th>
 				<th>修改时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="ck:cKm:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
-		<tbody>
-		<c:forEach items="${page.list}" var="cKm">
-			<tr>
-				<td><a href="${ctx}/ck/cKm/form?id=${cKm.id}">
-					${cKm.kmlbid}
-				</a></td>
-				<td>
-					${cKm.kmnb}
-				</td>
-				<td>
-					${cKm.kmname}
-				</td>
-				<td>
-					${cKm.zh}
-				</td>
-				<td>
-					${cKm.je}
-				</td>
-				<td>
-					<fmt:formatDate value="${cKm.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
-				<td>
-					${cKm.createBy.id}
-				</td>
-				<td>
-					<fmt:formatDate value="${cKm.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
-				<td>
-					${cKm.remarks}
-				</td>
-				<shiro:hasPermission name="ck:cKm:edit"><td>
-    				<a href="${ctx}/ck/cKm/form?id=${cKm.id}">修改</a>
-					<a href="${ctx}/ck/cKm/delete?id=${cKm.id}" onclick="return confirmx('确认要删除该科目类别表吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
-			</tr>
-		</c:forEach>
-		</tbody>
+		<tbody id="treeTableList"></tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	<script type="text/template" id="treeTableTpl">
+		<tr id="{{row.id}}" pId="{{pid}}">
+			<td><a href="${ctx}/ck/cKm/form?id={{row.id}}">
+				{{row.kmname}}
+			</a></td>
+			<td>
+				{{row.kmnb}}
+			</td>
+			<td>
+				{{row.kmlbid}}
+			</td>
+			<td>
+				{{row.updateDate}}
+			</td>
+			<td>
+				{{row.remarks}}
+			</td>
+			<shiro:hasPermission name="ck:cKm:edit"><td>
+   				<a href="${ctx}/ck/cKm/form?id={{row.id}}">修改</a>
+				<a href="${ctx}/ck/cKm/delete?id={{row.id}}" onclick="return confirmx('确认要删除该科目类别表及所有子科目类别表吗？', this.href)">删除</a>
+				<a href="${ctx}/ck/cKm/form?parent.id={{row.id}}">添加下级科目类别表</a> 
+			</td></shiro:hasPermission>
+		</tr>
+	</script>
 </body>
 </html>
