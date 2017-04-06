@@ -13,7 +13,8 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a.subject_id AS "subjectId"
 	</sql>
 	
 	<sql id="fAccountJoins">
@@ -81,7 +82,8 @@
 			create_by,
 			create_date,
 			update_by,
-			update_date
+			update_date,
+			subject_id
 		) VALUES (
 			#{id},
 			#{name},
@@ -93,7 +95,8 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateDate}
+			#{updateDate},
+			#{subjectId}
 		)
 	</insert>
 	
@@ -106,7 +109,8 @@
 			account_type = #{accountType},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			subject_id = #{subjectId}
 		WHERE id = #{id}
 	</update>
 	
