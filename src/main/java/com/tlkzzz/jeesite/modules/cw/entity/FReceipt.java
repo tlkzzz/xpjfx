@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.entity;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
@@ -19,7 +20,7 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private static final long serialVersionUID = 1L;
 	private Date receiptDate;		// 收款日期
 	private String receiptCode;		// 单据编号
-	private String travelUnit;		// 来往单位
+	private CStore travelUnit;		// 来往单位
 	private String travelAccount;		// 来往帐号
 	private String receiptAccount;		// 收款帐号
 	private String receiptType;		// 收款类型
@@ -56,12 +57,11 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.receiptCode = receiptCode;
 	}
 	
-	@Length(min=0, max=100, message="来往单位长度必须介于 0 和 100 之间")
-	public String getTravelUnit() {
+	public CStore getTravelUnit() {
 		return travelUnit;
 	}
 
-	public void setTravelUnit(String travelUnit) {
+	public void setTravelUnit(CStore travelUnit) {
 		this.travelUnit = travelUnit;
 	}
 	
