@@ -84,6 +84,14 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">需求时间：</label>
+			<div class="controls">
+				<input name="xqdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					   value="<fmt:formatDate value="${cShop.xqdate}" pattern="yyyy-MM-dd"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'%y-%M-%d',isShowClear:false});"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">数量：</label>
 			<div class="controls">
 				<form:input path="nub" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
@@ -93,16 +101,14 @@
 		<div class="control-group">
 			<label class="control-label">金额：</label>
 			<div class="controls">
-				<form:input path="je" htmlEscape="false" class="input-xlarge required"/>
+				<form:input path="je" htmlEscape="false" number="true" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">需求时间：</label>
+			<label class="control-label">优惠金额：</label>
 			<div class="controls">
-				<input name="xqdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${cShop.xqdate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'%y-%M-%d',isShowClear:false});"/>
+				<form:input path="yhje" htmlEscape="false" number="true" class="input-xlarge"/>
 			</div>
 		</div>
 		<div class="control-group">

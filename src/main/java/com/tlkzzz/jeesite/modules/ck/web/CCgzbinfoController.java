@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.cw.service.FIncomeRecordService;
+import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,12 @@ public class CCgzbinfoController extends BaseController {
 	private CHouseService cHouseService;
 	@Autowired
 	private CDdinfoService cDdinfoService;
+	@Autowired
+	private CHgoodsService cHgoodsService;
+	@Autowired
+	private FReceiptService fReceiptService;
+	@Autowired
+	private FIncomeRecordService fIncomeRecordService;
 	
 	@ModelAttribute
 	public CCgzbinfo get(@RequestParam(required=false) String id) {
@@ -135,19 +144,32 @@ public class CCgzbinfoController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "auditing")
-	public String auditing(String id){
+	public String auditing(String id,String state){
 		String retStr = "false";
-		if(StringUtils.isNotBlank(id)){
+		if(StringUtils.isNotBlank(id)&&StringUtils.isNotBlank(state)){
 			CRkckddinfo cRkckddinfo = new CRkckddinfo(id);
 			cRkckddinfo.setIssp("1");
 			cRkckddinfo.setSpr(UserUtils.getUser().getId());
 			cRkckddinfo.setSpsj(new Date());
-			cRkckddinfoService.changeIssp(cRkckddinfo);
+			cRkckddinfoService.changeIssp(cRkckddinfo);//修改总订单的审批状态
 			CDdinfo cDdinfo = new CDdinfo();
 			cDdinfo.setRkckddinfo(cRkckddinfo);
 			List<CDdinfo> cdList = cDdinfoService.findList(cDdinfo);
-			for (CDdinfo cd: cdList) {
-				cCgzbinfoService.saveInfo(cd);
+			if("0".equals(state)||"1".equals(state)) {//入库
+				for (CDdinfo cd: cdList) {
+					cCgzbinfoService.saveInfo(cd);
+				}
+			}else {//出库
+				for (CDdinfo cd:cdList){//一个一个订单出库
+					cHgoodsService.CKMinStore(cd);
+				}
+				/** 财务信息记录	**/
+				FReceipt receipt = new FReceipt();
+				receipt.setReceiptCode(cRkckddinfo.getId());
+				receipt = fReceiptService.getByReceiptCode(receipt);
+				if(receipt!=null){
+					fIncomeRecordService.saveByReceipt(receipt);
+				}
 			}
 			retStr = "true";
 		}

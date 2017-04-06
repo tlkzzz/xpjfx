@@ -19,4 +19,10 @@ public interface FReceiptDao extends CrudDao<FReceipt> {
      * @param fReceipt
      */
     public void updateReceiptCode(FReceipt fReceipt);
+
+    /**
+     * 通过订单ID获取对象
+     * @param fReceipt
+     */
+    public FReceipt getByReceiptCode(FReceipt fReceipt);
 }

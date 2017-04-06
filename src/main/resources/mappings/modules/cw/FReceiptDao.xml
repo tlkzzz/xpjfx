@@ -37,6 +37,14 @@
 		<include refid="fReceiptJoins"/>
 		WHERE a.id = #{id}
 	</select>
+
+	<select id="getByReceiptCode" resultType="FReceipt">
+		SELECT
+			<include refid="fReceiptColumns"/>
+		FROM f_receipt a
+		<include refid="fReceiptJoins"/>
+		WHERE a.receipt_code = #{receiptCode}
+	</select>
 	
 	<select id="findList" resultType="FReceipt">
 		SELECT 

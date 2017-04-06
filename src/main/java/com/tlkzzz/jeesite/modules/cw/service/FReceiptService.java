@@ -26,6 +26,10 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	public FReceipt get(String id) {
 		return super.get(id);
 	}
+
+	public FReceipt getByReceiptCode(FReceipt fReceipt){
+		return dao.getByReceiptCode(fReceipt);
+	}
 	
 	public List<FReceipt> findList(FReceipt fReceipt) {
 		return super.findList(fReceipt);

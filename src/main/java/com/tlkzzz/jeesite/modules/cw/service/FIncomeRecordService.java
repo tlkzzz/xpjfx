@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,20 @@ public class FIncomeRecordService extends CrudService<FIncomeRecordDao, FIncomeR
 	@Transactional(readOnly = false)
 	public void save(FIncomeRecord fIncomeRecord) {
 		super.save(fIncomeRecord);
+	}
+
+	@Transactional(readOnly = false)
+	public void saveByReceipt(FReceipt receipt){
+		FIncomeRecord record = new FIncomeRecord();
+		record.setTraverAccount(receipt.getTravelAccount());
+		record.setIncomeAccount(receipt.getReceiptAccount());
+		record.setIncomeMoney(receipt.getJe());
+		record.setIncomeDate(receipt.getReceiptDate());
+		record.setOrderId(receipt.getReceiptCode());
+		record.setIncomeMode(receipt.getReceiptMode());
+		record.setIncomeType(receipt.getReceiptType());
+		record.setJsr(receipt.getJsr());
+		super.save(record);
 	}
 	
 	@Transactional(readOnly = false)
