@@ -135,6 +135,12 @@
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
+
+	<update id="updateReceiptCode">
+		UPDATE f_receipt SET
+			receipt_code = #{receiptCode}
+		WHERE id = #{id}
+	</update>
 	
 	<update id="delete">
 		DELETE FROM f_receipt
