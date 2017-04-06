@@ -14,7 +14,8 @@
 		a.receipt_mode AS "receiptMode",
 		a.je AS "je",
 		a.jsr AS "jsr",
-		a.subject_code AS "subjectCode",
+		a.subject_code AS "subjectCode.id",
+		ck.kmname AS "subjectCode.kmname",
 		a.approval_status AS "approvalStatus",
 		a.auditor AS "auditor",
 		a.remarks AS "remarks",
@@ -26,6 +27,7 @@
 	
 	<sql id="fReceiptJoins">
 		LEFT JOIN c_store cs ON cs.id=a.travel_unit
+		LEFT JOIN c_km ck ON ck.id=a.subject_code
 	</sql>
     
 	<select id="get" resultType="FReceipt">
@@ -103,7 +105,7 @@
 			#{receiptMode},
 			#{je},
 			#{jsr},
-			#{subjectCode},
+			#{subjectCode.id},
 			#{approvalStatus},
 			#{auditor},
 			#{remarks},
@@ -125,7 +127,7 @@
 			receipt_mode = #{receiptMode},
 			je = #{je},
 			jsr = #{jsr},
-			subject_code = #{subjectCode},
+			subject_code = #{subjectCode.id},
 			approval_status = #{approvalStatus},
 			auditor = #{auditor},
 			remarks = #{remarks},
