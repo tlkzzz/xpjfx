@@ -24,7 +24,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private String receiptAccount;		// 收款帐号
 	private String receiptType;		// 收款类型
 	private String receiptMode;		// 收款方式
-	private String jsr;		// 经手人
+	private String je;				// 收款金额
+	private String jsr;				// 经手人
 	private String subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private String auditor;		// 审核人
@@ -99,7 +100,16 @@ public class FReceipt extends DataEntity<FReceipt> {
 	public void setReceiptMode(String receiptMode) {
 		this.receiptMode = receiptMode;
 	}
-	
+
+	@Length(min=0, max=1, message="收款金额长度必须介于 0 和 20 之间")
+	public String getJe() {
+		return je;
+	}
+
+	public void setJe(String je) {
+		this.je = je;
+	}
+
 	@Length(min=0, max=64, message="经手人长度必须介于 0 和 64 之间")
 	public String getJsr() {
 		return jsr;
