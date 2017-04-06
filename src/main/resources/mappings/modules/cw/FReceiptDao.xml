@@ -6,7 +6,8 @@
 		a.id AS "id",
 		a.receipt_date AS "receiptDate",
 		a.receipt_code AS "receiptCode",
-		a.travel_unit AS "travelUnit",
+		a.travel_unit AS "travelUnit.id",
+		cs.name AS "travelUnit.name",
 		a.travel_account AS "travelAccount",
 		a.receipt_account AS "receiptAccount",
 		a.receipt_type AS "receiptType",
@@ -24,6 +25,7 @@
 	</sql>
 	
 	<sql id="fReceiptJoins">
+		LEFT JOIN c_store cs ON cs.id=a.travel_unit
 	</sql>
     
 	<select id="get" resultType="FReceipt">
@@ -94,7 +96,7 @@
 			#{id},
 			#{receiptDate},
 			#{receiptCode},
-			#{travelUnit},
+			#{travelUnit.id},
 			#{travelAccount},
 			#{receiptAccount},
 			#{receiptType},
@@ -116,7 +118,7 @@
 		UPDATE f_receipt SET 	
 			receipt_date = #{receiptDate},
 			receipt_code = #{receiptCode},
-			travel_unit = #{travelUnit},
+			travel_unit = #{travelUnit.id},
 			travel_account = #{travelAccount},
 			receipt_account = #{receiptAccount},
 			receipt_type = #{receiptType},
