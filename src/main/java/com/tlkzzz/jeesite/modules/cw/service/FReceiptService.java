@@ -41,7 +41,12 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 		fReceipt.setApprovalStatus("0");
 		super.save(fReceipt);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public void updateReceiptCode(FReceipt fReceipt){
+		dao.updateReceiptCode(fReceipt);
+	}
+
 	@Transactional(readOnly = false)
 	public void delete(FReceipt fReceipt) {
 		super.delete(fReceipt);
