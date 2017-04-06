@@ -54,6 +54,9 @@
 		<include refid="cDdinfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="rkckddinfo != null and rkckddinfo.id != null and rkckddinfo.id != ''">
+				AND a.rkckddinfoid = #{rkckddinfo.id}
+			</if>
 			<if test="house != null and house.id != null and house.id != ''">
 				AND a.hous_id = #{house.id}
 			</if>
