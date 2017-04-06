@@ -24,6 +24,7 @@ public class FPayment extends DataEntity<FPayment> {
 	private String travelAccount;		// 来往帐号
 	private String paymentType;		// 付款类型
 	private String paymentMode;		// 付款方式
+	private String je;				//付款金额
 	private String jsr;		// 经手人
 	private String subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
@@ -99,7 +100,16 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setPaymentMode(String paymentMode) {
 		this.paymentMode = paymentMode;
 	}
-	
+
+	@Length(min=0, max=1, message="付款金额长度必须介于 0 和 20 之间")
+	public String getJe() {
+		return je;
+	}
+
+	public void setJe(String je) {
+		this.je = je;
+	}
+
 	@Length(min=0, max=64, message="经手人长度必须介于 0 和 64 之间")
 	public String getJsr() {
 		return jsr;
