@@ -51,6 +51,7 @@ public class FAccountController extends BaseController {
 	public String list(FAccount fAccount, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FAccount> page = fAccountService.findPage(new Page<FAccount>(request, response), fAccount); 
 		model.addAttribute("page", page);
+		model.addAttribute("fAccount", fAccount);
 		return "modules/cw/fAccountList";
 	}
 

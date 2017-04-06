@@ -20,6 +20,7 @@ public class FAccount extends DataEntity<FAccount> {
 	private String bankCode;		// 银行卡号
 	private String accountBalance;		// 帐户余额
 	private String accountType;		// 账户类型
+	private String subject_id;       //科目类别ID
 	
 	public FAccount() {
 		super();
@@ -72,5 +73,13 @@ public class FAccount extends DataEntity<FAccount> {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-	
+
+	@Length(min=0, max=64, message="科目类别ID长度必须介于 0 和 64 之间")
+	public String getSubject_id() {
+		return subject_id;
+	}
+
+	public void setSubject_id(String subject_id) {
+		this.subject_id = subject_id;
+	}
 }
