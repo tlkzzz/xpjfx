@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.entity;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tlkzzz.jeesite.modules.ck.entity.CKm;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import org.hibernate.validator.constraints.Length;
 
@@ -27,7 +28,7 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private String receiptMode;		// 收款方式
 	private String je;				// 收款金额
 	private String jsr;				// 经手人
-	private String subjectCode;		// 科目编码
+	private CKm subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private String auditor;		// 审核人
 	
@@ -119,12 +120,11 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.jsr = jsr;
 	}
 	
-	@Length(min=0, max=100, message="科目编码长度必须介于 0 和 100 之间")
-	public String getSubjectCode() {
+	public CKm getSubjectCode() {
 		return subjectCode;
 	}
 
-	public void setSubjectCode(String subjectCode) {
+	public void setSubjectCode(CKm subjectCode) {
 		this.subjectCode = subjectCode;
 	}
 	
