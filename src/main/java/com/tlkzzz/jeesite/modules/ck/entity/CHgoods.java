@@ -4,11 +4,13 @@
 package com.tlkzzz.jeesite.modules.ck.entity;
 
 import com.tlkzzz.jeesite.common.utils.excel.annotation.ExcelField;
+import com.tlkzzz.jeesite.modules.cw.entity.FExpenRecord;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
+
 
 /**
  * 仓库商品Entity
@@ -16,6 +18,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
  * @version 2017-03-13
  */
 public class CHgoods extends DataEntity<CHgoods> {
+
 	
 	private static final long serialVersionUID = 1L;
 	private CGoods goods;		// 商品
@@ -30,6 +33,9 @@ public class CHgoods extends DataEntity<CHgoods> {
 	private String supplierid;	//供应商ID
 	private CStore	store;		//客户
 
+	private String sjzc;        //shizx 实际支出
+	private String qkzt;        //shizx 欠款状态
+	private FExpenRecord fExpenRecord;		// shizx支出记录表
 	public CHgoods() {
 		super();
 	}
@@ -126,5 +132,31 @@ public class CHgoods extends DataEntity<CHgoods> {
 
 	public void setStore(CStore store) {
 		this.store = store;
+	}
+
+	//shizx 新增字段getset 方法
+
+	public String getSjzc() {
+		return sjzc;
+	}
+
+	public String getQkzt() {
+		return qkzt;
+	}
+
+	public void setSjzc(String sjzc) {
+		this.sjzc = sjzc;
+	}
+
+	public void setQkzt(String qkzt) {
+		this.qkzt = qkzt;
+	}
+
+	public FExpenRecord getfExpenRecord() {
+		return fExpenRecord;
+	}
+
+	public void setfExpenRecord(FExpenRecord fExpenRecord) {
+		this.fExpenRecord = fExpenRecord;
 	}
 }
