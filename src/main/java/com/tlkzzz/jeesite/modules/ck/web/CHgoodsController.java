@@ -10,6 +10,8 @@ import com.tlkzzz.jeesite.common.utils.DateUtils;
 import com.tlkzzz.jeesite.common.utils.excel.ExportExcel;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FExpenRecord;
+import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +43,9 @@ public class CHgoodsController extends BaseController {
 	private CCgzbinfoService cCgzbinfoService;
 	@Autowired
 	private CSupplierService cSupplierService;
-	
+	@Autowired
+	private FExpenRecordService fExpenRecordService;
+
 	@ModelAttribute
 	public CHgoods get(@RequestParam(required=false) String id) {
 		CHgoods entity = null;
@@ -139,6 +143,19 @@ public class CHgoodsController extends BaseController {
 		if (!beanValidator(model, cHgoods)){
 			return form(cHgoods, model);
 		}
+		FExpenRecord fExpenRecord=new FExpenRecord();
+		//shizx 支出记录实体对象
+		fExpenRecord=cHgoods.getfExpenRecord();
+		//shizx set 订单id
+		fExpenRecord.setOrderId("123456789");
+		//fExpenRecord.setOrderId(cHgoods.getId());
+		//shizx set 支出金额
+		fExpenRecord.setExpenMoney(cHgoods.getSjzc());
+		//shizx set 支出方式
+		fExpenRecord.setExpenType("0");
+		//fExpenRecord.setExpenDate();
+		//保存至支出记录表
+		fExpenRecordService.save(fExpenRecord);
 		cHgoodsService.save(cHgoods);
 		cCgzbinfoService.savePrice(cHgoods);//添加入库信息到采购订单表
 		addMessage(redirectAttributes, "保存仓库商品成功");
