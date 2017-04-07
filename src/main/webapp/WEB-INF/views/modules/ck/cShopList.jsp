@@ -6,6 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
         var listCount = 0;
+        var state = ${cShop.state};
         $(document).ready(function() {
 			listCount = ${page.count};
 			if(listCount==0){
@@ -23,7 +24,11 @@
         }
         function submitOrder() {
 			if(listCount>0){
-				window.location.href = '${ctx}/ck/cRkckddinfo/saveCgInfo';
+			    if(state==0||state==1){
+					window.location.href = '${ctx}/ck/cRkckddinfo/saveCgInfo';
+				}else {
+                    window.location.href = '${ctx}/ck/cRkckddinfo/submitOrder';
+                }
 			}else {
 				top.$.jBox.tip("请添加订单后再提交！","系统提示","warning");
 			}

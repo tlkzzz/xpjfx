@@ -36,7 +36,7 @@
 		FROM c_rkckddinfo a
 		<include refid="cRkckddinfoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx}
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx} AND a.state = #{state}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

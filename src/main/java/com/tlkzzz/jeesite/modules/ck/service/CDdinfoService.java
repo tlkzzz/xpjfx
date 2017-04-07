@@ -56,6 +56,7 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		cd.setNub(cs.getNub());
 		cd.setJe(cs.getJe());
 		cd.setStore(cs.getStore());
+		cd.setYhje(cs.getYhje());
 		super.save(cd);
 	}
 	
