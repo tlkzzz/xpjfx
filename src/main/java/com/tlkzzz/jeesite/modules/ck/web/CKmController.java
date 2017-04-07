@@ -116,7 +116,7 @@ public class CKmController extends BaseController {
 				Map<String, Object> map = Maps.newHashMap();
 				map.put("id", e.getId());
 				map.put("pId", e.getParentId());
-				map.put("name", e.getName());
+				map.put("name", e.getKmname());
 				mapList.add(map);
 			}
 		}
