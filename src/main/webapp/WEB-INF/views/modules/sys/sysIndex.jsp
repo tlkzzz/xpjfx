@@ -253,6 +253,9 @@
 		function openCloseClickCallBack(b){
 			$.fn.jerichoTab.resize();
 		} // </c:if>
+		function setMainFrame(url) {
+			$("#mainFrame").attr("src", url);
+        }
 	</script>
 	<script src="${ctxStatic}/common/wsize.min.js" type="text/javascript"></script>
 </body>
