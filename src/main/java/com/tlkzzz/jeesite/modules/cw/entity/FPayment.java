@@ -29,7 +29,7 @@ public class FPayment extends DataEntity<FPayment> {
 	private String subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private String auditor;		// 审核人
-	private String htje;        //合同金额
+	private String htje;        //合同金额ss
 
 	public String getHtje() {
 		return htje;
