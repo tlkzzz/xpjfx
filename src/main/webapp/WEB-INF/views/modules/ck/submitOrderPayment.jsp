@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>收款管理</title>
+	<title>付款管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -24,16 +24,16 @@
 				}
 			});
 		});
-		function submitForm() {
-			$.ajax({
-			    cache:true,
-				dataType:"text",
-				type:"POST",
-				data:$("#inputForm").serialize(),
-				url:$("#inputForm").attr("action"),
-				async:false,
-				success:function (data) {
-			        if(data!='') {
+        function submitForm() {
+            $.ajax({
+                cache:true,
+                dataType:"text",
+                type:"POST",
+                data:$("#inputForm").serialize(),
+                url:$("#inputForm").attr("action"),
+                async:false,
+                success:function (data) {
+                    if(data!='') {
                         var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?receipt.id="+data;
                         if(top!=self){
                             window.parent.setMainFrame(url);
@@ -43,19 +43,19 @@
                         top.$.jBox.close(true);
                     }else {
                         top.$.jBox.tip("保存错误，请重新提交","系统提示","warning");
-					}
+                    }
                 },
-				error:function () {
+                error:function () {
                     top.$.jBox.tip("保存错误，请重新提交","系统提示","warning");
                 }
-			})
+            })
         }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="fReceipt" action="${ctx}/ck/cRkckddinfo/submitOrderSave" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="fPayment" action="${ctx}/ck/cRkckddinfo/submitOrderPaymentSave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
@@ -69,48 +69,47 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">付款日期：</label>
+			<div class="controls">
+				<input name="paymentDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					value="<fmt:formatDate value="${fPayment.paymentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">单据编号：</label>
+			<div class="controls">
+				<form:input path="paymentCode" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">付款帐号：</label>
+			<div class="controls">
+				<form:input path="paymentAccount" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">来往帐号：</label>
 			<div class="controls">
-				<form:input path="travelAccount" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="travelAccount" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">付款方式：</label>
+			<div class="controls">
+				<form:input path="paymentMode" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">经手人：</label>
+			<div class="controls">
+				<form:input path="jsr" htmlEscape="false" maxlength="64" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">科目编码：</label>
 			<div class="controls">
-				<sys:treeselect id="subjectCode" name="subjectCode.id" value="${fReceipt.subjectCode.id}" labelName="subjectCode.name" labelValue="${fReceipt.subjectCode.name}"
-								title="科目编码" url="/ck/cKm/treeData" cssClass="required" allowClear="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收款帐号：</label>
-			<div class="controls">
-				<form:input path="receiptAccount" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收款方式：</label>
-			<div class="controls">
-				<form:input path="receiptMode" htmlEscape="false" maxlength="1" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">总金额：</label>
-			<div class="controls">
-				<c:if test="${toDiscount}"><form:input path="je" htmlEscape="false" maxlength="20" class="input-xlarge required"/></c:if>
-				<c:if test="${!toDiscount}"><form:input path="je" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/></c:if>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收款日期：</label>
-			<div class="controls">
-				<input name="receiptDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					   value="<fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				<form:input path="subjectCode" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -120,8 +119,8 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="ck:cCkinfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="top.$.jBox.close(true)"/>
+			<shiro:hasPermission name="cw:fPayment:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

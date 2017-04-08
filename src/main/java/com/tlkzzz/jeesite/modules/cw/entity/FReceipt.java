@@ -7,6 +7,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tlkzzz.jeesite.modules.ck.entity.CKm;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
@@ -27,10 +28,11 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private String receiptType;		// 收款类型
 	private String receiptMode;		// 收款方式
 	private String je;				// 收款金额
-	private String jsr;				// 经手人
+	private User jsr;				// 经手人
 	private CKm subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
-	private String auditor;		// 审核人
+	private User auditor;		// 审核人
+	private String htje;		//合同金额
 	
 	public FReceipt() {
 		super();
@@ -111,12 +113,11 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.je = je;
 	}
 
-	@Length(min=0, max=64, message="经手人长度必须介于 0 和 64 之间")
-	public String getJsr() {
+	public User getJsr() {
 		return jsr;
 	}
 
-	public void setJsr(String jsr) {
+	public void setJsr(User jsr) {
 		this.jsr = jsr;
 	}
 	
@@ -137,13 +138,20 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.approvalStatus = approvalStatus;
 	}
 	
-	@Length(min=0, max=64, message="审核人长度必须介于 0 和 64 之间")
-	public String getAuditor() {
+	public User getAuditor() {
 		return auditor;
 	}
 
-	public void setAuditor(String auditor) {
+	public void setAuditor(User auditor) {
 		this.auditor = auditor;
 	}
-	
+
+	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
+	public String getHtje() {
+		return htje;
+	}
+
+	public void setHtje(String htje) {
+		this.htje = htje;
+	}
 }

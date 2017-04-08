@@ -12,12 +12,14 @@
 		a.receipt_account AS "receiptAccount",
 		a.receipt_type AS "receiptType",
 		a.receipt_mode AS "receiptMode",
+		a.htje AS "htje",
 		a.je AS "je",
 		a.jsr AS "jsr",
 		a.subject_code AS "subjectCode.id",
 		ck.kmname AS "subjectCode.kmname",
 		a.approval_status AS "approvalStatus",
-		a.auditor AS "auditor",
+		a.auditor AS "auditor.id",
+		su.name AS "auditor.name",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -28,6 +30,7 @@
 	<sql id="fReceiptJoins">
 		LEFT JOIN c_store cs ON cs.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
+		LEFT JOIN sys_user su ON su.id=a.auditor
 	</sql>
     
 	<select id="get" resultType="FReceipt">
@@ -92,6 +95,7 @@
 			receipt_account,
 			receipt_type,
 			receipt_mode,
+			htje,
 			je,
 			jsr,
 			subject_code,
@@ -111,11 +115,12 @@
 			#{receiptAccount},
 			#{receiptType},
 			#{receiptMode},
+			#{htje},
 			#{je},
 			#{jsr},
 			#{subjectCode.id},
 			#{approvalStatus},
-			#{auditor},
+			#{auditor.id},
 			#{remarks},
 			#{createBy.id},
 			#{createDate},
@@ -133,11 +138,12 @@
 			receipt_account = #{receiptAccount},
 			receipt_type = #{receiptType},
 			receipt_mode = #{receiptMode},
+			htje = #{htje},
 			je = #{je},
 			jsr = #{jsr},
 			subject_code = #{subjectCode.id},
 			approval_status = #{approvalStatus},
-			auditor = #{auditor},
+			auditor = #{auditor.id},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
@@ -147,6 +153,13 @@
 	<update id="updateReceiptCode">
 		UPDATE f_receipt SET
 			receipt_code = #{receiptCode}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateApprovalStatus">
+		UPDATE f_receipt SET
+			approval_status = #{approvalStatus},
+			auditor = #{auditor.id}
 		WHERE id = #{id}
 	</update>
 	

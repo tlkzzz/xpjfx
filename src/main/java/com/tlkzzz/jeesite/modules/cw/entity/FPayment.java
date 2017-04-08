@@ -15,7 +15,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
  * @version 2017-04-05
  */
 public class FPayment extends DataEntity<FPayment> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private Date paymentDate;		// 付款日期
 	private String paymentCode;		// 单据编号
@@ -29,7 +29,17 @@ public class FPayment extends DataEntity<FPayment> {
 	private String subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private String auditor;		// 审核人
-	
+	private String htje;        //合同金额
+
+	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
+	public String getHtje() {
+		return htje;
+	}
+
+	public void setHtje(String htje) {
+		this.htje = htje;
+	}
+
 	public FPayment() {
 		super();
 	}
@@ -46,7 +56,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	
+
 	@Length(min=0, max=100, message="单据编号长度必须介于 0 和 100 之间")
 	public String getPaymentCode() {
 		return paymentCode;
@@ -55,7 +65,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setPaymentCode(String paymentCode) {
 		this.paymentCode = paymentCode;
 	}
-	
+
 	@Length(min=0, max=100, message="付款帐号长度必须介于 0 和 100 之间")
 	public String getPaymentAccount() {
 		return paymentAccount;
@@ -64,7 +74,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setPaymentAccount(String paymentAccount) {
 		this.paymentAccount = paymentAccount;
 	}
-	
+
 	@Length(min=0, max=100, message="来往单位长度必须介于 0 和 100 之间")
 	public String getTravelUnit() {
 		return travelUnit;
@@ -73,7 +83,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setTravelUnit(String travelUnit) {
 		this.travelUnit = travelUnit;
 	}
-	
+
 	@Length(min=0, max=100, message="来往帐号长度必须介于 0 和 100 之间")
 	public String getTravelAccount() {
 		return travelAccount;
@@ -82,7 +92,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setTravelAccount(String travelAccount) {
 		this.travelAccount = travelAccount;
 	}
-	
+
 	@Length(min=0, max=1, message="付款类型长度必须介于 0 和 1 之间")
 	public String getPaymentType() {
 		return paymentType;
@@ -91,7 +101,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
-	
+
 	@Length(min=0, max=1, message="付款方式长度必须介于 0 和 1 之间")
 	public String getPaymentMode() {
 		return paymentMode;
@@ -118,7 +128,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setJsr(String jsr) {
 		this.jsr = jsr;
 	}
-	
+
 	@Length(min=0, max=100, message="科目编码长度必须介于 0 和 100 之间")
 	public String getSubjectCode() {
 		return subjectCode;
@@ -127,7 +137,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setSubjectCode(String subjectCode) {
 		this.subjectCode = subjectCode;
 	}
-	
+
 	@Length(min=0, max=1, message="审核状态长度必须介于 0 和 1 之间")
 	public String getApprovalStatus() {
 		return approvalStatus;
@@ -136,7 +146,7 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setApprovalStatus(String approvalStatus) {
 		this.approvalStatus = approvalStatus;
 	}
-	
+
 	@Length(min=0, max=64, message="审核人长度必须介于 0 和 64 之间")
 	public String getAuditor() {
 		return auditor;
@@ -145,5 +155,5 @@ public class FPayment extends DataEntity<FPayment> {
 	public void setAuditor(String auditor) {
 		this.auditor = auditor;
 	}
-	
+
 }

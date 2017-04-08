@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import com.tlkzzz.jeesite.modules.cw.service.FIncomeRecordService;
+import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,6 +57,8 @@ public class CCgzbinfoController extends BaseController {
 	private CHgoodsService cHgoodsService;
 	@Autowired
 	private FReceiptService fReceiptService;
+	@Autowired
+	private FPaymentService fPaymentService;
 	@Autowired
 	private FIncomeRecordService fIncomeRecordService;
 	
@@ -164,11 +168,26 @@ public class CCgzbinfoController extends BaseController {
 					cHgoodsService.CKMinStore(cd);
 				}
 				/** 财务信息记录	**/
-				FReceipt receipt = new FReceipt();
-				receipt.setReceiptCode(cRkckddinfo.getId());
-				receipt = fReceiptService.getByReceiptCode(receipt);
-				if(receipt!=null){
-					fIncomeRecordService.saveByReceipt(receipt);
+				if("5".equals(state)) {//退货退款
+					FPayment payment = new FPayment();
+					payment.setPaymentType(state);
+					payment = fPaymentService.getByPaymentCode(payment);
+					if(payment !=null){
+						payment.setApprovalStatus("1");
+						payment.setJsr(UserUtils.getUser().getId());
+					}
+				}else if("4".equals(state)) {//报废
+
+				}else {//录单，其他
+					FReceipt receipt = new FReceipt();
+					receipt.setReceiptCode(cRkckddinfo.getId());
+					receipt = fReceiptService.getByReceiptCode(receipt);
+					if (receipt != null) {
+						receipt.setApprovalStatus("1");
+						receipt.setAuditor(UserUtils.getUser());
+						fReceiptService.updateApprovalStatus(receipt);
+						fIncomeRecordService.saveByReceipt(receipt);
+					}
 				}
 			}
 			retStr = "true";
