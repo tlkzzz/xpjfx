@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -24,6 +25,8 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private String issp;		// 0未审批1已审批
 	private String spr;		// 审批人
 	private Date spsj;		// 审批时间
+
+	private FReceipt receipt;	//收款信息
 	
 	public CRkckddinfo() {
 		super();
@@ -94,5 +97,12 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	public void setSpsj(Date spsj) {
 		this.spsj = spsj;
 	}
-	
+
+	public FReceipt getReceipt() {
+		return receipt;
+	}
+
+	public void setReceipt(FReceipt receipt) {
+		this.receipt = receipt;
+	}
 }

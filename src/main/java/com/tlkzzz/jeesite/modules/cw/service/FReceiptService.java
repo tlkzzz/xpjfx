@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,10 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	public FReceipt get(String id) {
 		return super.get(id);
 	}
+
+	public FReceipt getByReceiptCode(FReceipt fReceipt){
+		return dao.getByReceiptCode(fReceipt);
+	}
 	
 	public List<FReceipt> findList(FReceipt fReceipt) {
 		return super.findList(fReceipt);
@@ -36,9 +41,16 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	
 	@Transactional(readOnly = false)
 	public void save(FReceipt fReceipt) {
+		fReceipt.setJsr(UserUtils.getUser().getId());
+		fReceipt.setApprovalStatus("0");
 		super.save(fReceipt);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public void updateReceiptCode(FReceipt fReceipt){
+		dao.updateReceiptCode(fReceipt);
+	}
+
 	@Transactional(readOnly = false)
 	public void delete(FReceipt fReceipt) {
 		super.delete(fReceipt);

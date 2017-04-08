@@ -28,6 +28,7 @@ public class CShop extends DataEntity<CShop> {
 	private String je;		// 金额
 	private String state;		// 0:入库保留，1:采购入库，2：出库录单，3：其他出库，4：报废录单，5：退货录单
 	private Date xqdate;		// 需求时间
+	private String  yhje;		//优惠金额
 	
 	public CShop() {
 		super();
@@ -114,5 +115,13 @@ public class CShop extends DataEntity<CShop> {
 	public void setXqdate(Date xqdate) {
 		this.xqdate = xqdate;
 	}
-	
+
+	@Length(min=0, max=18, message="优惠金额长度必须介于 0 和 18 之间")
+	public String getYhje() {
+		return yhje;
+	}
+
+	public void setYhje(String yhje) {
+		this.yhje = yhje;
+	}
 }

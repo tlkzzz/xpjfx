@@ -31,6 +31,7 @@ public class CDdinfo extends DataEntity<CDdinfo> {
 	private String nub;		// 数量
 	private String rkqcbj;		// 入库前成本价
 	private String rksjcbj;		// 入库实际成本价
+	private String yhje;		//优惠金额
 	
 	public CDdinfo() {
 		super();
@@ -140,5 +141,13 @@ public class CDdinfo extends DataEntity<CDdinfo> {
 	public void setRksjcbj(String rksjcbj) {
 		this.rksjcbj = rksjcbj;
 	}
-	
+
+	@Length(min=0, max=18, message="优惠金额长度必须介于 0 和 18 之间")
+	public String getYhje() {
+		return yhje;
+	}
+
+	public void setYhje(String yhje) {
+		this.yhje = yhje;
+	}
 }

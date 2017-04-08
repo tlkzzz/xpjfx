@@ -8,8 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
+import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
 import com.tlkzzz.jeesite.modules.ck.service.CShopService;
+import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
@@ -40,6 +45,10 @@ public class CRkckddinfoController extends BaseController {
 
 	@Autowired
 	private CRkckddinfoService cRkckddinfoService;
+	@Autowired
+	private FReceiptService fReceiptService;
+	@Autowired
+	private CStoreService cStoreService;
 	@Autowired
 	private CDdinfoService cDdinfoService;
 	@Autowired
@@ -135,6 +144,10 @@ public class CRkckddinfoController extends BaseController {
 			List<CShop> shopList = cShopService.findList(cs);
 			cRkckddinfoService.saveRkInfo(cRkckddinfo, shopList);
 			cShopService.deleteByUserId(cs.getUserid());
+			if(cRkckddinfo.getReceipt()!=null){
+				cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
+				fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
+			}
 		}
 		return retStr;
 	}
@@ -159,7 +172,48 @@ public class CRkckddinfoController extends BaseController {
 		}
 	}
 
+	/**
+	 * 出库提交订单打开填写财务信息页面
+	 * @param fReceipt
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "submitOrder")
+	public String submitOrder(FReceipt fReceipt, Model model){
+		CShop cs = new CShop();
+		cs.setUserid(UserUtils.getUser().getId());
+		cs.setState(UserUtils.getCache("RKCKSTATE").toString());
+		List<CShop> csList = cShopService.findList(cs);
+		double orderTotal = 0.0;
+		double yhTotal = 0.0;
+		for (CShop cShop: csList){
+			orderTotal += (Double.parseDouble(cShop.getJe())*Integer.parseInt(cShop.getNub()));
+			if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
+		}
+		fReceipt.setJe(String.valueOf(orderTotal));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("toDiscount", (yhTotal>0)?true:false);
+		model.addAttribute("fReceipt", fReceipt);
+		return "modules/ck/submitOrder";
+	}
 
+	/**
+	 * 出库提交订单财务信息(收款)保存
+	 * @param fReceipt
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("cw:fReceipt:edit")
+	@RequestMapping(value = "submitOrderSave")
+	public String save(FReceipt fReceipt, Model model) {
+		if (!beanValidator(model, fReceipt)){
+			return submitOrder(fReceipt, model);
+		}
+		fReceipt.setReceiptType(UserUtils.getCache("RKCKSTATE").toString());
+		fReceiptService.save(fReceipt);
+		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/saveCgInfo?receipt.id="+fReceipt.getId();
+	}
 
 	/**		出库结束		**/
 

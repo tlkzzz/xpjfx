@@ -47,10 +47,19 @@ public class CStore extends DataEntity<CStore> {
 	private String edu;        //额度
 	private String xsqd;        //销售渠道
 	private String jhqd;         //进货渠道
+	private String quota;       //限额    shizx 新增字段，用于设定客户欠款额度
 
 
 	public String getCgy() {
 		return cgy;
+	}
+//shizx 新增get方法
+	public String getQuota() {
+		return quota;
+	}
+//shizx 新增set方法
+	public void setQuota(String quota) {
+		this.quota = quota;
 	}
 
 	public void setCgy(String cgy) {

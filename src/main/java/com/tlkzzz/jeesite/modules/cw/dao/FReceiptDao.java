@@ -14,5 +14,15 @@ import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
  */
 @MyBatisDao
 public interface FReceiptDao extends CrudDao<FReceipt> {
-	
+    /**
+     * 更新单据编号（订单ID）
+     * @param fReceipt
+     */
+    public void updateReceiptCode(FReceipt fReceipt);
+
+    /**
+     * 通过订单ID获取对象
+     * @param fReceipt
+     */
+    public FReceipt getByReceiptCode(FReceipt fReceipt);
 }

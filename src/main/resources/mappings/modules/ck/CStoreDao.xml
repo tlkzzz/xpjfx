@@ -40,7 +40,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.quota AS "quota"
 	</sql>
 	
 	<sql id="cStoreJoins">
@@ -156,7 +157,8 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			quota
 		) VALUES (
 			#{id},
 			#{dpmc},
@@ -193,7 +195,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{quota}
 		)
 	</insert>
 	
@@ -230,7 +233,8 @@
 			jhqd = #{jhqd},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			quota = #{quota}
 		WHERE id = #{id}
 	</update>
 	

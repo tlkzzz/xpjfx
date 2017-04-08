@@ -4,9 +4,12 @@
 package com.tlkzzz.jeesite.modules.ck.service;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
+import com.tlkzzz.jeesite.modules.ck.entity.CCkinfo;
+import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,8 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	private CRkinfoService cRkinfoService;
 	@Autowired
 	private CYkinfoService cYkinfoService;
+	@Autowired
+	private CCkinfoService cCkinfoService;
 	
 	public CHgoods get(String id) {
 		CHgoods cHgoods = super.get(id);
@@ -100,7 +105,7 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	}
 
 	@Transactional(readOnly = false)
-	public void moveSave(CHgoods cHgoods){
+	public void moveSave(CHgoods cHgoods){//移库
 	    String inHouseId = cHgoods.getHouse().getCode();
 	    String outHouseId = cHgoods.getHouse().getId();
         dao.minStock(cHgoods);
@@ -112,6 +117,39 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
             super.save(cHgoods);
         }
 		cYkinfoService.saveInfo(cHgoods,outHouseId);
+	}
+
+	/**
+	 * 出库并记录
+	 * @param cDdinfo
+	 * @return
+	 */
+	@Transactional(readOnly = false)
+	public boolean CKMinStore(CDdinfo cDdinfo){//出库
+		CHgoods cHgoods = new CHgoods();
+		cHgoods.setHouse(cDdinfo.getHouse());
+		cHgoods.setGoods(cDdinfo.getGoods());
+		cHgoods.setNub(cDdinfo.getNub());
+		CHgoods ch = dao.findHGByHG(cHgoods);
+		if(ch!=null&&Integer.parseInt(ch.getNub())>Integer.parseInt(cHgoods.getNub())){
+			CGoods goods = cGoodsDao.get(cDdinfo.getGoods());
+			CCkinfo ckinfo = new CCkinfo();
+			ckinfo.setJe(cDdinfo.getJe());
+			ckinfo.setNub(cDdinfo.getNub());
+			ckinfo.setCkqcbj(goods.getCbj());
+			ckinfo.setCkhcbj(cDdinfo.getJe());
+			ckinfo.setGoods(goods);
+			ckinfo.setHouse(cDdinfo.getHouse());
+			ckinfo.setSupplier(cDdinfo.getSupplier());
+			ckinfo.setStore(cDdinfo.getStore());
+			ckinfo.setCkdate(new Date());
+			ckinfo.setIssp("1");
+			ckinfo.setState(cDdinfo.getRkckddinfo().getState());
+			ckinfo.setJsr(cDdinfo.getCreateBy());
+			dao.minStock(cHgoods);
+			cCkinfoService.save(ckinfo);
+		}
+		return false;
 	}
 	
 	@Transactional(readOnly = false)

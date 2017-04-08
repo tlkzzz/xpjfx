@@ -73,6 +73,50 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">实际支出：</label>
+			<div class="controls">
+				<form:input path="sjzc" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<span class="help-inline"><font color="red">* </font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">支出账号：</label>
+			<div class="controls">
+				<form:input path="fExpenRecord.expenAccount" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<span class="help-inline"><font color="red">* </font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">来往账号：</label>
+			<div class="controls">
+				<form:input path="fExpenRecord.travelAccount" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<span class="help-inline"><font color="red">* </font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">经手人：</label>
+			<div class="controls">
+				<sys:treeselect id="user" name="user.id" value="${testData.user.id}" labelName="fExpenRecord.jsr" labelValue="${testData.user.name}"
+								title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">支出方式：</label>
+			<div class="controls">
+				<form:select path="fExpenRecord.expenMode" class="input-xlarge required" id="expenMode">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">是否欠款：</label>
+			<span class="help-inline" style="margin-left: 20px">
+			<form:checkbox path="qkzt" value="1" class="input-xxlarge"/> </span>
+		</div>
+		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge"/>
