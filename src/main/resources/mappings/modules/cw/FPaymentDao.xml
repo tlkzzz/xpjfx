@@ -20,7 +20,8 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a.htje as "htje"
 	</sql>
 	
 	<sql id="fPaymentJoins">
@@ -89,7 +90,8 @@
 			create_by,
 			create_date,
 			update_by,
-			update_date
+			update_date,
+			htje
 		) VALUES (
 			#{id},
 			#{paymentDate},
@@ -108,7 +110,8 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateDate}
+			#{updateDate},
+			#{htje}
 		)
 	</insert>
 	
@@ -128,7 +131,8 @@
 			auditor = #{auditor},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			htje=#{htje}
 		WHERE id = #{id}
 	</update>
 	
