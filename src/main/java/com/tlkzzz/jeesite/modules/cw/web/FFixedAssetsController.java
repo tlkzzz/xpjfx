@@ -51,6 +51,7 @@ public class FFixedAssetsController extends BaseController {
 	public String list(FFixedAssets fFixedAssets, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FFixedAssets> page = fFixedAssetsService.findPage(new Page<FFixedAssets>(request, response), fFixedAssets); 
 		model.addAttribute("page", page);
+		model.addAttribute("fFixedAssets", fFixedAssets);
 		return "modules/cw/fFixedAssetsList";
 	}
 

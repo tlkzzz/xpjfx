@@ -32,13 +32,16 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="fFixedAssetsCgbm" action="${ctx}/cw/fFixedAssetsCgbm/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">资产ID：</label>
-			<div class="controls">
-				<form:input path="assetsId" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
+		<sys:message content="${message}"/>
+		         <div class="control-group">
+                                       <label class="control-label">资产名称：</label>
+                                               <div class="controls">
+                                               <form:select path="ffixedassets.id" >
+                                                <form:options items="${FFixedAssetslist}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+                                               </form:select>
+                                               </div>
+                                            </div>
+
 		<div class="control-group">
 			<label class="control-label">往来单位：</label>
 			<div class="controls">
@@ -67,18 +70,6 @@
 			<label class="control-label">支付方式：</label>
 			<div class="controls">
 				<form:input path="paymentMode" htmlEscape="false" maxlength="1" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">审核状态：</label>
-			<div class="controls">
-				<form:input path="approvalStatus" htmlEscape="false" maxlength="1" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">审核人：</label>
-			<div class="controls">
-				<form:input path="auditor" htmlEscape="false" maxlength="64" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">

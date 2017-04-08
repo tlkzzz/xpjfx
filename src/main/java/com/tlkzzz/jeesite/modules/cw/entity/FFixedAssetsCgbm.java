@@ -3,9 +3,12 @@
  */
 package com.tlkzzz.jeesite.modules.cw.entity;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 固定资产采购变卖Entity
@@ -13,9 +16,9 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
  * @version 2017-04-05
  */
 public class FFixedAssetsCgbm extends DataEntity<FFixedAssetsCgbm> {
-	
+
 	private static final long serialVersionUID = 1L;
-	private String assetsId;		// 资产ID
+	private FFixedAssets ffixedassets;		// 资产名称
 	private String travelUnit;		// 往来单位
 	private String paymentAccount;		// 付款账户
 	private String travelAccount;		// 往来账户
@@ -32,14 +35,16 @@ public class FFixedAssetsCgbm extends DataEntity<FFixedAssetsCgbm> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="资产ID长度必须介于 0 和 64 之间")
-	public String getAssetsId() {
-		return assetsId;
+
+	@NotNull(message = "资产名称不能为空")
+	public FFixedAssets getFfixedassets() {
+		return ffixedassets;
 	}
 
-	public void setAssetsId(String assetsId) {
-		this.assetsId = assetsId;
+	public void setFfixedassets(FFixedAssets ffixedassets) {
+		this.ffixedassets = ffixedassets;
 	}
+
 	
 	@Length(min=0, max=100, message="往来单位长度必须介于 0 和 100 之间")
 	public String getTravelUnit() {
