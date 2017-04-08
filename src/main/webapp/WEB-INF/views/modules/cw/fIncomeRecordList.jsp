@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fIncomeRecord/">收入记录列表</a></li>
-		<shiro:hasPermission name="cw:fIncomeRecord:edit"><li><a href="${ctx}/cw/fIncomeRecord/form">收入记录添加</a></li></shiro:hasPermission>
+	<!--	<shiro:hasPermission name="cw:fIncomeRecord:edit"><li><a href="${ctx}/cw/fIncomeRecord/form">收入记录添加</a></li></shiro:hasPermission> -->
 	</ul>
 	<form:form id="searchForm" modelAttribute="fIncomeRecord" action="${ctx}/cw/fIncomeRecord/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

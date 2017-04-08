@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
+
 <head>
 	<title>欠款记录管理</title>
 	<meta name="decorator" content="default"/>
@@ -19,7 +20,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fArrears/">欠款记录列表</a></li>
-		<shiro:hasPermission name="cw:fArrears:edit"><li><a href="${ctx}/cw/fArrears/form">欠款记录添加</a></li></shiro:hasPermission>
+	<!--	<shiro:hasPermission name="cw:fArrears:edit"><li><a href="${ctx}/cw/fArrears/form">欠款记录添加</a></li></shiro:hasPermission> -->
 	</ul>
 	<form:form id="searchForm" modelAttribute="fArrears" action="${ctx}/cw/fArrears/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
