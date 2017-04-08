@@ -41,7 +41,7 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	
 	@Transactional(readOnly = false)
 	public void save(FReceipt fReceipt) {
-		fReceipt.setJsr(UserUtils.getUser().getId());
+		fReceipt.setJsr(UserUtils.getUser());
 		fReceipt.setApprovalStatus("0");
 		super.save(fReceipt);
 	}
