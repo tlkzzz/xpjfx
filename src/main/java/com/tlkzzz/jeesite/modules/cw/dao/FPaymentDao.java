@@ -14,5 +14,10 @@ import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
  */
 @MyBatisDao
 public interface FPaymentDao extends CrudDao<FPayment> {
-	
+    /**
+     * 通过订单ID获取付款对象
+     * @param payment
+     * @return
+     */
+	public FPayment getByPaymentCode(FPayment payment);
 }

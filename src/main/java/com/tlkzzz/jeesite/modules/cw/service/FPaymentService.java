@@ -25,6 +25,10 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 	public FPayment get(String id) {
 		return super.get(id);
 	}
+
+	public FPayment getByPaymentCode(FPayment payment){
+		return dao.getByPaymentCode(payment);
+	}
 	
 	public List<FPayment> findList(FPayment fPayment) {
 		return super.findList(fPayment);
