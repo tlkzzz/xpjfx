@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FPaymentDao">
-    <!--/sssssss-->
+    
 	<sql id="fPaymentColumns">
 		a.id AS "id",
 		a.payment_date AS "paymentDate",
 		a.payment_code AS "paymentCode",
 		a.payment_account AS "paymentAccount",
-		a.travel_unit AS "travelUnit",
+		a.travel_unit AS "travelUnit.id",
+		csu.name AS "travelUnit.name",
 		a.travel_account AS "travelAccount",
 		a.payment_type AS "paymentType",
 		a.payment_mode AS "paymentMode",
 		a.je AS "je",
 		a.jsr AS "jsr",
-		a.subject_code AS "subjectCode",
+		a.subject_code AS "subjectCode.id",
+		ck.kmname AS "subjectCode.name",
 		a.approval_status AS "approvalStatus",
-		a.auditor AS "auditor",
+		a.auditor AS "auditor.id",
+		su.name AS "auditor.name",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -23,13 +26,16 @@
 		a.update_date AS "updateDate",
 		a.htje as "htje"
 	</sql>
-	
+
 	<sql id="fPaymentJoins">
+		LEFT JOIN c_supplier csu ON csu.id=a.travel_unit
+		LEFT JOIN c_km ck ON ck.id=a.subject_code
+		LEFT JOIN sys_user su ON su.id=a.auditor
 	</sql>
-    
+
 	<select id="get" resultType="FPayment">
-		SELECT 
-			<include refid="fPaymentColumns"/>
+		SELECT
+		<include refid="fPaymentColumns"/>
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		WHERE a.id = #{id}
@@ -42,14 +48,14 @@
 		<include refid="fPaymentJoins"/>
 		WHERE a.payment_code = #{paymentCode}
 	</select>
-	
+
 	<select id="findList" resultType="FPayment">
-		SELECT 
-			<include refid="fPaymentColumns"/>
+		SELECT
+		<include refid="fPaymentColumns"/>
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		<where>
-			
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -60,15 +66,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="FPayment">
-		SELECT 
-			<include refid="fPaymentColumns"/>
+		SELECT
+		<include refid="fPaymentColumns"/>
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		<where>
-			
-		</where>		
+
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -81,45 +87,45 @@
 	
 	<insert id="insert">
 		INSERT INTO f_payment(
-			id,
-			payment_date,
-			payment_code,
-			payment_account,
-			travel_unit,
-			travel_account,
-			payment_type,
-			payment_mode,
-			je,
-			jsr,
-			subject_code,
-			approval_status,
-			auditor,
-			remarks,
-			create_by,
-			create_date,
-			update_by,
-			update_date,
-			htje
+		id,
+		payment_date,
+		payment_code,
+		payment_account,
+		travel_unit,
+		travel_account,
+		payment_type,
+		payment_mode,
+		je,
+		jsr,
+		subject_code,
+		approval_status,
+		auditor,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		htje
 		) VALUES (
-			#{id},
-			#{paymentDate},
-			#{paymentCode},
-			#{paymentAccount},
-			#{travelUnit},
-			#{travelAccount},
-			#{paymentType},
-			#{paymentMode},
-			#{je},
-			#{jsr},
-			#{subjectCode},
-			#{approvalStatus},
-			#{auditor},
-			#{remarks},
-			#{createBy.id},
-			#{createDate},
-			#{updateBy.id},
-			#{updateDate},
-			#{htje}
+		#{id},
+		#{paymentDate},
+		#{paymentCode},
+		#{paymentAccount},
+		#{travelUnit.id},
+		#{travelAccount},
+		#{paymentType},
+		#{paymentMode},
+		#{je},
+		#{jsr},
+		#{subjectCode.id},
+		#{approvalStatus},
+		#{auditor.id},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{htje}
 		)
 	</insert>
 	
@@ -128,15 +134,15 @@
 			payment_date = #{paymentDate},
 			payment_code = #{paymentCode},
 			payment_account = #{paymentAccount},
-			travel_unit = #{travelUnit},
+			travel_unit = #{travelUnit.id},
 			travel_account = #{travelAccount},
 			payment_type = #{paymentType},
 			payment_mode = #{paymentMode},
 			je = #{je},
 			jsr = #{jsr},
-			subject_code = #{subjectCode},
+			subject_code = #{subjectCode.id},
 			approval_status = #{approvalStatus},
-			auditor = #{auditor},
+			auditor = #{auditor.id},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
