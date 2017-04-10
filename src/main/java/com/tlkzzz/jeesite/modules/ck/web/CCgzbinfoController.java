@@ -174,7 +174,7 @@ public class CCgzbinfoController extends BaseController {
 					payment = fPaymentService.getByPaymentCode(payment);
 					if(payment !=null){
 						payment.setApprovalStatus("1");
-						payment.setJsr(UserUtils.getUser().getId());
+						payment.setJsr(UserUtils.getUser());
 					}
 				}else if("4".equals(state)) {//报废
 
