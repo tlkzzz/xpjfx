@@ -14,5 +14,9 @@ import com.tlkzzz.jeesite.modules.cw.entity.FTransferAccount;
  */
 @MyBatisDao
 public interface FTransferAccountDao extends CrudDao<FTransferAccount> {
-	
+    /**
+     * 更新审批状态和审批人
+     * @param transferAccount
+     */
+    public void updateApprovalState(FTransferAccount transferAccount);
 }

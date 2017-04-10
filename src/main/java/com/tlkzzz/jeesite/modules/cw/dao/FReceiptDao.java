@@ -30,4 +30,16 @@ public interface FReceiptDao extends CrudDao<FReceipt> {
      * @param fReceipt
      */
     public FReceipt getByReceiptCode(FReceipt fReceipt);
+
+    /**
+     * 通过ID增加合同金额
+     * @param receipt
+     */
+    public void addHTJE(FReceipt receipt);
+
+    /**
+     * 通过ID减少合同金额
+     * @param receipt
+     */
+    public void minHTJE(FReceipt receipt);
 }
