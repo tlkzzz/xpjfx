@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
-import com.tlkzzz.jeesite.modules.cw.service.FIncomeRecordService;
-import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
-import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
+import com.tlkzzz.jeesite.modules.cw.service.*;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +60,10 @@ public class CCgzbinfoController extends BaseController {
 	private FPaymentService fPaymentService;
 	@Autowired
 	private FIncomeRecordService fIncomeRecordService;
+	@Autowired
+	private FExpenRecordService fExpenRecordService;
+	@Autowired
+	private FArrearsService fArrearsService;
 	
 	@ModelAttribute
 	public CCgzbinfo get(@RequestParam(required=false) String id) {
@@ -174,9 +177,11 @@ public class CCgzbinfoController extends BaseController {
 					payment = fPaymentService.getByPaymentCode(payment);
 					if(payment !=null){
 						payment.setApprovalStatus("1");
-						payment.setJsr(UserUtils.getUser());
+						payment.setAuditor(UserUtils.getUser());
+                        fPaymentService.updateApprovalStatus(payment);
+						fExpenRecordService.saveByPayment(payment);
 					}
-				}else if("4".equals(state)) {//报废
+				}else if("4".equals(state)) {//报废 暂时没有财务
 
 				}else {//录单，其他
 					FReceipt receipt = new FReceipt();
@@ -187,6 +192,12 @@ public class CCgzbinfoController extends BaseController {
 						receipt.setAuditor(UserUtils.getUser());
 						fReceiptService.updateApprovalStatus(receipt);
 						fIncomeRecordService.saveByReceipt(receipt);
+						double htje = Double.parseDouble(receipt.getHtje());
+						double sfje	= Double.parseDouble(receipt.getJe());
+						if(htje>0&&htje>sfje){
+							//当合同金额大于实付金额的时候产生欠款
+							fArrearsService.saveByReceipt(receipt,htje,sfje);
+						}
 					}
 				}
 			}
