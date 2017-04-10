@@ -25,10 +25,12 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.htje as "htje"
+		a.htje as "htje",
+		rck.ddbh as "ddbh"
 	</sql>
 
 	<sql id="fPaymentJoins">
+		LEFT JOIN c_rkckddinfo rck ON rck.id = a.payment_code
 		LEFT JOIN c_supplier csu ON csu.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
 		LEFT JOIN sys_user su ON su.id=a.auditor

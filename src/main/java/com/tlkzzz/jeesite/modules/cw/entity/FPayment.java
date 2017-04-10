@@ -34,6 +34,8 @@ public class FPayment extends DataEntity<FPayment> {
 	private User auditor;		// 审核人
 	private String htje;        //合同金额
 
+	private String ddbh;          //shizx 新增字段，用于取 订单ID
+
 	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
 	public String getHtje() {
 		return htje;
@@ -155,4 +157,11 @@ public class FPayment extends DataEntity<FPayment> {
 		this.auditor = auditor;
 	}
 
+	public String getDdbh() {
+		return ddbh;
+	}
+
+	public void setDdbh(String ddbh) {
+		this.ddbh = ddbh;
+	}
 }

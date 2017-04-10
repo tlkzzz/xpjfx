@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fTransferAccount/">转账调账列表</a></li>
-		<shiro:hasPermission name="cw:fTransferAccount:edit"><li><a href="${ctx}/cw/fTransferAccount/form">转账调账添加</a></li></shiro:hasPermission>
+		<shiro:hasPermission name="cw:fTransferAccount:edit"><li><a href="${ctx}/cw/fTransferAccount/capitalAddForm">转账调账添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="fTransferAccount" action="${ctx}/cw/fTransferAccount/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
