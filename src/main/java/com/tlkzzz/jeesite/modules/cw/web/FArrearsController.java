@@ -51,6 +51,7 @@ public class FArrearsController extends BaseController {
 	public String list(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FArrears> page = fArrearsService.findPage(new Page<FArrears>(request, response), fArrears); 
 		model.addAttribute("page", page);
+		model.addAttribute("fArrears",fArrears);
 		return "modules/cw/fArrearsList";
 	}
 

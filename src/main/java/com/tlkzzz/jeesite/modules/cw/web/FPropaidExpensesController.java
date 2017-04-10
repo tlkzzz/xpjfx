@@ -51,6 +51,7 @@ public class FPropaidExpensesController extends BaseController {
 	public String list(FPropaidExpenses fPropaidExpenses, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FPropaidExpenses> page = fPropaidExpensesService.findPage(new Page<FPropaidExpenses>(request, response), fPropaidExpenses); 
 		model.addAttribute("page", page);
+		model.addAttribute("fPropaidExpenses",fPropaidExpenses);
 		return "modules/cw/fPropaidExpensesList";
 	}
 
