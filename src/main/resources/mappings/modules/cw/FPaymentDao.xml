@@ -152,6 +152,13 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="updateApprovalStatus">
+		UPDATE f_payment SET
+			approval_status = #{approvalStatus},
+			auditor = #{auditor.id}
+		WHERE id = #{id}
+	</update>
+
 	<update id="delete">
 		DELETE FROM f_payment
 		WHERE id = #{id}

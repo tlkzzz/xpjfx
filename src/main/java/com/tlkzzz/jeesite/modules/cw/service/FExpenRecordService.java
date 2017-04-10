@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,20 @@ public class FExpenRecordService extends CrudService<FExpenRecordDao, FExpenReco
 	@Transactional(readOnly = false)
 	public void save(FExpenRecord fExpenRecord) {
 		super.save(fExpenRecord);
+	}
+
+	@Transactional(readOnly = false)
+	public void saveByPayment(FPayment payment){
+		FExpenRecord record = new FExpenRecord();
+		record.setOrderId(payment.getPaymentCode());
+		record.setExpenAccount(payment.getPaymentAccount());
+		record.setTravelAccount(payment.getTravelAccount());
+		record.setExpenDate(payment.getPaymentDate());
+		record.setExpenMode(payment.getPaymentMode());
+		record.setExpenType(payment.getPaymentType());
+		record.setExpenMoney(payment.getJe());
+		record.setJsr(payment.getJsr().getId());
+		super.save(record);
 	}
 	
 	@Transactional(readOnly = false)

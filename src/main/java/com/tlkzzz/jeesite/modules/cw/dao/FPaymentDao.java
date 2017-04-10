@@ -20,4 +20,10 @@ public interface FPaymentDao extends CrudDao<FPayment> {
      * @return
      */
 	public FPayment getByPaymentCode(FPayment payment);
+
+    /**
+     * 更新审批状态和审批人信息
+     * @param payment
+     */
+	public void updateApprovalStatus(FPayment payment);
 }
