@@ -17,6 +17,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
 public class FTransferAccount extends DataEntity<FTransferAccount> {
 	
 	private static final long serialVersionUID = 1L;
+	private String orderId;			//订单ID
 	private String transferType;		// 转账调账类型
 	private String outAccount;		// 转出帐户
 	private String inAccount;		// 转入账户
@@ -34,6 +35,14 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 
 	public FTransferAccount(String id){
 		super(id);
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
 	@Length(min=0, max=1, message="转账调账类型长度必须介于 0 和 1 之间")
