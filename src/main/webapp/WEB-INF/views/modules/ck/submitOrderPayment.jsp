@@ -59,12 +59,34 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
+			<label class="control-label">科目编码：</label>
+			<div class="controls">
+				<sys:treeselect id="subjectCode" name="subjectCode.id" value="${fPayment.subjectCode.id}" labelName="subjectCode.name" labelValue="${fPayment.subjectCode.name}"
+								title="科目编码" url="/ck/cKm/treeData" cssClass="required" allowClear="true"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">来往单位：</label>
 			<div class="controls">
 				<form:select path="travelUnit.id" class="required">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${storeList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">合同金额：</label>
+			<div class="controls">
+				<form:input path="htje" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">实付金额：</label>
+			<div class="controls">
+				<form:input path="je" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -103,13 +125,9 @@
 		<div class="control-group">
 			<label class="control-label">经手人：</label>
 			<div class="controls">
-				<form:input path="jsr" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">科目编码：</label>
-			<div class="controls">
-				<form:input path="subjectCode" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<sys:treeselect id="jsr" name="jsr.id" value="${fPayment.jsr.id}" labelName="jsr.name" labelValue="${fPayment.jsr.name}"
+								title="经手人" url="/sys/user/treeData" cssClass="required" allowClear="true"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
