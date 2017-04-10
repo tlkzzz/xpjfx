@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FPaymentDao">
-	<!--/sssssss-->
+
 	<sql id="fPaymentColumns">
 		a.id AS "id",
 		a.payment_date AS "paymentDate",
@@ -39,6 +39,14 @@
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		WHERE a.id = #{id}
+	</select>
+
+	<select id="getByPaymentCode" resultType="FPayment">
+		SELECT
+			<include refid="fPaymentColumns"/>
+		FROM f_payment a
+		<include refid="fPaymentJoins"/>
+		WHERE a.payment_code = #{paymentCode}
 	</select>
 
 	<select id="findList" resultType="FPayment">
