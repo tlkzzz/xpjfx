@@ -98,10 +98,17 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">总金额：</label>
+			<label class="control-label">合同金额：</label>
 			<div class="controls">
-				<c:if test="${toDiscount}"><form:input path="je" htmlEscape="false" maxlength="20" class="input-xlarge required"/></c:if>
-				<c:if test="${!toDiscount}"><form:input path="je" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/></c:if>
+				<c:if test="${toDiscount}"><form:input path="htje" htmlEscape="false" maxlength="20" class="input-xlarge required"/></c:if>
+				<c:if test="${!toDiscount}"><form:input path="htje" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/></c:if>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">实收金额：</label>
+			<div class="controls">
+				<form:input path="je" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

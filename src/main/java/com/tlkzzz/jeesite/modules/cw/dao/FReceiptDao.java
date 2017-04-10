@@ -10,7 +10,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 /**
  * 收款DAO接口
  * @author xrc
- * @version 2017-04-05
+ * @version 2017-04-10
  */
 @MyBatisDao
 public interface FReceiptDao extends CrudDao<FReceipt> {

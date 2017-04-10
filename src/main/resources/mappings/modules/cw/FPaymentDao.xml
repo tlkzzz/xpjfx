@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FPaymentDao">
-    
+
 	<sql id="fPaymentColumns">
 		a.id AS "id",
 		a.payment_date AS "paymentDate",
@@ -57,7 +57,12 @@
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		<where>
-
+			<if test="paymentDate != null and paymentDate != ''">
+				AND a.payment_date = #{paymentDate}
+			</if>
+			<if test="paymentCode != null and paymentCode != ''">
+				AND a.payment_code = #{paymentCode}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -86,7 +91,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO f_payment(
 		id,
@@ -130,9 +135,9 @@
 		#{htje}
 		)
 	</insert>
-	
+
 	<update id="update">
-		UPDATE f_payment SET 	
+		UPDATE f_payment SET
 			payment_date = #{paymentDate},
 			payment_code = #{paymentCode},
 			payment_account = #{paymentAccount},
@@ -151,10 +156,17 @@
 			htje=#{htje}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="updateApprovalStatus">
+		UPDATE f_payment SET
+			approval_status = #{approvalStatus},
+			auditor = #{auditor.id}
+		WHERE id = #{id}
+	</update>
+
 	<update id="delete">
 		DELETE FROM f_payment
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>
