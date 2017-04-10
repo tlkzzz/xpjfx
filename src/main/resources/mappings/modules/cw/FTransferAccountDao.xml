@@ -14,7 +14,8 @@
 		a.jsr AS "jsr",
 		a.subject_code AS "subjectCode",
 		a.approval_status AS "approvalStatus",
-		a.auditor AS "auditor",
+		a.auditor AS "auditor.id",
+		su.name AS "auditor.name",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -23,6 +24,7 @@
 	</sql>
 	
 	<sql id="fTransferAccountJoins">
+		LEFT JOIN sys_user su ON su.id=a.auditor
 	</sql>
     
 	<select id="get" resultType="FTransferAccount">
@@ -100,7 +102,7 @@
 			#{jsr},
 			#{subjectCode},
 			#{approvalStatus},
-			#{auditor},
+			#{auditor.id},
 			#{remarks},
 			#{createBy.id},
 			#{createDate},
@@ -121,7 +123,7 @@
 			jsr = #{jsr},
 			subject_code = #{subjectCode},
 			approval_status = #{approvalStatus},
-			auditor = #{auditor},
+			auditor = #{auditor.id},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
