@@ -57,7 +57,12 @@
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		<where>
-
+			<if test="paymentDate != null and paymentDate != ''">
+				AND a.payment_date = #{paymentDate}
+			</if>
+			<if test="paymentCode != null and paymentCode != ''">
+				AND a.payment_code = #{paymentCode}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

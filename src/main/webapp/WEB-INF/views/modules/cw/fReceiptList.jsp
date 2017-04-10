@@ -52,14 +52,15 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fReceipt">
 			<tr>
-				<td><a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">
+				<td>
+					<%--<a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">--%>
 					<fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</a></td>
 				<td>
 					${fReceipt.receiptCode}
 				</td>
 				<td>
-					${fReceipt.travelUnit}
+					${fReceipt.travelUnit.id}
 				</td>
 				<td>
 					${fReceipt.remarks}
@@ -68,7 +69,7 @@
 					<fmt:formatDate value="${fReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="cw:fReceipt:edit"><td>
-    				<a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">修改</a>
+    				<%--<a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">修改</a>--%>
 					<a href="${ctx}/cw/fReceipt/delete?id=${fReceipt.id}" onclick="return confirmx('确认要删除该收款吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

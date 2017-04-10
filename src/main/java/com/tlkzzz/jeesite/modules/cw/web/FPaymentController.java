@@ -51,6 +51,7 @@ public class FPaymentController extends BaseController {
 	public String list(FPayment fPayment, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FPayment> page = fPaymentService.findPage(new Page<FPayment>(request, response), fPayment); 
 		model.addAttribute("page", page);
+		model.addAttribute("fPayment", fPayment);
 		return "modules/cw/fPaymentList";
 	}
 
