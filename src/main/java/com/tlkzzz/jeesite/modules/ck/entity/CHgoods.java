@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.ck.entity;
 
 import com.tlkzzz.jeesite.common.utils.excel.annotation.ExcelField;
 import com.tlkzzz.jeesite.modules.cw.entity.FExpenRecord;
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -32,10 +33,8 @@ public class CHgoods extends DataEntity<CHgoods> {
 	private String ckState;		//出库类型
 	private String supplierid;	//供应商ID
 	private CStore	store;		//客户
-
-	private String sjzc;        //shizx 实际支出
 	private String qkzt;        //shizx 欠款状态
-	private FExpenRecord fExpenRecord;		// shizx支出记录表
+	private FPayment fPayment;		// shizx付款记录表
 	public CHgoods() {
 		super();
 	}
@@ -136,27 +135,22 @@ public class CHgoods extends DataEntity<CHgoods> {
 
 	//shizx 新增字段getset 方法
 
-	public String getSjzc() {
-		return sjzc;
-	}
 
 	public String getQkzt() {
 		return qkzt;
 	}
 
-	public void setSjzc(String sjzc) {
-		this.sjzc = sjzc;
-	}
 
 	public void setQkzt(String qkzt) {
 		this.qkzt = qkzt;
 	}
 
-	public FExpenRecord getfExpenRecord() {
-		return fExpenRecord;
+	public FPayment getfPayment() {
+		return fPayment;
 	}
 
-	public void setfExpenRecord(FExpenRecord fExpenRecord) {
-		this.fExpenRecord = fExpenRecord;
+	public void setfPayment(FPayment fPayment) {
+		this.fPayment = fPayment;
 	}
+
 }

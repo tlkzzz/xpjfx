@@ -10,8 +10,12 @@ import com.tlkzzz.jeesite.common.utils.DateUtils;
 import com.tlkzzz.jeesite.common.utils.excel.ExportExcel;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 import com.tlkzzz.jeesite.modules.cw.entity.FExpenRecord;
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
+import com.tlkzzz.jeesite.modules.cw.service.FArrearsService;
 import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
+import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +48,11 @@ public class CHgoodsController extends BaseController {
 	@Autowired
 	private CSupplierService cSupplierService;
 	@Autowired
+	private FPaymentService fPaymentService;
+	@Autowired
 	private FExpenRecordService fExpenRecordService;
+	@Autowired
+	private FArrearsService fArrearsService;
 
 	@ModelAttribute
 	public CHgoods get(@RequestParam(required=false) String id) {
@@ -143,19 +151,46 @@ public class CHgoodsController extends BaseController {
 		if (!beanValidator(model, cHgoods)){
 			return form(cHgoods, model);
 		}
-		FExpenRecord fExpenRecord=new FExpenRecord();
+		FPayment fPayment=new FPayment();
 		//shizx 支出记录实体对象
-		fExpenRecord=cHgoods.getfExpenRecord();
+		fPayment=cHgoods.getfPayment();
 		//shizx set 订单id
-		fExpenRecord.setOrderId("123456789");
-		//fExpenRecord.setOrderId(cHgoods.getId());
-		//shizx set 支出金额
-		fExpenRecord.setExpenMoney(cHgoods.getSjzc());
+		fPayment.setPaymentCode(cHgoods.getCkState());
 		//shizx set 支出方式
+		fPayment.setPaymentType("0");
+		//计算出合同价格
+		double cbj=cHgoods.getCbj();
+		double nub=Double.parseDouble(cHgoods.getNub());
+		double htje=cbj*nub;
+		//set 合同金额
+		fPayment.setHtje(Double.toString(htje));
+
+		/**添加支出记录表*/
+		FExpenRecord fExpenRecord=new FExpenRecord();
+		fExpenRecord.setOrderId(cHgoods.getCkState());
+		fExpenRecord.setExpenAccount(fPayment.getPaymentAccount());
+		fExpenRecord.setTravelAccount(fPayment.getTravelAccount());
+		fExpenRecord.setExpenMoney(fPayment.getJe());
+		fExpenRecord.setExpenDate(fPayment.getPaymentDate());
+		fExpenRecord.setJsr(fPayment.getJsr());
+		fExpenRecord.setExpenMode(fPayment.getPaymentMode());
 		fExpenRecord.setExpenType("0");
-		//fExpenRecord.setExpenDate();
-		//保存至支出记录表
 		fExpenRecordService.save(fExpenRecord);
+
+		/**添加支出表*/
+		double shzc=Double.parseDouble(fPayment.getJe());
+		if(htje!=shzc){
+		FArrears fArrears = new FArrears();
+		fArrears.setArrearsUnit(fPayment.getTravelUnit().toString());
+		fArrears.setArrearsType("1");   //set欠款类型   0客户   1供应商
+		fArrears.setArrearsMode(fPayment.getPaymentMode());
+		double ce=htje-shzc;
+		fArrears.setTotal(Double.toString(ce));
+		fArrears.setArrearsDate(fPayment.getPaymentDate());
+		fArrearsService.save(fArrears);
+		}
+		//保存至支出记录表
+		fPaymentService.save(fPayment);
 		cHgoodsService.save(cHgoods);
 		cCgzbinfoService.savePrice(cHgoods);//添加入库信息到采购订单表
 		addMessage(redirectAttributes, "保存仓库商品成功");
