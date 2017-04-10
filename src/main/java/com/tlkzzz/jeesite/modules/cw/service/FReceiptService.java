@@ -57,6 +57,22 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	}
 
 	@Transactional(readOnly = false)
+	public void addHTJE(FReceipt receipt){
+		dao.addHTJE(receipt);
+	}
+
+	@Transactional(readOnly = false)
+	public boolean minHTJE(FReceipt receipt){
+		boolean ret = false;
+		FReceipt re = get(receipt);//如果收款存在且合同金额答应减少金额
+		if(re!=null&&Double.parseDouble(re.getHtje())>Double.parseDouble(receipt.getHtje())){
+			dao.minHTJE(receipt);
+			ret = true;
+		}
+		return ret;
+	}
+
+	@Transactional(readOnly = false)
 	public void delete(FReceipt fReceipt) {
 		super.delete(fReceipt);
 	}
