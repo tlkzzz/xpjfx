@@ -4,6 +4,7 @@
     
 	<sql id="fTransferAccountColumns">
 		a.id AS "id",
+		a.order_id AS "orderId",
 		a.transfer_type AS "transferType",
 		a.out_account AS "outAccount",
 		a.in_account AS "inAccount",
@@ -71,6 +72,7 @@
 	<insert id="insert">
 		INSERT INTO f_transfer_account(
 			id,
+			order_id,
 			transfer_type,
 			out_account,
 			in_account,
@@ -88,6 +90,7 @@
 			update_date
 		) VALUES (
 			#{id},
+			#{orderId},
 			#{transferType},
 			#{outAccount},
 			#{inAccount},
@@ -108,6 +111,7 @@
 	
 	<update id="update">
 		UPDATE f_transfer_account SET 	
+			order_id = #{orderId},
 			transfer_type = #{transferType},
 			out_account = #{outAccount},
 			in_account = #{inAccount},
