@@ -28,7 +28,7 @@ public class FPayment extends DataEntity<FPayment> {
 	private String paymentType;		// 付款类型
 	private String paymentMode;		// 付款方式
 	private String je;				//付款金额
-	private String jsr;		// 经手人
+	private User jsr;		// 经手人
 	private CKm subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private User auditor;		// 审核人
@@ -122,12 +122,11 @@ public class FPayment extends DataEntity<FPayment> {
 		this.je = je;
 	}
 
-	@Length(min=0, max=64, message="经手人长度必须介于 0 和 64 之间")
-	public String getJsr() {
+	public User getJsr() {
 		return jsr;
 	}
 
-	public void setJsr(String jsr) {
+	public void setJsr(User jsr) {
 		this.jsr = jsr;
 	}
 
