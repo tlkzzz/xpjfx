@@ -38,7 +38,13 @@ public class FTransferAccountService extends CrudService<FTransferAccountDao, FT
 	public void save(FTransferAccount fTransferAccount) {
 		super.save(fTransferAccount);
 	}
-	
+
+
+	@Transactional(readOnly = false)
+	public void updateApprovalState(FTransferAccount transferAccount){
+		dao.updateApprovalState(transferAccount);
+	}
+
 	@Transactional(readOnly = false)
 	public void delete(FTransferAccount fTransferAccount) {
 		super.delete(fTransferAccount);
