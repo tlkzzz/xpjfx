@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.cw.entity;
 
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,7 +28,7 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 	private String jsr;		// 经手人
 	private String subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
-	private String auditor;		// 审核人
+	private User auditor;		// 审核人
 	
 	public FTransferAccount() {
 		super();
@@ -125,12 +126,11 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 		this.approvalStatus = approvalStatus;
 	}
 	
-	@Length(min=0, max=64, message="审核人长度必须介于 0 和 64 之间")
-	public String getAuditor() {
+	public User getAuditor() {
 		return auditor;
 	}
 
-	public void setAuditor(String auditor) {
+	public void setAuditor(User auditor) {
 		this.auditor = auditor;
 	}
 	
