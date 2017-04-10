@@ -15,7 +15,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
 /**
  * 收款Entity
  * @author xrc
- * @version 2017-04-05
+ * @version 2017-04-10
  */
 public class FReceipt extends DataEntity<FReceipt> {
 	
@@ -128,7 +128,7 @@ public class FReceipt extends DataEntity<FReceipt> {
 	public void setSubjectCode(CKm subjectCode) {
 		this.subjectCode = subjectCode;
 	}
-	
+
 	@Length(min=0, max=1, message="审核状态长度必须介于 0 和 1 之间")
 	public String getApprovalStatus() {
 		return approvalStatus;

@@ -25,7 +25,7 @@ import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 /**
  * 收款Controller
  * @author xrc
- * @version 2017-04-05
+ * @version 2017-04-10
  */
 @Controller
 @RequestMapping(value = "${adminPath}/cw/fReceipt")
@@ -51,6 +51,7 @@ public class FReceiptController extends BaseController {
 	public String list(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt); 
 		model.addAttribute("page", page);
+		model.addAttribute("fReceipt", fReceipt);
 		return "modules/cw/fReceiptList";
 	}
 

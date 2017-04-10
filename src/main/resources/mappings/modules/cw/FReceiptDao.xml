@@ -48,7 +48,7 @@
 		<include refid="fReceiptJoins"/>
 		WHERE a.receipt_code = #{receiptCode}
 	</select>
-	
+
 	<select id="findList" resultType="FReceipt">
 		SELECT 
 			<include refid="fReceiptColumns"/>
@@ -56,6 +56,12 @@
 		<include refid="fReceiptJoins"/>
 		<where>
 			
+			<if test="receiptDate != null and receiptDate != ''">
+				AND a.receipt_date = #{receiptDate}
+			</if>
+			<if test="receiptCode != null and receiptCode != ''">
+				AND a.receipt_code = #{receiptCode}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -162,7 +168,7 @@
 			auditor = #{auditor.id}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
 		DELETE FROM f_receipt
 		WHERE id = #{id}
