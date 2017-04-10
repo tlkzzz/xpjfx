@@ -181,7 +181,7 @@ public class CHgoodsController extends BaseController {
 		double shzc=Double.parseDouble(fPayment.getJe());
 		if(htje!=shzc){
 		FArrears fArrears = new FArrears();
-		fArrears.setArrearsUnit(fPayment.getTravelUnit().toString());
+		fArrears.setArrearsUnit(fPayment.getTravelUnit().getId());
 		fArrears.setArrearsType("1");   //set欠款类型   0客户   1供应商
 		fArrears.setArrearsMode(fPayment.getPaymentMode());
 		double ce=htje-shzc;
