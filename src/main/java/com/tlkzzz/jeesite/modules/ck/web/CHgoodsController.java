@@ -172,7 +172,7 @@ public class CHgoodsController extends BaseController {
 		fExpenRecord.setTravelAccount(fPayment.getTravelAccount());
 		fExpenRecord.setExpenMoney(fPayment.getJe());
 		fExpenRecord.setExpenDate(fPayment.getPaymentDate());
-		fExpenRecord.setJsr(fPayment.getJsr());
+		fExpenRecord.setJsr(fPayment.getJsr().getId());
 		fExpenRecord.setExpenMode(fPayment.getPaymentMode());
 		fExpenRecord.setExpenType("0");
 		fExpenRecordService.save(fExpenRecord);
