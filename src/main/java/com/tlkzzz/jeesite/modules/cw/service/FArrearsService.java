@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,17 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 	@Transactional(readOnly = false)
 	public void save(FArrears fArrears) {
 		super.save(fArrears);
+	}
+
+	@Transactional(readOnly = false)
+	public void saveByReceipt(FReceipt receipt, Double htje, Double sfje){
+		FArrears arrears = new FArrears();
+		arrears.setArrearsUnit(receipt.getTravelUnit().getId());
+		arrears.setArrearsMode(receipt.getReceiptMode());
+		arrears.setArrearsDate(receipt.getReceiptDate());
+		arrears.setArrearsType("0");
+		arrears.setTotal(String.valueOf(htje-sfje));
+		super.save(arrears);
 	}
 	
 	@Transactional(readOnly = false)
