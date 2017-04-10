@@ -6,6 +6,7 @@
 		a.id AS "id",
 		a.receipt_date AS "receiptDate",
 		a.receipt_code AS "receiptCode",
+		crk.ddbh AS "ddbh",
 		a.travel_unit AS "travelUnit.id",
 		cs.name AS "travelUnit.name",
 		a.travel_account AS "travelAccount",
@@ -28,6 +29,7 @@
 	</sql>
 	
 	<sql id="fReceiptJoins">
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.receipt_code
 		LEFT JOIN c_store cs ON cs.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
 		LEFT JOIN sys_user su ON su.id=a.auditor
@@ -166,6 +168,18 @@
 		UPDATE f_receipt SET
 			approval_status = #{approvalStatus},
 			auditor = #{auditor.id}
+		WHERE id = #{id}
+	</update>
+
+	<update id="addHTJE">
+		UPDATE f_receipt a SET
+			a.htje = a.htje+#{htje}
+		WHERE id = #{id}
+	</update>
+
+	<update id="minHTJE">
+		UPDATE f_receipt a SET
+			a.htje = a.htje-#{htje}
 		WHERE id = #{id}
 	</update>
 
