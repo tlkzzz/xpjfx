@@ -19,12 +19,20 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fReceipt/">收款列表</a></li>
-		<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/form">收款添加</a></li></shiro:hasPermission>
+		<%--<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/form">收款添加</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+			<li><label>收款日期：</label>
+				<input name="receiptDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			</li>
+			<li><label>单据编号：</label>
+				<form:input path="receiptCode" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -33,6 +41,9 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>收款日期</th>
+				<th>单据编号</th>
+				<th>来往单位</th>
 				<th>备注</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fReceipt:edit"><th>操作</th></shiro:hasPermission>
@@ -42,8 +53,17 @@
 		<c:forEach items="${page.list}" var="fReceipt">
 			<tr>
 				<td><a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">
-					${fReceipt.remarks}
+					<fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</a></td>
+				<td>
+					${fReceipt.receiptCode}
+				</td>
+				<td>
+					${fReceipt.travelUnit}
+				</td>
+				<td>
+					${fReceipt.remarks}
+				</td>
 				<td>
 					<fmt:formatDate value="${fReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

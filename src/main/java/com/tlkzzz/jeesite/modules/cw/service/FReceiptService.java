@@ -17,7 +17,7 @@ import com.tlkzzz.jeesite.modules.cw.dao.FReceiptDao;
 /**
  * 收款Service
  * @author xrc
- * @version 2017-04-05
+ * @version 2017-04-10
  */
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +30,7 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	public FReceipt getByReceiptCode(FReceipt fReceipt){
 		return dao.getByReceiptCode(fReceipt);
 	}
-	
+
 	public List<FReceipt> findList(FReceipt fReceipt) {
 		return super.findList(fReceipt);
 	}
