@@ -13,7 +13,8 @@
 		a.payment_type AS "paymentType",
 		a.payment_mode AS "paymentMode",
 		a.je AS "je",
-		a.jsr AS "jsr",
+		a.jsr AS "jsr.id",
+		sutow.name AS "jsr.name",
 		a.subject_code AS "subjectCode.id",
 		ck.kmname AS "subjectCode.name",
 		a.approval_status AS "approvalStatus",
@@ -31,6 +32,7 @@
 		LEFT JOIN c_supplier csu ON csu.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
 		LEFT JOIN sys_user su ON su.id=a.auditor
+		LEFT JOIN sys_user sutow ON sutow.id=a.jsr
 	</sql>
 
 	<select id="get" resultType="FPayment">
