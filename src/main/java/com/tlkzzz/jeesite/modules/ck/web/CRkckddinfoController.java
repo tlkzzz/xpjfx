@@ -12,7 +12,9 @@ import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
 import com.tlkzzz.jeesite.modules.ck.service.CShopService;
 import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -47,6 +49,8 @@ public class CRkckddinfoController extends BaseController {
 	private CRkckddinfoService cRkckddinfoService;
 	@Autowired
 	private FReceiptService fReceiptService;
+	@Autowired
+	private FPaymentService fPaymentService;
 	@Autowired
 	private CStoreService cStoreService;
 	@Autowired
@@ -144,7 +148,7 @@ public class CRkckddinfoController extends BaseController {
 			List<CShop> shopList = cShopService.findList(cs);
 			cRkckddinfoService.saveRkInfo(cRkckddinfo, shopList);
 			cShopService.deleteByUserId(cs.getUserid());
-			if(cRkckddinfo.getReceipt()!=null){
+			if(cRkckddinfo.getReceipt()!=null){//保存订单ID到收款表
 				cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
 				fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
 			}
@@ -173,7 +177,7 @@ public class CRkckddinfoController extends BaseController {
 	}
 
 	/**
-	 * 出库提交订单打开填写财务信息页面
+	 * 出库提交订单打开填写财务信息页面（收款）
 	 * @param fReceipt
 	 * @param model
 	 * @return
@@ -204,15 +208,59 @@ public class CRkckddinfoController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("cw:fReceipt:edit")
+	@ResponseBody
+	@RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "submitOrderSave")
-	public String save(FReceipt fReceipt, Model model) {
+	public String submitOrderSave(FReceipt fReceipt, Model model) {
 		if (!beanValidator(model, fReceipt)){
-			return submitOrder(fReceipt, model);
+			return null;
 		}
 		fReceipt.setReceiptType(UserUtils.getCache("RKCKSTATE").toString());
 		fReceiptService.save(fReceipt);
-		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/saveCgInfo?receipt.id="+fReceipt.getId();
+		return fReceipt.getId();
+	}
+	/**
+	 * 出库提交订单打开填写财务信息页面（付款）
+	 * @param payment
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "submitOrderPayment")
+	public String submitOrderPayment(FPayment payment, Model model){
+		CShop cs = new CShop();
+		cs.setUserid(UserUtils.getUser().getId());
+		cs.setState(UserUtils.getCache("RKCKSTATE").toString());
+		List<CShop> csList = cShopService.findList(cs);
+		double orderTotal = 0.0;
+		double yhTotal = 0.0;
+		for (CShop cShop: csList){
+			orderTotal += (Double.parseDouble(cShop.getJe())*Integer.parseInt(cShop.getNub()));
+			if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
+		}
+		payment.setJe(String.valueOf(orderTotal));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("toDiscount", (yhTotal>0)?true:false);
+		model.addAttribute("payment", payment);
+		return "modules/ck/submitOrderPayment";
+	}
+
+	/**
+	 * 出库提交订单财务信息(收款)保存
+	 * @param payment
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequiresPermissions("ck:cCkinfo:edit")
+	@RequestMapping(value = "submitOrderPaymentSave")
+	public String submitOrderPaymentSave(FPayment payment, Model model) {
+		if (!beanValidator(model, payment)){
+			return null;
+		}
+		payment.setPaymentType(UserUtils.getCache("RKCKSTATE").toString());
+		fPaymentService.save(payment);
+		return payment.getId();
 	}
 
 	/**		出库结束		**/

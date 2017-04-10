@@ -4,7 +4,8 @@
     
 	<sql id="fFixedAssetsCgbmColumns">
 		a.id AS "id",
-		a.assets_id AS "assetsId",
+		a.ffixedassets AS "ffixedassets.id",
+		cg.name AS "ffixedassets.name",
 		a.travel_unit AS "travelUnit",
 		a.payment_account AS "paymentAccount",
 		a.travel_account AS "travelAccount",
@@ -20,6 +21,7 @@
 	</sql>
 	
 	<sql id="fFixedAssetsCgbmJoins">
+		LEFT JOIN f_fixed_assets cg ON a.ffixedassets=cg.id
 	</sql>
     
 	<select id="get" resultType="FFixedAssetsCgbm">
@@ -36,7 +38,10 @@
 		FROM f_fixed_assets_cgbm a
 		<include refid="fFixedAssetsCgbmJoins"/>
 		<where>
-			
+			<if test="approvalStatus != null and approvalStatus != ''">
+				AND a.approval_status = #{approvalStatus}
+			</if>
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -69,7 +74,7 @@
 	<insert id="insert">
 		INSERT INTO f_fixed_assets_cgbm(
 			id,
-			assets_id,
+			ffixedassets,
 			travel_unit,
 			payment_account,
 			travel_account,
@@ -84,7 +89,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{assetsId},
+			#{ffixedassets.id},
 			#{travelUnit},
 			#{paymentAccount},
 			#{travelAccount},
@@ -102,7 +107,7 @@
 	
 	<update id="update">
 		UPDATE f_fixed_assets_cgbm SET 	
-			assets_id = #{assetsId},
+			ffixedassets = #{ffixedassets.id},
 			travel_unit = #{travelUnit},
 			payment_account = #{paymentAccount},
 			travel_account = #{travelAccount},

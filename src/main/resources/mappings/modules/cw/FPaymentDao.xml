@@ -34,6 +34,14 @@
 		<include refid="fPaymentJoins"/>
 		WHERE a.id = #{id}
 	</select>
+
+	<select id="getByPaymentCode" resultType="FPayment">
+		SELECT
+			<include refid="fPaymentColumns"/>
+		FROM f_payment a
+		<include refid="fPaymentJoins"/>
+		WHERE a.payment_code = #{paymentCode}
+	</select>
 	
 	<select id="findList" resultType="FPayment">
 		SELECT 

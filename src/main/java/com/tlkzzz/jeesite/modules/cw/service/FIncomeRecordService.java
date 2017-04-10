@@ -50,7 +50,7 @@ public class FIncomeRecordService extends CrudService<FIncomeRecordDao, FIncomeR
 		record.setOrderId(receipt.getReceiptCode());
 		record.setIncomeMode(receipt.getReceiptMode());
 		record.setIncomeType(receipt.getReceiptType());
-		record.setJsr(receipt.getJsr());
+		record.setJsr(receipt.getJsr().getId());
 		super.save(record);
 	}
 	

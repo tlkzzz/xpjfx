@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fExpenRecord/">支出记录列表</a></li>
-		<shiro:hasPermission name="cw:fExpenRecord:edit"><li><a href="${ctx}/cw/fExpenRecord/form">支出记录添加</a></li></shiro:hasPermission>
+		<!-- <shiro:hasPermission name="cw:fExpenRecord:edit"><li><a href="${ctx}/cw/fExpenRecord/form">支出记录添加</a></li></shiro:hasPermission> -->
 	</ul>
 	<form:form id="searchForm" modelAttribute="fExpenRecord" action="${ctx}/cw/fExpenRecord/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

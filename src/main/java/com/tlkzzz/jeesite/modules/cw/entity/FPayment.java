@@ -29,8 +29,9 @@ public class FPayment extends DataEntity<FPayment> {
 	private String subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private String auditor;		// 审核人
-	private String htje;        //合同金额ss
+	private String htje;        //合同金额
 
+    @Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
 	public String getHtje() {
 		return htje;
 	}
