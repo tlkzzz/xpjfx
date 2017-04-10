@@ -195,7 +195,7 @@ public class CRkckddinfoController extends BaseController {
 			orderTotal += (Double.parseDouble(cShop.getJe())*Integer.parseInt(cShop.getNub()));
 			if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
 		}
-		fReceipt.setJe(String.valueOf(orderTotal));
+		fReceipt.setHtje(String.valueOf(orderTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		model.addAttribute("toDiscount", (yhTotal>0)?true:false);
 		model.addAttribute("fReceipt", fReceipt);
