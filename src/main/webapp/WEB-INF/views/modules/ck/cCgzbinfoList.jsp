@@ -104,7 +104,7 @@
 					<%--<a href="${ctx}/ck/cCgzbinfo/delete?id=${cCgzbinfo.id}" onclick="return confirmx('确认要删除该采购订单吗？', this.href)">删除</a>--%>
 					<c:if test="${cCgzbinfo.state=='0'}"><a href="javascript:void(0)" onclick="changeState('${cCgzbinfo.id}','1')">采购</a></c:if>
 					<c:if test="${cCgzbinfo.state=='1'}"><a href="javascript:void(0)" onclick="inHouse('${cCgzbinfo.id}')">入库</a></c:if>
-				</td></shiro:hasPermission>
+					</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>
