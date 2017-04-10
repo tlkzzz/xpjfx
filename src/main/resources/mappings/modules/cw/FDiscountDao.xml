@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.cw.dao.FDiscountDao">
+    
+	<sql id="fDiscountColumns">
+		a.id AS "id",
+		a.yhje AS "yhje",
+		a.lx AS "lx",
+		a.storeid AS "storeid",
+		a.ddid AS "ddid",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remaks AS "remaks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="fDiscountJoins">
+	</sql>
+    
+	<select id="get" resultType="FDiscount">
+		SELECT 
+			<include refid="fDiscountColumns"/>
+		FROM f_discount a
+		<include refid="fDiscountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FDiscount">
+		SELECT 
+			<include refid="fDiscountColumns"/>
+		FROM f_discount a
+		<include refid="fDiscountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FDiscount">
+		SELECT 
+			<include refid="fDiscountColumns"/>
+		FROM f_discount a
+		<include refid="fDiscountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO f_discount(
+			id,
+			yhje,
+			lx,
+			storeid,
+			ddid,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remaks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{yhje},
+			#{lx},
+			#{storeid},
+			#{ddid},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remaks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE f_discount SET 	
+			yhje = #{yhje},
+			lx = #{lx},
+			storeid = #{storeid},
+			ddid = #{ddid},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remaks = #{remaks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE f_discount SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

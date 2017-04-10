@@ -72,44 +72,68 @@
 				<span class="help-inline"><font color="red">* 最小单位计量</font> </span>
 			</div>
 		</div>
+	<div class="control-group">
+		<label class="control-label">付款日期：</label>
+		<div class="controls">
+		<input id="paymentDate"  name="fPayment.paymentDate"  type="text" readonly="readonly" maxlength="64" class="input-medium Wdate" style="width:163px;"
+			   value="<fmt:formatDate value="${fPayment.paymentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+			   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"/>
+			<span class="help-inline"><font color="red">* </font> </span>
+		</div>
+	</div>
 		<div class="control-group">
-			<label class="control-label">实际支出：</label>
+			<label class="control-label">来往单位：</label>
 			<div class="controls">
-				<form:input path="sjzc" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<form:input path="fPayment.travelUnit" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
 				<span class="help-inline"><font color="red">* </font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">支出账号：</label>
+			<label class="control-label">实际支出：</label>
 			<div class="controls">
-				<form:input path="fExpenRecord.expenAccount" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<form:input path="fPayment.je" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<span class="help-inline"><font color="red">* </font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">付款账号：</label>
+			<div class="controls">
+				<form:input path="fPayment.paymentAccount" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
 				<span class="help-inline"><font color="red">* </font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">来往账号：</label>
 			<div class="controls">
-				<form:input path="fExpenRecord.travelAccount" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
+				<form:input path="fPayment.travelAccount" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
 				<span class="help-inline"><font color="red">* </font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">经手人：</label>
 			<div class="controls">
-				<sys:treeselect id="user" name="user.id" value="${testData.user.id}" labelName="fExpenRecord.jsr" labelValue="${testData.user.name}"
+				<sys:treeselect id="user" name="user.id" value="${testData.user.id}" labelName="fPayment.jsr" labelValue="${testData.user.name}"
 								title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">支出方式：</label>
+			<label class="control-label">付款方式：</label>
 			<div class="controls">
-				<form:select path="fExpenRecord.expenMode" class="input-xlarge required" id="expenMode">
+				<form:select path="fPayment.paymentMode" class="input-xlarge required" id="expenMode">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
+		</div>
+	<div class="control-group">
+		<label class="control-label">科目编码：</label>
+		<div class="controls">
+			<sys:treeselect id="parent" name="parent.id" value="${cKm.parent.id}" labelName="fPayment.subjectCode" labelValue="${cKm.parent.name}"
+							title="科目编码" url="/ck/cKm/treeData" extId="${cKm.id}" cssClass="" allowClear="true"/>
+		</div>
+	</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">是否欠款：</label>
