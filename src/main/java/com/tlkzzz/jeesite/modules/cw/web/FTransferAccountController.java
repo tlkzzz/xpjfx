@@ -227,6 +227,12 @@ public class FTransferAccountController extends BaseController {
 						fReceiptService.minHTJE(receipt);
 						break;
 					}
+					case 3: {
+						FReceipt receipt = new FReceipt(transferAccount.getOrderId());
+						receipt.setHtje(transferAccount.getTransMoney());
+						fReceiptService.minHTJE(receipt);
+						break;
+					}
 				}
 			}
 			retStr = "true";
