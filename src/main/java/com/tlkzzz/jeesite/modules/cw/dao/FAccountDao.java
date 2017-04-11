@@ -14,5 +14,5 @@ import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
  */
 @MyBatisDao
 public interface FAccountDao extends CrudDao<FAccount> {
-	
+	public FAccount capitalHtje(FAccount fAccount);
 }

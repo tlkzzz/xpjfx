@@ -53,6 +53,12 @@
 		WHERE a.payment_code = #{paymentCode}
 	</select>
 
+	<update id="paymentAddHtje">
+		UPDATE f_payment SET
+			htje=#{htje}
+		WHERE id = #{id}
+	</update>
+
 	<select id="findList" resultType="FPayment">
 		SELECT
 		<include refid="fPaymentColumns"/>

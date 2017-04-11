@@ -13,8 +13,7 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate",
-		a.subject_id AS "subjectId"
+		a.update_date AS "updateDate"
 	</sql>
 	
 	<sql id="fAccountJoins">
@@ -83,7 +82,7 @@
 			create_date,
 			update_by,
 			update_date,
-			subject_id
+			subject.id
 		) VALUES (
 			#{id},
 			#{name},
@@ -99,7 +98,13 @@
 			#{subjectId}
 		)
 	</insert>
-	
+
+	<update id="capitalHtje">
+		UPDATE f_account SET
+		account_balance = #{accountBalance}
+		WHERE bank_code = #{bankCode}
+	</update>
+
 	<update id="update">
 		UPDATE f_account SET 	
 			name = #{name},
@@ -110,7 +115,7 @@
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			subject_id = #{subjectId}
+			 subject.id= #{subjectId}
 		WHERE id = #{id}
 	</update>
 	
