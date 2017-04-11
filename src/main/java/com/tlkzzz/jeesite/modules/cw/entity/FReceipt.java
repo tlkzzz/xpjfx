@@ -25,8 +25,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private CStore travelUnit;		// 来往单位
 	private String travelAccount;		// 来往帐号
 	private String receiptAccount;		// 收款帐号
-	private String receiptType;		// 收款类型
-	private String receiptMode;		// 收款方式
+	private String receiptType;		// 收款类型	0临时采购入库1其他入库2出库录单3其它出库4报废录单5退货录单
+	private String receiptMode;		// 收款方式 0:现金 1:银行转账
 	private String je;				// 收款金额
 	private User jsr;				// 经手人
 	private CKm subjectCode;		// 科目编码
