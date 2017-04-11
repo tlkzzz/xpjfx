@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.cw.entity;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CKm;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
@@ -25,8 +26,8 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 	private String travelUnit;		// 来往单位
 	private String transMoney;		// 交易金额
 	private Date transferDate;		// 转账日期
-	private String jsr;		// 经手人
-	private String subjectCode;		// 科目编码
+	private User jsr;		// 经手人
+	private CKm subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private User auditor;		// 审核人
 	
@@ -99,21 +100,19 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 		this.transferDate = transferDate;
 	}
 	
-	@Length(min=0, max=64, message="经手人长度必须介于 0 和 64 之间")
-	public String getJsr() {
+	public User getJsr() {
 		return jsr;
 	}
 
-	public void setJsr(String jsr) {
+	public void setJsr(User jsr) {
 		this.jsr = jsr;
 	}
 	
-	@Length(min=0, max=100, message="科目编码长度必须介于 0 和 100 之间")
-	public String getSubjectCode() {
+	public CKm getSubjectCode() {
 		return subjectCode;
 	}
 
-	public void setSubjectCode(String subjectCode) {
+	public void setSubjectCode(CKm subjectCode) {
 		this.subjectCode = subjectCode;
 	}
 	
