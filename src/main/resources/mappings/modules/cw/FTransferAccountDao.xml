@@ -11,8 +11,10 @@
 		a.travel_unit AS "travelUnit",
 		a.trans_money AS "transMoney",
 		a.transfer_date AS "transferDate",
-		a.jsr AS "jsr",
-		a.subject_code AS "subjectCode",
+		a.jsr AS "jsr.id",
+		sujsr.name AS "jsr.name",
+		a.subject_code AS "subjectCode.id",
+		ckm.kmname AS "subjectCode.kmname",
 		a.approval_status AS "approvalStatus",
 		a.auditor AS "auditor.id",
 		su.name AS "auditor.name",
@@ -25,6 +27,8 @@
 	
 	<sql id="fTransferAccountJoins">
 		LEFT JOIN sys_user su ON su.id=a.auditor
+		LEFT JOIN sys_user sujsr ON sujsr.id=a.jsr
+		LEFT JOIN c_km ckm ON ckm.id=a.subject_code
 	</sql>
     
 	<select id="get" resultType="FTransferAccount">
@@ -99,8 +103,8 @@
 			#{travelUnit},
 			#{transMoney},
 			#{transferDate},
-			#{jsr},
-			#{subjectCode},
+			#{jsr.id},
+			#{subjectCode.id},
 			#{approvalStatus},
 			#{auditor.id},
 			#{remarks},
@@ -120,8 +124,8 @@
 			travel_unit = #{travelUnit},
 			trans_money = #{transMoney},
 			transfer_date = #{transferDate},
-			jsr = #{jsr},
-			subject_code = #{subjectCode},
+			jsr = #{jsr.id},
+			subject_code = #{subjectCode.id},
 			approval_status = #{approvalStatus},
 			auditor = #{auditor.id},
 			remarks = #{remarks},
@@ -130,6 +134,13 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateApprovalState">
+		UPDATE f_transfer_account SET
+			approval_status = #{approvalStatus},
+			auditor = #{auditor.id}
+		WHERE id = #{id}
+	</update>
+
 	<update id="delete">
 		DELETE FROM f_transfer_account
 		WHERE id = #{id}
