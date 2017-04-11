@@ -43,5 +43,10 @@ public class FAccountService extends CrudService<FAccountDao, FAccount> {
 	public void delete(FAccount fAccount) {
 		super.delete(fAccount);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public void capitalHtje(FAccount fAccount) {
+		dao.capitalHtje(fAccount);
+	}
+
 }

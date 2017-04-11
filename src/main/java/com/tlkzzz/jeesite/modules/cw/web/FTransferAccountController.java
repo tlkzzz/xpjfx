@@ -251,10 +251,42 @@ public class FTransferAccountController extends BaseController {
 						fReceiptService.minHTJE(receipt);
 						break;
 					}
-					case 3: {
-						FReceipt receipt = new FReceipt(transferAccount.getOrderId());
-						receipt.setHtje(transferAccount.getTransMoney());
-						fReceiptService.minHTJE(receipt);
+					case 3: {//应付款增加
+						FPayment fPayment = new FPayment(transferAccount.getOrderId());
+						double money=Double.parseDouble(transferAccount.getTransMoney());
+						double ht=Double.parseDouble(fPayment.getHtje());
+						double htje=ht+money;
+						fPayment.setHtje(Double.toString(htje));
+						fPaymentService.paymentAddHtje(fPayment);
+						break;
+					}
+					case 4: {//应付款减少
+						FPayment fPayment = new FPayment(transferAccount.getOrderId());
+						double money=Double.parseDouble(transferAccount.getTransMoney());
+						double ht=Double.parseDouble(fPayment.getHtje());
+						double htje=ht-money;
+						fPayment.setHtje(Double.toString(htje));
+						fPaymentService.paymentAddHtje(fPayment);
+						break;
+					}
+					case 5: {//资金增加
+						FAccount fAccount = new FAccount();
+						double money=Double.parseDouble(transferAccount.getTransMoney());
+						double ht=Double.parseDouble(fAccount.getAccountBalance());
+						double htje=ht+money;
+						fAccount.setAccountBalance(Double.toString(htje));
+						fAccount.setBankCode(transferAccount.getInAccount());
+						fAccountService.capitalHtje(fAccount);
+						break;
+					}
+					case 6: {//资金减少
+						FAccount fAccount = new FAccount();
+						double money=Double.parseDouble(transferAccount.getTransMoney());
+						double ht=Double.parseDouble(fAccount.getAccountBalance());
+						double htje=ht-money;
+						fAccount.setAccountBalance(Double.toString(htje));
+						fAccount.setBankCode(transferAccount.getInAccount());
+						fAccountService.capitalHtje(fAccount);
 						break;
 					}
 				}
