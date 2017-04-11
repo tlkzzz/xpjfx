@@ -100,7 +100,7 @@ public class FTransferAccountController extends BaseController {
 	}
 	/**
 	 * shizx 2017-04-10
-	 * 应付款增加
+	 * 资金增加
 	 * */
 	@RequiresPermissions("cw:fTransferAccount:view")
 	@RequestMapping(value = "capitalAddForm")
@@ -111,14 +111,14 @@ public class FTransferAccountController extends BaseController {
 	}
 	/**
 	 * shizx 2017-04-10
-	 * 应付款减少
+	 * 资金减少
 	 * */
     @RequiresPermissions("cw:fTransferAccount:view")
     @RequestMapping(value = "capitalReduceForm")
     public String capitalReduceForm(FTransferAccount fTransferAccount, Model model) {
         model.addAttribute("IDcarddList", fAccountService.findList(new FAccount()));
         model.addAttribute("fTransferAccount", fTransferAccount);
-        return "modules/cw/capitalAddForm";
+        return "modules/cw/capitalReduceForm";
     }
 
 	@RequiresPermissions("cw:fTransferAccount:edit")
