@@ -20,7 +20,7 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 	
 	private static final long serialVersionUID = 1L;
 	private String orderId;			//订单ID
-	private String transferType;		// 转账调账类型 0:转账
+	private String transferType;	// 转账调账类型 0:转账；1:应收增加；2:应收减少；3：应付增加；4：应付减少；5：资金增加；6：资金减少
 	private String outAccount;		// 转出帐户
 	private String inAccount;		// 转入账户
 	private String travelUnit;		// 来往单位
