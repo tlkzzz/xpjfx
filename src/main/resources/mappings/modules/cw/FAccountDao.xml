@@ -9,6 +9,8 @@
 		a.bank_code AS "bankCode",
 		a.account_balance AS "accountBalance",
 		a.account_type AS "accountType",
+		a.subject_id AS "subject.id",
+		ckm.kmname AS "subject.kmname",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -17,6 +19,7 @@
 	</sql>
 	
 	<sql id="fAccountJoins">
+		LEFT JOIN c_km ckm ON ckm.id=a.subject_id
 	</sql>
     
 	<select id="get" resultType="FAccount">
@@ -82,7 +85,7 @@
 			create_date,
 			update_by,
 			update_date,
-			subject.id
+			subject_id
 		) VALUES (
 			#{id},
 			#{name},
@@ -95,7 +98,7 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{subjectId}
+			#{subject.id}
 		)
 	</insert>
 
@@ -115,7 +118,7 @@
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			 subject.id= #{subjectId}
+			 subject_id= #{subject.id}
 		WHERE id = #{id}
 	</update>
 	
