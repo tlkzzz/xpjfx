@@ -45,18 +45,22 @@
 				<form:input path="lx" htmlEscape="false" maxlength="1" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">客户id：</label>
-			<div class="controls">
-				<form:input path="storeid" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">订单id：</label>
-			<div class="controls">
-				<form:input path="ddid" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
+		   <div class="control-group">
+                                 <label class="control-label">客户名称：</label>
+                                 <div class="controls">
+                                 <form:select path="storeid.id" >
+                                <form:options items="${cStorelist}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+                               </form:select>
+                              </div>
+                      </div>
+		 <div class="control-group">
+                                   <label class="control-label">订单编号：</label>
+                                     <div class="controls">
+                                      <form:select path="ddid.id" >
+                                   <form:options items="${cRkckddinfolist}" itemLabel="ddbh" itemValue="id" htmlEscape="false"/>
+                                 </form:select>
+                                      </div>
+                              </div>
 		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">

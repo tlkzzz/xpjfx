@@ -21,7 +21,7 @@
 	</sql>
 	
 	<sql id="fFixedAssetsCgbmJoins">
-		LEFT JOIN f_fixed_assets cg ON a.ffixedassets=cg.id
+		LEFT JOIN f_fixed_assets cg ON cg.id=a.ffixedassets
 	</sql>
     
 	<select id="get" resultType="FFixedAssetsCgbm">
@@ -40,6 +40,10 @@
 		<where>
 			<if test="approvalStatus != null and approvalStatus != ''">
 				AND a.approval_status = #{approvalStatus}
+			</if>
+
+			<if test="ffixedassets != null and ffixedassets.id != null and ffixedassets.id != ''">
+				AND a.ffixedassets = #{ffixedassets.id}
 			</if>
 
 		</where>

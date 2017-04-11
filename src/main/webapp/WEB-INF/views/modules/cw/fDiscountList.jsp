@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fDiscount/">优惠表列表</a></li>
-		<shiro:hasPermission name="cw:fDiscount:edit"><li><a href="${ctx}/cw/fDiscount/form">优惠表添加</a></li></shiro:hasPermission>
+	<!--	<shiro:hasPermission name="cw:fDiscount:edit"><li><a href="${ctx}/cw/fDiscount/form">优惠表添加</a></li></shiro:hasPermission> -->
 	</ul>
 	<form:form id="searchForm" modelAttribute="fDiscount" action="${ctx}/cw/fDiscount/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -33,6 +33,10 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+			    <th>客户名称</th>
+			    <th>订单编号</th>
+			    <th>优惠金额</th>
+			    <th>类型</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fDiscount:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -40,6 +44,10 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fDiscount">
 			<tr>
+			    <td>${FDiscount.storeid.name}</td>
+			    <td>${FDiscount.ddid.ddbh}</td>
+			    <td>${FDiscount.yhje}</td>
+			    <td>${FDiscount.lx}</td>
 				<td><a href="${ctx}/cw/fDiscount/form?id=${fDiscount.id}">
 					<fmt:formatDate value="${fDiscount.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</a></td>

@@ -12,8 +12,10 @@ import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
 import com.tlkzzz.jeesite.modules.ck.service.CShopService;
 import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
+import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
 import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
@@ -57,6 +59,8 @@ public class CRkckddinfoController extends BaseController {
 	private CDdinfoService cDdinfoService;
 	@Autowired
 	private CShopService cShopService;
+	@Autowired
+	private FDiscountService fDiscountService;
 	
 	@ModelAttribute
 	public CRkckddinfo get(@RequestParam(required=false) String id) {
@@ -151,7 +155,28 @@ public class CRkckddinfoController extends BaseController {
 			if(cRkckddinfo.getReceipt()!=null){//保存订单ID到收款表
 				cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
 				fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
+				//如果receipt中有ID则为出库财务信息保存后跳转过来，并且带有收款记录ID为参数
+
+				FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
+				double yhTotal = 0.0;
+				for (CShop cShop:  shopList){
+					if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
+//					if(Double.parseDouble(receipt.getHtje())>Double.parseDouble(cShop.getJe())){
+//						yhTotal += Double.parseDouble(cShop.getYhje());
+//					}
+//					if(Double.parseDouble(receipt.getHtje())<Double.parseDouble(cShop.getJe())){
+//						yhTotal=0.0;
+//					}
+				}
+				FDiscount discount = new FDiscount();
+				discount.setDdid(cRkckddinfo);
+				discount.setStoreid(cs.getStore());
+				discount.setYhje(String.valueOf(yhTotal));
+				//		discount.setLx();
+				fDiscountService.save(discount);
 			}
+
+
 		}
 		return retStr;
 	}

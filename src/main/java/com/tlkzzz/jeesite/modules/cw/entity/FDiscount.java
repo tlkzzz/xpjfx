@@ -3,9 +3,13 @@
  */
 package com.tlkzzz.jeesite.modules.cw.entity;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
+import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 优惠表Entity
@@ -17,8 +21,8 @@ public class FDiscount extends DataEntity<FDiscount> {
 	private static final long serialVersionUID = 1L;
 	private String yhje;		// 优惠金额
 	private String lx;		// 类型
-	private String storeid;		// 客户id
-	private String ddid;		// 订单id
+	private CStore storeid;		// 客户id
+	private CRkckddinfo ddid;		// 订单id
 	private String remaks;		// 备注
 	
 	public FDiscount() {
@@ -45,22 +49,22 @@ public class FDiscount extends DataEntity<FDiscount> {
 	public void setLx(String lx) {
 		this.lx = lx;
 	}
-	
-	@Length(min=0, max=64, message="客户id长度必须介于 0 和 64 之间")
-	public String getStoreid() {
+
+	@NotNull(message = "客户名称不能为空")
+	public CStore getStoreid() {
 		return storeid;
 	}
 
-	public void setStoreid(String storeid) {
+	public void setStoreid(CStore storeid) {
 		this.storeid = storeid;
 	}
-	
-	@Length(min=0, max=64, message="订单id长度必须介于 0 和 64 之间")
-	public String getDdid() {
+
+	@NotNull(message = "订单编号不能为空")
+	public CRkckddinfo getDdid() {
 		return ddid;
 	}
 
-	public void setDdid(String ddid) {
+	public void setDdid(CRkckddinfo ddid) {
 		this.ddid = ddid;
 	}
 	
