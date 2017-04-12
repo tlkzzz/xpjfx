@@ -39,9 +39,10 @@
 </ul><br/>
 <form:form id="inputForm" modelAttribute="fTransferAccount" action="${ctx}/cw/fTransferAccount/paymentAddSave" method="post" class="form-horizontal">
     <form:hidden path="id"/>
+    <form:hidden path="transferType"/>
     <sys:message content="${message}"/>
     <div class="control-group">
-        <label class="control-label">订单ID：</label>
+        <label class="control-label">订单选择：</label>
         <div class="controls">
             <form:select path="orderId" class="input-xlarge required">
                 <form:option value="" label="请选择"></form:option>
