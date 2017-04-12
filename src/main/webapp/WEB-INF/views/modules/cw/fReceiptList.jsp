@@ -8,6 +8,27 @@
 		$(document).ready(function() {
 			
 		});
+		 function auditingState(storeId,tdId) {
+                			if(storeId!=''){
+                			    $.ajax({
+                			        url:"${ctx}/cw/fReceipt/shenhe",
+                					dataType:"json",
+                					data:{id:storeId},
+                					type:"POST",
+                					success:function (data) {
+                						if(data)$("#"+tdId).text("审核通过");
+                                        $("#messageBox").text();
+                                        top.$.jBox.tip("审核通过成功！",'warning');
+                                        window.location.reload();
+                                    },
+                					error:function () {
+                                        top.$.jBox.tip("审核失败，请刷新后重试！",'warning');
+                                    }
+                				});
+                			}
+                        }
+
+
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
@@ -19,7 +40,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cw/fReceipt/">收款列表</a></li>
-		<%--<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/form">收款添加</a></li></shiro:hasPermission>--%>
+		<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/xjform">现金费用</a></li></shiro:hasPermission>
+	    <shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/ybform">一般费用</a></li></shiro:hasPermission>
+	    <shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/qtform">其他费用</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -44,13 +67,14 @@
 				<th>收款日期</th>
 				<th>单据编号</th>
 				<th>来往单位</th>
+				<th>审核状态</th>
 				<th>备注</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fReceipt:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="fReceipt">
+		<c:forEach items="${page.list}" var="fReceipt" varStatus="status">
 			<tr>
 				<td>
 					<%--<a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">--%>
@@ -62,6 +86,9 @@
 				<td>
 					${fReceipt.travelUnit.id}
 				</td>
+				<td id="approvalStatus${status.index}">
+                            ${fns:getDictLabel(fReceipt.approvalStatus, "storeState", "")}
+                   </td>
 				<td>
 					${fReceipt.remarks}
 				</td>
@@ -69,8 +96,10 @@
 					<fmt:formatDate value="${fReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="cw:fReceipt:edit"><td>
-    				<%--<a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">修改</a>--%>
 					<a href="${ctx}/cw/fReceipt/delete?id=${fReceipt.id}" onclick="return confirmx('确认要删除该收款吗？', this.href)">删除</a>
+				 <c:if test="${fReceipt.approvalStatus!='1'}"><shiro:hasPermission name="cw:fReceipt:auditing">
+                                                                        <a onclick="auditingState('${fReceipt.id}','approvalStatus${status.index}')">审核通过</a>
+                                                                    </shiro:hasPermission></c:if>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
