@@ -6,6 +6,8 @@ package com.tlkzzz.jeesite.modules.cw.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
@@ -59,20 +62,101 @@ public class FPaymentController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(FPayment fPayment, Model model) {
 		model.addAttribute("fPayment", fPayment);
-		return "modules/cw/fPaymentForm";
+		return "error/400" ;
+	}
+
+	/**
+	 * 现金费用单
+	 * @param fPayment
+	 * @param model
+	 * @return
+	 */
+
+	@RequiresPermissions("cw:fPayment:view")
+	@RequestMapping(value = "xjform")
+	public String xjform(FPayment fPayment, Model model) {//现金费用单
+		model.addAttribute("fPayment", fPayment);
+		return "modules/cw/fPaymentxjForm";
 	}
 
 	@RequiresPermissions("cw:fPayment:edit")
-	@RequestMapping(value = "save")
-	public String save(FPayment fPayment, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, fPayment)){
+	@RequestMapping(value = "xjsave")
+	public String xjsave(FPayment fPayment, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, fPayment)){//现金费用单保存信息
 			return form(fPayment, model);
 		}
-		fPaymentService.save(fPayment);
-		addMessage(redirectAttributes, "保存付款成功");
+		fPaymentService.outOfTheLibrary(fPayment,"6","0");
+		addMessage(redirectAttributes, "现金费用单成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
 	}
-	
+
+	/**
+	 * 一般费用单
+	 * @param fPayment
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("cw:fPayment:view")
+	@RequestMapping(value = "ybform")
+	public String ybform(FPayment fPayment, Model model) {//一般费用单
+		model.addAttribute("fPayment", fPayment);
+		return "modules/cw/fPaymentybForm";
+	}
+
+	@RequiresPermissions("cw:fPayment:edit")
+	@RequestMapping(value = "ybsave")
+	public String ybsave(FPayment fPayment, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, fPayment)){//一般费用单保存
+			return form(fPayment, model);
+		}
+		fPaymentService.outOfTheLibrary(fPayment,"7","0");
+		addMessage(redirectAttributes, "一般费用单成功");
+		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
+	}
+
+	/**
+	 * 其他费用单
+	 * @param fPayment
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("cw:fPayment:view")
+	@RequestMapping(value = "qtform")
+	public String qtform(FPayment fPayment, Model model) {//其他费用单
+		model.addAttribute("fPayment", fPayment);
+		return "modules/cw/fPaymentqtForm";
+	}
+
+	@RequiresPermissions("cw:fPayment:edit")
+	@RequestMapping(value = "qtsave")
+	public String qtsave(FPayment fPayment, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, fPayment)){//其他费用单保存
+			return form(fPayment, model);
+		}
+		fPaymentService.outOfTheLibrary(fPayment,"8","0");
+		addMessage(redirectAttributes, "其他费用单成功");
+		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
+	}
+
+	/**
+	 * 审核
+	 * @param fPayment
+	 * @param
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "shenhe")
+	public String shenhe(FPayment fPayment) {
+		String retStr = "false";
+		if (fPayment != null && !fPayment.getIsNewRecord()) {
+			fPayment.setApprovalStatus("1");
+			//获取当前登入者
+			fPayment.setAuditor(UserUtils.getUser());
+			fPaymentService.save(fPayment);
+			retStr = "true";
+		}
+		return retStr;
+	}
 	@RequiresPermissions("cw:fPayment:edit")
 	@RequestMapping(value = "delete")
 	public String delete(FPayment fPayment, RedirectAttributes redirectAttributes) {

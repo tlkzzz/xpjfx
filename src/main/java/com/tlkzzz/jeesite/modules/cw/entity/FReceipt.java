@@ -25,12 +25,12 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private CStore travelUnit;		// 来往单位
 	private String travelAccount;		// 来往帐号
 	private String receiptAccount;		// 收款帐号
-	private String receiptType;		// 收款类型	0临时采购入库1其他入库2出库录单3其它出库4报废录单5退货录单
-	private String receiptMode;		// 收款方式 0:现金 1:银行转账
 	private String je;				// 收款金额
+	private String receiptType;		// 收款类型	0临时采购入库1其他入库2出库录单3其它出库4报废录单5退货录单6现金费用单7一般费用单8其他费用单
+	private String receiptMode;		// 收款方式 0:现金 1:银行转账
 	private User jsr;				// 经手人
 	private CKm subjectCode;		// 科目编码
-	private String approvalStatus;		// 审核状态
+	private String approvalStatus;		// 审核状态 是否审批0未审批1已审批
 	private User auditor;		// 审核人
 	private String htje;		//合同金额
 	private String ddbh;		//单据的订单编号
@@ -105,7 +105,7 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.receiptMode = receiptMode;
 	}
 
-	@Length(min=0, max=1, message="收款金额长度必须介于 0 和 20 之间")
+	@Length(min=0, max=20, message="收款金额长度必须介于 0 和 20 之间")
 	public String getJe() {
 		return je;
 	}

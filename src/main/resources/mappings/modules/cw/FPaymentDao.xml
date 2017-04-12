@@ -14,7 +14,7 @@
 		a.payment_mode AS "paymentMode",
 		a.je AS "je",
 		a.jsr AS "jsr.id",
-		sutow.name AS "jsr.name",
+		cb.name AS "jsr.name",
 		a.subject_code AS "subjectCode.id",
 		ck.kmname AS "subjectCode.name",
 		a.approval_status AS "approvalStatus",
@@ -34,7 +34,7 @@
 		LEFT JOIN c_supplier csu ON csu.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
 		LEFT JOIN sys_user su ON su.id=a.auditor
-		LEFT JOIN sys_user sutow ON sutow.id=a.jsr
+		LEFT JOIN sys_user cb ON cb.id=a.jsr
 	</sql>
 
 	<select id="get" resultType="FPayment">
@@ -66,7 +66,7 @@
 		<include refid="fPaymentJoins"/>
 		<where>
 			<if test="paymentDate != null and paymentDate != ''">
-				AND a.payment_date = #{paymentDate}
+				AND a.payment_date &gt;= #{paymentDate}
 			</if>
 			<if test="paymentCode != null and paymentCode != ''">
 				AND a.payment_code = #{paymentCode}
@@ -131,7 +131,7 @@
 		#{paymentType},
 		#{paymentMode},
 		#{je},
-		#{jsr},
+		#{jsr.id},
 		#{subjectCode.id},
 		#{approvalStatus},
 		#{auditor.id},
@@ -154,7 +154,7 @@
 			payment_type = #{paymentType},
 			payment_mode = #{paymentMode},
 			je = #{je},
-			jsr = #{jsr},
+			jsr = #{jsr.id},
 			subject_code = #{subjectCode.id},
 			approval_status = #{approvalStatus},
 			auditor = #{auditor.id},

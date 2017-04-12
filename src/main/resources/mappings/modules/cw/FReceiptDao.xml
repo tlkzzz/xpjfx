@@ -15,7 +15,8 @@
 		a.receipt_mode AS "receiptMode",
 		a.htje AS "htje",
 		a.je AS "je",
-		a.jsr AS "jsr",
+		a.jsr AS "jsr.id",
+		cb.name AS "jsr.name",
 		a.subject_code AS "subjectCode.id",
 		ck.kmname AS "subjectCode.kmname",
 		a.approval_status AS "approvalStatus",
@@ -33,6 +34,7 @@
 		LEFT JOIN c_store cs ON cs.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
 		LEFT JOIN sys_user su ON su.id=a.auditor
+		LEFT JOIN sys_user cb ON cb.id=a.jsr
 	</sql>
     
 	<select id="get" resultType="FReceipt">
@@ -59,7 +61,7 @@
 		<where>
 			
 			<if test="receiptDate != null and receiptDate != ''">
-				AND a.receipt_date = #{receiptDate}
+				AND a.receipt_date &gt;= #{receiptDate}
 			</if>
 			<if test="receiptCode != null and receiptCode != ''">
 				AND a.receipt_code = #{receiptCode}
@@ -125,7 +127,7 @@
 			#{receiptMode},
 			#{htje},
 			#{je},
-			#{jsr},
+			#{jsr.id},
 			#{subjectCode.id},
 			#{approvalStatus},
 			#{auditor.id},
@@ -148,7 +150,7 @@
 			receipt_mode = #{receiptMode},
 			htje = #{htje},
 			je = #{je},
-			jsr = #{jsr},
+			jsr = #{jsr.id},
 			subject_code = #{subjectCode.id},
 			approval_status = #{approvalStatus},
 			auditor = #{auditor.id},
