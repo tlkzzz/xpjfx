@@ -6,6 +6,9 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.ck.entity.*;
+import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
@@ -15,6 +18,7 @@ import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
 import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.cw.service.FAccountService;
 import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
 import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
@@ -23,20 +27,17 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
 import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
-import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
-import com.tlkzzz.jeesite.modules.ck.service.CRkckddinfoService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 总订单Controller
@@ -60,8 +61,13 @@ public class CRkckddinfoController extends BaseController {
 	@Autowired
 	private CShopService cShopService;
 	@Autowired
+	private FAccountService fAccountService;
+	@Autowired
+	private CHouseService houseService;
+
+	@Autowired
 	private FDiscountService fDiscountService;
-	
+
 	@ModelAttribute
 	public CRkckddinfo get(@RequestParam(required=false) String id) {
 		CRkckddinfo entity = null;
@@ -99,7 +105,48 @@ public class CRkckddinfoController extends BaseController {
 		addMessage(redirectAttributes, "保存总订单成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/?repage";
 	}*/
-	
+	/**
+	 * shizx销售退货单List
+	 * */
+	@RequiresPermissions("ck:cRkckddinfo:view")
+	@RequestMapping(value = {"returnGoodsList", ""})
+	public String returnGoodsList(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+//		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo);
+//		model.addAttribute("page", page);
+		model.addAttribute("CRkckddinfo", cRkckddinfo);
+		return "modules/ck/returnGoodsList";
+	}
+	/**
+ 	* shizx销售退货单Form
+ 	* */
+	@RequiresPermissions("ck:cRkckddinfo:view")
+	@RequestMapping(value = "returnGoodsForm")
+	public String returnGoodsForm(CRkckddinfo cRkckddinfo, Model model) {
+		model.addAttribute("houseList", houseService.findList(new CHouse()));
+		model.addAttribute("IDcarddList", fAccountService.findList(new FAccount()));
+		model.addAttribute("orderIdList",cRkckddinfoService.findListId(new CRkckddinfo()));
+		model.addAttribute("cRkckddinfo", cRkckddinfo);
+		return "modules/ck/returnGoodsForm";
+	}
+	/**
+	 * shizx获取子订单信息ajax
+	 * */
+	@ResponseBody
+	@RequestMapping(value = "checkId",method = RequestMethod.POST)
+	public Map<String,Object> checkId(String ids) {
+		Map<String,Object>  map = new HashMap<String,Object> ();
+		CDdinfo cDdinfo=new CDdinfo();
+		cDdinfo.setRkckddinfo(new CRkckddinfo(ids));
+		List<CDdinfo> cDdinfoList= cDdinfoService.findList(cDdinfo);
+
+//		model.addAttribute("IdList", cDdinfoService.findList(cDdinfo));
+		map.put("rows",cDdinfoList);
+//		map.put("page",1);
+//		map.put("total", 2);
+//		map.put("records", 2);
+		return map;
+	}
+
 	@RequiresPermissions("ck:cCginfo:edit")
 	@RequestMapping(value = "delete")
 	public String delete(CRkckddinfo cRkckddinfo, RedirectAttributes redirectAttributes) {
@@ -175,8 +222,6 @@ public class CRkckddinfoController extends BaseController {
 				//		discount.setLx();
 				fDiscountService.save(discount);
 			}
-
-
 		}
 		return retStr;
 	}

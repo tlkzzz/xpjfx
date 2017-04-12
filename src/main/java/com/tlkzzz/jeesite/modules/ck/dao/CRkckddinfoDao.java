@@ -25,4 +25,9 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
      * @param cRkckddinfo
      */
     public void updateJe(CRkckddinfo cRkckddinfo);
+
+    /**
+     * shizx 查询总订单ID
+     * */
+    public void findListId(CRkckddinfo cRkckddinfo);
 }

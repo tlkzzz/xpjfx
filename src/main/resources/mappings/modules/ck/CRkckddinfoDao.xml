@@ -29,8 +29,23 @@
 		<include refid="cRkckddinfoJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
 	<select id="findList" resultType="CRkckddinfo">
+	SELECT
+	<include refid="cRkckddinfoColumns"/>
+	FROM c_rkckddinfo a
+	<include refid="cRkckddinfoJoins"/>
+	<choose>
+		<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</when>
+		<otherwise>
+			ORDER BY a.update_date DESC
+		</otherwise>
+	</choose>
+</select>
+
+	<select id="findListId" resultType="CRkckddinfo">
 		SELECT 
 			<include refid="cRkckddinfoColumns"/>
 		FROM c_rkckddinfo a
