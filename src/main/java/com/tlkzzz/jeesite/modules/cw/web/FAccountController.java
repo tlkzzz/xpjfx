@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
@@ -21,6 +22,8 @@ import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
 import com.tlkzzz.jeesite.modules.cw.service.FAccountService;
+
+import java.util.List;
 
 /**
  * 账户管理Controller
@@ -33,23 +36,23 @@ public class FAccountController extends BaseController {
 
 	@Autowired
 	private FAccountService fAccountService;
-	
+
 	@ModelAttribute
-	public FAccount get(@RequestParam(required=false) String id) {
+	public FAccount get(@RequestParam(required = false) String id) {
 		FAccount entity = null;
-		if (StringUtils.isNotBlank(id)){
+		if (StringUtils.isNotBlank(id)) {
 			entity = fAccountService.get(id);
 		}
-		if (entity == null){
+		if (entity == null) {
 			entity = new FAccount();
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("cw:fAccount:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FAccount fAccount, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FAccount> page = fAccountService.findPage(new Page<FAccount>(request, response), fAccount); 
+		Page<FAccount> page = fAccountService.findPage(new Page<FAccount>(request, response), fAccount);
 		model.addAttribute("page", page);
 		model.addAttribute("fAccount", fAccount);
 		return "modules/cw/fAccountList";
@@ -65,20 +68,56 @@ public class FAccountController extends BaseController {
 	@RequiresPermissions("cw:fAccount:edit")
 	@RequestMapping(value = "save")
 	public String save(FAccount fAccount, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, fAccount)){
+		if (!beanValidator(model, fAccount)) {
 			return form(fAccount, model);
 		}
 		fAccountService.save(fAccount);
 		addMessage(redirectAttributes, "保存账户管理成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fAccount/?repage";
+		return "redirect:" + Global.getAdminPath() + "/cw/fAccount/?repage";
 	}
-	
+
 	@RequiresPermissions("cw:fAccount:edit")
 	@RequestMapping(value = "delete")
 	public String delete(FAccount fAccount, RedirectAttributes redirectAttributes) {
 		fAccountService.delete(fAccount);
 		addMessage(redirectAttributes, "删除账户管理成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fAccount/?repage";
+		return "redirect:" + Global.getAdminPath() + "/cw/fAccount/?repage";
 	}
 
+	/**
+	 * shizx 2017/04/11
+	 * ajax 验证账户编号唯一
+	 */
+	@ResponseBody
+	@RequestMapping(value = "checkBankCode")
+	public String checkBankCode(String id, String bankCode) {
+		FAccount fAccount = new FAccount();
+		if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(bankCode)) {
+			/**修改 */
+			fAccount.setBankCode(bankCode);
+			List<FAccount> fAccountList = fAccountService.findList(fAccount);
+			if (fAccountList.size() > 0) {
+				String i = fAccountList.get(0).getId();
+				if (i.equals(id)) {
+					return "true";
+				} else {
+					return "false";
+				}
+			} else {
+				return "true";
+			}
+		} else {
+			if (StringUtils.isNotEmpty(bankCode)) {
+				fAccount.setBankCode(bankCode);
+				List<FAccount> fAccountList = fAccountService.findList(fAccount);
+				if (fAccountList.size() > 0) {
+					return "false";
+				} else {
+					return "true";
+				}
+			} else {
+				return "false";
+			}
+		}
+	}
 }

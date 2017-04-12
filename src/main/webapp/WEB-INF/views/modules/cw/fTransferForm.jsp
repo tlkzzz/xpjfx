@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>转账调账管理</title>
+	<title>转账管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -27,37 +27,18 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/cw/fTransferAccount/?transferType=${fTransferAccount.transferType}">应付款${fTransferAccount.transferType eq '1'?'增加':'减少'}列表</a></li>
-		<li class="active"><a href="${ctx}/cw/fTransferAccount/receiptForm?transferType=${fTransferAccount.transferType}">应付款${fTransferAccount.transferType=='1'?'增加':'减少'}</a></li>
+		<li><a href="${ctx}/cw/fTransferAccount/?transferType=${fTransferAccount.transferType}">账户转账列表</a></li>
+		<li class="active"><a href="${ctx}/cw/fTransferAccount/transferForm?transferType=${fTransferAccount.transferType}">账户转账</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="fTransferAccount" action="${ctx}/cw/fTransferAccount/receiptSave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="transferType"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">订单选择：</label>
-			<div class="controls">
-				<form:select path="orderId" cssclass="required">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${orderList}" itemLabel="ddbh" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">科目编码：</label>
 			<div class="controls">
 				<sys:treeselect id="subjectCode" name="subjectCode.id" value="${fTransferAccount.subjectCode.id}" labelName="subjectCode.name" labelValue="${fTransferAccount.subjectCode.name}"
 								title="科目编码" url="/ck/cKm/treeData" cssClass="required" allowClear="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">来往单位：</label>
-			<div class="controls">
-				<form:select path="travelUnit" class="required">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${storeList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -73,11 +54,14 @@
 		<div class="control-group">
 			<label class="control-label">转入账户：</label>
 			<div class="controls">
-				<form:input path="inAccount" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:select path="inAccount" class="required">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${accountList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"></form:options>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">交易金额：</label>
+			<label class="control-label">转出金额：</label>
 			<div class="controls">
 				<form:input path="transMoney" htmlEscape="false" number="true" class="input-xlarge "/>
 			</div>

@@ -47,6 +47,11 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 	public void updateApprovalStatus(FPayment payment){
 		dao.updateApprovalStatus(payment);
 	}
+
+	@Transactional(readOnly = false)
+	public void paymentAddHtje(FPayment payment){
+		dao.paymentAddHtje(payment);
+	}
 	
 	@Transactional(readOnly = false)
 	public void delete(FPayment fPayment) {

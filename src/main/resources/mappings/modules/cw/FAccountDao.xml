@@ -9,15 +9,17 @@
 		a.bank_code AS "bankCode",
 		a.account_balance AS "accountBalance",
 		a.account_type AS "accountType",
+		a.subject_id AS "subject.id",
+		ckm.kmname AS "subject.kmname",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate",
-		a.subject_id AS "subjectId"
+		a.update_date AS "updateDate"
 	</sql>
 	
 	<sql id="fAccountJoins">
+		LEFT JOIN c_km ckm ON ckm.id=a.subject_id
 	</sql>
     
 	<select id="get" resultType="FAccount">
@@ -34,7 +36,9 @@
 		FROM f_account a
 		<include refid="fAccountJoins"/>
 		<where>
-			
+			<if test="bankCode != null and bankCode != ''">
+			a.bank_code = #{bankCode}
+			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -96,10 +100,16 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{subjectId}
+			#{subject.id}
 		)
 	</insert>
-	
+
+	<update id="capitalHtje">
+		UPDATE f_account SET
+		account_balance = #{accountBalance}
+		WHERE bank_code = #{bankCode}
+	</update>
+
 	<update id="update">
 		UPDATE f_account SET 	
 			name = #{name},
@@ -110,7 +120,7 @@
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			subject_id = #{subjectId}
+			 subject_id= #{subject.id}
 		WHERE id = #{id}
 	</update>
 	

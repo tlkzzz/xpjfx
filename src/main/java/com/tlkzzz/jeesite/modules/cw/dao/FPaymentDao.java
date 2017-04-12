@@ -26,4 +26,7 @@ public interface FPaymentDao extends CrudDao<FPayment> {
      * @param payment
      */
 	public void updateApprovalStatus(FPayment payment);
+
+
+	public FPayment paymentAddHtje(FPayment payment);
 }
