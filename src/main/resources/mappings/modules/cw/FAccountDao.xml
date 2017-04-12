@@ -36,7 +36,9 @@
 		FROM f_account a
 		<include refid="fAccountJoins"/>
 		<where>
-			
+			<if test="bankCode != null and bankCode != ''">
+			a.bank_code = #{bankCode}
+			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>

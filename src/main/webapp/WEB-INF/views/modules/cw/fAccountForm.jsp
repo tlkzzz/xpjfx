@@ -6,12 +6,21 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//$("#name").focus();
-			$("#inputForm").validate({
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
+            $("#no").focus();
+            $("#inputForm").validate({
+
+                rules: {
+                    bankCode: {remote: "${ctx}/cw/fAccount/checkBankCode?id="+$("#id").val()}
+
+                },
+
+                messages: {
+                    bankCode: {remote: "银行卡号已存在"},
+                },
+                submitHandler: function(form){
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
 					$("#messageBox").text("输入有误，请先更正。");

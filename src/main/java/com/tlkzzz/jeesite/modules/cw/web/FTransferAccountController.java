@@ -122,7 +122,7 @@ public class FTransferAccountController extends BaseController {
     public String capitalReduceForm(FTransferAccount fTransferAccount, Model model) {
         model.addAttribute("IDcarddList", fAccountService.findList(new FAccount()));
         model.addAttribute("fTransferAccount", fTransferAccount);
-        return "modules/cw/capitalAddForm";
+        return "modules/cw/capitalReduceForm";
     }
 
 	/**
