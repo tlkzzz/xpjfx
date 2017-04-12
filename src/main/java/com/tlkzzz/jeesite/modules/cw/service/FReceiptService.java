@@ -3,9 +3,15 @@
  */
 package com.tlkzzz.jeesite.modules.cw.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
+import com.tlkzzz.jeesite.modules.ck.dao.CKmDao;
+import com.tlkzzz.jeesite.modules.ck.dao.CStoreDao;
+import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +28,14 @@ import com.tlkzzz.jeesite.modules.cw.dao.FReceiptDao;
 @Service
 @Transactional(readOnly = true)
 public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
+
+	@Autowired
+	private CStoreDao cStoreDao;
+	@Autowired
+	private CKmDao cKmDao;
+
+
+
 
 	public FReceipt get(String id) {
 		return super.get(id);
@@ -42,7 +56,7 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	@Transactional(readOnly = false)
 	public void save(FReceipt fReceipt) {
 		fReceipt.setJsr(UserUtils.getUser());
-		fReceipt.setApprovalStatus("0");
+		fReceipt.setApprovalStatus("1");
 		super.save(fReceipt);
 	}
 
@@ -71,10 +85,33 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 		}
 		return ret;
 	}
+	/**
+	 * 现金费用单保存信息
+	 * @param fReceipt
+	 * @param receiptType	 收款类型
+	 * @param approvalStatus	是否审核
+	 */
+	@Transactional(readOnly = false)
+	public void outOfTheLibrary(FReceipt fReceipt, String receiptType, String approvalStatus) {
+	//	CStore travelUnit = cStoreDao.get(fReceipt.getTravelUnit());
+	//	CKm   subjectCode=cKmDao.get(fReceipt.getSubjectCode());
+//		CStore travelUnit=new CStore();
+//		CKm   subjectCode=new CKm();
+//		subjectCode.setKmname(fReceipt.getSubjectCode().getId());
+//		travelUnit.setId(fReceipt.getTravelUnit().getId());
+		fReceipt.setSubjectCode(fReceipt.getSubjectCode());
+		fReceipt.setReceiptDate(new Date());
+		fReceipt.setTravelUnit(fReceipt.getTravelUnit());
+		fReceipt.setReceiptType(receiptType); //收款类型
+		fReceipt.setJsr(UserUtils.getUser());
+		fReceipt.setAuditor(UserUtils.getUser());
+		fReceipt.setApprovalStatus(approvalStatus); //审批
+		super.save(fReceipt);
+	}
 
 	@Transactional(readOnly = false)
 	public void delete(FReceipt fReceipt) {
 		super.delete(fReceipt);
 	}
-	
+
 }
