@@ -63,10 +63,14 @@ public class FTransferAccountController extends BaseController {
 	@RequiresPermissions("cw:fTransferAccount:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FTransferAccount fTransferAccount, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FTransferAccount> page = fTransferAccountService.findPage(new Page<FTransferAccount>(request, response), fTransferAccount); 
-		model.addAttribute("page", page);
-		model.addAttribute("fTransferAccount", fTransferAccount);
-		return "modules/cw/fTransferAccountList";
+		if(StringUtils.isNotBlank(fTransferAccount.getTransferType())){
+			Page<FTransferAccount> page = fTransferAccountService.findPage(new Page<FTransferAccount>(request, response), fTransferAccount);
+			model.addAttribute("page", page);
+			model.addAttribute("fTransferAccount", fTransferAccount);
+			return "modules/cw/fTransferAccountList";
+		}else {
+			return "error/400";
+		}
 	}
 
 	@RequiresPermissions("cw:fTransferAccount:view")
@@ -100,7 +104,7 @@ public class FTransferAccountController extends BaseController {
 	}
 	/**
 	 * shizx 2017-04-10
-	 * 应付款增加
+	 * 资金增加
 	 * */
 	@RequiresPermissions("cw:fTransferAccount:view")
 	@RequestMapping(value = "capitalAddForm")
@@ -111,7 +115,7 @@ public class FTransferAccountController extends BaseController {
 	}
 	/**
 	 * shizx 2017-04-10
-	 * 应付款减少
+	 * 资金减少
 	 * */
     @RequiresPermissions("cw:fTransferAccount:view")
     @RequestMapping(value = "capitalReduceForm")
@@ -121,34 +125,88 @@ public class FTransferAccountController extends BaseController {
         return "modules/cw/capitalAddForm";
     }
 
-	@RequiresPermissions("cw:fTransferAccount:edit")
 	/**
-	 * 应付款增加页面
+	 * 应付款增加减少页面（通过transferType参数控制）
 	 * @param transferAccount
 	 * @param model
 	 * @return
 	 */
-//	@RequiresPermissions("cw:fTransferAccount:view")
+	@RequiresPermissions("cw:fTransferAccount:view")
 	@RequestMapping(value = "receiptForm")
 	public String receiptForm(FTransferAccount transferAccount, Model model){
 		if(StringUtils.isNotBlank(transferAccount.getTransferType())) {
 			model.addAttribute("fTransferAccount", transferAccount);
 			model.addAttribute("orderList", fReceiptService.findList(new FReceipt()));
+			model.addAttribute("accountList", fAccountService.findList(new FAccount()));
 			return "modules/cw/fTransferReceiptForm";
 		}else {
 			return "error/400";
 		}
 	}
 
-//	@RequiresPermissions("cw:fTransferAccount:edit")
-	@RequestMapping(value = "save")
-	public String save(FTransferAccount fTransferAccount, Model model, RedirectAttributes redirectAttributes) {
+	/**
+	 * 应收款增加减少保存
+	 * @param fTransferAccount
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequiresPermissions("cw:fTransferAccount:edit")
+	@RequestMapping(value = "receiptSave")
+	public String receiptSave(FTransferAccount fTransferAccount, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, fTransferAccount)){
-			return form(fTransferAccount, model);
+			return receiptForm(fTransferAccount, model);
 		}
 		fTransferAccountService.save(fTransferAccount);
 		addMessage(redirectAttributes, "保存转账调账成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
+	}
+
+	/**
+	 * 转账单银行账户内部转账
+	 * @param transferAccount
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("cw:fTransferAccount:view")
+	@RequestMapping(value = "transferForm")
+	public String transferForm(FTransferAccount transferAccount, Model model){
+		transferAccount.setTransferType("0");
+		model.addAttribute("fTransferAccount", transferAccount);
+		model.addAttribute("accountList", fAccountService.findList(new FAccount()));
+		return "modules/cw/fTransferReceiptForm";
+	}
+
+	/**
+	 * 银行账户转账保存
+	 * @param fTransferAccount
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequiresPermissions("cw:fTransferAccount:edit")
+	@RequestMapping(value = "transferSave")
+	public String transferSave(FTransferAccount fTransferAccount, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, fTransferAccount)){
+			return transferForm(fTransferAccount, model);
+		}
+		FAccount outAccount = fAccountService.get(fTransferAccount.getOutAccount());
+		FAccount inAccount = fAccountService.get(fTransferAccount.getInAccount());
+		if(StringUtils.isBlank(inAccount.getAccountBalance()))inAccount.setAccountBalance("0");
+		double outBalance = Double.parseDouble(outAccount.getAccountBalance());
+		double inBalance = Double.parseDouble(inAccount.getAccountBalance());
+		double travelMoney = Double.parseDouble(fTransferAccount.getTransMoney());
+		if(outBalance>travelMoney) {
+			fTransferAccountService.save(fTransferAccount);
+			outAccount.setAccountBalance(String.valueOf(outBalance-travelMoney));
+			inAccount.setAccountBalance(String.valueOf(inBalance+travelMoney));
+			fAccountService.capitalHtje(outAccount);
+			fAccountService.capitalHtje(inAccount);
+			addMessage(redirectAttributes, "转账成功");
+		}else {
+			addMessage(redirectAttributes, "转账失败，转出账户余额不足！");
+		}
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 	/**
 	 * shizx 2017-04-10
@@ -164,7 +222,7 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setApprovalStatus("0"); //审核状态
 		fTransferAccountService.save(fTransferAccount);
 		addMessage(redirectAttributes, "保存转账调账成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
 	/**
@@ -181,7 +239,7 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setApprovalStatus("0"); //审核状态
 		fTransferAccountService.save(fTransferAccount);
 		addMessage(redirectAttributes, "保存转账调账成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
 	/**
@@ -198,7 +256,7 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setApprovalStatus("0");   //审核状态
 		fTransferAccountService.save(fTransferAccount);
 		addMessage(redirectAttributes, "保存转账调账成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
 	/**
@@ -215,7 +273,7 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setApprovalStatus("0");//审核状态
 		fTransferAccountService.save(fTransferAccount);
 		addMessage(redirectAttributes, "保存转账调账成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
 	@RequiresPermissions("cw:fTransferAccount:edit")
@@ -223,7 +281,7 @@ public class FTransferAccountController extends BaseController {
 	public String delete(FTransferAccount fTransferAccount, RedirectAttributes redirectAttributes) {
 		fTransferAccountService.delete(fTransferAccount);
 		addMessage(redirectAttributes, "删除转账调账成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
 	@ResponseBody
