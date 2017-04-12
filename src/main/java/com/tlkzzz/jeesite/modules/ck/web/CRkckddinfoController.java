@@ -197,7 +197,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 		fReceipt.setHtje(String.valueOf(orderTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
-		model.addAttribute("toDiscount", (yhTotal>0)?true:false);
+		model.addAttribute("toDiscount", (yhTotal > 0));
 		model.addAttribute("fReceipt", fReceipt);
 		return "modules/ck/submitOrder";
 	}
@@ -240,7 +240,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 		payment.setJe(String.valueOf(orderTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
-		model.addAttribute("toDiscount", (yhTotal>0)?true:false);
+		model.addAttribute("toDiscount", (yhTotal > 0));
 		model.addAttribute("payment", payment);
 		return "modules/ck/submitOrderPayment";
 	}
