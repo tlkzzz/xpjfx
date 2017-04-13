@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 
+import java.util.List;
+
 /**
  * 欠款记录DAO接口
  * @author xrc
@@ -14,5 +16,17 @@ import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
  */
 @MyBatisDao
 public interface FArrearsDao extends CrudDao<FArrears> {
-	
+    /**
+     * 查询客户欠款列表
+     * @param fArrears
+     * @return
+     */
+    public List<FArrears> findStoreList(FArrears fArrears);
+
+    /**
+     * 查询欠供应商款列表
+     * @param fArrears
+     * @return
+     */
+    public List<FArrears> findSupplierList(FArrears fArrears);
 }

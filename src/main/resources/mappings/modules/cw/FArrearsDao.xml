@@ -48,6 +48,52 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findStoreList" resultType="FArrears">
+		SELECT
+			<include refid="fArrearsColumns"/>
+			,cs.name AS "unitName"
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		LEFT JOIN c_store cs ON cs.id=a.arrears_unit
+		<where>
+			a.arrears_type = #{arrearsType}
+			<if test="arrearsUnit != null and arrearsUnit != ''">
+				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findSupplierList" resultType="FArrears">
+		SELECT
+			<include refid="fArrearsColumns"/>
+			,csu.name AS "unitName"
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		LEFT JOIN c_supplier csu ON csu.id=a.arrears_unit
+		<where>
+			a.arrears_type = #{arrearsType}
+			<if test="arrearsUnit != null and arrearsUnit != ''">
+				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
 	
 	<select id="findAllList" resultType="FArrears">
 		SELECT 

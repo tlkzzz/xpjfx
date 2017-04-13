@@ -19,10 +19,11 @@ public class FArrears extends DataEntity<FArrears> {
 	private static final long serialVersionUID = 1L;
 	private String arrearsUnit;		// 欠款单位
 	private String arrearsType;		// 欠款类型（0客户欠，1欠供应商）
-	private String arrearsMode;		// 欠款方式
+	private String arrearsMode;		// 欠款方式 0:订单欠款，1：运费欠款，2：其他欠款
 	private String total;		// 欠款金额
 	private Date arrearsDate;		// 欠款日期
 	private Date repaymentDate;		// 还款日期
+	private String unitName;		// 单位名称
 	
 	public FArrears() {
 		super();
@@ -84,5 +85,12 @@ public class FArrears extends DataEntity<FArrears> {
 	public void setRepaymentDate(Date repaymentDate) {
 		this.repaymentDate = repaymentDate;
 	}
-	
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
 }

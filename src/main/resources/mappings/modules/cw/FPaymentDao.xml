@@ -75,7 +75,7 @@
 				AND a.payment_type LIKE
 				<if test="dbName == 'oracle'">'%,'||#{paymentType}||',%')</if>
 				<if test="dbName == 'mssql'">'%,'+#{paymentType}+',%')</if>
-				<if test="dbName == 'mysql'">CONCAT('%,', #{paymentType}, ',%'))</if>
+				<if test="dbName == 'mysql'">CONCAT('%,', #{paymentType}, ',%')</if>
 			</if>
 		</where>
 		<choose>

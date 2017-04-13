@@ -45,14 +45,31 @@ public class FArrearsController extends BaseController {
 		}
 		return entity;
 	}
-	
+
+	/**
+	 * 客户欠款列表
+	 */
 	@RequiresPermissions("cw:fArrears:view")
-	@RequestMapping(value = {"list", ""})
-	public String list(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FArrears> page = fArrearsService.findPage(new Page<FArrears>(request, response), fArrears); 
+	@RequestMapping(value = "storeList")
+	public String storeList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
+		fArrears.setArrearsType("0");
+		Page<FArrears> page = fArrearsService.findPage(new Page<FArrears>(request, response), fArrears);
 		model.addAttribute("page", page);
 		model.addAttribute("fArrears",fArrears);
 		return "modules/cw/fArrearsList";
+	}
+
+	/**
+	 *	欠供应商列表
+	 */
+	@RequiresPermissions("cw:fArrears:view")
+	@RequestMapping(value = "supplierList")
+	public String supplierList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
+		fArrears.setArrearsType("1");
+		Page<FArrears> page = fArrearsService.findPage(new Page<FArrears>(request, response), fArrears);
+		model.addAttribute("page", page);
+		model.addAttribute("fArrears",fArrears);
+		return "modules/cw/fArrearsSupplierList";
 	}
 
 	@RequiresPermissions("cw:fArrears:view")

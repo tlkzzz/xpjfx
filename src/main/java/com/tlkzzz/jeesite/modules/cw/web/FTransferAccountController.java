@@ -87,7 +87,7 @@ public class FTransferAccountController extends BaseController {
 	@RequiresPermissions("cw:fTransferAccount:view")
 	@RequestMapping(value = "paymentAddForm")
 	public String paymentAddForm(FTransferAccount fTransferAccount, Model model) {
-		model.addAttribute("orderIdList", fPaymentService.findList(new FPayment()));
+		model.addAttribute("orderIdList", fPaymentService.selectList("0,1",new FPayment()));
 		model.addAttribute("fTransferAccount", fTransferAccount);
 		return "modules/cw/paymentAddForm";
 	}
@@ -98,7 +98,7 @@ public class FTransferAccountController extends BaseController {
 	@RequiresPermissions("cw:fTransferAccount:view")
 	@RequestMapping(value = "paymentReduceForm")
 	public String paymentReduceForm(FTransferAccount fTransferAccount, Model model) {
-		model.addAttribute("orderIdList", fPaymentService.findList(new FPayment()));
+		model.addAttribute("orderIdList", fPaymentService.selectList("0,1",new FPayment()));
 		model.addAttribute("fTransferAccount", fTransferAccount);
 		return "modules/cw/paymentReduceForm";
 	}
@@ -136,7 +136,7 @@ public class FTransferAccountController extends BaseController {
 	public String receiptForm(FTransferAccount transferAccount, Model model){
 		if(StringUtils.isNotBlank(transferAccount.getTransferType())) {
 			model.addAttribute("fTransferAccount", transferAccount);
-			model.addAttribute("orderList", fReceiptService.findList(new FReceipt()));
+			model.addAttribute("orderList", fReceiptService.selectList("2,3,4,5",new FReceipt()));
 			model.addAttribute("accountList", fAccountService.findList(new FAccount()));
 			return "modules/cw/fTransferReceiptForm";
 		}else {
