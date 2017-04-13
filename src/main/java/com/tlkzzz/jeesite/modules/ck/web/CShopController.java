@@ -99,7 +99,7 @@ public class CShopController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "save")
 	public String save(CShop cShop, Model model) {
-		if("undefined".equals(cShop.getId()))cShop.setId(null);
+		if("".equals(cShop.getId()))cShop.setId(null);
 		if(StringUtils.isBlank(cShop.getState())) {
 			cShop.setState(UserUtils.getCache("RKCKSTATE").toString());
 		}
