@@ -30,7 +30,7 @@
 		WHERE a.id = #{id}
 	</select>
 
-	<select id="findList" resultType="CRkckddinfo">
+	<select id="findListId" resultType="CRkckddinfo">
 	SELECT
 	<include refid="cRkckddinfoColumns"/>
 	FROM c_rkckddinfo a
@@ -45,7 +45,7 @@
 	</choose>
 </select>
 
-	<select id="findListId" resultType="CRkckddinfo">
+	<select id="findList" resultType="CRkckddinfo">
 		SELECT 
 			<include refid="cRkckddinfoColumns"/>
 		FROM c_rkckddinfo a
