@@ -35,6 +35,7 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +180,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 	}
 
-	@RequiresPermissions("ck:cShop:view")
+	@RequiresPermissions("ck:cCginfo:view")
 	@RequestMapping(value = "saveCgInfo")
 	public String saveCgInfo(CRkckddinfo cRkckddinfo, Model model, RedirectAttributes redirectAttributes) {
 		cRkckddinfo.setIssp("0");
@@ -195,6 +196,7 @@ public class CRkckddinfoController extends BaseController {
 			}
 			cRkckddinfo.setState(state);
 			CShop cs = new CShop();
+			cs.setState(state);
 			cs.setUserid(UserUtils.getUser().getId());
 			List<CShop> shopList = cShopService.findList(cs);
 			cRkckddinfoService.saveRkInfo(cRkckddinfo, shopList);
@@ -207,7 +209,7 @@ public class CRkckddinfoController extends BaseController {
 				FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
 				double yhTotal = 0.0;
 				for (CShop cShop:  shopList){
-					if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
+					if(cShop.getYhje()!=null)yhTotal += cShop.getYhje();
 //					if(Double.parseDouble(receipt.getHtje())>Double.parseDouble(cShop.getJe())){
 //						yhTotal += Double.parseDouble(cShop.getYhje());
 //					}
@@ -252,7 +254,7 @@ public class CRkckddinfoController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("ck:cCkinfo:view")
+	@RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "submitOrder")
 	public String submitOrder(FReceipt fReceipt, Model model){
 		CShop cs = new CShop();
@@ -262,10 +264,11 @@ public class CRkckddinfoController extends BaseController {
 		double orderTotal = 0.0;
 		double yhTotal = 0.0;
 		for (CShop cShop: csList){
-			orderTotal += (Double.parseDouble(cShop.getJe())*Integer.parseInt(cShop.getNub()));
-			if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
+			orderTotal += (cShop.getJe()*Integer.parseInt(cShop.getNub()));
+			if(cShop.getYhje()!=null)yhTotal += cShop.getYhje();
 		}
 		fReceipt.setHtje(String.valueOf(orderTotal));
+		fReceipt.setJe(String.valueOf(orderTotal-yhTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		model.addAttribute("toDiscount", (yhTotal > 0));
 		model.addAttribute("fReceipt", fReceipt);
@@ -286,6 +289,7 @@ public class CRkckddinfoController extends BaseController {
 			return null;
 		}
 		fReceipt.setReceiptType(UserUtils.getCache("RKCKSTATE").toString());
+		if(fReceipt.getReceiptDate()==null)fReceipt.setReceiptDate(new Date());
 		fReceiptService.save(fReceipt);
 		return fReceipt.getId();
 	}
@@ -305,8 +309,8 @@ public class CRkckddinfoController extends BaseController {
 		double orderTotal = 0.0;
 		double yhTotal = 0.0;
 		for (CShop cShop: csList){
-			orderTotal += (Double.parseDouble(cShop.getJe())*Integer.parseInt(cShop.getNub()));
-			if(StringUtils.isNotBlank(cShop.getYhje()))yhTotal += Double.parseDouble(cShop.getYhje());
+			orderTotal += (cShop.getJe()*Integer.parseInt(cShop.getNub()));
+			yhTotal += cShop.getYhje();
 		}
 		payment.setJe(String.valueOf(orderTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
