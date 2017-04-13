@@ -7,7 +7,15 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
+			$.validator.addMethod("noEqual",function (value,element,params) {
+                if(value==$(params).val())return false;return true;
+            },"转入账户不能为转出账户");
 			$("#inputForm").validate({
+                rules:{
+                    inAccount:{
+                        noEqual:"#outAccount"
+                    }
+				},
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -45,25 +53,28 @@
 		<div class="control-group">
 			<label class="control-label">转出帐户：</label>
 			<div class="controls">
-				<form:select path="outAccount" class="required">
+				<form:select path="outAccount" class="required" id="outAccount">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${accountList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"></form:options>
+					<form:options items="${accountList}" itemLabel="bankCode" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">转入账户：</label>
 			<div class="controls">
-				<form:select path="inAccount" class="required">
+				<form:select path="inAccount" class="required" id="inAccount">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${accountList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"></form:options>
+					<form:options items="${accountList}" itemLabel="bankCode" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">转出金额：</label>
 			<div class="controls">
-				<form:input path="transMoney" htmlEscape="false" number="true" class="input-xlarge "/>
+				<form:input path="transMoney" htmlEscape="false" number="true" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -72,6 +83,7 @@
 				<input name="transferDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					value="<fmt:formatDate value="${fTransferAccount.transferDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
