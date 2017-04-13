@@ -34,7 +34,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li><a href="${ctx}/cw/fTransferAccount/">应付款增加列表</a></li>
+    <li><a href="${ctx}/cw/fTransferAccount/list?transferType=3">应付款增加列表</a></li>
     <li class="active"><a href="${ctx}/cw/fTransferAccount/form?id=${fTransferAccount.id}">应付款增加<shiro:hasPermission name="cw:fTransferAccount:edit">${not empty fTransferAccount.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="cw:fTransferAccount:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>
 <form:form id="inputForm" modelAttribute="fTransferAccount" action="${ctx}/cw/fTransferAccount/paymentAddSave" method="post" class="form-horizontal">

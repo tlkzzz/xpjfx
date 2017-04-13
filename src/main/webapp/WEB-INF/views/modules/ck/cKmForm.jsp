@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">上级父级Id:</label>
+			<label class="control-label">父级科目:</label>
 			<div class="controls">
 				<sys:treeselect id="parent" name="parent.id" value="${cKm.parent.id}" labelName="parent.kmname" labelValue="${cKm.parent.kmname}"
 					title="父级Id" url="/ck/cKm/treeData" extId="${cKm.id}" cssClass="" allowClear="true"/>
@@ -51,12 +51,6 @@
 			<label class="control-label">科目编号：</label>
 			<div class="controls">
 				<form:input path="kmnb" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">科目类别Id：</label>
-			<div class="controls">
-				<form:input path="kmlbid" htmlEscape="false" maxlength="64" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
