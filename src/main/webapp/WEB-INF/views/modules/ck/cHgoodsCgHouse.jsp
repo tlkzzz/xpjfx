@@ -32,7 +32,7 @@
 		<form:hidden path="id"/>
 		<form:hidden path="goods.id"/>
 		<form:hidden path="rkState" value="0"/>
-		<form:hidden path="ckState" value="${cGddId}"/><%--这里保存采购订单ID--%>
+		<form:hidden path="ckState"/><%--这里保存采购订单ID--%>
 		<sys:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">商品：</label>

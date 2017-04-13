@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
@@ -27,7 +28,25 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private Date spsj;		// 审批时间
 
 	private FReceipt receipt;	//收款信息
-	
+	private FAccount fAccount;	//付款信息
+	private CHouse cHouse;	//仓库信息
+
+	public CHouse getcHouse() {
+		return cHouse;
+	}
+
+	public void setcHouse(CHouse cHouse) {
+		this.cHouse = cHouse;
+	}
+
+	public FAccount getfAccount() {
+		return fAccount;
+	}
+
+	public void setfAccount(FAccount fAccount) {
+		this.fAccount = fAccount;
+	}
+
 	public CRkckddinfo() {
 		super();
 	}

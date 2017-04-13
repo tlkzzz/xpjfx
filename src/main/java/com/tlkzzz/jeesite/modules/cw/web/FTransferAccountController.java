@@ -174,7 +174,7 @@ public class FTransferAccountController extends BaseController {
 		transferAccount.setTransferType("0");
 		model.addAttribute("fTransferAccount", transferAccount);
 		model.addAttribute("accountList", fAccountService.findList(new FAccount()));
-		return "modules/cw/fTransferReceiptForm";
+		return "modules/cw/fTransferForm";
 	}
 
 	/**

@@ -127,6 +127,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	public void savePrice(CHgoods cHgoods){
 		Date date = new Date();
 		CCgzbinfo cCgzbinfo = dao.get(cHgoods.getCkState());//ckState字段值保存的采购订单ID
+		if(cCgzbinfo==null)return;
 		cCgzbinfo.setRknub(cHgoods.getNub());
 		cCgzbinfo.setRkDate(date);
 		cCgzbinfo.setJg(String.valueOf(cHgoods.getCbj()));

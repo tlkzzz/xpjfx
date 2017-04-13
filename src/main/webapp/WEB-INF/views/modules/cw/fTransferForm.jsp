@@ -27,8 +27,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/cw/fTransferAccount/?transferType=${fTransferAccount.transferType}">账户转账列表</a></li>
-		<li class="active"><a href="${ctx}/cw/fTransferAccount/transferForm?transferType=${fTransferAccount.transferType}">账户转账</a></li>
+		<li><a href="${ctx}/cw/fTransferAccount/?transferType=${fTransferAccount.transferType}">转账列表</a></li>
+		<li class="active"><a href="${ctx}/cw/fTransferAccount/transferForm?transferType=${fTransferAccount.transferType}">转账</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="fTransferAccount" action="${ctx}/cw/fTransferAccount/receiptSave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>

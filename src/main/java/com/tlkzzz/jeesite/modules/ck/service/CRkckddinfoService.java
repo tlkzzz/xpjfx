@@ -35,6 +35,12 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	public List<CRkckddinfo> findList(CRkckddinfo cRkckddinfo) {
 		return super.findList(cRkckddinfo);
 	}
+/**
+ * shizx 查询总订单ID
+ * */
+	public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo) {
+		return super.findList(cRkckddinfo);
+	}
 	
 	public Page<CRkckddinfo> findPage(Page<CRkckddinfo> page, CRkckddinfo cRkckddinfo) {
 		return super.findPage(page, cRkckddinfo);
