@@ -115,7 +115,7 @@ public class FPayment extends DataEntity<FPayment> {
 		this.paymentMode = paymentMode;
 	}
 
-	@Length(min=0, max=1, message="付款金额长度必须介于 0 和 20 之间")
+	@Length(min=0, max=20, message="付款金额长度必须介于 0 和 20 之间")
 	public String getJe() {
 		return je;
 	}

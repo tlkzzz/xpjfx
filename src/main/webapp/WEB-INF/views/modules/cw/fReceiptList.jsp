@@ -64,11 +64,11 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>收款日期</th>
 				<th>单据编号</th>
 				<th>来往单位</th>
 				<th>审核状态</th>
 				<th>备注</th>
+			    <th>收款日期</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fReceipt:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -76,10 +76,6 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fReceipt" varStatus="status">
 			<tr>
-				<td>
-					<%--<a href="${ctx}/cw/fReceipt/form?id=${fReceipt.id}">--%>
-					<fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</a></td>
 				<td>
 					${fReceipt.receiptCode}
 				</td>
@@ -92,6 +88,9 @@
 				<td>
 					${fReceipt.remarks}
 				</td>
+				<td>
+                <fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                				</td>
 				<td>
 					<fmt:formatDate value="${fReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
