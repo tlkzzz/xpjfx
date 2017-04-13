@@ -112,7 +112,7 @@ public class CHgoodsController extends BaseController {
 			CHgoods cHgoods = new CHgoods();
 			CCgzbinfo cCgzbinfo = cCgzbinfoService.get(cGddId);
 			cHgoods.setGoods(cCgzbinfo.getGoods());
-			model.addAttribute("cGddId", cGddId);
+			cHgoods.setCkState(cGddId);
 			model.addAttribute("cHgoods", cHgoods);
 			model.addAttribute("cCgzbinfo", cCgzbinfo);
 			model.addAttribute("houseList", cHouseService.findList(new CHouse()));
@@ -177,17 +177,17 @@ public class CHgoodsController extends BaseController {
 		fExpenRecord.setExpenType("0");
 		fExpenRecordService.save(fExpenRecord);
 
-		/**添加支出表*/
+		/**添加欠款表*/
 		double shzc=Double.parseDouble(fPayment.getJe());
 		if(htje!=shzc){
-		FArrears fArrears = new FArrears();
-		fArrears.setArrearsUnit(fPayment.getTravelUnit().getId());
-		fArrears.setArrearsType("1");   //set欠款类型   0客户   1供应商
-		fArrears.setArrearsMode(fPayment.getPaymentMode());
-		double ce=htje-shzc;
-		fArrears.setTotal(Double.toString(ce));
-		fArrears.setArrearsDate(fPayment.getPaymentDate());
-		fArrearsService.save(fArrears);
+			FArrears fArrears = new FArrears();
+			fArrears.setArrearsUnit(fPayment.getTravelUnit().getId());
+			fArrears.setArrearsType("1");   //set欠款类型   0客户   1供应商
+			fArrears.setArrearsMode(fPayment.getPaymentMode());
+			double ce=htje-shzc;
+			fArrears.setTotal(Double.toString(ce));
+			fArrears.setArrearsDate(fPayment.getPaymentDate());
+			fArrearsService.save(fArrears);
 		}
 		//保存至支出记录表
 		fPaymentService.save(fPayment);
