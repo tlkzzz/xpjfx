@@ -48,7 +48,18 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 	public List<FReceipt> findList(FReceipt fReceipt) {
 		return super.findList(fReceipt);
 	}
-	
+
+	/**
+	 * 数组元素筛选，筛选出包含states字符串中的所有类型
+	 * @param states	类型串，每个类型用‘，’隔开
+	 * @param fReceipt
+	 * @return
+	 */
+	public List<FReceipt> selectList(String states,FReceipt fReceipt) {
+		fReceipt.setReceiptType(states);
+		return super.findList(fReceipt);
+	}
+
 	public Page<FReceipt> findPage(Page<FReceipt> page, FReceipt fReceipt) {
 		return super.findPage(page, fReceipt);
 	}

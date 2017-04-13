@@ -36,6 +36,17 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 		return super.findList(fPayment);
 	}
 
+	/**
+	 * 数组元素筛选，筛选出包含states字符串中的所有类型
+	 * @param states	类型串，每个类型用‘，’隔开
+	 * @param fPayment
+	 * @return
+	 */
+	public List<FPayment> selectList(String states,FPayment fPayment) {
+		fPayment.setPaymentType(states);
+		return super.findList(fPayment);
+	}
+
 	public Page<FPayment> findPage(Page<FPayment> page, FPayment fPayment) {
 		return super.findPage(page, fPayment);
 	}
