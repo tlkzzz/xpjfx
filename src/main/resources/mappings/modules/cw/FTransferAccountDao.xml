@@ -4,7 +4,8 @@
     
 	<sql id="fTransferAccountColumns">
 		a.id AS "id",
-		a.order_id AS "orderId",
+		a.order_id AS "order.id",
+		crk.ddbh AS "order.ddbh",
 		a.transfer_type AS "transferType",
 		a.out_account AS "outAccount",
 		a.in_account AS "inAccount",
@@ -26,6 +27,7 @@
 	</sql>
 	
 	<sql id="fTransferAccountJoins">
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.order_id
 		LEFT JOIN sys_user su ON su.id=a.auditor
 		LEFT JOIN sys_user sujsr ON sujsr.id=a.jsr
 		LEFT JOIN c_km ckm ON ckm.id=a.subject_code
@@ -45,7 +47,7 @@
 		FROM f_transfer_account a
 		<include refid="fTransferAccountJoins"/>
 		<where>
-			
+			a.transfer_type = #{transferType}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -96,7 +98,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{orderId},
+			#{order.id},
 			#{transferType},
 			#{outAccount},
 			#{inAccount},
@@ -117,7 +119,7 @@
 	
 	<update id="update">
 		UPDATE f_transfer_account SET 	
-			order_id = #{orderId},
+			order_id = #{order.id},
 			transfer_type = #{transferType},
 			out_account = #{outAccount},
 			in_account = #{inAccount},
