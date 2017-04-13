@@ -71,7 +71,7 @@
 		<div class="control-group">
 			<label class="control-label">来往帐号：</label>
 			<div class="controls">
-				<form:input path="travelAccount" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<form:input path="travelAccount" htmlEscape="false" maxlength="100" class="input-xlarge"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -93,22 +93,25 @@
 		<div class="control-group">
 			<label class="control-label">收款方式：</label>
 			<div class="controls">
-				<form:input path="receiptMode" htmlEscape="false" maxlength="1" class="input-xlarge required"/>
+				<form:select path="receiptMode" cssClass="required">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">合同金额：</label>
 			<div class="controls">
-				<c:if test="${toDiscount}"><form:input path="htje" htmlEscape="false" maxlength="20" class="input-xlarge required"/></c:if>
-				<c:if test="${!toDiscount}"><form:input path="htje" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/></c:if>
+				<form:input path="htje" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">实收金额：</label>
 			<div class="controls">
-				<form:input path="je" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/>
+				<c:if test="${toDiscount}"><form:input path="je" htmlEscape="false" maxlength="20" class="input-xlarge required"/></c:if>
+				<c:if test="${!toDiscount}"><form:input path="je" htmlEscape="false" readonly="true" maxlength="20" class="input-xlarge required"/></c:if>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
