@@ -52,9 +52,7 @@
 			<li><label>所有父级Id：</label>
 				<form:input path="parentIds" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
-			<li><label>科目类别Id：</label>
-				<form:input path="kmlbid" htmlEscape="false" maxlength="64" class="input-medium"/>
-			</li>
+
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -65,7 +63,6 @@
 			<tr>
 				<th>科目名称</th>
 				<th>科目编号</th>
-				<th>科目类别Id</th>
 				<th>修改时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="ck:cKm:edit"><th>操作</th></shiro:hasPermission>
@@ -80,9 +77,6 @@
 			</a></td>
 			<td>
 				{{row.kmnb}}
-			</td>
-			<td>
-				{{row.kmlbid}}
 			</td>
 			<td>
 				{{row.updateDate}}

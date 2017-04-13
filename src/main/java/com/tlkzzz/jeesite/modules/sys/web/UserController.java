@@ -89,7 +89,7 @@ public class UserController extends BaseController {
         model.addAttribute("page", page);
 		return "modules/sys/userList";
 	}
-	
+
 	@ResponseBody
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = {"listData"})
@@ -153,7 +153,7 @@ public class UserController extends BaseController {
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
 		return "redirect:" + adminPath + "/sys/user/list?repage";
 	}
-	
+
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "delete")
 	public String delete(User user, RedirectAttributes redirectAttributes) {
@@ -171,7 +171,7 @@ public class UserController extends BaseController {
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
 	}
-	
+
 	/**
 	 * 导出用户数据
 	 * @param user
