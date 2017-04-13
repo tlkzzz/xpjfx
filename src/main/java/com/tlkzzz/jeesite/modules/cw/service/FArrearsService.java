@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.cw.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +31,23 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 	public List<FArrears> findList(FArrears fArrears) {
 		return super.findList(fArrears);
 	}
-	
+
+	/**
+	 * 必须通过欠款类型进行查询 0：客户欠款，1：欠供应商款
+	 * @param page 分页对象
+	 * @param fArrears
+	 * @return
+	 */
 	public Page<FArrears> findPage(Page<FArrears> page, FArrears fArrears) {
-		return super.findPage(page, fArrears);
+		fArrears.setPage(page);
+		if(StringUtils.isNotBlank(fArrears.getArrearsType())){
+			if("0".equals(fArrears.getArrearsType())){
+				page.setList(dao.findStoreList(fArrears));
+			}else if("1".equals(fArrears.getArrearsType())){
+				page.setList(dao.findSupplierList(fArrears));
+			}
+		}
+		return page;
 	}
 	
 	@Transactional(readOnly = false)

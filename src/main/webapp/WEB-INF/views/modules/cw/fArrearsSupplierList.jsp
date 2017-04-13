@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>客户欠款记录</title>
+	<title>欠供应商款记录</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -19,13 +19,13 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/cw/fArrears/storeList">客户欠款记录</a></li>
+		<li class="active"><a href="${ctx}/cw/fArrears/storeList">欠供应商款记录</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="fArrears" action="${ctx}/cw/fArrears/storeList" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>欠款单位：</label>
+			<li><label>供应商：</label>
 				<form:input path="arrearsUnit" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
@@ -36,7 +36,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>欠款客户</th>
+				<th>供应商</th>
 				<th>欠款方式</th>
 				<th>欠款金额</th>
 				<th>欠款日期</th>
