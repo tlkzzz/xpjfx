@@ -37,10 +37,10 @@
                 success: function(data) {
                     if(data) {
                         top.$.jBox.tip("保存成功","系统提示","warning");
-                        location.reload();
+                        window.location.reload();
                     }
                 },
-                error: function(request) {
+                error: function() {
                     top.$.jBox.tip("保存错误，请重新提交","系统提示","warning")
                 }
             });
