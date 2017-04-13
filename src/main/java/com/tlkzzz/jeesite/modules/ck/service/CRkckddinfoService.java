@@ -39,7 +39,7 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
  * shizx 查询总订单ID
  * */
 	public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo) {
-		return super.findList(cRkckddinfo);
+		return dao.findListId(cRkckddinfo);
 	}
 	
 	public Page<CRkckddinfo> findPage(Page<CRkckddinfo> page, CRkckddinfo cRkckddinfo) {

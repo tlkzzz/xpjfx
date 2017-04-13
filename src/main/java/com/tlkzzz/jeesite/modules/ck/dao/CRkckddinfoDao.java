@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 
+import java.util.List;
+
 /**
  * 总订单DAO接口
  * @author xrc
@@ -29,5 +31,5 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
     /**
      * shizx 查询总订单ID
      * */
-    public void findListId(CRkckddinfo cRkckddinfo);
+    public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo);
 }
