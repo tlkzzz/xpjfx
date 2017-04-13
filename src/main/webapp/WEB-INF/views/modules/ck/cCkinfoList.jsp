@@ -19,10 +19,10 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/ck/cCkinfo/">出库信息列表</a></li>
-		<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/library">出库录单</a></li></shiro:hasPermission>
-		<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/other">其他出库</a></li></shiro:hasPermission>
-		<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/scrapped">报废录单</a></li></shiro:hasPermission>
-		<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/returnOfGoods">退货录单</a></li></shiro:hasPermission>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/library">出库录单</a></li></shiro:hasPermission>--%>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/other">其他出库</a></li></shiro:hasPermission>--%>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/scrapped">报废录单</a></li></shiro:hasPermission>--%>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/returnOfGoods">退货录单</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cCkinfo" action="${ctx}/ck/cCkinfo/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
