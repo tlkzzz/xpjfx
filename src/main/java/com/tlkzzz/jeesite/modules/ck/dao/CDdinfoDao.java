@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 
+import java.util.List;
+
 /**
  * 订单DAO接口
  * @author xrc
@@ -19,4 +21,12 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
      * @param cDdinfo
      */
     public void updateCgzbInfo(CDdinfo cDdinfo);
+
+
+    /**
+     * 退货信息保存，更新原有自订单，新增退货信息添加
+     * */
+    public void thUpdate(CDdinfo cddinfo);
+
+    public List<CDdinfo> thfindList(CDdinfo cddinfo);
 }

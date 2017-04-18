@@ -26,10 +26,12 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private String issp;		// 0未审批1已审批
 	private String spr;		// 审批人
 	private Date spsj;		// 审批时间
-
+	private String sjje;     //实际金额
 	private FReceipt receipt;	//收款信息
 	private FAccount fAccount;	//付款信息
 	private CHouse cHouse;	//仓库信息
+
+	private String thxx;  //退货信息
 
 	public CHouse getcHouse() {
 		return cHouse;
@@ -123,5 +125,21 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 
 	public void setReceipt(FReceipt receipt) {
 		this.receipt = receipt;
+	}
+
+	public String getThxx() {
+		return thxx;
+	}
+
+	public void setThxx(String thxx) {
+		this.thxx = thxx;
+	}
+
+	public String getSjje() {
+		return sjje;
+	}
+
+	public void setSjje(String sjje) {
+		this.sjje = sjje;
 	}
 }

@@ -16,7 +16,8 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.sjje AS "sjje"
 	</sql>
 	
 	<sql id="cRkckddinfoJoins">
@@ -96,7 +97,8 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag
+			del_flag,
+			sjje
 		) VALUES (
 			#{id},
 			#{ddbh},
@@ -111,7 +113,8 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{sjje}
 		)
 	</insert>
 	
@@ -126,7 +129,8 @@
 			spsj = #{spsj},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			sjje=#{sjje}
 		WHERE id = #{id}
 	</update>
 	

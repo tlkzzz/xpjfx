@@ -12,10 +12,34 @@
     <title>总订单管理</title>
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
+        var lastsel=[];
         $(document).ready(function() {
+            $('#btnSubmit').on('click', function() {
+//                alert("Jinru");
+//                console.log(lastsel);
+                if(lastsel.length>0){
+                for(var i = 0;i<lastsel.length;i++){
+                    $("#dataGrid").saveRow(lastsel[i], false, 'clientArray');
+                }
+                }
+                lastsel=[];
+                var obj =$("#dataGrid").jqGrid("getRowData");
+                var thxx="";
+                for(var i=0;i<obj.length;i++){
+                    if(obj[i].thsl!==null&&obj[i].thsl!==""){
+                        thxx=thxx+obj[i].id+"-"+obj[i].thsl+",";
+                    }
+                }
+                $("#thxx").val(thxx);
+//                console.log(obj);
+//                console.log(thxx);
+            })
+
+
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function(form){
+//                    console.log(form);
                     loading('正在提交，请稍等...');
                     form.submit();
                 },
@@ -40,7 +64,6 @@
                 page:1
             }).trigger("reloadGrid"); //重新载入
         });
-        var lastsel;
         function loadXMLDoc() {
 
 //            alert(ids)
@@ -48,40 +71,82 @@
                 {
                     url : '${ctx}/ck/cRkckddinfo/checkId',
                     datatype : "json",
+//                    multiselect:false,//是否可以多选
+//                    footerrow:true,
                     postData: {
                         ids:$("#fddid").val(),
                     },
+                    editurl : "${ctx}/sys/user/edis", //编辑行保存方法
+                    //单机行事件
+                    onSelectRow : function(id) {
+
+                        if (id && id !== lastsel) {
+//                            alert('555')
+//                            $('#dataGrid').jqGrid('restoreRow', lastsel); //当不是选择中他时 清除编辑状态
+                            $('#dataGrid').jqGrid('editRow', id, true);
+
+                            lastsel.push(id);
+//                            $('#dataGrid').jqGrid('saveRow',lastsel,checksave);
+//                            alert(id)
+
+//                        }else {
+////                            alert('666')
+                        }
+//                        alert(id)
+                    },
                     mtype: 'POST',
-                    colNames : [ 'id','编号','商品名称','house','金额','数量','实际金额'],
+                    colNames : ['id', '编号','商品名称','库房','金额','数量','退货数量','实际金额','规格'],
                     colModel : [
-                        {name : 'id',index : 'id',width : 240},
+                        {name : 'id',index : 'id',width : 1,hidden:true},
                         {name : 'ddbh',index : 'ddbh',width : 140},
                         {name : 'goods.name',index : 'goods.name',width : 70},
-                        {name : 'house.name',index : 'house.name',width : 50},
+                        {name : 'house.name',index : 'house.name',width : 70},
                         {name : 'je',index : 'je',width : 80,align : "right"},
-                        {name : 'nub',index : 'nub',width : 80,align : "right",editable : true},
-                        {name : 'rksjcbj',index : 'rksjcbj',width : 80,align : "right"}
-//                        {name : 'note',index : 'note',width : 150,sortable : false}
+                        {name : 'nub',index : 'nub',width : 100,align : "right"},
+                        {name : 'thsl',index : 'thsl',width : 100,align : "right",sortable:false,editable : true},
+                        {name : 'sjje',index : 'sjje',width : 80,align : "right"},
+                        {name : 'goods.spec.name',index : 'goods.spec.name',width : 50},
+//                      {name : 'note',index : 'note',width : 150,sortable : false}
                     ],
-//
-                    sortname : 'id',
-                    viewrecords : true,
+//                    rowNum : 10,
+//                    pager : '#pager2',
+//                    sortname : 'id',
+//                    viewrecords : true,
+//                    sortorder : "desc",
+//                    cellEdit:true,
+                    <%--cellurl : "${ctx}/ck/cRkckddinfo/jqGrid?ids=",--%>
+                    gridComplete:function () {
+                        var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
+                        var sjje=0;
+                        var getSjje=0;
+                        for(var i=0;i<ids.length;i++){
+                            var getSjje=$("#dataGrid").jqGrid("getCell",ids[i],"sjje");
+                            sjje=parseFloat(sjje) +parseFloat(getSjje);
+                        }
+                        $("#sjje").val(sjje);
+                    },
+                    caption : "子订单信息"
                 });
             jQuery("#dataGrid").jqGrid('navGrid');
             jQuery("#dataGrid").jqGrid('setGridParam',{
                 postData:{'ids':$("#fddid").val()}, //发送数据
             }).trigger("reloadGrid");
+            jQuery("#pager2").jqGrid('navGrid', "#pager2", {
+                edit : false,
+                add : false,
+                del : false
+            });
         }
-
     </script>
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li><a href="${ctx}/ck/cRkckddinfo/returnGoodsList">总订单列表</a></li>
-    <li class="active"><a href="${ctx}/ck/cRkckddinfo/returnGoodsForm?id=${cRkckddinfo.id}">总订单<shiro:hasPermission name="ck:cRkckddinfo:edit">${not empty cRkckddinfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cRkckddinfo:edit">查看</shiro:lacksPermission></a></li>
+    <li><a href="${ctx}/ck/cDdinfo/returnGoodsList">销售退货单列表</a></li>
+    <li class="active"><a href="${ctx}/ck/cRkckddinfo/returnGoodsForm?id=${cRkckddinfo.id}">销售退货单<shiro:hasPermission name="ck:cRkckddinfo:edit">${not empty cRkckddinfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cRkckddinfo:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>
-<form:form id="inputForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/save" method="post" class="form-horizontal">
+<form:form id="inputForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/thSave" method="post" class="form-horizontal">
     <sys:message content="${message}"/>
+    <form:hidden path="thxx"/>
     <div class="control-group">
         <label class="control-label">总订单编号：</label>
         <div class="controls">
@@ -98,11 +163,11 @@
     <script src="${ctxStatic}/jqGrid/4.7/js/jquery.jqGrid.js" type="text/javascript"></script>
     <script src="${ctxStatic}/jqGrid/4.7/js/jquery.jqGrid.extend.js" type="text/javascript"></script>
     <div class="control-group">
-        <label class="control-label">付款账户：</label>
+        <label class="control-label">收付款账户：</label>
         <div class="controls">
-            <form:select path="fAccount.bankCode" class="input-xlarge required">
+            <form:select path="fAccount.name" class="input-xlarge required">
                 <form:option value="" label="请选择"></form:option>
-                <form:options items="${IDcarddList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"/>
+                <form:options items="${IDcarddList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
             </form:select>
             <span class="help-inline"><font color="red">*</font> </span>
         </div>
@@ -110,7 +175,7 @@
     <div class="control-group">
         <label class="control-label">退货金额：</label>
         <div class="controls">
-            <form:input path="je" htmlEscape="false" class="input-xlarge "/>
+            <form:input path="sjje" htmlEscape="false" class="input-xlarge "/>
         </div>
     </div><div class="control-group">
         <label class="control-label">存入仓库：</label>
@@ -122,10 +187,10 @@
         </div>
     </div>
 
-    <%--<div class="form-actions">--%>
-        <%--<shiro:hasPermission name="ck:cRkckddinfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>--%>
-        <%--<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>--%>
-    <%--</div>--%>
+    <div class="form-actions">
+        <shiro:hasPermission name="ck:cRkckddinfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+    </div>
 </form:form>
 </body>
 </html>

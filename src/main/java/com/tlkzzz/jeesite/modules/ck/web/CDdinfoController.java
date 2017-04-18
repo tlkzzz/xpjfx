@@ -22,6 +22,8 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
 
+import java.util.List;
+
 /**
  * 订单Controller
  * @author xrc
@@ -67,6 +69,16 @@ public class CDdinfoController extends BaseController {
 	}
 
 	@RequiresPermissions("ck:cDdinfo:view")
+	@RequestMapping(value = {"returnGoodsList", ""})
+	public String returnGoodsList(CDdinfo cDdinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CDdinfo> page = cDdinfoService.findPage(new Page<CDdinfo>(request, response), cDdinfo);
+		model.addAttribute("cDdinfoList", cDdinfoService.thfindList(cDdinfo));
+		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("page", page);
+		return "modules/ck/returnGoodsList";
+	}
+
+	@RequiresPermissions("ck:cDdinfo:view")
 	@RequestMapping(value = "form")
 	public String form(CDdinfo cDdinfo, Model model) {
 		model.addAttribute("cDdinfo", cDdinfo);
@@ -89,6 +101,21 @@ public class CDdinfoController extends BaseController {
 	public String delete(CDdinfo cDdinfo, RedirectAttributes redirectAttributes) {
 		cDdinfoService.delete(cDdinfo);
 		addMessage(redirectAttributes, "删除订单成功");
+		return "redirect:"+Global.getAdminPath()+"/ck/cDdinfo/?repage";
+	}
+
+
+	/**
+	 * 销售退货单审批
+	 * */
+	@RequiresPermissions("User")
+	@RequestMapping(value = "thsp")
+	public String thsp(String ids) {
+		CDdinfo cDdinfo=new CDdinfo();
+		cDdinfo.setId(ids);
+		List<CDdinfo> cDdinfoList=cDdinfoService.findList(cDdinfo);
+
+
 		return "redirect:"+Global.getAdminPath()+"/ck/cDdinfo/?repage";
 	}
 

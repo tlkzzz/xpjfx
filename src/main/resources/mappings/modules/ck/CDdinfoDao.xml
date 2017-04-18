@@ -29,7 +29,16 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		sp.id AS "goods.spec.id",
+		sp.name AS "goods.spec.name",
+		a.thsl AS "thsl",
+		a.thje AS "thje",
+		a.zh AS "zh",
+		a.thck AS "thck",
+		a.spr AS "spr.id",
+		a.spzt AS "spzt",
+		a.thsj AS "thsj"
 	</sql>
 	
 	<sql id="cDdinfoJoins">
@@ -38,6 +47,7 @@
 		LEFT JOIN c_goods cg ON a.goods_id=cg.id
 		LEFT JOIN c_supplier csu ON a.supplier_id=csu.id
 		LEFT JOIN c_store cst	ON a.store_id=cst.id
+		LEFT JOIN c_spec sp ON sp.id=cg.specid
 	</sql>
     
 	<select id="get" resultType="CDdinfo">
@@ -47,7 +57,15 @@
 		<include refid="cDdinfoJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+	<select id="thfindList" resultType="CDdinfo">
+	SELECT
+	*
+	FROM c_ddinfo a
+		where
+			a.spzt='0'
+	</select>
+
 	<select id="findList" resultType="CDdinfo">
 		SELECT 
 			<include refid="cDdinfoColumns"/>
@@ -123,7 +141,14 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag
+			del_flag,
+			thsl,
+			thje,
+			zh,
+			thck,
+			spr,
+			spzt,
+			thsj
 		) VALUES (
 			#{id},
 			#{rkckddinfo.id},
@@ -144,7 +169,14 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{thsl},
+			#{thje},
+			#{zh},
+			#{thck},
+			#{spr.id},
+			#{spzt},
+			#{thsj}
 		)
 	</insert>
 	
@@ -165,10 +197,29 @@
 			yhje = #{yhje},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			thsl=#{thsl},
+			thje=#{thje},
+			zh=#{zh},
+			thck=#{thck},
+			spr=#{spr.id},
+			spzt=#{spzt},
+			thsj=#{thsj}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="thUpdate">
+		UPDATE c_ddinfo SET
+		thsl = #{thsl},
+		thje = #{thje},
+		zh = #{zh},
+		thsj = #{thsj},
+		thck = #{thck},
+		spr=#{spr.id},
+		spzt=#{spzt}
+		WHERE id = #{id}
+	</update>
+
 	<update id="updateCgzbInfo">
 		UPDATE c_ddinfo SET 
 			cgzbinfo = #{cgzbinfo.id}

@@ -35,10 +35,9 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 总订单Controller
@@ -112,8 +111,8 @@ public class CRkckddinfoController extends BaseController {
 	@RequiresPermissions("ck:cRkckddinfo:view")
 	@RequestMapping(value = {"returnGoodsList", ""})
 	public String returnGoodsList(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-//		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo);
-//		model.addAttribute("page", page);
+		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo);
+		model.addAttribute("page", page);
 		model.addAttribute("CRkckddinfo", cRkckddinfo);
 		return "modules/ck/returnGoodsList";
 	}
@@ -139,13 +138,30 @@ public class CRkckddinfoController extends BaseController {
 		CDdinfo cDdinfo=new CDdinfo();
 		cDdinfo.setRkckddinfo(new CRkckddinfo(ids));
 		List<CDdinfo> cDdinfoList= cDdinfoService.findList(cDdinfo);
-
+		for(CDdinfo cd:cDdinfoList){
+			if(StringUtils.isNotBlank(cd.getJe())&&StringUtils.isNotBlank(cd.getYhje())){
+				cd.setSjje(String.valueOf(Double.parseDouble(cd.getJe())-Double.parseDouble(cd.getYhje())));
+			}else{
+				cd.setSjje(cd.getJe());
+			}
+		}
+		/*for (int i=0;i<cDdinfoList.size();i++){
+			String ss=cDdinfoList[i]
+			double yhje=Double.parseDouble();
+		}*/
 //		model.addAttribute("IdList", cDdinfoService.findList(cDdinfo));
 		map.put("rows",cDdinfoList);
 //		map.put("page",1);
 //		map.put("total", 2);
 //		map.put("records", 2);
 		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "jqGrid",method = RequestMethod.POST)
+	public Map<String,Object> jqGrid(String ids) {
+
+		return null;
 	}
 
 	@RequiresPermissions("ck:cCginfo:edit")
@@ -339,4 +355,32 @@ public class CRkckddinfoController extends BaseController {
 
 	/**		出库结束		**/
 
+
+
+
+	@RequiresPermissions("ck:cCginfo:view")
+	@RequestMapping(value = "thSave")
+	public String thSave(CRkckddinfo cRkckddinfo, Model model, RedirectAttributes redirectAttributes) {
+	String thxx=cRkckddinfo.getThxx();
+	if(thxx.equals(",")){
+		return "modules/ck/returnGoodsList";
+	}else{
+//		ArrayList<Object> thxxList=new ArrayList<Object>();
+		String[] ss=thxx.split(",");
+		for(int i=0;i<ss.length;i++){
+			CDdinfo cddinfo=new CDdinfo();
+			String[] thss=ss[i].split("-");
+			cddinfo.setId(thss[0]);   //设置ID
+			cddinfo.setThsl(thss[1]);  //设置退货数量
+			cddinfo.setThje(cRkckddinfo.getSjje()); //设置实际金额
+			cddinfo.setZh(cRkckddinfo.getfAccount().getName());//设置收付款账户
+			cddinfo.setThsj(new Date());//设置退货日期
+			cddinfo.setThck(cRkckddinfo.getcHouse().getId()); //设置出入库仓库
+			cddinfo.setSpr(UserUtils.getUser()); //设置审批人
+			cddinfo.setSpzt("0");  //审批状态     0待审批    1审批通过
+			cDdinfoService.thUpdate(cddinfo);
+		}
+	}
+		return "modules/ck/returnGoodsList";
+	}
 }

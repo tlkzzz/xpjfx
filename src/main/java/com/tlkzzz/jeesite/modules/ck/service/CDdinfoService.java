@@ -35,7 +35,13 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public Page<CDdinfo> findPage(Page<CDdinfo> page, CDdinfo cDdinfo) {
 		return super.findPage(page, cDdinfo);
 	}
-	
+/**
+ * 查询退货单信息
+ * */
+	public List<CDdinfo> thfindList(CDdinfo cDdinfo) {
+		return dao.thfindList(cDdinfo);
+	}
+
 	@Transactional(readOnly = false)
 	public void save(CDdinfo cDdinfo) {
 		super.save(cDdinfo);
@@ -63,6 +69,15 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	@Transactional(readOnly = false)
 	public void delete(CDdinfo cDdinfo) {
 		super.delete(cDdinfo);
+	}
+
+
+	/**
+	 * 退货信息保存，更新原有自订单，新增退货信息添加
+	 * */
+	@Transactional(readOnly = false)
+	public void thUpdate(CDdinfo cddinfo) {
+		dao.thUpdate(cddinfo);
 	}
 	
 }

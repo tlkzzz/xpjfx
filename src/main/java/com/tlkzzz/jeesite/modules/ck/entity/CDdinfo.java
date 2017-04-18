@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,13 +33,37 @@ public class CDdinfo extends DataEntity<CDdinfo> {
 	private String rkqcbj;		// 入库前成本价
 	private String rksjcbj;		// 入库实际成本价
 	private String yhje;		//优惠金额
-	
+	private String thsl;        //退货数量
+	private String sjje;       //实际金额
+	private String thje;       //退货金额
+	private String zh;       //账户金额
+	private String thck;       //退货仓库
+	private User spr;       //审批人
+	private String spzt;       //审批状态
+	private Date thsj;       //退货时间
+
 	public CDdinfo() {
 		super();
 	}
 
 	public CDdinfo(String id){
 		super(id);
+	}
+
+	public String getSjje() {
+		return sjje;
+	}
+
+	public void setSjje(String sjje) {
+		this.sjje = sjje;
+	}
+
+	public String getThsl() {
+		return thsl;
+	}
+
+	public void setThsl(String thsl) {
+		this.thsl = thsl;
 	}
 
 	@NotNull(message="总订单不能为空")
@@ -149,5 +174,53 @@ public class CDdinfo extends DataEntity<CDdinfo> {
 
 	public void setYhje(String yhje) {
 		this.yhje = yhje;
+	}
+
+	public String getThje() {
+		return thje;
+	}
+
+	public void setThje(String thje) {
+		this.thje = thje;
+	}
+
+	public String getZh() {
+		return zh;
+	}
+
+	public void setZh(String zh) {
+		this.zh = zh;
+	}
+
+	public String getThck() {
+		return thck;
+	}
+
+	public void setThck(String thck) {
+		this.thck = thck;
+	}
+
+	public User getSpr() {
+		return spr;
+	}
+
+	public void setSpr(User spr) {
+		this.spr = spr;
+	}
+
+	public String getSpzt() {
+		return spzt;
+	}
+
+	public void setSpzt(String spzt) {
+		this.spzt = spzt;
+	}
+
+	public Date getThsj() {
+		return thsj;
+	}
+
+	public void setThsj(Date thsj) {
+		this.thsj = thsj;
 	}
 }
