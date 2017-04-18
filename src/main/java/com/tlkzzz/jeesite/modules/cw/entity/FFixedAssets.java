@@ -3,11 +3,16 @@
  */
 package com.tlkzzz.jeesite.modules.cw.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tlkzzz.jeesite.modules.sys.entity.Office;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 固定资产登记Entity
@@ -20,8 +25,8 @@ public class FFixedAssets extends DataEntity<FFixedAssets> {
 	private String name;		// 资产名称
 	private Date payDate;		// 购买日期
 	private String total;		// 折算金额
-	private String office;		// 归属部门
-	private String fzr;		// 负责人
+	private Office office;		// 归属部门
+	private User fzr;		// 负责人
 	
 	public FFixedAssets() {
 		super();
@@ -56,22 +61,24 @@ public class FFixedAssets extends DataEntity<FFixedAssets> {
 	public void setTotal(String total) {
 		this.total = total;
 	}
-	
-	@Length(min=0, max=100, message="归属部门长度必须介于 0 和 100 之间")
-	public String getOffice() {
+
+	@JsonIgnore
+	@NotNull(message="归属部门不能为空")
+	public Office getOffice() {
 		return office;
 	}
 
-	public void setOffice(String office) {
+	public void setOffice(Office office) {
 		this.office = office;
 	}
-	
-	@Length(min=0, max=64, message="负责人长度必须介于 0 和 64 之间")
-	public String getFzr() {
+
+	@JsonIgnore
+	@NotNull(message="归属部门不能为空")
+	public User getFzr() {
 		return fzr;
 	}
 
-	public void setFzr(String fzr) {
+	public void setFzr(User fzr) {
 		this.fzr = fzr;
 	}
 	

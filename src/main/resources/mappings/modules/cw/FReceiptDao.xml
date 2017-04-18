@@ -66,11 +66,9 @@
 			<if test="receiptCode != null and receiptCode != ''">
 				AND a.receipt_code = #{receiptCode}
 			</if>
+
 			<if test="receiptType != null and receiptType != ''">
-				AND a.receipt_type LIKE
-				<if test="dbName == 'oracle'">'%,'||#{receiptCode}||',%')</if>
-				<if test="dbName == 'mssql'">'%,'+#{receiptCode}+',%')</if>
-				<if test="dbName == 'mysql'">CONCAT('%,', #{receiptCode}, ',%')</if>
+				AND a.receipt_type = #{receiptType}
 			</if>
 		</where>
 		<choose>

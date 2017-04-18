@@ -27,10 +27,8 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-		<li><a href="${ctx}/cw/fReceipt/">收款列表</a></li>
-            	<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/xjform">现金费用单</a></li></shiro:hasPermission>
-                <shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/ybform">一般费用单</a></li></shiro:hasPermission>
-               <li class="active"><a href="${ctx}/cw/fReceipt/qtform">其他费用单</a></li>
+		<li><a href="${ctx}/cw/fReceipt/qtlist?receiptType=${fReceipt.receiptType}"">其他费用列表</a></li>
+               <li class="active"><a href="${ctx}/cw/fReceipt/qtform?receiptType=${fReceipt.receiptType}">其他费用单</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/qtsave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -46,13 +44,13 @@
 		<div class="control-group">
 			<label class="control-label">单据编号：</label>
 			<div class="controls">
-				<form:input path="receiptCode" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="receiptCode" htmlEscape="false" maxlength="100" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">来往单位：</label>
 			<div class="controls">
-				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -70,7 +68,7 @@
 			<div class="control-group">
                 			<label class="control-label">收款方式：</label>
                 			<div class="controls">
-                                           <form:select path="receiptMode" >
+                                           <form:select path="receiptMode"  required="true">
                                           <form:option value="" label="请选择"/>
                                          <form:options items="${fns:getDictList('receiptMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                                          </form:select>
@@ -87,7 +85,7 @@
 		<div class="control-group">
 			<label class="control-label">合同金额：</label>
 			<div class="controls">
-				<form:input path="htje" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="htje" htmlEscape="false" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 	<div class="control-group">
@@ -100,7 +98,7 @@
 		<div class="control-group">
 			<label class="control-label">收款金额：</label>
 			<div class="controls">
-				<form:input path="je" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="je" htmlEscape="false" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">

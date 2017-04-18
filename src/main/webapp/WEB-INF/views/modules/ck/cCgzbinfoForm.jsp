@@ -83,14 +83,14 @@
 		<div class="control-group">
 			<label class="control-label">采购数量：</label>
 			<div class="controls">
-				<form:input path="nub" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+				<form:input path="nub" htmlEscape="false" maxlength="11" class="input-xlarge " required="true"/>
 					<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">价格：</label>
 			<div class="controls">
-				<form:input path="jg" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="jg" htmlEscape="false" class="input-xlarge " required="true"/>
 					<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

@@ -37,6 +37,8 @@
 		<thead>
 			<tr>
 				<th>资产名称</th>
+				<th>归属部门</th>
+				<th>负责人</th>
 				<th>备注</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fFixedAssets:edit"><th>操作</th></shiro:hasPermission>
@@ -48,6 +50,12 @@
 				<td><a href="${ctx}/cw/fFixedAssets/form?id=${fFixedAssets.id}">
 					${fFixedAssets.name}
 				</a></td>
+				<td>
+               ${fFixedAssets.office.id}
+                </td>
+                <td>
+                     ${fFixedAssets.fzr.id}
+                 </td>
 				<td>
 					${fFixedAssets.remarks}
 				</td>

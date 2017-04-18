@@ -89,9 +89,9 @@
 		<div class="control-group">
 			<label class="control-label">账户类型：</label>
 			<div class="controls">
-				<form:select path="accountType" class="input-xlarge required" onclick="hide()" id="accountType">
+				<form:select path="accountType" class="required" onclick="hide()" id="accountType">
 					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -125,7 +125,7 @@
 		<div class="control-group" id="DbankCode">
 			<label class="control-label">银行卡号：</label>
 			<div class="controls">
-				<form:input path="bankCode"  htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="bankCode"  htmlEscape="false" maxlength="100" class="input-xlarge " creditcard="true"/>
 			</div>
 		</div>
 		<div class="form-actions">

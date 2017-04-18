@@ -27,10 +27,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-    	<li><a href="${ctx}/cw/fPayment/">付款列表</a></li>
-    	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/xjform">现金费用单</a></li></shiro:hasPermission>
-        <li class="active"><a href="${ctx}/cw/fPayment/ybform">一般费用单</a></li>
-       <shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/qtform">其他费用单</a></li></shiro:hasPermission>
+    	<li><a href="${ctx}/cw/fPayment/list?paymentType=${fPayment.paymentType}">一般费用列表</a></li>
+        <li class="active"><a href="${ctx}/cw/fPayment/ybform?paymentType=${fPayment.paymentType}">一般费用单</a></li>
     	</ul><br/>
 	<form:form id="inputForm" modelAttribute="fPayment" action="${ctx}/cw/fPayment/ybsave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -46,13 +44,13 @@
 		<div class="control-group">
 			<label class="control-label">单据编号：</label>
 			<div class="controls">
-				<form:input path="paymentCode" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="paymentCode" htmlEscape="false" maxlength="100" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">来往单位：</label>
 			<div class="controls">
-				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -70,7 +68,7 @@
 		<div class="control-group">
         			<label class="control-label">收款方式：</label>
         			<div class="controls">
-                                   <form:select path="paymentMode" >
+                                   <form:select path="paymentMode" required="true">
                                   <form:option value="" label="请选择"/>
                                  <form:options items="${fns:getDictList('receiptMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                                  </form:select>
@@ -87,7 +85,7 @@
 		<div class="control-group">
 			<label class="control-label">合同金额：</label>
 			<div class="controls">
-				<form:input path="htje" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="htje" htmlEscape="false" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -100,7 +98,7 @@
 		<div class="control-group">
 			<label class="control-label">付款金额：</label>
 			<div class="controls">
-				<form:input path="je" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="je" htmlEscape="false" class="input-xlarge " required="true"/>
 			</div>
 		</div>
 		<div class="control-group">

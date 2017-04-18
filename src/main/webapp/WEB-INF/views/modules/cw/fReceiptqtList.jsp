@@ -16,7 +16,7 @@
                 					data:{id:storeId},
                 					type:"POST",
                 					success:function (data) {
-                					 return confirmx('确定审核吗', "${ctx}/cw/fReceipt/list?receiptType=${fReceipt.receiptType}")
+                					 return confirmx('确定审核吗', "${ctx}/cw/fReceipt/qtlist?receiptType=${fReceipt.receiptType}")
                 						if(data)$("#"+tdId).text("审核通过");
                                         $("#messageBox").text();
                                         top.$.jBox.tip("审核通过成功！",'warning');
@@ -40,10 +40,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/cw/fReceipt/list?receiptType=${fReceipt.receiptType}">现金费用列表</a></li>
-	  	<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/xjform?receiptType=${fReceipt.receiptType}">现金费用</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/cw/fReceipt/qtlist?receiptType=${fReceipt.receiptType}">其他费用列表</a></li>
+	  	<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/qtform?receiptType=${fReceipt.receiptType}">其他费用</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/xjform" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/qtform" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -64,13 +64,11 @@
 		<thead>
 			<tr>
 			    <th>收款类型</th>
-			    <c:if test="${fn:contains('7,8',fReceipt.receiptType)}">
 			    <th>来往账号</th>
 			    <th>收款帐号</th>
-			    <th>来往单位</th>
-			    </c:if>
-			     <th>收款方式</th>
+			    <th>收款方式</th>
 				<th>单据编号</th>
+				<th>来往单位</th>
 				<th>审核状态</th>
 				<th>备注</th>
 			    <th>收款日期</th>
@@ -84,22 +82,20 @@
 			     <td>
                   ${fns:getDictLabel(fReceipt.receiptType, "receiptType", "")}
                  </td>
-                  <c:if test="${fn:contains('7,8',fReceipt.receiptType)}">
-                 <td>
-                  ${fReceipt.travelAccount}
-                 </td>
+			    <td>
+                 ${fReceipt.travelAccount}
+                </td>
 			    <td>
                  ${fReceipt.receiptAccount}
                </td>
-               <td>
-               	${fReceipt.travelUnit.id}
-               	</td>
-                 </c:if>
 			    <td>
                    ${fns:getDictLabel(fReceipt.receiptMode, "receiptMode", "")}
                  </td>
 				<td>
 					${fReceipt.receiptCode}
+				</td>
+				<td>
+					${fReceipt.travelUnit.id}
 				</td>
 				<td id="approvalStatus${status.index}">
                             ${fns:getDictLabel(fReceipt.approvalStatus, "storeState", "")}

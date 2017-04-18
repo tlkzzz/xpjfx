@@ -36,7 +36,8 @@
 		<div class="control-group">
 			<label class="control-label">资产名称：</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+                <span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -54,17 +55,21 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">归属部门：</label>
-			<div class="controls">
-				<form:input path="office" htmlEscape="false" maxlength="100" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">负责人：</label>
-			<div class="controls">
-				<form:input path="fzr" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
+        			<label class="control-label">归属部门:</label>
+        			<div class="controls">
+                        <sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office" labelValue="${user.office.name}"
+        					title="部门" url="/sys/office/treeData?type=2" cssClass="required" notAllowSelectParent="true"/>
+        		        <span class="help-inline"><font color="red">*</font> </span>
+        			</div>
+        		</div>
+		 <div class="control-group">
+                        <label class="control-label">负责人：</label>
+                        <div class="controls">
+                            <sys:treeselect id="user" name="user.id" value="${testData.user.id}" labelName="fzr" labelValue="${testData.user.name}"
+                                            title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+                            <span class="help-inline"><font color="red">*</font> </span>
+                        </div>
+                    </div>
 		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">

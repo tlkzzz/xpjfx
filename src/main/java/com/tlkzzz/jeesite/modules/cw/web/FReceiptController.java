@@ -40,7 +40,7 @@ public class FReceiptController extends BaseController {
 
 	@Autowired
 	private FReceiptService fReceiptService;
-	
+
 	@ModelAttribute
 	public FReceipt get(@RequestParam(required=false) String id) {
 		FReceipt entity = null;
@@ -52,7 +52,16 @@ public class FReceiptController extends BaseController {
 		}
 		return entity;
 	}
-	
+
+	/**
+	 * 现金费用list
+	 * @param fReceipt
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+
 	@RequiresPermissions("cw:fReceipt:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -61,14 +70,6 @@ public class FReceiptController extends BaseController {
 		model.addAttribute("fReceipt", fReceipt);
 		return "modules/cw/fReceiptList";
 	}
-
-	@RequiresPermissions("cw:fReceipt:view")
-	@RequestMapping(value = "form")
-	public String form(FReceipt fReceipt, Model model) {
-		model.addAttribute("fReceipt", fReceipt);
-		return "error/400" ;
-	}
-
 	/**
 	 * 现金费用单
 	 * @param fReceipt
@@ -91,7 +92,25 @@ public class FReceiptController extends BaseController {
 		}
 		fReceiptService.outOfTheLibrary(fReceipt,"6","0");
 		addMessage(redirectAttributes, "现金费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/list?receiptType="+fReceipt.getReceiptType();
+	}
+
+	/**
+	 * 一般费用yblist
+	 * @param fReceipt
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+
+	@RequiresPermissions("cw:fReceipt:view")
+	@RequestMapping(value = "yblist")
+	public String yblist(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
+		model.addAttribute("page", page);
+		model.addAttribute("fReceipt", fReceipt);
+		return "modules/cw/fReceiptybList";
 	}
 
 	/**
@@ -115,9 +134,35 @@ public class FReceiptController extends BaseController {
 		}
 		fReceiptService.outOfTheLibrary(fReceipt,"7","0");
 		addMessage(redirectAttributes, "一般费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/yblist?receiptType="+fReceipt.getReceiptType();
 	}
 
+
+
+	@RequiresPermissions("cw:fReceipt:view")
+	@RequestMapping(value = "form")
+	public String form(FReceipt fReceipt, Model model) {
+		model.addAttribute("fReceipt", fReceipt);
+		return "error/400" ;
+	}
+
+	/**
+	 * 一般费用qtlist
+	 * @param fReceipt
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+
+	@RequiresPermissions("cw:fReceipt:view")
+	@RequestMapping(value = "qtlist")
+	public String qtlist(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
+		model.addAttribute("page", page);
+		model.addAttribute("fReceipt", fReceipt);
+		return "modules/cw/fReceiptqtList";
+	}
 	/**
 	 * 其他费用单
 	 * @param fReceipt
@@ -139,7 +184,7 @@ public class FReceiptController extends BaseController {
 		}
 		fReceiptService.outOfTheLibrary(fReceipt,"8","0");
 		addMessage(redirectAttributes, "其他费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/qtlist?receiptType="+fReceipt.getReceiptType();
 	}
 
 	/**
@@ -167,7 +212,19 @@ public class FReceiptController extends BaseController {
 	public String delete(FReceipt fReceipt, RedirectAttributes redirectAttributes) {
 		fReceiptService.delete(fReceipt);
 		addMessage(redirectAttributes, "删除收款成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
+		String str = "";
+		if(fReceipt.getReceiptType()==""){
+			return  "error/404" ;
+		}
+      if("6".equals(fReceipt.getReceiptType()) &&fReceipt.getReceiptType()!=null){
+		  str="list";
+	  }else if("7".equals(fReceipt.getReceiptType()) &&fReceipt.getReceiptType()!=null){
+		  str="yblist";
+		}else{
+		  str="qtlist";
+	  }
+
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/"+str+"?receiptType="+fReceipt.getReceiptType();
 	}
 
 }

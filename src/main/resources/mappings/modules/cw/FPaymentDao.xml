@@ -72,10 +72,7 @@
 				AND a.payment_code = #{paymentCode}
 			</if>
 			<if test="paymentType != null and paymentType != ''">
-				AND a.payment_type LIKE
-				<if test="dbName == 'oracle'">'%,'||#{paymentType}||',%')</if>
-				<if test="dbName == 'mssql'">'%,'+#{paymentType}+',%')</if>
-				<if test="dbName == 'mysql'">CONCAT('%,', #{paymentType}, ',%')</if>
+				AND a.payment_type = #{paymentType}
 			</if>
 		</where>
 		<choose>

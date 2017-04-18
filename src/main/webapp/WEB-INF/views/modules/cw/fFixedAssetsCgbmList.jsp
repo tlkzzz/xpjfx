@@ -67,6 +67,7 @@
 		<thead>
 			<tr>
 			    <th>资产名称</th>
+			    <th>付款方式</th>
 			    <th>审核状态</th>
 			    <th>审核人</th>
 				<th>备注</th>
@@ -81,6 +82,9 @@
 			<td>
 				${fFixedAssetsCgbm.ffixedassets.name}
 			</td>
+			  <td>
+                                    ${fns:getDictLabel(fFixedAssetsCgbm.paymentMode, "paymentMode", "")}
+                         </td>
 			<td id="approvalStatus${status.index}">
             ${fns:getDictLabel(fFixedAssetsCgbm.approvalStatus, "storeState", "")}
            </td>

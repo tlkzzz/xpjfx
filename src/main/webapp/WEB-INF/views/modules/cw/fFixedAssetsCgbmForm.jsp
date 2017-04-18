@@ -36,16 +36,18 @@
 		         <div class="control-group">
                                        <label class="control-label">资产名称：</label>
                                                <div class="controls">
-                                               <form:select path="ffixedassets.id" >
-                                                <form:options items="${FFixedAssetslist}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+                                               <form:select path="ffixedassets.id" class="required" >
+                                               	<form:option value="" label="请选择"/>
+                                                <form:options items="${FFixedAssetslist}" itemLabel="name" itemValue="id" htmlEscape="false" />
                                                </form:select>
+                                                  <span class="help-inline"><font color="red">*</font> </span>
                                                </div>
                                             </div>
 
 		<div class="control-group">
 			<label class="control-label">往来单位：</label>
 			<div class="controls">
-				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge required "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -67,11 +69,14 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">支付方式：</label>
-			<div class="controls">
-				<form:input path="paymentMode" htmlEscape="false" maxlength="1" class="input-xlarge "/>
-			</div>
-		</div>
+        			<label class="control-label">付款方式：</label>
+        			<div class="controls">
+                                   <form:select path="paymentMode" >
+                                  <form:option value="" label="请选择"/>
+                                 <form:options items="${fns:getDictList('paymentMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+                                 </form:select>
+                                             </div>
+        		</div>
 		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">

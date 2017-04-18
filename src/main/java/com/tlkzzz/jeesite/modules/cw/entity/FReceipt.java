@@ -5,12 +5,15 @@ package com.tlkzzz.jeesite.modules.cw.entity;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tlkzzz.jeesite.modules.ck.entity.CKm;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 收款Entity
@@ -77,7 +80,7 @@ public class FReceipt extends DataEntity<FReceipt> {
 	public void setTravelAccount(String travelAccount) {
 		this.travelAccount = travelAccount;
 	}
-	
+
 	@Length(min=0, max=100, message="收款帐号长度必须介于 0 和 100 之间")
 	public String getReceiptAccount() {
 		return receiptAccount;
@@ -105,6 +108,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.receiptMode = receiptMode;
 	}
 
+	@JsonIgnore
+	@NotNull(message="收款金额不能为空")
 	@Length(min=0, max=20, message="收款金额长度必须介于 0 和 20 之间")
 	public String getJe() {
 		return je;
@@ -147,6 +152,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 		this.auditor = auditor;
 	}
 
+	@JsonIgnore
+	@NotNull(message="合同金额不能为空")
 	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
 	public String getHtje() {
 		return htje;

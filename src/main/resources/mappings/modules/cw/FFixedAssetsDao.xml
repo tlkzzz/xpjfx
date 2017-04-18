@@ -7,8 +7,10 @@
 		a.name AS "name",
 		a.pay_date AS "payDate",
 		a.total AS "total",
-		a.office AS "office",
-		a.fzr AS "fzr",
+		a.office AS "office.id",
+		cb.name AS "office.name",
+		a.fzr AS "fzr.id",
+		cd.name AS "fzr.name",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -17,6 +19,8 @@
 	</sql>
 	
 	<sql id="fFixedAssetsJoins">
+		LEFT JOIN sys_office cb ON cb.id=a.office
+		LEFT JOIN sys_user cd ON cd.id=a.fzr
 	</sql>
     
 	<select id="get" resultType="FFixedAssets">
@@ -39,6 +43,12 @@
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="office != null and office.id != null and office.id != ''">
+				AND (o.id = #{office.id} OR o.parent_ids LIKE
+				<if test="dbName == 'oracle'">'%,'||#{office.id}||',%')</if>
+				<if test="dbName == 'mssql'">'%,'+#{office.id}+',%')</if>
+				<if test="dbName == 'mysql'">CONCAT('%,', #{office.id}, ',%'))</if>
 			</if>
 		</where>
 		<choose>
@@ -87,8 +97,8 @@
 			#{name},
 			#{payDate},
 			#{total},
-			#{office},
-			#{fzr},
+			#{office.id},
+			#{fzr.id},
 			#{remarks},
 			#{createBy.id},
 			#{createDate},
@@ -102,8 +112,8 @@
 			name = #{name},
 			pay_date = #{payDate},
 			total = #{total},
-			office = #{office},
-			fzr = #{fzr},
+			office = #{office.id},
+			fzr = #{fzr.id},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
