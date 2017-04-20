@@ -76,7 +76,7 @@
 			<div class="controls">
 				<form:select path="rkinfo.supplier.id" cssclass="input-xlarge required">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${goodsList}" itemValue="id" itemLabel="name" htmlEscape="false"></form:options>
+					<form:options items="${supplierList}" itemValue="id" itemLabel="name" htmlEscape="false"></form:options>
 				</form:select>
 			</div>
 		</div>
