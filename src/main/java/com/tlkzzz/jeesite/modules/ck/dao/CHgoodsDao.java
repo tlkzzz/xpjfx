@@ -46,4 +46,9 @@ public interface CHgoodsDao extends CrudDao<CHgoods> {
      * @param cHgoods
      */
 	public void minStock(CHgoods cHgoods);
+
+    /**
+     * 退货更新库存数量
+     * */
+    public void kcsl(CHgoods cHgoods);
 }

@@ -150,6 +150,13 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		super.delete(cHgoods);
 	}
 
+	/**
+	 * 退货更新库存方法
+	 * */
+	public void kcsl(CHgoods cHgoods) {
+		dao.kcsl(cHgoods);
+	}
+
 	public Page<CHgoods> findUser(Page<CHgoods> page, CHgoods cHgoods ) {
 		// 生成数据权限过滤条件（dsf为dataScopeFilter的简写，在xml中使用 ${sqlMap.dsf}调用权限SQL）
 		//tCmMsg.getSqlMap().put("dsf", dataScopeFilter(tCmMsg.getCurrentUser(), "o", "a"));
