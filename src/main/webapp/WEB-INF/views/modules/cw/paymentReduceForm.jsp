@@ -35,7 +35,7 @@
 <body>
 <ul class="nav nav-tabs">
     <li><a href="${ctx}/cw/fTransferAccount/list?transferType=4">应付款减少列表</a></li>
-    <li class="active"><a href="${ctx}/cw/fTransferAccount/form?id=${fTransferAccount.id}">应付款减少<shiro:hasPermission name="cw:fTransferAccount:edit">${not empty fTransferAccount.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="cw:fTransferAccount:edit">查看</shiro:lacksPermission></a></li>
+    <li class="active"><a href="${ctx}/cw/fTransferAccount/paymentReduceForm?id=${fTransferAccount.id}">应付款减少<shiro:hasPermission name="cw:fTransferAccount:edit">${not empty fTransferAccount.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="cw:fTransferAccount:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>
 <form:form id="inputForm" modelAttribute="fTransferAccount" action="${ctx}/cw/fTransferAccount/paymentReduceSave" method="post" class="form-horizontal">
     <form:hidden path="id"/>
