@@ -154,11 +154,8 @@ public class CCgzbinfoController extends BaseController {
 	public String auditing(String id,String state){
 		String retStr = "false";
 		if(StringUtils.isNotBlank(id)&&StringUtils.isNotBlank(state)){
+			boolean saveTrue = false;
 			CRkckddinfo cRkckddinfo = new CRkckddinfo(id);
-			cRkckddinfo.setIssp("1");
-			cRkckddinfo.setSpr(UserUtils.getUser().getId());
-			cRkckddinfo.setSpsj(new Date());
-			cRkckddinfoService.changeIssp(cRkckddinfo);//修改总订单的审批状态
 			CDdinfo cDdinfo = new CDdinfo();
 			cDdinfo.setRkckddinfo(cRkckddinfo);
 			List<CDdinfo> cdList = cDdinfoService.findList(cDdinfo);
@@ -168,40 +165,47 @@ public class CCgzbinfoController extends BaseController {
 				}
 			}else {//出库
 				for (CDdinfo cd:cdList){//一个一个订单出库
-					cHgoodsService.CKMinStore(cd);
+					saveTrue = cHgoodsService.CKMinStore(cd);
 				}
 				/** 财务信息记录	**/
-				if("5".equals(state)) {//退货退款
-					FPayment payment = new FPayment();
-					payment.setPaymentType(state);
-					payment = fPaymentService.getByPaymentCode(payment);
-					if(payment !=null){
-						payment.setApprovalStatus("1");
-						payment.setAuditor(UserUtils.getUser());
-                        fPaymentService.updateApprovalStatus(payment);
-						fExpenRecordService.saveByPayment(payment);
-					}
-				}else if("4".equals(state)) {//报废 暂时没有财务
+				if(saveTrue) {
+					if("5".equals(state)) {//退货退款
+						FPayment payment = new FPayment();
+						payment.setPaymentType(state);
+						payment = fPaymentService.getByPaymentCode(payment);
+						if(payment !=null){
+							payment.setApprovalStatus("1");
+							payment.setAuditor(UserUtils.getUser());
+							fPaymentService.updateApprovalStatus(payment);
+							fExpenRecordService.saveByPayment(payment);
+						}
+					}else if("4".equals(state)) {//报废 暂时没有财务
 
-				}else {//录单，其他
-					FReceipt receipt = new FReceipt();
-					receipt.setReceiptCode(cRkckddinfo.getId());
-					receipt = fReceiptService.getByReceiptCode(receipt);
-					if (receipt != null) {
-						receipt.setApprovalStatus("1");
-						receipt.setAuditor(UserUtils.getUser());
-						fReceiptService.updateApprovalStatus(receipt);
-						fIncomeRecordService.saveByReceipt(receipt);
-						double htje = Double.parseDouble(receipt.getHtje());
-						double sfje	= Double.parseDouble(receipt.getJe());
-						if(htje>0&&htje>sfje){
-							//当合同金额大于实付金额的时候产生欠款
-							fArrearsService.saveByReceipt(receipt,htje,sfje);
+					}else {//录单，其他
+						FReceipt receipt = new FReceipt();
+						receipt.setReceiptCode(cRkckddinfo.getId());
+						receipt = fReceiptService.getByReceiptCode(receipt);
+						if (receipt != null) {
+							receipt.setApprovalStatus("1");
+							receipt.setAuditor(UserUtils.getUser());
+							fReceiptService.updateApprovalStatus(receipt);
+							fIncomeRecordService.saveByReceipt(receipt);
+							double htje = Double.parseDouble(receipt.getHtje());
+							double sfje	= Double.parseDouble(receipt.getJe());
+							if(htje>0&&htje>sfje){
+								//当合同金额大于实付金额的时候产生欠款
+								fArrearsService.saveByReceipt(receipt,htje,sfje);
+							}
 						}
 					}
+
+					retStr = "true";
+					cRkckddinfo.setIssp("1");
+					cRkckddinfo.setSpr(UserUtils.getUser().getId());
+					cRkckddinfo.setSpsj(new Date());
+					cRkckddinfoService.changeIssp(cRkckddinfo);//修改总订单的审批状态
 				}
 			}
-			retStr = "true";
 		}
 		return retStr;
 	}
