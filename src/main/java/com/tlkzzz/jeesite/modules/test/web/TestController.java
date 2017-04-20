@@ -13,6 +13,7 @@ import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,7 +113,7 @@ public class TestController extends BaseController {
 	
 	/**
 	 * 删除数据方法
-	 * @param id
+	 * @param test
 	 * @param redirectAttributes
 	 * @return
 	 */
