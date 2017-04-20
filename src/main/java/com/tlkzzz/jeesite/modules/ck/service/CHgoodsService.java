@@ -141,6 +141,7 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 			ckinfo.setJsr(cDdinfo.getCreateBy());
 			dao.minStock(cHgoods);
 			cCkinfoService.save(ckinfo);
+			return true;
 		}
 		return false;
 	}
