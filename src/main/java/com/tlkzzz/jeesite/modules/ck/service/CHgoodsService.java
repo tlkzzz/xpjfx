@@ -66,37 +66,30 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		return page;
 	}
 
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
 	public void saveStockGoods(CHgoods cHgoods,CHgoods oldHgoods,CGoods goods){
 		double stockPrice = Double.parseDouble(goods.getCbj());//原来成本价
 		double dBPrice = ToolsUtils.priceDynamicBalanceTools(dao.findStockSumNum(goods.getId()),
 				Integer.parseInt(cHgoods.getNub()),stockPrice,cHgoods.getCbj());//动态平衡后的成本价
 		String newNum = cHgoods.getNub();//添加的数量
-		try{
-			if(oldHgoods!=null){//商品库存已存在
-				String numStr = String.valueOf(dao.findStockNum(cHgoods));//库存数
-				int stockNum = (!numStr.equals("null"))?Integer.parseInt(numStr):0;
-				newNum = String.valueOf(stockNum+Integer.parseInt(newNum));
-				if(StringUtils.isNotBlank(cHgoods.getYjnub()))
-					oldHgoods.setYjnub(cHgoods.getYjnub());
-				oldHgoods.setNub(newNum);
-				super.save(oldHgoods);
-			}else {//商品库存不存在
-				super.save(cHgoods);
-			}
-			goods.setCbj(String.valueOf(dBPrice));
-			cGoodsDao.updateCBJ(goods);
-			cHgoods.setGoods(goods);//添加入库记录
-			cRkinfoService.saveInfo(cHgoods, String.valueOf(stockPrice), (oldHgoods!=null)?oldHgoods.getNub():"0");
-		}catch (Exception e){//出现异常情况回滚信息
-			e.printStackTrace();
-			goods.setCbj(String.valueOf(stockPrice));
-			cGoodsDao.updateCBJ(goods);
-			if(oldHgoods!=null)super.save(oldHgoods);
+		if(oldHgoods!=null){//商品库存已存在
+			String numStr = String.valueOf(dao.findStockNum(cHgoods));//库存数
+			int stockNum = (!numStr.equals("null"))?Integer.parseInt(numStr):0;
+			newNum = String.valueOf(stockNum+Integer.parseInt(newNum));
+			if(StringUtils.isNotBlank(cHgoods.getYjnub()))
+				oldHgoods.setYjnub(cHgoods.getYjnub());
+			oldHgoods.setNub(newNum);
+			super.save(oldHgoods);
+		}else {//商品库存不存在
+			super.save(cHgoods);
 		}
+		goods.setCbj(String.valueOf(dBPrice));
+		cGoodsDao.updateCBJ(goods);
+		cHgoods.setGoods(goods);//添加入库记录
+		cRkinfoService.saveInfo(cHgoods, String.valueOf(stockPrice), (oldHgoods!=null)?oldHgoods.getNub():"0");
 	}
 
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
 	public void save(CHgoods cHgoods) {
 		CHgoods oldHgoods = dao.findHGByHG(cHgoods);
 		CGoods goods = cGoodsDao.get(cHgoods.getGoods());
