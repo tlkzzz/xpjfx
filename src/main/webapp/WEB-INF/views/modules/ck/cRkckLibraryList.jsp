@@ -44,7 +44,12 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cRkckddinfo/libraryList?state=${cRkckddinfo.state}">总订单列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cRkckddinfo/libraryList?state=${cRkckddinfo.state}">
+			<c:if test="${cRkckddinfo.state eq '2'}">出库录单列表</c:if>
+			<c:if test="${cRkckddinfo.state eq '3'}">其他出库列表</c:if>
+			<c:if test="${cRkckddinfo.state eq '4'}">报废录单列表</c:if>
+			<c:if test="${cRkckddinfo.state eq '5'}">退货录单列表</c:if>
+		</a></li>
 		<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cShop/cgAdd">订单添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/libraryList" method="post" class="breadcrumb form-search">
