@@ -7,7 +7,8 @@
 		a.yhje AS "yhje",
 		a.lx AS "lx",
 		a.storeid AS "storeid",
-		a.ddid AS "ddid",
+		a.ddid AS "ddid.id",
+		ck.ddbh AS  "ddid.ddbh",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
@@ -17,6 +18,7 @@
 	</sql>
 	
 	<sql id="fDiscountJoins">
+		LEFT JOIN c_rkckddinfo ck ON ck.id=a.ddid
 	</sql>
     
 	<select id="get" resultType="FDiscount">
@@ -81,7 +83,7 @@
 			#{yhje},
 			#{lx},
 			#{storeid},
-			#{ddid},
+			#{ddid.id},
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
@@ -96,7 +98,7 @@
 			yhje = #{yhje},
 			lx = #{lx},
 			storeid = #{storeid},
-			ddid = #{ddid},
+			ddid = #{ddid.id},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remaks = #{remaks}

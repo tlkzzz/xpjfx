@@ -87,6 +87,7 @@
             <label class="control-label">品牌：</label>
                 <div class="controls">
                <form:select path="bands.id">
+				   <form:option value="" label="请选择"></form:option>
                <form:options items="${bandsList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
                 </form:select>
                 <span class="help-inline"><font color="red">*</font> </span>
@@ -96,6 +97,7 @@
                                <label class="control-label">供应商：</label>
                                        <div class="controls">
                                        <form:select path="supplier.id">
+										   <form:option value="" label="请选择"></form:option>
                                         <form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
                                        </form:select>
                                        </div>
@@ -169,6 +171,19 @@
                 				<span class="help-inline"><font color="red">*</font> </span>
                 			</div>
                 		</div>
+					<div class="control-group">
+						<label class="control-label">预警售价：</label>
+						<div class="controls">
+							<form:input path="yjsj" htmlEscape="false" class="input-xlarge required"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">参考成本价：</label>
+						<div class="controls">
+							<form:input path="ckcbj" htmlEscape="false" class="input-xlarge required"/>
+						</div>
+					</div>
+					<div class="accordion-inner">
 				</div>
 			</div>
 		</div>
@@ -181,19 +196,6 @@
 
 			<div id="collapseTwo" class="accordion-body collapse">
 
-			  <div class="control-group">
-                            			<label class="control-label">预警售价：</label>
-                            			<div class="controls">
-                            				<form:input path="yjsj" htmlEscape="false" class="input-xlarge required"/>
-                            			</div>
-                            		</div>
-                            		 <div class="control-group">
-                                        <label class="control-label">参考成本价：</label>
-                                           <div class="controls">
-                                                <form:input path="ckcbj" htmlEscape="false" class="input-xlarge required"/>
-                                            </div>
-                                       </div>
-				<div class="accordion-inner">
 					<div class="control-group">
 			<label class="control-label">商品图片：</label>
 			<div class="controls">

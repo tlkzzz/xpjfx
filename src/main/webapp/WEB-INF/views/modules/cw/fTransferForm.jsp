@@ -51,23 +51,21 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">转出帐户：</label>
+			<label class="control-label">转出账户：</label>
 			<div class="controls">
-				<form:select path="outAccount" class="required" id="outAccount">
+				<form:select path="fAccount.name" class="input-xlarge">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${accountList}" itemLabel="bankCode" itemValue="id" htmlEscape="false"></form:options>
+					<form:options items="${accountList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">转入账户：</label>
 			<div class="controls">
-				<form:select path="inAccount" class="required" id="inAccount">
+				<form:select path="fAccount.name" class="input-xlarge">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${accountList}" itemLabel="bankCode" itemValue="id" htmlEscape="false"></form:options>
+					<form:options items="${accountList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">

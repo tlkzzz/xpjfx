@@ -70,7 +70,8 @@ public class CStore extends DataEntity<CStore> {
 		return hzzq;
 	}
 
-	public void setHzzq(String cgy) {
+
+	public void setHzzq(String hzzq) {
 		this.hzzq = hzzq;
 	}
 

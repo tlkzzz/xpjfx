@@ -30,6 +30,7 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 	private CKm subjectCode;		// 科目编码
 	private String approvalStatus;		// 审核状态
 	private User auditor;		// 审核人
+	private FAccount fAccount; //账户信息
 	
 	public FTransferAccount() {
 		super();
@@ -132,5 +133,12 @@ public class FTransferAccount extends DataEntity<FTransferAccount> {
 	public void setAuditor(User auditor) {
 		this.auditor = auditor;
 	}
-	
+
+	public FAccount getfAccount() {
+		return fAccount;
+	}
+
+	public void setfAccount(FAccount fAccount) {
+		this.fAccount = fAccount;
+	}
 }

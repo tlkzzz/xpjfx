@@ -121,14 +121,6 @@
 								<span class="help-inline"><font color="red">*</font> </span>
 						</div>
 					</div>
-					<!--
-	<div class="control-group">
-			<label class="control-label">客户简称：</label>
-			<div class="controls">
-				<form:input path="khjc" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		-->
 				</div>
 			</div>
 		</div>
@@ -154,12 +146,6 @@
 							<form:input path="yb" ZipCode="true" htmlEscape="false" maxlength="64" class="input-xlarge "/>
 						</div>
 					</div>
-					<div class="control-group">
-                    						<label class="control-label">回执周期：</label>
-                    						<div class="controls">
-                    							<form:input path="hzzq" htmlEscape="false" maxlength="9" class="input-xlarge "/>
-                    						</div>
-                    					</div>
                     <div class="control-group">
                                         <label class="control-label">微信：</label>
                                         	<div class="controls">
@@ -193,7 +179,7 @@
                     <div class="control-group">
                                  <label class="control-label">进货渠道：</label>
                                  <div class="controls">
-                                 <form:input path="hzzq" htmlEscape="jhqd" maxlength="9" class="input-xlarge "/>
+                                 <form:input path="jhqd" htmlEscape="jhqd" maxlength="9" class="input-xlarge "/>
                                  </div>
                              </div>
 					<div class="control-group">

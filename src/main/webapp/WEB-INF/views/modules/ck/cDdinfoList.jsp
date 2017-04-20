@@ -57,7 +57,7 @@
 				<th>入库实际成本价</th>
 				<th>修改时间</th>
 				<th>备注</th>
-				<shiro:hasPermission name="ck:cDdinfo:edit"><th>操作</th></shiro:hasPermission>
+		<!--		<shiro:hasPermission name="ck:cDdinfo:edit"><th>操作</th></shiro:hasPermission> -->
 			</tr>
 		</thead>
 		<tbody>
@@ -99,10 +99,11 @@
 				<td>
 					${cDdinfo.remarks}
 				</td>
-				<shiro:hasPermission name="ck:cDdinfo:edit"><td>
+		<!--		<shiro:hasPermission name="ck:cDdinfo:edit"><td>
     				<c:if test="${cDdinfo.rkckddinfo.issp!='1'}"><a href="${ctx}/ck/cDdinfo/form?id=${cDdinfo.id}">修改</a></c:if>
 					<a href="${ctx}/ck/cDdinfo/delete?id=${cDdinfo.id}" onclick="return confirmx('确认要删除该订单吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
+				-->
 			</tr>
 		</c:forEach>
 		</tbody>

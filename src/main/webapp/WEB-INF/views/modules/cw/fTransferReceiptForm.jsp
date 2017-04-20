@@ -64,9 +64,9 @@
 		<div class="control-group">
 			<label class="control-label">转出帐户：</label>
 			<div class="controls">
-				<form:select path="outAccount" class="required">
+				<form:select path="fAccount.name" class="required">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${accountList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"></form:options>
+					<form:options items="${accountList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
 			</div>
 		</div>

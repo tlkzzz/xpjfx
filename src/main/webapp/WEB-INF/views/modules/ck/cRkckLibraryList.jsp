@@ -28,7 +28,7 @@
                 if(v=="ok"){
                     $.ajax({
                         url:"${ctx}/ck/cCgzbinfo/auditing?id="+id+"&state="+state,
-                        type:"POST",
+                        type:"post",
                         dataType:"json",
                         success:function (data) {
                             if(data){
