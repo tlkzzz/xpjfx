@@ -110,6 +110,12 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 //		CKm   subjectCode=new CKm();
 //		subjectCode.setKmname(fReceipt.getSubjectCode().getId());
 //		travelUnit.setId(fReceipt.getTravelUnit().getId());
+		if(fReceipt.getJe().isEmpty()){
+			fReceipt.setJe("0");
+		}
+		if(fReceipt.getHtje().isEmpty()){
+			fReceipt.setHtje("0");
+		}
 		fReceipt.setSubjectCode(fReceipt.getSubjectCode());
 		fReceipt.setReceiptDate(new Date());
 		fReceipt.setTravelUnit(fReceipt.getTravelUnit());

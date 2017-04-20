@@ -3,8 +3,10 @@
  */
 package com.tlkzzz.jeesite.modules.cw.service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
+import com.tlkzzz.jeesite.common.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,12 @@ public class FFixedAssetsService extends CrudService<FFixedAssetsDao, FFixedAsse
 	
 	@Transactional(readOnly = false)
 	public void save(FFixedAssets fFixedAssets) {
+		DecimalFormat df = new DecimalFormat("#.####");
+		if(fFixedAssets.getTotal().isEmpty()){
+			fFixedAssets.setTotal("0");
+		}
+		if(StringUtils.isNotBlank(fFixedAssets.getTotal()))fFixedAssets.setTotal(df.format(Double.parseDouble(fFixedAssets.getTotal())));
+		String ls=fFixedAssets.getTotal();
 		super.save(fFixedAssets);
 	}
 	

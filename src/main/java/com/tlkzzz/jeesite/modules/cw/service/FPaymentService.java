@@ -81,6 +81,12 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 //		CKm   subjectCode=new CKm();
 //		subjectCode.setKmname(fPayment.getSubjectCode().getId());
 //		travelUnit.setId(fPayment.getTravelUnit().getId());
+		if(fPayment.getHtje().isEmpty()){
+			fPayment.setHtje("0");
+		}
+		if(fPayment.getJe().isEmpty()){
+			fPayment.setJe("0");
+		}
         fPayment.setSubjectCode(fPayment.getSubjectCode());
         fPayment.setPaymentDate(new Date());
         fPayment.setTravelUnit(fPayment.getTravelUnit());

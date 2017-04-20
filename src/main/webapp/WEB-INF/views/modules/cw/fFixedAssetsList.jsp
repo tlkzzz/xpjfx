@@ -39,6 +39,7 @@
 				<th>资产名称</th>
 				<th>归属部门</th>
 				<th>负责人</th>
+				<th></th>
 				<th>备注</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fFixedAssets:edit"><th>操作</th></shiro:hasPermission>

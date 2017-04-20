@@ -36,6 +36,9 @@ public class FFixedAssetsCgbmService extends CrudService<FFixedAssetsCgbmDao, FF
 	
 	@Transactional(readOnly = false)
 	public void save(FFixedAssetsCgbm fFixedAssetsCgbm) {
+		if(fFixedAssetsCgbm.getTotal().isEmpty()){
+			fFixedAssetsCgbm.setTotal("0");
+		}
 		super.save(fFixedAssetsCgbm);
 	}
 	
