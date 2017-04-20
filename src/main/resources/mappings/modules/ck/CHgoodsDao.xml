@@ -187,6 +187,12 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="kcsl">
+		UPDATE c_hgoods SET
+		nub = #{nub}
+		WHERE id = #{id}
+	</update>
+
 	<update id="addStock">
 		UPDATE c_hgoods a SET
 		 	nub=nub + #{nub}

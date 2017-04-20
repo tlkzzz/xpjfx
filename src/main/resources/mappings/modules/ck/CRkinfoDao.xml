@@ -28,7 +28,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.storeId AS "storeId.id"
 	</sql>
 	
 	<sql id="cRkinfoJoins">
@@ -120,7 +121,8 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			storeId
 		) VALUES (
 			#{id},
 			#{goods.id},
@@ -137,7 +139,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{storeId.id}
 		)
 	</insert>
 	
@@ -154,7 +157,8 @@
 			state = #{state},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			storeId=#{storeId.id}
 		WHERE id = #{id}
 	</update>
 	

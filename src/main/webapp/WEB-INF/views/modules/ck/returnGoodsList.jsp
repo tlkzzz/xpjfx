@@ -88,10 +88,10 @@
             <td>
                     ${cDdinfo.spr.id}
             </td>
-            <shiro:hasPermission name="ck:cDdinfo:edit"><td>
-                <c:if test="${cDdinfo.spzt='0'}"><a href="${ctx}/ck/cDdinfo/thsp?ids=${cDdinfo.id}">审批</a></c:if>
-                <c:if test="${cDdinfo.spzt='1'}">审批通过</c:if>
-            </td></shiro:hasPermission>
+            <td>
+                <c:if test="${cDdinfo.spzt eq '0'}"><a href="${ctx}/ck/cDdinfo/thsp?ids=${cDdinfo.id}">审批</a></c:if>
+                <c:if test="${cDdinfo.spzt eq '1'}">审批通过</c:if>
+            </td>
         </tr>
     </c:forEach>
     </tbody>

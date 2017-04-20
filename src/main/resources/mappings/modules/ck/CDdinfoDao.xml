@@ -60,10 +60,15 @@
 
 	<select id="thfindList" resultType="CDdinfo">
 	SELECT
-	*
+		<include refid="cDdinfoColumns"/>
 	FROM c_ddinfo a
-		where
+		<include refid="cDdinfoJoins"/>
+		<where>
 			a.spzt='0'
+		<if test="id != null and id != ''">
+			AND a.id=#{id}
+		</if>
+		</where>
 	</select>
 
 	<select id="findList" resultType="CDdinfo">

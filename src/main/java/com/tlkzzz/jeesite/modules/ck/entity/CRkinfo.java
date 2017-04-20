@@ -25,6 +25,7 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 	private String cgzbid;		// 采购总订单ID
 	private CSupplier supplier;	// 供应商
 	private String state;		// 入库类型 0进货入库1其他入库
+	private CStore storeId;      //客户ID
 
 	public CRkinfo() {
 		super();
@@ -108,5 +109,13 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public CStore getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(CStore storeId) {
+		this.storeId = storeId;
 	}
 }
