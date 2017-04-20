@@ -117,7 +117,7 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	 * @param cDdinfo
 	 * @return
 	 */
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
 	public boolean CKMinStore(CDdinfo cDdinfo){//出库
 		CHgoods cHgoods = new CHgoods();
 		cHgoods.setHouse(cDdinfo.getHouse());
