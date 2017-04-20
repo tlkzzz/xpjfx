@@ -49,9 +49,9 @@
     <div class="control-group">
         <label class="control-label">转入账户：</label>
         <div class="controls">
-            <form:select path="inAccount" class="input-xlarge required">
+            <form:select path="fAccount.name" class="input-xlarge required">
                 <form:option value="" label="请选择"></form:option>
-                <form:options items="${IDcarddList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"/>
+                <form:options items="${IDcarddList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
             </form:select>
             <span class="help-inline"><font color="red">*</font> </span>
         </div>
