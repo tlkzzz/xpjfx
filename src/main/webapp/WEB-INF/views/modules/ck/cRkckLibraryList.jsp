@@ -28,12 +28,14 @@
                 if(v=="ok"){
                     $.ajax({
                         url:"${ctx}/ck/cCgzbinfo/auditing?id="+id+"&state="+state,
-                        type:"pose",
+                        type:"POST",
                         dataType:"json",
                         success:function (data) {
                             if(data){
                                 top.$.jBox.tip("审核成功","系统提示","warning");
                                 $("#searchForm").submit();
+                            }else {
+                                top.$.jBox.tip("审核失败，请检查库存","系统提示","warning");
                             }
                         }
                     });
