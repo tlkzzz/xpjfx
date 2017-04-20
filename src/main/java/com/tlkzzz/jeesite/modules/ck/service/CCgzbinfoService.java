@@ -57,7 +57,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		return page;
 	}
 	
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
 	public void save(CCgzbinfo cCgzbinfo) {
 		Date date = new Date();
 		CGoods goods = cGoodsDao.get(cCgzbinfo.getGoods());
