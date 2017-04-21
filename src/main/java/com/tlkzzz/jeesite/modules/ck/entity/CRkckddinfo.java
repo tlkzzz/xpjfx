@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.ck.entity;
 
 import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -24,7 +25,7 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private String lx;		// 0入库1出库
 	private String state;		// 0临时采购入库1其他入库2出库录单3其它出库4报废录单5退货录单
 	private String issp;		// 0未审批1已审批
-	private String spr;		// 审批人
+	private User spr;		// 审批人
 	private Date spsj;		// 审批时间
 	private String sjje;     //实际金额
 	private FReceipt receipt;	//收款信息
@@ -83,7 +84,7 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 		this.lx = lx;
 	}
 	
-	@Length(min=0, max=1, message="0临时采购入库1其他入库2出库录单3其它出库4报废录单5退货录单长度必须介于 0 和 1 之间")
+	@Length(min=0, max=1, message="状态长度必须介于 0 和 1 之间")
 	public String getState() {
 		return state;
 	}
@@ -101,12 +102,11 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 		this.issp = issp;
 	}
 	
-	@Length(min=0, max=64, message="审批人长度必须介于 0 和 64 之间")
-	public String getSpr() {
+	public User getSpr() {
 		return spr;
 	}
 
-	public void setSpr(String spr) {
+	public void setSpr(User spr) {
 		this.spr = spr;
 	}
 	
