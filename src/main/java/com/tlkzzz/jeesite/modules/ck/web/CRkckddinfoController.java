@@ -223,22 +223,20 @@ public class CRkckddinfoController extends BaseController {
 				//如果receipt中有ID则为出库财务信息保存后跳转过来，并且带有收款记录ID为参数
 
 				FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
-				double yhTotal = 0.0;
+				double yhTotal = 0.0;//优惠总金额
+				double sjTotal = 0.0;//实际总金额
 				for (CShop cShop:  shopList){
-					if(cShop.getYhje()!=null)yhTotal += cShop.getYhje();
-//					if(Double.parseDouble(receipt.getHtje())>Double.parseDouble(cShop.getJe())){
-//						yhTotal += Double.parseDouble(cShop.getYhje());
-//					}
-//					if(Double.parseDouble(receipt.getHtje())<Double.parseDouble(cShop.getJe())){
-//						yhTotal=0.0;
-//					}
+					if(cShop.getYhje()!=null&&cShop.getYhje()>0)yhTotal += cShop.getYhje();
+					if(cShop.getJe()!=null&&cShop.getJe()>0)sjTotal += cShop.getJe();
 				}
-				FDiscount discount = new FDiscount();
-				discount.setDdid(cRkckddinfo);
-				discount.setStoreid(cs.getStore());
-				discount.setYhje(String.valueOf(yhTotal));
-				//		discount.setLx();
-				fDiscountService.save(discount);
+				if(yhTotal>0||Double.parseDouble(receipt.getHtje())>sjTotal) {
+					FDiscount discount = new FDiscount();
+					discount.setDdid(cRkckddinfo);
+					discount.setStoreid(receipt.getTravelUnit());
+					discount.setYhje(String.valueOf(yhTotal));
+					discount.setLx((yhTotal>0)?"0":"1");
+					fDiscountService.save(discount);
+				}
 			}
 		}
 		return retStr;
