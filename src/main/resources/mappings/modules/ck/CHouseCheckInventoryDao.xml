@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CHouseCheckInventoryDao">
+    
+	<sql id="cHouseCheckInventoryColumns">
+		a.id AS "id",
+		a.house_id AS "house.id",
+		ch.name AS "house.name",
+		a.gclass_id AS "gclass.id",
+		cgc.name AS "gclass.name",
+		a.inventory_text AS "inventoryText",
+		a.check_date AS "checkDate",
+		a.state AS "state",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cHouseCheckInventoryJoins">
+		LEFT JOIN c_house ch ON ch.id=a.house_id
+		LEFT JOIN c_gclass cgc ON cgc.id=a.gclass_id
+	</sql>
+    
+	<select id="get" resultType="CHouseCheckInventory">
+		SELECT 
+			<include refid="cHouseCheckInventoryColumns"/>
+		FROM c_house_check_inventory a
+		<include refid="cHouseCheckInventoryJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getByHouse" resultType="CHouseCheckInventory">
+		SELECT
+			<include refid="cHouseCheckInventoryColumns"/>
+		FROM c_house_check_inventory a
+		<include refid="cHouseCheckInventoryJoins"/>
+		WHERE a.house_id = #{house.id} AND a.state = '0'
+	</select>
+	
+	<select id="findList" resultType="CHouseCheckInventory">
+		SELECT 
+			<include refid="cHouseCheckInventoryColumns"/>
+		FROM c_house_check_inventory a
+		<include refid="cHouseCheckInventoryJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.house_id = #{house.id}
+			</if>
+			<if test="gclass != null and gclass.id != null and gclass.id != ''">
+				AND a.gclass_id = #{gclass.id}
+			</if>
+			<if test="checkDate != null and checkDate != ''">
+				AND a.check_date = #{checkDate}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CHouseCheckInventory">
+		SELECT 
+			<include refid="cHouseCheckInventoryColumns"/>
+		FROM c_house_check_inventory a
+		<include refid="cHouseCheckInventoryJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_house_check_inventory(
+			id,
+			house_id,
+			gclass_id,
+			inventory_text,
+			check_date,
+			state,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{house.id},
+			#{gclass.id},
+			#{inventoryText},
+			#{checkDate},
+			#{state},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_house_check_inventory SET 	
+			house_id = #{house.id},
+			gclass_id = #{gclass.id},
+			inventory_text = #{inventoryText},
+			check_date = #{checkDate},
+			state = #{state},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStateByHouse">
+		UPDATE c_house_check_inventory SET 
+			state = #{state}
+		WHERE house_id = #{house.id}
+	</update>
+
+	<update id="delete">
+		UPDATE c_house_check_inventory SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

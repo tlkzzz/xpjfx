@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CHouseComponentCheckDao">
+    
+	<sql id="cHouseComponentCheckColumns">
+		a.id AS "id",
+		a.house_id AS "house.id",
+		a.cbzje AS "cbzje",
+		a.sszje AS "sszje",
+		a.check_date AS "checkDate",
+		a.state AS "state",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cHouseComponentCheckJoins">
+	</sql>
+    
+	<select id="get" resultType="CHouseComponentCheck">
+		SELECT 
+			<include refid="cHouseComponentCheckColumns"/>
+		FROM c_house_component_check a
+		<include refid="cHouseComponentCheckJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getByHouse" resultType="CHouseComponentCheck">
+		SELECT
+			<include refid="cHouseComponentCheckColumns"/>
+		FROM c_house_component_check a
+			<include refid="cHouseComponentCheckJoins"/>
+		WHERE a.house_id = #{house.id} AND a.state = '0'
+	</select>
+
+	<select id="findList" resultType="CHouseComponentCheck">
+		SELECT 
+			<include refid="cHouseComponentCheckColumns"/>
+		FROM c_house_component_check a
+		<include refid="cHouseComponentCheckJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.house_id = #{house.id}
+			</if>
+			<if test="checkDate != null and checkDate != ''">
+				AND a.check_date = #{checkDate}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CHouseComponentCheck">
+		SELECT 
+			<include refid="cHouseComponentCheckColumns"/>
+		FROM c_house_component_check a
+		<include refid="cHouseComponentCheckJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_house_component_check(
+			id,
+			house_id,
+			cbzje,
+			sszje,
+			check_date,
+			state,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{house.id},
+			#{cbzje},
+			#{sszje},
+			#{checkDate},
+			#{state},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_house_component_check SET 	
+			house_id = #{house.id},
+			cbzje = #{cbzje},
+			sszje = #{sszje},
+			check_date = #{checkDate},
+			state = #{state},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateStateByHouse">
+		UPDATE c_house_component_check SET
+			state = #{state}
+	  	WHERE house_id = #{house.id}
+	</update>
+	
+	<update id="delete">
+		UPDATE c_house_component_check SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
