@@ -29,4 +29,16 @@ public interface FPaymentDao extends CrudDao<FPayment> {
 
 
 	public FPayment paymentAddHtje(FPayment payment);
+
+	/**
+	 * 通过ID增加合同金额
+	 * @param payment
+	 */
+	public void addHTJE(FPayment payment);
+
+	/**
+	 * 通过ID减少合同金额
+	 * @param payment
+	 */
+	public void minHTJE(FPayment payment);
 }
