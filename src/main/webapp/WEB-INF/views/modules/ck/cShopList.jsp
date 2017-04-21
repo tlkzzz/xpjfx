@@ -23,9 +23,9 @@
             });
         }
         function submitOrder() {
-			if(listCount>0||true){
-			    if(state==2||state==3){
-			        //填写收款信息后提交订单
+            if(listCount>0){
+                if(state==2||state==3){
+                    //填写收款信息后提交订单
                     top.$.jBox.open("iframe:${ctx}/ck/cRkckddinfo/submitOrder", "提交订单", 700, $(top.document).height()-180, {
                         buttons:{"确定":"ok"}, submit:function (v,f,h) {
                             if(v=='ok')location.reload();
@@ -34,7 +34,7 @@
                         }
                     });
                 }else if(state==5){//退货付款
-					//填写收款信息后提交订单
+                    //填写收款信息后提交订单
                     top.$.jBox.open("iframe:${ctx}/ck/cRkckddinfo/submitOrderPayment", "提交订单", 700, $(top.document).height()-180, {
                         buttons:{"确定":"ok"}, submit:function (v,f,h) {
                             if(v=='ok')location.reload();
@@ -46,9 +46,9 @@
                     //直接提交订单
                     window.location.href = '${ctx}/ck/cRkckddinfo/saveCgInfo';
                 }
-                    }else {
-				top.$.jBox.tip("请添加订单后再提交！","系统提示","warning");
-			}
+            }else {
+                top.$.jBox.tip("请添加订单后再提交！","系统提示","warning");
+            }
         }
 		function page(n,s){
 			$("#pageNo").val(n);
