@@ -47,7 +47,6 @@
 	<li ><a href="${ctx}/ck/cHgoods/list">库存列表</a></li>
             <li class="active"><a href="${ctx}/ck/cCgzbinfo/form">采购入库</a></li>
     		<shiro:hasPermission name="ck:cHgoods:edit"><li><a href="${ctx}/ck/cHgoods/form">其他入库</a></li></shiro:hasPermission>
-    		<shiro:hasPermission name="ck:cHgoods:edit"><li><a href="${ctx}/ck/cHgoods/move">移库</a></li></shiro:hasPermission>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="cCgzbinfo" action="${ctx}/ck/cCgzbinfo/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
