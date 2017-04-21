@@ -23,7 +23,7 @@
             });
         }
         function submitOrder() {
-			if(listCount>0||true){
+			if(listCount>0){
 			    if(state==2||state==3){
 			        //填写收款信息后提交订单
                     top.$.jBox.open("iframe:${ctx}/ck/cRkckddinfo/submitOrder", "提交订单", 700, $(top.document).height()-180, {
