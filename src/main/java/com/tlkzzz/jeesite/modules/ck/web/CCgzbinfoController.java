@@ -201,7 +201,7 @@ public class CCgzbinfoController extends BaseController {
 			if(saveTrue) {
 				retStr = "true";
 				cRkckddinfo.setIssp("1");
-				cRkckddinfo.setSpr(UserUtils.getUser().getId());
+				cRkckddinfo.setSpr(UserUtils.getUser());
 				cRkckddinfo.setSpsj(new Date());
 				cRkckddinfoService.changeIssp(cRkckddinfo);//修改总订单的审批状态
 			}
