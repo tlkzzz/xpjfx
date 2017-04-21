@@ -75,7 +75,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		double sumMoney = Integer.parseInt(cCgzbinfo.getNub())*Double.parseDouble(cCgzbinfo.getJg());
 		cRkckddinfo.setJe(String.valueOf(sumMoney));
 		cRkckddinfo.setIssp("1");//已审批
-		cRkckddinfo.setSpr(UserUtils.getUser().getId());
+		cRkckddinfo.setSpr(UserUtils.getUser());
 		cRkckddinfo.setSpsj(date);
 		cRkckddinfoDao.insert(cRkckddinfo);
 		/**	生成并保存入库子订单	**/
