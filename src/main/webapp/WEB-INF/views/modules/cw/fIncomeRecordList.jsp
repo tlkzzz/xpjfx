@@ -33,19 +33,19 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>创建时间</th>
 				<th>备注</th>
-				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fIncomeRecord:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="fIncomeRecord">
 			<tr>
-				<td><a href="${ctx}/cw/fIncomeRecord/form?id=${fIncomeRecord.id}">
-					${fIncomeRecord.remarks}
-				</a></td>
 				<td>
-					<fmt:formatDate value="${fIncomeRecord.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${fIncomeRecord.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+						${fIncomeRecord.remarks}
 				</td>
 				<shiro:hasPermission name="cw:fIncomeRecord:edit"><td>
     				<a href="${ctx}/cw/fIncomeRecord/form?id=${fIncomeRecord.id}">修改</a>

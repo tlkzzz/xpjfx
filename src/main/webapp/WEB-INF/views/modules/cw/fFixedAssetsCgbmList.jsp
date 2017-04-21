@@ -70,8 +70,8 @@
 			    <th>付款方式</th>
 			    <th>审核状态</th>
 			    <th>审核人</th>
+				<th>创建时间</th>
 				<th>备注</th>
-				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fFixedAssetsCgbm:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -91,13 +91,12 @@
             <td>
             ${fFixedAssetsCgbm.auditor}
             </td>
-				<td><a href="${ctx}/cw/fFixedAssetsCgbm/form?id=${fFixedAssetsCgbm.id}">
-					${fFixedAssetsCgbm.remarks}
-                         				</a>
-                         				</td>
 				<td>
-					<fmt:formatDate value="${fFixedAssetsCgbm.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${fFixedAssetsCgbm.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
+				<td>
+					${fFixedAssetsCgbm.remarks}
+                         				</td>
 				<shiro:hasPermission name="cw:fFixedAssetsCgbm:edit"><td>
     				<a href="${ctx}/cw/fFixedAssetsCgbm/form?id=${fFixedAssetsCgbm.id}">修改</a>
 					<a href="${ctx}/cw/fFixedAssetsCgbm/delete?id=${fFixedAssetsCgbm.id}" onclick="return confirmx('确认要删除该固定资产采购变卖吗？', this.href)">删除</a>

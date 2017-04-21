@@ -33,20 +33,20 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>创建时间</th>
 				<th>备注</th>
-				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fExpenRecord:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="fExpenRecord">
 			<tr>
-				<td><a href="${ctx}/cw/fExpenRecord/form?id=${fExpenRecord.id}">
-					${fExpenRecord.remarks}
-				</a></td>
 				<td>
-					<fmt:formatDate value="${fExpenRecord.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${fExpenRecord.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
+				<td><a href="${ctx}/cw/fExpenRecord/form?id=${fExpenRecord.id}">
+						${fExpenRecord.remarks}
+				</a></td>
 				<shiro:hasPermission name="cw:fExpenRecord:edit"><td>
     				<a href="${ctx}/cw/fExpenRecord/form?id=${fExpenRecord.id}">修改</a>
 					<a href="${ctx}/cw/fExpenRecord/delete?id=${fExpenRecord.id}" onclick="return confirmx('确认要删除该支出记录吗？', this.href)">删除</a>

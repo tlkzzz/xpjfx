@@ -72,9 +72,9 @@
 			     <th>收款方式</th>
 				<th>单据编号</th>
 				<th>审核状态</th>
-				<th>备注</th>
 			    <th>收款日期</th>
-				<th>修改时间</th>
+				<th>创建时间</th>
+				<th>备注</th>
 				<shiro:hasPermission name="cw:fReceipt:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -105,13 +105,13 @@
                             ${fns:getDictLabel(fReceipt.approvalStatus, "storeState", "")}
                    </td>
 				<td>
-					${fReceipt.remarks}
-				</td>
-				<td>
                 <fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 				</td>
 				<td>
-					<fmt:formatDate value="${fReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${fReceipt.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+						${fReceipt.remarks}
 				</td>
 				<shiro:hasPermission name="cw:fReceipt:edit"><td>
 					<a href="${ctx}/cw/fReceipt/delete?id=${fReceipt.id}" onclick="return confirmx('确认要删除该收款吗？', this.href)">删除</a>

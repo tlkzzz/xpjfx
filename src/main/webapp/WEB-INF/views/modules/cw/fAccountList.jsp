@@ -37,8 +37,8 @@
 		<thead>
 			<tr>
 				<th>账户名称</th>
+				<th>创建时间</th>
 				<th>备注</th>
-				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fAccount:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -49,10 +49,10 @@
 					${fAccount.name}
 				</a></td>
 				<td>
-					${fAccount.remarks}
+					<fmt:formatDate value="${fAccount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					<fmt:formatDate value="${fAccount.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${fAccount.remarks}
 				</td>
 				<shiro:hasPermission name="cw:fAccount:edit"><td>
     				<a href="${ctx}/cw/fAccount/form?id=${fAccount.id}">修改</a>

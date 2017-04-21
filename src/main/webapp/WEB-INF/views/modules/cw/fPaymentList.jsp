@@ -75,10 +75,9 @@
                </c:if>
 				<th>付款日期</th>
 				<th>单据编号</th>
-				<th>来往单位</th>
 				<th>审核状态</th>
+				<th>创建时间</th>
 				<th>备注</th>
-				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fPayment:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -105,17 +104,14 @@
 				<td>
 						${fPayment.paymentCode}
 				</td>
-				<td>
-						${fPayment.travelUnit.id}
-				</td>
 				<td id="approvalStatus${status.index}">
                         ${fns:getDictLabel(fPayment.approvalStatus, "storeState", "")}
                 </td>
 				<td>
-						${fPayment.remarks}
+					<fmt:formatDate value="${fPayment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					<fmt:formatDate value="${fPayment.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						${fPayment.remarks}
 				</td>
 				<shiro:hasPermission name="cw:fPayment:edit"><td>
     				<%--<a href="${ctx}/cw/fPayment/form?id=${fPayment.id}">修改</a>--%>

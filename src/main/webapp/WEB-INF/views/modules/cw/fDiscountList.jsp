@@ -49,7 +49,7 @@
 			    <td>${FDiscount.yhje}</td>
 			    <td>${FDiscount.lx}</td>
 				<td><a href="${ctx}/cw/fDiscount/form?id=${fDiscount.id}">
-					<fmt:formatDate value="${fDiscount.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${fDiscount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</a></td>
 				<shiro:hasPermission name="cw:fDiscount:edit"><td>
     				<a href="${ctx}/cw/fDiscount/form?id=${fDiscount.id}">修改</a>

@@ -16,7 +16,7 @@
         }
         function viewSubOrder(id){
 			if(id!=''){//iframe打开子订单列表
-                top.$.jBox.open("iframe:${ctx}/ck/cDdinfo/cgDdList?rkckddinfo.id="+id, "订单列表", 700, $(top.document).height()-180, {
+                top.$.jBox.open("iframe:${ctx}/ck/cDdinfo/cgDdList?rkckddinfo.id="+id, "订单列表", 1000, $(top.document).height()-180, {
                     buttons:{"确定":"ok"}, loaded:function(h){
                         $(".jbox-content", top.document).css("overflow-y","hidden");
                     }
