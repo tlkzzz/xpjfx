@@ -61,9 +61,10 @@
 		<thead>
 			<tr>
 				<th>订单号</th>
-				<th>修改时间</th>
-				<th>入库类型</th>
 				<th>审批状态</th>
+				<th>审批人</th>
+				<th>审批时间</th>
+				<th>创建时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="ck:cCginfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -75,13 +76,16 @@
 					${cRkckddinfo.ddbh}
 				</a></td>
 				<td>
-					<fmt:formatDate value="${cRkckddinfo.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${fns:getDictLabel(cRkckddinfo.issp, "storeState", "")}
 				</td>
 				<td>
-					${cRkckddinfo.state}
+					${cRkckddinfo.spr}
 				</td>
 				<td>
-					${cRkckddinfo.issp}
+					<fmt:formatDate value="${cRkckddinfo.spsj}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					<fmt:formatDate value="${cRkckddinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${cRkckddinfo.remarks}
