@@ -106,8 +106,8 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		cHgoodsService.save(cHgoods);
 	}
 
-	@Transactional(readOnly = false)
-	public void saveInfo(CDdinfo cDdinfo) {//保存基本信息
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
+	public boolean saveInfo(CDdinfo cDdinfo) {//保存基本信息
 		CCgzbinfo cCgzbinfo = dao.getZbByGoodsAndState(cDdinfo.getGoods().getId(),"0");
 		if(cCgzbinfo!=null){//未采购总表存在
 			int goodsNum = Integer.parseInt(cCgzbinfo.getNub())+Integer.parseInt(cDdinfo.getNub());
@@ -121,6 +121,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		super.save(cCgzbinfo);
 		cDdinfo.setCgzbinfo(cCgzbinfo);
 		cDdinfoDao.updateCgzbInfo(cDdinfo);
+		return true;
 	}
 
 	@Transactional(readOnly = false)
