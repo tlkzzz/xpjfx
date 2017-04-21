@@ -67,6 +67,23 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 	public void paymentAddHtje(FPayment payment){
 		dao.paymentAddHtje(payment);
 	}
+
+	@Transactional(readOnly = false)
+	public void addHTJE(FPayment payment){
+		dao.addHTJE(payment);
+	}
+
+	@Transactional(readOnly = false)
+	public boolean minHTJE(FPayment payment){
+		boolean ret = false;
+		FPayment py = get(payment);//如果付款存在且合同金额大于减少金额
+		if(py!=null&&Double.parseDouble(py.getHtje())>Double.parseDouble(payment.getHtje())){
+			dao.minHTJE(payment);
+			ret = true;
+		}
+		return ret;
+	}
+
     /**
      * 现金费用单保存信息
      * @param fPayment
