@@ -9,7 +9,8 @@
 		a.lx AS "lx",
 		a.state AS "state",
 		a.issp AS "issp",
-		a.spr AS "spr",
+		a.spr AS "spr.id",
+		su.name AS "spr.name",
 		a.spsj AS "spsj",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
@@ -21,6 +22,7 @@
 	</sql>
 	
 	<sql id="cRkckddinfoJoins">
+		LEFT JOIN sys_user su ON su.id=a.spr
 	</sql>
     
 	<select id="get" resultType="CRkckddinfo">
