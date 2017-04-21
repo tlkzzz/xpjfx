@@ -79,7 +79,7 @@
 					${fns:getDictLabel(cRkckddinfo.issp, "storeState", "")}
 				</td>
 				<td>
-					${cRkckddinfo.spr}
+					${cRkckddinfo.spr.name}
 				</td>
 				<td>
 					<fmt:formatDate value="${cRkckddinfo.spsj}" pattern="yyyy-MM-dd HH:mm:ss"/>
