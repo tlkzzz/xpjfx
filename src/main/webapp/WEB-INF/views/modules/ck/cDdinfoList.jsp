@@ -55,9 +55,8 @@
 				<th>数量</th>
 				<th>入库前成本价</th>
 				<th>入库实际成本价</th>
-				<th>修改时间</th>
+				<th>创建时间</th>
 				<th>备注</th>
-		<!--		<shiro:hasPermission name="ck:cDdinfo:edit"><th>操作</th></shiro:hasPermission> -->
 			</tr>
 		</thead>
 		<tbody>
@@ -94,7 +93,7 @@
 					${cDdinfo.rksjcbj}
 				</td>
 				<td>
-					<fmt:formatDate value="${cDdinfo.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${cDdinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${cDdinfo.remarks}
