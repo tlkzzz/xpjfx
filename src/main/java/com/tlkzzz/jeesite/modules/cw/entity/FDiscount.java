@@ -20,7 +20,7 @@ public class FDiscount extends DataEntity<FDiscount> {
 	
 	private static final long serialVersionUID = 1L;
 	private String yhje;		// 优惠金额
-	private String lx;		// 类型
+	private String lx;		// 类型	0:优惠，1:总体抹零
 	private CStore storeid;		// 客户id
 	private CRkckddinfo ddid;		// 订单id
 	private String remaks;		// 备注
