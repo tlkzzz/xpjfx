@@ -27,9 +27,12 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-    	<li><a href="${ctx}/cw/fReceipt/yblist?receiptType=${fReceipt.receiptType}">收款列表</a></li>
-        <li class="active"><a href="${ctx}/cw/fReceipt/ybform?receiptType=${fReceipt.receiptType}">一般费用单</a></li>
-    	</ul><br/>
+		<ul class="nav nav-tabs">
+			<li><a href="${ctx}/cw/fReceipt/list">现金费用列表</a></li>
+			<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/xjform">现金费用单</a></li></shiro:hasPermission>
+			<li class="active"> <a href="${ctx}/cw/fReceipt/ybform">一般费用单</a></li>
+			<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/qtform">其他费用单</a></li></shiro:hasPermission>
+		</ul><br/>
 	<form:form id="inputForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/ybsave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		

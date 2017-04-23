@@ -65,7 +65,7 @@ public class FReceiptController extends BaseController {
 	@RequiresPermissions("cw:fReceipt:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt); 
+		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
 		model.addAttribute("page", page);
 		model.addAttribute("fReceipt", fReceipt);
 		return "modules/cw/fReceiptList";
@@ -92,27 +92,8 @@ public class FReceiptController extends BaseController {
 		}
 		fReceiptService.outOfTheLibrary(fReceipt,"6","0");
 		addMessage(redirectAttributes, "现金费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/list?receiptType="+fReceipt.getReceiptType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
 	}
-
-	/**
-	 * 一般费用yblist
-	 * @param fReceipt
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-
-	@RequiresPermissions("cw:fReceipt:view")
-	@RequestMapping(value = "yblist")
-	public String yblist(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
-		model.addAttribute("page", page);
-		model.addAttribute("fReceipt", fReceipt);
-		return "modules/cw/fReceiptybList";
-	}
-
 	/**
 	 * 一般费用单
 	 * @param fReceipt
@@ -134,34 +115,13 @@ public class FReceiptController extends BaseController {
 		}
 		fReceiptService.outOfTheLibrary(fReceipt,"7","0");
 		addMessage(redirectAttributes, "一般费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/yblist?receiptType="+fReceipt.getReceiptType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
 	}
-
-
-
 	@RequiresPermissions("cw:fReceipt:view")
 	@RequestMapping(value = "form")
 	public String form(FReceipt fReceipt, Model model) {
 		model.addAttribute("fReceipt", fReceipt);
 		return "error/400" ;
-	}
-
-	/**
-	 * 一般费用qtlist
-	 * @param fReceipt
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-
-	@RequiresPermissions("cw:fReceipt:view")
-	@RequestMapping(value = "qtlist")
-	public String qtlist(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
-		model.addAttribute("page", page);
-		model.addAttribute("fReceipt", fReceipt);
-		return "modules/cw/fReceiptqtList";
 	}
 	/**
 	 * 其他费用单
@@ -184,7 +144,7 @@ public class FReceiptController extends BaseController {
 		}
 		fReceiptService.outOfTheLibrary(fReceipt,"8","0");
 		addMessage(redirectAttributes, "其他费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/qtlist?receiptType="+fReceipt.getReceiptType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
 	}
 
 	/**
@@ -216,15 +176,6 @@ public class FReceiptController extends BaseController {
 		if(fReceipt.getReceiptType()==""){
 			return  "error/404" ;
 		}
-      if("6".equals(fReceipt.getReceiptType()) &&fReceipt.getReceiptType()!=null){
-		  str="list";
-	  }else if("7".equals(fReceipt.getReceiptType()) &&fReceipt.getReceiptType()!=null){
-		  str="yblist";
-		}else{
-		  str="qtlist";
-	  }
-
-		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/"+str+"?receiptType="+fReceipt.getReceiptType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
 	}
-
 }

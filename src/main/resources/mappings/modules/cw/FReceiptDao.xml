@@ -59,7 +59,7 @@
 		FROM f_receipt a
 		<include refid="fReceiptJoins"/>
 		<where>
-			
+			a.receipt_type IN ('6','7','8')
 			<if test="receiptDate != null and receiptDate != ''">
 				AND a.receipt_date &gt;= #{receiptDate}
 			</if>

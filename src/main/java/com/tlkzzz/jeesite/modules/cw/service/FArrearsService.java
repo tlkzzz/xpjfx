@@ -49,7 +49,20 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 		}
 		return page;
 	}
-	
+
+	public Page<FArrears> finPage(Page<FArrears> page, FArrears fArrears) {
+		fArrears.setPage(page);
+		if(StringUtils.isNotBlank(fArrears.getArrearsType())){
+			if("0".equals(fArrears.getArrearsType())){
+				page.setList(dao.finStoreList(fArrears));
+			}else if("1".equals(fArrears.getArrearsType())){
+				page.setList(dao.finSupplierList(fArrears));
+			}
+		}
+		return page;
+	}
+
+
 	@Transactional(readOnly = false)
 	public void save(FArrears fArrears) {
 		super.save(fArrears);
@@ -59,7 +72,7 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 	public void saveByReceipt(FReceipt receipt, Double htje, Double sfje){
 		FArrears arrears = new FArrears();
 		arrears.setArrearsUnit(receipt.getTravelUnit().getId());
-		arrears.setArrearsMode(receipt.getReceiptMode());
+		arrears.setArrearsMode("0");
 		arrears.setArrearsDate(receipt.getReceiptDate());
 		arrears.setArrearsType("0");
 		arrears.setTotal(String.valueOf(htje-sfje));

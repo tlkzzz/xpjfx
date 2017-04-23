@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.cw.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -98,4 +99,38 @@ public class FArrearsController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/cw/fArrears/?repage";
 	}
 
+	/**
+	 * 欠客户的
+	 * @param fArrears
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("cw:fArrears:view")
+	@RequestMapping(value = "cgDdList")
+	public String cgDdList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
+		fArrears.setArrearsType("0");
+		Page<FArrears> page = fArrearsService.finPage(new Page<FArrears>(request, response), fArrears);
+		model.addAttribute("fArrears", fArrears);
+		model.addAttribute("page", page);
+		return "modules/cw/storedList";
+	}
+	/**
+	 * 欠客户的
+	 * @param fArrears
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("cw:fArrears:view")
+	@RequestMapping(value = "gyList")
+	public String gyList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
+		fArrears.setArrearsType("1");
+		Page<FArrears> page = fArrearsService.finPage(new Page<FArrears>(request, response), fArrears);
+		model.addAttribute("fArrears", fArrears);
+		model.addAttribute("page", page);
+		return "modules/cw/gysList";
+	}
 }

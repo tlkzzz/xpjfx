@@ -7,7 +7,7 @@
 		a.arrears_unit AS "arrearsUnit",
 		a.arrears_type AS "arrearsType",
 		a.arrears_mode AS "arrearsMode",
-		a.total AS "total",
+		SUM(a.total) AS "total",
 		a.arrears_date AS "arrearsDate",
 		a.repayment_date AS "repaymentDate",
 		a.remarks AS "remarks",
@@ -16,7 +16,22 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate"
 	</sql>
-	
+
+	<sql id="fArrearsColumnsb">
+		a.id AS "id",
+		a.arrears_unit AS "arrearsUnit",
+		a.arrears_type AS "arrearsType",
+		a.arrears_mode AS "arrearsMode",
+		a.total        AS "total",
+		a.arrears_date AS "arrearsDate",
+		a.repayment_date AS "repaymentDate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+
 	<sql id="fArrearsJoins">
 	</sql>
     
@@ -62,6 +77,7 @@
 				AND a.arrears_unit = #{arrearsUnit}
 			</if>
 		</where>
+		GROUP BY a.arrears_unit
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -85,6 +101,7 @@
 				AND a.arrears_unit = #{arrearsUnit}
 			</if>
 		</where>
+		GROUP BY a.arrears_unit
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -94,7 +111,59 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+
+	<select id="finStoreList" resultType="FArrears">
+		SELECT
+		<include refid="fArrearsColumnsb"/>
+		,cs.name AS "unitName"
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		LEFT JOIN c_store cs ON cs.id=a.arrears_unit
+		<where>
+			a.arrears_type = #{arrearsType}
+			<if test="arrearsUnit != null and arrearsUnit != ''">
+				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="finSupplierList" resultType="FArrears">
+		SELECT
+		<include refid="fArrearsColumnsb"/>
+		,csu.name AS "unitName"
+		FROM f_arrears a
+		<include refid="fArrearsJoins"/>
+		LEFT JOIN c_supplier csu ON csu.id=a.arrears_unit
+		<where>
+			a.arrears_type = #{arrearsType}
+			<if test="arrearsUnit != null and arrearsUnit != ''">
+				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+
+
+
 	<select id="findAllList" resultType="FArrears">
 		SELECT 
 			<include refid="fArrearsColumns"/>

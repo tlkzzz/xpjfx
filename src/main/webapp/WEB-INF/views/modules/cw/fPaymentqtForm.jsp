@@ -27,9 +27,11 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-		<li><a href="${ctx}/cw/fPayment//list?paymentType=${fPayment.paymentType}">付款列表</a></li>
-               <li class="active"><a href="${ctx}/cw/fPayment/qtform?paymentType=${fPayment.paymentType}">其他费用单</a></li>
-	</ul><br/>
+	<li><a href="${ctx}/cw/fPayment/list">现金费用列表</a></li>
+	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/xjform">现金费用单</a></li></shiro:hasPermission>
+	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/ybform">一般费用单</a></li></shiro:hasPermission>
+	<li class="active"> <a href="${ctx}/cw/fPayment/qtform">其他费用单</a></li>
+</ul><br/>
 	<form:form id="inputForm" modelAttribute="fPayment" action="${ctx}/cw/fPayment/qtsave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		

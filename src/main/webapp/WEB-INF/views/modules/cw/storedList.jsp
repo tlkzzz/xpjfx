@@ -15,16 +15,6 @@
 			$("#searchForm").submit();
         	return false;
         }
-
-         function viewSubOrder(id){
-			if(id!=''){//iframe打开子订单列表
-                top.$.jBox.open("iframe:${ctx}/cw/fArrears/cgDdList?arrearsType.id="+id, "欠款列表", 1000, $(top.document).height()-180, {
-                    buttons:{"确定":"ok"}, loaded:function(h){
-                        $(".jbox-content", top.document).css("overflow-y","hidden");
-                    }
-                });
-        	}
-        }
 	</script>
 </head>
 <body>
@@ -32,6 +22,7 @@
 		<li class="active"><a href="${ctx}/cw/fArrears/storeList">客户欠款记录</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="fArrears" action="${ctx}/cw/fArrears/storeList" method="post" class="breadcrumb form-search">
+		<input name="arrearsType.id" type="hidden" value="${fArrears.id}"/>
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -56,9 +47,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fArrears">
 			<tr>
-				<td><a href="javascript:void(0)" onclick="viewSubOrder('${fArrears.id}')">
+				<td>
 						${fArrears.unitName}
-				</a></td>
+				</td>
 				<td>
 					${fns:getDictLabel(fArrears.arrearsMode, "arrearsMode", "")}
 				</td>

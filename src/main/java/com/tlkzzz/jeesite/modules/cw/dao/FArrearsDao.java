@@ -24,9 +24,22 @@ public interface FArrearsDao extends CrudDao<FArrears> {
     public List<FArrears> findStoreList(FArrears fArrears);
 
     /**
+     * 查询所有的客户欠款列表
+     * @param fArrears
+     * @return
+     */
+    public  List<FArrears> finStoreList(FArrears fArrears);
+    /**
      * 查询欠供应商款列表
      * @param fArrears
      * @return
      */
     public List<FArrears> findSupplierList(FArrears fArrears);
+
+    /**
+     * 查询所有的欠供应商款列表
+     * @param fArrears
+     * @return
+     */
+    public List<FArrears> finSupplierList(FArrears fArrears);
 }

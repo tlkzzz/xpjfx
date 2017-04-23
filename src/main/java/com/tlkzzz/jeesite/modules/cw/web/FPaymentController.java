@@ -87,7 +87,7 @@ public class FPaymentController extends BaseController {
 		}
 		fPaymentService.outOfTheLibrary(fPayment,"6","0");
 		addMessage(redirectAttributes, "现金费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/list?paymentType="+fPayment.getPaymentType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class FPaymentController extends BaseController {
 		}
 		fPaymentService.outOfTheLibrary(fPayment,"7","0");
 		addMessage(redirectAttributes, "一般费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?paymentType="+fPayment.getPaymentType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class FPaymentController extends BaseController {
 		}
 		fPaymentService.outOfTheLibrary(fPayment,"8","0");
 		addMessage(redirectAttributes, "其他费用单成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?paymentType="+fPayment.getPaymentType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class FPaymentController extends BaseController {
 	public String delete(FPayment fPayment, RedirectAttributes redirectAttributes) {
 		fPaymentService.delete(fPayment);
 		addMessage(redirectAttributes, "删除付款成功");
-		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/list?paymentType="+fPayment.getPaymentType();
+		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
 	}
 
 }

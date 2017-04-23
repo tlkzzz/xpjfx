@@ -15,6 +15,16 @@
 			$("#searchForm").submit();
         	return false;
         }
+
+           function viewSubOrder(id){
+			if(id!=''){//iframe打开子订单列表
+                top.$.jBox.open("iframe:${ctx}/cw/fArrears/gyList?arrearsType.id="+id, "供应商欠款列表", 1000, $(top.document).height()-180, {
+                    buttons:{"确定":"ok"}, loaded:function(h){
+                        $(".jbox-content", top.document).css("overflow-y","hidden");
+                    }
+                });
+        	}
+        }
 	</script>
 </head>
 <body>
@@ -46,9 +56,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fArrears">
 			<tr>
-				<td>
-					${fArrears.unitName}
-				</td>
+				<td><a href="javascript:void(0)" onclick="viewSubOrder('${fArrears.id}')">
+						${fArrears.unitName}
+				</a></td>
 				<td>
 					${fns:getDictLabel(fArrears.arrearsMode, "arrearsMode", "")}
 				</td>

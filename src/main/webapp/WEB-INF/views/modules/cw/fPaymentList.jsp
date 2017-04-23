@@ -16,7 +16,7 @@
                         					data:{id:storeId},
                         					type:"POST",
                         					success:function (data) {
-                        					 return confirmx('确定审核吗', "${ctx}/cw/fPayment/list?paymentType=${fPayment.paymentType}")
+                        					 return confirmx('确定审核吗', "${ctx}/cw/fPayment/list");
                         						if(data)$("#"+tdId).text("审核通过");
                                                 $("#messageBox").text();
                                                 top.$.jBox.tip("审核通过成功！",'warning');
@@ -39,7 +39,7 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
+<!--	<ul class="nav nav-tabs">
 		 <c:if test="${fPayment.paymentType eq '6' }"><li class="active"><a href="${ctx}/cw/fPayment/list?paymentType=${fPayment.paymentType}">现金费用列表</a></li></c:if>
 		 <c:if test="${fPayment.paymentType eq '7'}"><li class="active"><a href="${ctx}/cw/fPayment/list?paymentType=${fPayment.paymentType}">一般费用列表</a></li></c:if>
 		 <c:if test="${fPayment.paymentType eq '8' }"><li class="active"><a href="${ctx}/cw/fPayment/list?paymentType=${fPayment.paymentType}">其他费用列表</a></li></c:if>
@@ -47,7 +47,14 @@
         <c:if test="${fPayment.paymentType eq '7'}"><shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/ybform?paymentType=${fPayment.paymentType}">一般费用</a></li></shiro:hasPermission></c:if>
         <c:if test="${fPayment.paymentType eq '8'}"><shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/qtform?paymentType=${fPayment.paymentType}">其他费用</a></li></shiro:hasPermission></c:if>
 	</ul>
-	<form:form id="searchForm" modelAttribute="fPayment" action="${ctx}/cw/fPayment/" method="post" class="breadcrumb form-search">
+-->
+<ul class="nav nav-tabs">
+     <li class="active"><a href="${ctx}/cw/fPayment/list">付款列表</a></li>
+	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/xjform">现金费用</a></li></shiro:hasPermission>
+	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/ybform">一般费用</a></li></shiro:hasPermission>
+	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/qtform">其他费用</a></li></shiro:hasPermission>
+</ul>
+	<form:form id="searchForm" modelAttribute="fPayment" action="${ctx}/cw/fPayment/list" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -68,11 +75,11 @@
 		<thead>
 			<tr>
 			    <th>付款类型</th>
-			     <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
-                			    <th>来往账号</th>
-                			    <th>收款帐号</th>
-                			    <th>来往单位</th>
-               </c:if>
+			<!--     <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
+               </c:if> -->
+				<th>来往账号</th>
+				<th>收款帐号</th>
+				<th>来往单位</th>
 				<th>付款日期</th>
 				<th>单据编号</th>
 				<th>审核状态</th>
@@ -87,7 +94,8 @@
 			 <td>
                         ${fns:getDictLabel(fPayment.paymentType, "receiptType", "")}
              </td>
-                  <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
+                <!--  <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
+				  </c:if> -->
                               <td>
                                ${fPayment.travelAccount}
                               </td>
@@ -97,7 +105,6 @@
                             <td>
                             	${fPayment.travelUnit.id}
                             	</td>
-                              </c:if>
 				<td>
 					<fmt:formatDate value="${fPayment.paymentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</td>

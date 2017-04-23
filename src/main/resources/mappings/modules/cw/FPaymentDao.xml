@@ -65,6 +65,7 @@
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		<where>
+			a.payment_type IN ('6','7','8')
 			<if test="paymentDate != null and paymentDate != ''">
 				AND a.payment_date &gt;= #{paymentDate}
 			</if>
