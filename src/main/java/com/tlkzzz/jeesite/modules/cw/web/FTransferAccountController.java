@@ -137,7 +137,6 @@ public class FTransferAccountController extends BaseController {
 		if(StringUtils.isNotBlank(transferAccount.getTransferType())) {
 			model.addAttribute("fTransferAccount", transferAccount);
 			model.addAttribute("orderList", fReceiptService.selectList("2,3,4,5",new FReceipt()));
-			model.addAttribute("accountList", fAccountService.findList(new FAccount()));
 			return "modules/cw/fTransferReceiptForm";
 		}else {
 			return "error/400";
@@ -158,6 +157,13 @@ public class FTransferAccountController extends BaseController {
 			return receiptForm(fTransferAccount, model);
 		}
 		fTransferAccountService.save(fTransferAccount);
+		FReceipt receipt = new FReceipt(fTransferAccount.getOrderId());
+		receipt.setJe(fTransferAccount.getTransMoney());
+		if("1".equals(fTransferAccount.getTransferType())) {
+			fReceiptService.addHTJE(receipt);
+		}else if("2".equals(fTransferAccount.getTransferType())){
+			fReceiptService.minHTJE(receipt);
+		}
 		addMessage(redirectAttributes, "保存转账调账成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
@@ -221,13 +227,16 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setTransferType("3");  //页面及状态，3 应付款增加
 		fTransferAccount.setApprovalStatus("0"); //审核状态
 		fTransferAccountService.save(fTransferAccount);
-		addMessage(redirectAttributes, "保存转账调账成功");
+		FPayment payment = new FPayment(fTransferAccount.getOrderId());
+		payment.setJe(fTransferAccount.getTransMoney());
+		fPaymentService.addHTJE(payment);
+		addMessage(redirectAttributes, "应付款增加成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
 	/**
 	 * shizx 2017-04-10
-	 * 应付款增加
+	 * 应付款减少保存
 	 * */
 	@RequiresPermissions("cw:fTransferAccount:edit")
 	@RequestMapping(value = "paymentReduceSave")
@@ -238,7 +247,10 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setTransferType("4");  //页面及状态，4 应付款减少
 		fTransferAccount.setApprovalStatus("0"); //审核状态
 		fTransferAccountService.save(fTransferAccount);
-		addMessage(redirectAttributes, "保存转账调账成功");
+		FPayment payment = new FPayment(fTransferAccount.getOrderId());
+		payment.setJe(fTransferAccount.getTransMoney());
+		fPaymentService.minHTJE(payment);
+		addMessage(redirectAttributes, "应付款减少成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
 
@@ -255,6 +267,14 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setTransferType("5");     //页面及状态，5 资金增加
 		fTransferAccount.setApprovalStatus("0");   //审核状态
 		fTransferAccountService.save(fTransferAccount);
+		FAccount account = fAccountService.get(fTransferAccount.getfAccount());
+		if(account!=null){
+			if(StringUtils.isNotBlank(account.getAccountBalance())){
+				double balance = Double.parseDouble(account.getAccountBalance())+Double.parseDouble(fTransferAccount.getTransMoney());
+				account.setAccountBalance(String.valueOf(balance));
+				fAccountService.capitalHtje(account);
+			}
+		}
 		addMessage(redirectAttributes, "保存转账调账成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}
@@ -272,6 +292,17 @@ public class FTransferAccountController extends BaseController {
 		fTransferAccount.setTransferType("6");//页面及状态，5 资金减少
 		fTransferAccount.setApprovalStatus("0");//审核状态
 		fTransferAccountService.save(fTransferAccount);
+		FAccount account = fAccountService.get(fTransferAccount.getfAccount());
+		if(account!=null){
+			if(StringUtils.isNotBlank(account.getAccountBalance())){
+				double balance = Double.parseDouble(account.getAccountBalance());
+				double reduce = Double.parseDouble(fTransferAccount.getTransMoney());
+				if(balance>reduce) {
+					account.setAccountBalance(String.valueOf(balance-reduce));
+					fAccountService.capitalHtje(account);
+				}
+			}
+		}
 		addMessage(redirectAttributes, "保存转账调账成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fTransferAccount/?repage&transferType="+fTransferAccount.getTransferType();
 	}

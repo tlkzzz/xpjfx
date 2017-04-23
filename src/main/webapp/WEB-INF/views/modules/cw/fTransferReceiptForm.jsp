@@ -52,34 +52,10 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">来往单位：</label>
+			<label class="control-label">增加金额：</label>
 			<div class="controls">
-				<form:select path="travelUnit" class="required">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${storeList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
+				<form:input path="transMoney" htmlEscape="false" number="true" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">转出帐户：</label>
-			<div class="controls">
-				<form:select path="fAccount.name" class="required">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${accountList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">转入账户：</label>
-			<div class="controls">
-				<form:input path="inAccount" htmlEscape="false" maxlength="100" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">交易金额：</label>
-			<div class="controls">
-				<form:input path="transMoney" htmlEscape="false" number="true" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">

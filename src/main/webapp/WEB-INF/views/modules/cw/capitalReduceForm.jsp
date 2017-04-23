@@ -41,36 +41,30 @@
     <form:hidden path="id"/>
     <sys:message content="${message}"/>
     <div class="control-group">
-        <label class="control-label">转出帐户：</label>
+        <label class="control-label">科目编码：</label>
         <div class="controls">
-
-            <form:select path="outAccount" class="input-xlarge required">
+            <sys:treeselect id="parent" name="parent.id" value="${cKm.parent.id}" labelName="subjectCode" labelValue="${cKm.parent.name}"
+                            title="科目编码" url="/ck/cKm/treeData" extId="${cKm.id}" cssClass="" allowClear="true"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">帐户：</label>
+        <div class="controls">
+            <form:select path="fAccount.id" class="input-xlarge required">
                 <form:option value="" label="请选择"></form:option>
-                <form:options items="${IDcarddList}" itemLabel="bankCode" itemValue="bankCode" htmlEscape="false"/>
+                <form:options items="${IDcarddList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
             </form:select>
             <span class="help-inline"><font color="red">*</font> </span>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label">转入账户：</label>
-        <div class="controls">
-            <form:input path="inAccount" htmlEscape="false" maxlength="100" class="input-xlarge "/>
-        </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label">来往单位：</label>
-        <div class="controls">
-            <form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-xlarge "/>
-        </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label">交易金额：</label>
+        <label class="control-label">减少金额：</label>
         <div class="controls">
             <form:input path="transMoney" htmlEscape="false" class="input-xlarge "/>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label">转账日期：</label>
+        <label class="control-label">减少日期：</label>
         <div class="controls">
             <input name="transferDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
                    value="<fmt:formatDate value="${fTransferAccount.transferDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -83,13 +77,6 @@
             <sys:treeselect id="user" name="user.id" value="${testData.user.id}" labelName="jsr" labelValue="${testData.user.name}"
                             title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
             <span class="help-inline"><font color="red">*</font> </span>
-        </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label">科目编码：</label>
-        <div class="controls">
-            <sys:treeselect id="parent" name="parent.id" value="${cKm.parent.id}" labelName="subjectCode" labelValue="${cKm.parent.name}"
-                            title="科目编码" url="/ck/cKm/treeData" extId="${cKm.id}" cssClass="" allowClear="true"/>
         </div>
     </div>
 

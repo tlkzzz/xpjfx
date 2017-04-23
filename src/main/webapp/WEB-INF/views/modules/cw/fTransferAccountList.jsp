@@ -49,7 +49,7 @@
 				<th>审核人</th>
 				<th>备注</th>
 				<th>修改时间</th>
-				<shiro:hasPermission name="cw:fTransferAccount:edit"><th>操作</th></shiro:hasPermission>
+				<%--<shiro:hasPermission name="cw:fTransferAccount:edit"><th>操作</th></shiro:hasPermission>--%>
 			</tr>
 		</thead>
 		<tbody>
@@ -85,10 +85,10 @@
 				<td>
 					<fmt:formatDate value="${fTransferAccount.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<shiro:hasPermission name="cw:fTransferAccount:edit"><td>
+				<%--<shiro:hasPermission name="cw:fTransferAccount:edit"><td>
     				<a href="${ctx}/cw/fTransferAccount/form?id=${fTransferAccount.id}">修改</a>
 					<a href="${ctx}/cw/fTransferAccount/delete?id=${fTransferAccount.id}" onclick="return confirmx('确认要删除该转账调账吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				</td></shiro:hasPermission>--%>
 			</tr>
 		</c:forEach>
 		</tbody>
