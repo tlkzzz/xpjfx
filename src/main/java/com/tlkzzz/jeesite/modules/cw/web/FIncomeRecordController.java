@@ -60,7 +60,7 @@ public class FIncomeRecordController extends BaseController {
 	}
 	
 	@RequiresPermissions("cw:fIncomeRecord:view")
-	@RequestMapping(value = "list")
+	@RequestMapping(value = {"list",""})
 	public String list(FIncomeRecord fIncomeRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord);
 		model.addAttribute("page", page);
