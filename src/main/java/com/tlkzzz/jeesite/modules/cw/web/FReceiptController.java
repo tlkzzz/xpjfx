@@ -180,7 +180,7 @@ public class FReceiptController extends BaseController {
 	}
 
 	@RequiresPermissions("cw:fReceipt:view")
-	@RequestMapping(value = {"GysReturn", ""})
+	@RequestMapping(value = "GysReturn")
 	public String GysReturn(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
 		model.addAttribute("page", page);

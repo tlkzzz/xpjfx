@@ -170,7 +170,7 @@ public class FPaymentController extends BaseController {
  * 销售退货单List
  * */
 	@RequiresPermissions("cw:fPayment:view")
-	@RequestMapping(value = {"returnGoodsList", ""})
+	@RequestMapping(value = "returnGoodsList")
 	public String returnGoodsList(FPayment fPayment, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FPayment> page = fPaymentService.findPage(new Page<FPayment>(request, response), fPayment);
 		fPayment.setThstatus("0");

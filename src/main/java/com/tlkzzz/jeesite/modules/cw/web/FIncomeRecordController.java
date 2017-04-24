@@ -56,10 +56,11 @@ public class FIncomeRecordController extends BaseController {
 	}
 	
 	@RequiresPermissions("cw:fIncomeRecord:view")
-	@RequestMapping(value = {"list", ""})
+	@RequestMapping(value = "list")
 	public String list(FIncomeRecord fIncomeRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord); 
+		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord);
 		model.addAttribute("page", page);
+		model.addAttribute("fIncomeRecord",fIncomeRecord);
 		return "modules/cw/fIncomeRecordList";
 	}
 
@@ -90,7 +91,7 @@ public class FIncomeRecordController extends BaseController {
 	}
 
 	@RequiresPermissions("cw:fIncomeRecord:view")
-	@RequestMapping(value = {"khhk", ""})
+	@RequestMapping(value = "khhk")
 	public String khhk(FIncomeRecord fIncomeRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord);
 		model.addAttribute("page", page);

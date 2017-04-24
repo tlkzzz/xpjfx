@@ -33,6 +33,10 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+			    <th>收入金额</th>
+				<th>来往帐号</th>
+				<th>收入帐号</th>
+				<th>订单id</th>
 				<th>创建时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="cw:fIncomeRecord:edit"><th>操作</th></shiro:hasPermission>
@@ -41,6 +45,18 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fIncomeRecord">
 			<tr>
+				<td>
+						${fIncomeRecord.incomeMoney}
+				</td>
+				<td>
+						${fIncomeRecord.traverAccount}
+				</td>
+				<td>
+						${fIncomeRecord.incomeAccount}
+				</td>
+				<td>
+						${fIncomeRecord.orderId}
+				</td>
 				<td>
 					<fmt:formatDate value="${fIncomeRecord.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

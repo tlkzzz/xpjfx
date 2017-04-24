@@ -117,7 +117,7 @@ public class FArrearsController extends BaseController {
 		return "modules/cw/storedList";
 	}
 	/**
-	 * 欠客户的
+	 * 欠供应商的
 	 * @param fArrears
 	 * @param request
 	 * @param response

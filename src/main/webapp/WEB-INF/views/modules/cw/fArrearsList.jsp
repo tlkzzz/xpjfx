@@ -46,6 +46,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>订单对象</th>
 				<th>欠款客户</th>
 				<th>欠款方式</th>
 				<th>欠款金额</th>
@@ -59,6 +60,9 @@
 				<td><a href="javascript:void(0)" onclick="viewSubOrder('${fArrears.id}')">
 						${fArrears.unitName}
 				</a></td>
+				<td>
+						${fArrears.rkckdd.id}
+				</td>
 				<td>
 					${fns:getDictLabel(fArrears.arrearsMode, "arrearsMode", "")}
 				</td>
