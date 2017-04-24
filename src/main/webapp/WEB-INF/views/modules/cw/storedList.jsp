@@ -38,6 +38,7 @@
 		<thead>
 			<tr>
 				<th>欠款客户</th>
+				<th>订单对象</th>
 				<th>欠款方式</th>
 				<th>欠款金额</th>
 				<th>欠款日期</th>
@@ -49,6 +50,9 @@
 			<tr>
 				<td>
 						${fArrears.unitName}
+				</td>
+				<td>
+						${fArrears.rkckdd.id}
 				</td>
 				<td>
 					${fns:getDictLabel(fArrears.arrearsMode, "arrearsMode", "")}
