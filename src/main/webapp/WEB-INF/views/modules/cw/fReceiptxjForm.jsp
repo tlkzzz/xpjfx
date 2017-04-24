@@ -34,6 +34,7 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="fReceipt" action="${ctx}/cw/fReceipt/xjsave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="receiptMode" value="0"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">收款日期：</label>
@@ -49,7 +50,7 @@
 				<form:input path="receiptCode" htmlEscape="false" maxlength="100" class="input-xlarge " required="true"/>
 			</div>
 		</div>
-		<div class="control-group">
+	<!--	<div class="control-group">
 			<label class="control-label">收款方式：</label>
 			<div class="controls">
                            <form:select path="receiptMode" >
@@ -58,6 +59,7 @@
                          </form:select>
                                      </div>
 		</div>
+		-->
 		 <div class="control-group">
                 <label class="control-label">经手人：</label>
                 <div class="controls">

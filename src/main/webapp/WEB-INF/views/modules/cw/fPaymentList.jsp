@@ -83,6 +83,7 @@
 				<th>付款日期</th>
 				<th>单据编号</th>
 				<th>审核状态</th>
+				<th>付款方式</th>
 				<th>创建时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="cw:fPayment:edit"><th>操作</th></shiro:hasPermission>
@@ -114,6 +115,9 @@
 				<td id="approvalStatus${status.index}">
                         ${fns:getDictLabel(fPayment.approvalStatus, "storeState", "")}
                 </td>
+				<td>
+						${fns:getDictLabel(fPayment.paymentMode, "paymentMode", "")}
+				</td>
 				<td>
 					<fmt:formatDate value="${fPayment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

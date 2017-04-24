@@ -34,6 +34,7 @@
 </ul><br/>
 	<form:form id="inputForm" modelAttribute="fPayment" action="${ctx}/cw/fPayment/xjsave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="paymentMode" value="0"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">付款日期：</label>
@@ -49,7 +50,7 @@
 				<form:input path="paymentCode" htmlEscape="false" maxlength="100" class="input-xlarge " required="true"/>
 			</div>
 		</div>
-		<div class="control-group">
+	<!--	<div class="control-group">
 			<label class="control-label">付款方式：</label>
 			<div class="controls">
                            <form:select path="paymentMode" required="true">
@@ -58,6 +59,7 @@
                          </form:select>
                                      </div>
 		</div>
+		-->
 		 <div class="control-group">
                 <label class="control-label">经手人：</label>
                 <div class="controls">
