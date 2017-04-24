@@ -44,10 +44,10 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fDiscount">
 			<tr>
-			    <td>${FDiscount.storeid.name}</td>
-			    <td>${FDiscount.ddid.ddbh}</td>
-			    <td>${FDiscount.yhje}</td>
-			    <td>${FDiscount.lx}</td>
+			    <td>${fDiscount.storeid.name}</td>
+			    <td>${fDiscount.ddid.ddbh}</td>
+			    <td>${fDiscount.yhje}</td>
+			    <td>${fDiscount.lx}</td>
 				<td><a href="${ctx}/cw/fDiscount/form?id=${fDiscount.id}">
 					<fmt:formatDate value="${fDiscount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</a></td>
