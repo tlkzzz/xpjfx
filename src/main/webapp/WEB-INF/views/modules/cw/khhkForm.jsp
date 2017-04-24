@@ -38,7 +38,7 @@
         <div class="controls">
             <form:select path="orderId" class="input-xlarge">
                 <form:option value="" label="请选择"></form:option>
-                <form:options items="${orderIdList}" itemLabel="id" itemValue="id" htmlEscape="false"/>
+                <form:options items="${orderIdList}" itemLabel="ddbh" itemValue="id" htmlEscape="false"/>
             </form:select>
         </div>
     </div>

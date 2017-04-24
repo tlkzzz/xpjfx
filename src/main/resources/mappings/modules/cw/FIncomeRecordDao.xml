@@ -21,7 +21,7 @@
 	</sql>
 	
 	<sql id="fIncomeRecordJoins">
-	LEFT JOIN f_arrears fa ON fa.id=a.order_id
+	LEFT JOIN f_arrears fa ON fa.rkckdd=a.order_id
 	LEFT JOIN c_store cs ON cs.id=fa.arrears_unit
 	</sql>
     
@@ -57,7 +57,7 @@
 		FROM f_income_record a
 		<include refid="fIncomeRecordJoins"/>
 		<where>
-			order_id IN (SELECT id FROM f_arrears)
+			order_id IN (SELECT rkckdd FROM f_arrears)
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
