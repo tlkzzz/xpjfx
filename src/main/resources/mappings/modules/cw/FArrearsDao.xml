@@ -4,6 +4,8 @@
     
 	<sql id="fArrearsColumns">
 		a.id AS "id",
+		a.rkckdd AS "rkckdd.id",
+		crk.ddbh AS "rkckdd.ddbh",
 		a.arrears_unit AS "arrearsUnit",
 		a.arrears_type AS "arrearsType",
 		a.arrears_mode AS "arrearsMode",
@@ -19,6 +21,8 @@
 
 	<sql id="fArrearsColumnsb">
 		a.id AS "id",
+		a.rkckdd AS "rkckdd.id",
+		crk.ddbh AS "rkckdd.ddbh",
 		a.arrears_unit AS "arrearsUnit",
 		a.arrears_type AS "arrearsType",
 		a.arrears_mode AS "arrearsMode",
@@ -33,6 +37,7 @@
 	</sql>
 
 	<sql id="fArrearsJoins">
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckdd
 	</sql>
     
 	<select id="get" resultType="FArrears">
@@ -185,6 +190,7 @@
 	<insert id="insert">
 		INSERT INTO f_arrears(
 			id,
+			rkckdd,
 			arrears_unit,
 			arrears_type,
 			arrears_mode,
@@ -198,6 +204,7 @@
 			update_date
 		) VALUES (
 			#{id},
+			#{rkckdd},
 			#{arrearsUnit},
 			#{arrearsType},
 			#{arrearsMode},
@@ -214,6 +221,7 @@
 	
 	<update id="update">
 		UPDATE f_arrears SET 	
+			rkckdd = #{rkckdd},
 			arrears_unit = #{arrearsUnit},
 			arrears_type = #{arrearsType},
 			arrears_mode = #{arrearsMode},
