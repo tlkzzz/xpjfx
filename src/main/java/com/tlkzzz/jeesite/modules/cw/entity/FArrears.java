@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.cw.entity;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,6 +18,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
 public class FArrears extends DataEntity<FArrears> {
 	
 	private static final long serialVersionUID = 1L;
+	private CRkckddinfo rkckdd;		//订单对象
 	private String arrearsUnit;		// 欠款单位
 	private String arrearsType;		// 欠款类型（0客户欠，1欠供应商）
 	private String arrearsMode;		// 欠款方式 0:订单欠款，1：运费欠款，2：其他欠款
@@ -31,6 +33,14 @@ public class FArrears extends DataEntity<FArrears> {
 
 	public FArrears(String id){
 		super(id);
+	}
+
+	public CRkckddinfo getRkckdd() {
+		return rkckdd;
+	}
+
+	public void setRkckdd(CRkckddinfo rkckdd) {
+		this.rkckdd = rkckdd;
 	}
 
 	@Length(min=0, max=100, message="欠款单位长度必须介于 0 和 100 之间")
