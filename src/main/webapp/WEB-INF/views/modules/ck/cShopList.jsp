@@ -60,7 +60,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/ck/cRkckddinfo/${urlParam}?state=${cShop.state}">总订单列表</a></li>
+		<li><a href="${ctx}/ck/cRkckddinfo/${urlParam}?state=${cShop.state}">订单列表</a></li>
 		<li class="active"><a href="">订单添加</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cShop" action="${ctx}/ck/cShop/cgAdd" method="post" class="breadcrumb form-search">
