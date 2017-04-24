@@ -33,8 +33,8 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>订单编号</th>
 			    <th>客户名称</th>
-			    <th>订单编号</th>
 			    <th>优惠金额</th>
 			    <th>类型</th>
 				<th>修改时间</th>
@@ -44,15 +44,14 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fDiscount">
 			<tr>
-			    <td>${fDiscount.storeid.name}</td>
 			    <td>${fDiscount.ddid.ddbh}</td>
+				<td>${fDiscount.storeid.name}</td>
 			    <td>${fDiscount.yhje}</td>
 			    <td>${fDiscount.lx}</td>
-				<td><a href="${ctx}/cw/fDiscount/form?id=${fDiscount.id}">
+				<td>
 					<fmt:formatDate value="${fDiscount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</a></td>
+				</td>
 				<shiro:hasPermission name="cw:fDiscount:edit"><td>
-    				<a href="${ctx}/cw/fDiscount/form?id=${fDiscount.id}">修改</a>
 					<a href="${ctx}/cw/fDiscount/delete?id=${fDiscount.id}" onclick="return confirmx('确认要删除该优惠表吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
