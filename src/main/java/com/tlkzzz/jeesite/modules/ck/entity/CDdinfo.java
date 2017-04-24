@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
@@ -41,6 +42,8 @@ public class CDdinfo extends DataEntity<CDdinfo> {
 	private User spr;       //审批人
 	private String spzt;       //审批状态
 	private Date thsj;       //退货时间
+	private String sfkId;     //收付款表ID
+	private FAccount fAccount;   //账号信息
 
 	public CDdinfo() {
 		super();
@@ -222,5 +225,21 @@ public class CDdinfo extends DataEntity<CDdinfo> {
 
 	public void setThsj(Date thsj) {
 		this.thsj = thsj;
+	}
+
+	public String getSfkId() {
+		return sfkId;
+	}
+
+	public void setSfkId(String sfkId) {
+		this.sfkId = sfkId;
+	}
+
+	public FAccount getfAccount() {
+		return fAccount;
+	}
+
+	public void setfAccount(FAccount fAccount) {
+		this.fAccount = fAccount;
 	}
 }

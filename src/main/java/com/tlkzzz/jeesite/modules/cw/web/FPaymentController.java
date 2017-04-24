@@ -165,4 +165,18 @@ public class FPaymentController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/cw/fPayment/?repage";
 	}
 
+/**
+ *
+ * 销售退货单List
+ * */
+	@RequiresPermissions("cw:fPayment:view")
+	@RequestMapping(value = {"returnGoodsList", ""})
+	public String returnGoodsList(FPayment fPayment, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<FPayment> page = fPaymentService.findPage(new Page<FPayment>(request, response), fPayment);
+		fPayment.setThstatus("0");
+		model.addAttribute("fPaymentList", fPaymentService.findList(fPayment));
+		model.addAttribute("page", page);
+		return "modules/ck/returnGoodsList";
+	}
+
 }

@@ -178,4 +178,14 @@ public class FReceiptController extends BaseController {
 		}
 		return "redirect:"+Global.getAdminPath()+"/cw/fReceipt/?repage";
 	}
+
+	@RequiresPermissions("cw:fReceipt:view")
+	@RequestMapping(value = {"GysReturn", ""})
+	public String GysReturn(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
+		model.addAttribute("page", page);
+		model.addAttribute("fReceipt", fReceipt);
+		return "modules/cw/GysReturn";
+	}
+
 }

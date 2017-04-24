@@ -27,6 +27,8 @@ public interface FPaymentDao extends CrudDao<FPayment> {
      */
 	public void updateApprovalStatus(FPayment payment);
 
+	public void thstatusUpdate(FPayment payment);
+
 
 	public FPayment paymentAddHtje(FPayment payment);
 

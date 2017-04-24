@@ -26,7 +26,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.htje as "htje",
-		rck.ddbh as "ddbh"
+		rck.ddbh as "ddbh",
+		a.thstatus as "thstatus"
 	</sql>
 
 	<sql id="fPaymentJoins">
@@ -74,6 +75,9 @@
 			</if>
 			<if test="paymentType != null and paymentType != ''">
 				AND a.payment_type = #{paymentType}
+			</if>
+			<if test="thstatus != null and thstatus != ''">
+				AND a.thstatus &gt;= #{thstatus}
 			</if>
 		</where>
 		<choose>
@@ -124,7 +128,8 @@
 		create_date,
 		update_by,
 		update_date,
-		htje
+		htje,
+		thstatus
 		) VALUES (
 		#{id},
 		#{paymentDate},
@@ -144,7 +149,8 @@
 		#{createDate},
 		#{updateBy.id},
 		#{updateDate},
-		#{htje}
+		#{htje},
+		#{thstatus}
 		)
 	</insert>
 
@@ -165,7 +171,15 @@
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			htje=#{htje}
+			htje=#{htje},
+			thstatus=#{thstatus}
+		WHERE id = #{id}
+	</update>
+
+	<update id="thstatusUpdate">
+		UPDATE f_payment SET
+		approval_status = #{approvalStatus},
+		thstatus = #{thstatus}
 		WHERE id = #{id}
 	</update>
 

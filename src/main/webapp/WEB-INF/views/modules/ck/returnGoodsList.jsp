@@ -22,15 +22,26 @@
             return false;
         }
 
+
+        function viewSubOrder(id){
+            alert(id);
+
+                top.$.jBox.open("iframe:${ctx}/ck/cDdinfo/thsh?ids="+id, "退货单审核", 700, $(top.document).height()-180, {
+                    buttons:{"确定":"ok"}, loaded:function(h) {
+                        $(".jbox-content", top.document).css("overflow-y", "hidden");
+                    }
+                });
+
+        }
     </script>
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/ck/cDdinfo/returnGoodsList">销售退货单</a></li>
+    <li class="active"><a href="${ctx}/cw/fPayment/returnGoodsList">销售退货单</a></li>
     <li><a href="${ctx}/ck/cRkckddinfo/returnGoodsForm">销售退货单添加</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="cDdinfo" action="${ctx}/ck/cDdinfo/returnGoodsList" method="post" class="breadcrumb form-search">
-    <input name="id" type="hidden" value="${cDdinfo.id}"/>
+<form:form id="searchForm" modelAttribute="fPayment" action="${ctx}/cw/fPayment/returnGoodsList" method="post" class="breadcrumb form-search">
+    <input name="id" type="hidden" value="${fPayment.id}"/>
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <%--<ul class="ul-form">--%>
@@ -54,43 +65,37 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
+        <th>付款日期</th>
         <th>订单编号</th>
-        <th>退货数量</th>
-        <th>退货金额</th>
-        <th>退货时间</th>
-        <th>出入仓库</th>
-        <th>账户</th>
+        <th>创建时间</th>
+        <th>创建人</th>
         <th>审批人</th>
-        <shiro:hasPermission name="ck:cDdinfo:edit"><th>操作</th></shiro:hasPermission>
+        <shiro:hasPermission name="cw:fPayment:edit"><th>操作</th></shiro:hasPermission>
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${cDdinfoList}" var="cDdinfo">
+    <c:forEach items="${fPaymentList}" var="fPayment">
         <tr>
             <td>
-                    ${cDdinfo.ddbh}
+                    <fmt:formatDate value="${fPayment.paymentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
             <td>
-                    ${cDdinfo.thsl}
+                    ${fPayment.ddbh}
             </td>
             <td>
-                    ${cDdinfo.thje}
+                    <fmt:formatDate value="${fPayment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
             <td>
-                    <fmt:formatDate value="${cDdinfo.thsj}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    ${fPayment.createBy.id}
+            </td>
+
+            <td>
+                    ${fPayment.jsr.name}
             </td>
             <td>
-                    ${cDdinfo.thck}
-            </td>
-            <td>
-                    ${cDdinfo.zh}
-            </td>
-            <td>
-                    ${cDdinfo.spr.id}
-            </td>
-            <td>
-                <c:if test="${cDdinfo.spzt eq '0'}"><a href="${ctx}/ck/cDdinfo/thsp?ids=${cDdinfo.id}">审批</a></c:if>
-                <c:if test="${cDdinfo.spzt eq '1'}">审批通过</c:if>
+                    <%--${ctx}/ck/cDdinfo/thsp?ids=${fPayment.id}--%>
+                <c:if test="${fPayment.approvalStatus eq '0'}"><a href="javascript:void(0)" onclick="viewSubOrder('${fPayment.id}')">审批</a></c:if>
+                <c:if test="${fPayment.approvalStatus eq '1'}">审批通过</c:if>
             </td>
         </tr>
     </c:forEach>

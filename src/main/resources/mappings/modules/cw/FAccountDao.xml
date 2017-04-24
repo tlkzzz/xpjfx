@@ -104,6 +104,12 @@
 		)
 	</insert>
 
+	<update id="syjeUpdate">
+		UPDATE f_account SET
+		account_balance = #{accountBalance}
+		WHERE id = #{id}
+	</update>
+
 	<update id="capitalHtje">
 		UPDATE f_account SET
 		account_balance = #{accountBalance}

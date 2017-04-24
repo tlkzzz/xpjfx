@@ -37,6 +37,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private User auditor;		// 审核人
 	private String htje;		//合同金额
 	private String ddbh;		//单据的订单编号
+	private String thstatus;    //账单状态   0审核状态   1审核通过
+
 	
 	public FReceipt() {
 		super();
@@ -169,5 +171,13 @@ public class FReceipt extends DataEntity<FReceipt> {
 
 	public void setDdbh(String ddbh) {
 		this.ddbh = ddbh;
+	}
+
+	public String getThstatus() {
+		return thstatus;
+	}
+
+	public void setThstatus(String thstatus) {
+		this.thstatus = thstatus;
 	}
 }

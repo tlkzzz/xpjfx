@@ -26,7 +26,8 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a.thstatus AS "thstatus"
 	</sql>
 	
 	<sql id="fReceiptJoins">
@@ -119,7 +120,8 @@
 			create_by,
 			create_date,
 			update_by,
-			update_date
+			update_date,
+			thstatus
 		) VALUES (
 			#{id},
 			#{receiptDate},
@@ -139,7 +141,8 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateDate}
+			#{updateDate},
+			#{thstatus}
 		)
 	</insert>
 	
@@ -160,7 +163,8 @@
 			auditor = #{auditor.id},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			thstatus = #{thstatus}
 		WHERE id = #{id}
 	</update>
 
@@ -193,5 +197,10 @@
 		DELETE FROM f_receipt
 		WHERE id = #{id}
 	</update>
-	
+	<update id="thstatusUpdate">
+		UPDATE f_receipt SET
+		approval_status = #{approvalStatus},
+		thstatus = #{thstatus}
+		WHERE id = #{id}
+	</update>
 </mapper>

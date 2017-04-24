@@ -42,4 +42,6 @@ public interface FReceiptDao extends CrudDao<FReceipt> {
      * @param receipt
      */
     public void minHTJE(FReceipt receipt);
+
+    public void thstatusUpdate(FReceipt receipt);
 }

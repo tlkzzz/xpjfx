@@ -25,6 +25,7 @@ public class FIncomeRecord extends DataEntity<FIncomeRecord> {
 	private String jsr;		// 经手人
 	private String incomeMode;		// 收入方式
 	private String incomeType;		// 收入类型
+	private String khName;    //客户名称
 	
 	public FIncomeRecord() {
 		super();
@@ -104,5 +105,12 @@ public class FIncomeRecord extends DataEntity<FIncomeRecord> {
 	public void setIncomeType(String incomeType) {
 		this.incomeType = incomeType;
 	}
-	
+
+	public String getKhName() {
+		return khName;
+	}
+
+	public void setKhName(String khName) {
+		this.khName = khName;
+	}
 }

@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.cw.entity.FIncomeRecord;
 
+import java.util.List;
+
 /**
  * 收入记录DAO接口
  * @author xrc
@@ -14,5 +16,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FIncomeRecord;
  */
 @MyBatisDao
 public interface FIncomeRecordDao extends CrudDao<FIncomeRecord> {
-	
+
+    public List<FIncomeRecord> khFindList(FIncomeRecord fIncomeRecord);
+
 }

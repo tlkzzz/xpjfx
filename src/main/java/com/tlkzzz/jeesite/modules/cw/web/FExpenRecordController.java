@@ -79,5 +79,4 @@ public class FExpenRecordController extends BaseController {
 		addMessage(redirectAttributes, "删除支出记录成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fExpenRecord/?repage";
 	}
-
 }

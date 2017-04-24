@@ -42,4 +42,9 @@ public interface FArrearsDao extends CrudDao<FArrears> {
      * @return
      */
     public List<FArrears> finSupplierList(FArrears fArrears);
+
+    /**
+     * 更新客户欠款金额
+     * */
+    public void khhkUpdate(FArrears fArrears);
 }
