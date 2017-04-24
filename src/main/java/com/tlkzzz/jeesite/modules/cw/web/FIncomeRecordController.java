@@ -6,6 +6,10 @@ package com.tlkzzz.jeesite.modules.cw.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
+import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
+import com.tlkzzz.jeesite.modules.cw.service.FAccountService;
+import com.tlkzzz.jeesite.modules.cw.service.FArrearsService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,8 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FIncomeRecord;
 import com.tlkzzz.jeesite.modules.cw.service.FIncomeRecordService;
 
+import java.util.List;
+
 /**
  * 收入记录Controller
  * @author xrc
@@ -33,7 +39,10 @@ public class FIncomeRecordController extends BaseController {
 
 	@Autowired
 	private FIncomeRecordService fIncomeRecordService;
-	
+	@Autowired
+	private FArrearsService fArrearsService;
+	@Autowired
+	private FAccountService fAccountService;
 	@ModelAttribute
 	public FIncomeRecord get(@RequestParam(required=false) String id) {
 		FIncomeRecord entity = null;
@@ -77,6 +86,51 @@ public class FIncomeRecordController extends BaseController {
 	public String delete(FIncomeRecord fIncomeRecord, RedirectAttributes redirectAttributes) {
 		fIncomeRecordService.delete(fIncomeRecord);
 		addMessage(redirectAttributes, "删除收入记录成功");
+		return "redirect:"+Global.getAdminPath()+"/cw/fIncomeRecord/?repage";
+	}
+
+	@RequiresPermissions("cw:fIncomeRecord:view")
+	@RequestMapping(value = {"khhk", ""})
+	public String khhk(FIncomeRecord fIncomeRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord);
+		model.addAttribute("page", page);
+		model.addAttribute("fIncomeRecord", fIncomeRecord);
+		model.addAttribute("fIncomeRecordList", fIncomeRecordService.khFindList(fIncomeRecord));
+		return "modules/cw/khhkList";
+	}
+
+	@RequiresPermissions("cw:fIncomeRecord:view")
+	@RequestMapping(value = "khhkForm")
+	public String khhkForm(FIncomeRecord fIncomeRecord, Model model) {
+		model.addAttribute("fIncomeRecord", fIncomeRecord);
+		model.addAttribute("orderIdList", fArrearsService.findList(new FArrears()));
+		model.addAttribute("IDcarddList", fAccountService.findList(new FAccount()));
+		return "modules/cw/khhkForm";
+	}
+
+
+	/**
+	 * 保存收款记录，更新客户欠款金额
+	 * */
+	@RequiresPermissions("cw:fIncomeRecord:edit")
+	@RequestMapping(value = "khhksave")
+	public String khhksave(FIncomeRecord fIncomeRecord, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, fIncomeRecord)){
+			return form(fIncomeRecord, model);
+		}
+		fIncomeRecordService.save(fIncomeRecord);
+		FArrears fArrears=new FArrears();
+		fArrears.setId(fIncomeRecord.getOrderId());
+		List<FArrears> fArrearsList=fArrearsService.findList(fArrears);
+		Double total= Double.parseDouble(fArrearsList.get(0).getTotal());
+		Double incomeMoney=Double.parseDouble(fIncomeRecord.getIncomeMoney());
+		Double syqk=total-incomeMoney;
+		fArrears.setTotal(syqk.toString());
+		fArrearsService.khhkUpdate(fArrears);
+		if(syqk==0){
+
+		}
+		addMessage(redirectAttributes, "保存客户还款记录成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fIncomeRecord/?repage";
 	}
 

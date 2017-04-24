@@ -16,10 +16,13 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		cs.dpmc AS "dpmc"
 	</sql>
 	
 	<sql id="fIncomeRecordJoins">
+	LEFT JOIN f_arrears fa ON fa.id=a.order_id
+	LEFT JOIN c_store cs ON cs.id=fa.arrears_unit
 	</sql>
     
 	<select id="get" resultType="FIncomeRecord">
@@ -37,6 +40,24 @@
 		<include refid="fIncomeRecordJoins"/>
 		<where>
 			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="khFindList" resultType="FIncomeRecord">
+		SELECT
+		<include refid="fIncomeRecordColumns"/>
+		FROM f_income_record a
+		<include refid="fIncomeRecordJoins"/>
+		<where>
+			order_id IN (SELECT id FROM f_arrears)
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

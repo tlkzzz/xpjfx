@@ -141,7 +141,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li><a href="${ctx}/ck/cDdinfo/returnGoodsList">销售退货单列表</a></li>
+    <li><a href="${ctx}/cw/fPayment/returnGoodsList">销售退货单列表</a></li>
     <li class="active"><a href="${ctx}/ck/cRkckddinfo/returnGoodsForm?id=${cRkckddinfo.id}">销售退货单<shiro:hasPermission name="ck:cRkckddinfo:edit">${not empty cRkckddinfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cRkckddinfo:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>
 <form:form id="inputForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/thSave" method="post" class="form-horizontal">
@@ -163,13 +163,12 @@
     <script src="${ctxStatic}/jqGrid/4.7/js/jquery.jqGrid.js" type="text/javascript"></script>
     <script src="${ctxStatic}/jqGrid/4.7/js/jquery.jqGrid.extend.js" type="text/javascript"></script>
     <div class="control-group">
-        <label class="control-label">收付款账户：</label>
+        <label class="control-label">来往单位账户：</label>
         <div class="controls">
-            <form:select path="fAccount.name" class="input-xlarge required">
+            <form:select path="fAccount.name" class="input-xlarge">
                 <form:option value="" label="请选择"></form:option>
                 <form:options items="${IDcarddList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
             </form:select>
-            <span class="help-inline"><font color="red">*</font> </span>
         </div>
     </div>
     <div class="control-group">
@@ -177,7 +176,18 @@
         <div class="controls">
             <form:input path="sjje" htmlEscape="false" class="input-xlarge "/>
         </div>
-    </div><div class="control-group">
+    </div>
+        <div class="control-group">
+            <label class="control-label">付款方式：</label>
+            <div class="controls">
+                <form:select path="fPayment.paymentMode" class="input-xlarge required">
+                    <form:option value="" label="请选择"/>
+                    <form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+                </form:select>
+                <span class="help-inline"><font color="red">*</font> </span>
+            </div>
+        </div>
+        <div class="control-group">
         <label class="control-label">存入仓库：</label>
         <div class="controls">
             <form:select path="cHouse.id">
@@ -188,7 +198,7 @@
     </div>
 
     <div class="form-actions">
-        <shiro:hasPermission name="ck:cRkckddinfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+        <shiro:hasPermission name="ck:cDdinfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
 </form:form>

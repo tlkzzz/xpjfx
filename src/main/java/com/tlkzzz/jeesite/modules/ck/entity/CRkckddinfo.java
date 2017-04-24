@@ -4,6 +4,7 @@
 package com.tlkzzz.jeesite.modules.ck.entity;
 
 import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
@@ -31,6 +32,7 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private FReceipt receipt;	//收款信息
 	private FAccount fAccount;	//付款信息
 	private CHouse cHouse;	//仓库信息
+	private FPayment fPayment;//付款信息
 
 	private String thxx;  //退货信息
 
@@ -141,5 +143,13 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 
 	public void setSjje(String sjje) {
 		this.sjje = sjje;
+	}
+
+	public FPayment getfPayment() {
+		return fPayment;
+	}
+
+	public void setfPayment(FPayment fPayment) {
+		this.fPayment = fPayment;
 	}
 }

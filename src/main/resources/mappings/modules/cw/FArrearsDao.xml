@@ -225,7 +225,13 @@
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="khhkUpdate">
+		UPDATE f_arrears SET
+		total = #{total}
+		WHERE id = #{id}
+	</update>
+
 	<update id="delete">
 		DELETE FROM f_arrears
 		WHERE id = #{id}

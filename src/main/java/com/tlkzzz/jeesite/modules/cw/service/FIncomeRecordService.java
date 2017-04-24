@@ -58,5 +58,11 @@ public class FIncomeRecordService extends CrudService<FIncomeRecordDao, FIncomeR
 	public void delete(FIncomeRecord fIncomeRecord) {
 		super.delete(fIncomeRecord);
 	}
-	
+
+/**
+ * 客户还款记录
+ * */
+	public List<FIncomeRecord> khFindList(FIncomeRecord fIncomeRecord) {
+		return dao.khFindList(fIncomeRecord);
+	}
 }

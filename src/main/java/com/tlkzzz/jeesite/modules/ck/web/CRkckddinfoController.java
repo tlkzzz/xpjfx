@@ -119,7 +119,7 @@ public class CRkckddinfoController extends BaseController {
 	/**
  	* shizx销售退货单Form
  	* */
-	@RequiresPermissions("ck:cRkckddinfo:view")
+	@RequiresPermissions("ck:cDdinfo:view")
 	@RequestMapping(value = "returnGoodsForm")
 	public String returnGoodsForm(CRkckddinfo cRkckddinfo, Model model) {
 		model.addAttribute("houseList", houseService.findList(new CHouse()));
@@ -360,7 +360,7 @@ public class CRkckddinfoController extends BaseController {
 	@RequestMapping(value = "thSave")
 	public String thSave(CRkckddinfo cRkckddinfo, Model model, RedirectAttributes redirectAttributes) {
 	String thxx=cRkckddinfo.getThxx();
-	if(thxx.equals(",")){
+	if(thxx.equals("")){
 		return "modules/ck/returnGoodsList";
 	}else{
 //		ArrayList<Object> thxxList=new ArrayList<Object>();
@@ -376,7 +376,50 @@ public class CRkckddinfoController extends BaseController {
 			cddinfo.setThck(cRkckddinfo.getcHouse().getId()); //设置出入库仓库
 			cddinfo.setSpr(UserUtils.getUser()); //设置审批人
 			cddinfo.setSpzt("0");  //审批状态     0待审批    1审批通过
-			cDdinfoService.thUpdate(cddinfo);
+
+			//判断是供应商还是客户
+			CDdinfo cddinfos=new CDdinfo();
+			cddinfos.setId(thss[0]);
+			List<CDdinfo> cDdinfos=cDdinfoService.findList(cddinfos);
+			CSupplier cSupplier=new CSupplier();
+			String ddid=cDdinfos.get(0).getStore().getId();
+			if(StringUtils.isNotBlank(ddid)){//客户
+				//添加付款单
+				FPayment fPayment=new FPayment();
+				fPayment.setPaymentDate(new Date());//付款日期
+				fPayment.setPaymentCode(cRkckddinfo.getId());//设置单据编号
+				fPayment.setJe(cRkckddinfo.getSjje());//设置金额
+				cSupplier.setId(ddid);
+				fPayment.setTravelUnit(cSupplier);
+				String faName=cRkckddinfo.getfAccount().getName();
+				if(StringUtils.isNotBlank(faName)){
+					fPayment.setTravelAccount(faName);//设置账户
+				}
+				fPayment.setPaymentMode(cRkckddinfo.getfPayment().getPaymentMode());
+				fPayment.setPaymentType("0");
+				fPaymentService.saveDefualt(fPayment);
+				//设置子订单表中首付款ID
+				cddinfo.setSfkId(fPayment.getId());
+				cDdinfoService.thUpdate(cddinfo);
+			}else{
+				//添加收款单
+				FReceipt fReceipt=new FReceipt();//供应商
+				fReceipt.setReceiptDate(new Date()); //设置收款日期
+				fReceipt.setReceiptCode(cRkckddinfo.getId());//设置单据编号
+				CStore cStore=new CStore();
+				cStore.setId(cDdinfos.get(0).getSupplier().getId());
+				fReceipt.setTravelUnit(cStore);//设置来往单位
+				fReceipt.setReceiptAccount(cRkckddinfo.getfAccount().getName());//设置账户
+				fReceipt.setJe(cRkckddinfo.getSjje());
+				fReceipt.setReceiptMode(cRkckddinfo.getfPayment().getPaymentMode());
+				fReceipt.setReceiptType("0");
+				fReceiptService.saveDefualt(fReceipt);
+				//设置子订单表中首付款ID
+				cddinfo.setSfkId(fReceipt.getId());
+				cDdinfoService.thUpdate(cddinfo);
+			}
+
+
 		}
 	}
 		return "modules/ck/returnGoodsList";

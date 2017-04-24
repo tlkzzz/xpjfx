@@ -38,7 +38,8 @@
 		a.thck AS "thck",
 		a.spr AS "spr.id",
 		a.spzt AS "spzt",
-		a.thsj AS "thsj"
+		a.thsj AS "thsj",
+		a.sfkId AS "sfkId"
 	</sql>
 	
 	<sql id="cDdinfoJoins">
@@ -86,6 +87,9 @@
 			</if>
 			<if test="goods != null and goods.id != null and goods.id != ''">
 				AND a.goods_id = #{goods.id}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
 			</if>
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}
@@ -153,7 +157,8 @@
 			thck,
 			spr,
 			spzt,
-			thsj
+			thsj,
+			sfkId
 		) VALUES (
 			#{id},
 			#{rkckddinfo.id},
@@ -181,7 +186,8 @@
 			#{thck},
 			#{spr.id},
 			#{spzt},
-			#{thsj}
+			#{thsj},
+			#{sfkId}
 		)
 	</insert>
 	
@@ -209,7 +215,8 @@
 			thck=#{thck},
 			spr=#{spr.id},
 			spzt=#{spzt},
-			thsj=#{thsj}
+			thsj=#{thsj},
+			sfkId=#{sfkId}
 		WHERE id = #{id}
 	</update>
 
@@ -220,6 +227,7 @@
 		zh = #{zh},
 		thsj = #{thsj},
 		thck = #{thck},
+		sfkId=#{sfkId},
 		spr=#{spr.id},
 		spzt=#{spzt}
 		WHERE id = #{id}

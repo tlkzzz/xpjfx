@@ -59,7 +59,20 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 	}
 
 	@Transactional(readOnly = false)
+	public void saveDefualt(FPayment fPayment) {
+        fPayment.setJsr(UserUtils.getUser());
+        fPayment.setApprovalStatus("0");
+		fPayment.setThstatus("0");
+		super.save(fPayment);
+	}
+
+	@Transactional(readOnly = false)
 	public void updateApprovalStatus(FPayment payment){
+		dao.updateApprovalStatus(payment);
+	}
+
+	@Transactional(readOnly = false)
+	public void thstatusUpdate(FPayment payment){
 		dao.updateApprovalStatus(payment);
 	}
 

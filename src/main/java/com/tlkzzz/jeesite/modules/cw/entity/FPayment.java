@@ -20,6 +20,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
 public class FPayment extends DataEntity<FPayment> {
 
 	private static final long serialVersionUID = 1L;
+
 	private Date paymentDate;		// 付款日期
 	private String paymentCode;		// 单据编号
 	private String paymentAccount;		// 付款帐号
@@ -35,6 +36,8 @@ public class FPayment extends DataEntity<FPayment> {
 	private String htje;        //合同金额
 
 	private String ddbh;          //shizx 新增字段，用于取 订单ID
+
+	private String thstatus;    //账单状态   0 审核状态   1 审核通过
 
 	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
 	public String getHtje() {
@@ -163,5 +166,13 @@ public class FPayment extends DataEntity<FPayment> {
 
 	public void setDdbh(String ddbh) {
 		this.ddbh = ddbh;
+	}
+
+	public String getThstatus() {
+		return thstatus;
+	}
+
+	public void setThstatus(String thstatus) {
+		this.thstatus = thstatus;
 	}
 }

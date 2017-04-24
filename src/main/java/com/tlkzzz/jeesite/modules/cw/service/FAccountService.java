@@ -49,4 +49,9 @@ public class FAccountService extends CrudService<FAccountDao, FAccount> {
 		dao.capitalHtje(fAccount);
 	}
 
+	@Transactional(readOnly = false)
+	public void syjeUpdate(FAccount fAccount) {
+		dao.syjeUpdate(fAccount);
+	}
+
 }

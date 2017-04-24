@@ -83,5 +83,11 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 	public void delete(FArrears fArrears) {
 		super.delete(fArrears);
 	}
+
+
+	/**
+	 * 更新客户欠款金额
+	 * */
+	public void khhkUpdate(FArrears fArrears){dao.khhkUpdate(fArrears);}
 	
 }
