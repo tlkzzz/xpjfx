@@ -9,6 +9,23 @@
 		a.arrears_unit AS "arrearsUnit",
 		a.arrears_type AS "arrearsType",
 		a.arrears_mode AS "arrearsMode",
+		SUM(a.total) AS "total",
+		a.arrears_date AS "arrearsDate",
+		a.repayment_date AS "repaymentDate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+
+	<sql id="fArrearsColumnsb">
+		a.id AS "id",
+		a.rkckdd AS "rkckdd.id",
+		crk.ddbh AS "rkckdd.ddbh",
+		a.arrears_unit AS "arrearsUnit",
+		a.arrears_type AS "arrearsType",
+		a.arrears_mode AS "arrearsMode",
 		a.total        AS "total",
 		a.arrears_date AS "arrearsDate",
 		a.repayment_date AS "repaymentDate",
@@ -18,6 +35,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate"
 	</sql>
+
 	<sql id="fArrearsJoins">
 		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckdd
 	</sql>
@@ -54,7 +72,7 @@
 	<select id="findStoreList" resultType="FArrears">
 		SELECT
 			<include refid="fArrearsColumns"/>
-			,cs.name AS "unitName",SUM(a.total) AS "total"
+			,cs.name AS "unitName"
 		FROM f_arrears a
 		<include refid="fArrearsJoins"/>
 		LEFT JOIN c_store cs ON cs.id=a.arrears_unit
@@ -78,7 +96,7 @@
 	<select id="findSupplierList" resultType="FArrears">
 		SELECT
 			<include refid="fArrearsColumns"/>
-			,csu.name AS "unitName",SUM(a.total) AS "total"
+			,csu.name AS "unitName"
 		FROM f_arrears a
 		<include refid="fArrearsJoins"/>
 		LEFT JOIN c_supplier csu ON csu.id=a.arrears_unit
@@ -102,7 +120,7 @@
 
 	<select id="finStoreList" resultType="FArrears">
 		SELECT
-		<include refid="fArrearsColumns"/>
+		<include refid="fArrearsColumnsb"/>
 		,cs.name AS "unitName"
 		FROM f_arrears a
 		<include refid="fArrearsJoins"/>
@@ -125,7 +143,7 @@
 
 	<select id="finSupplierList" resultType="FArrears">
 		SELECT
-		<include refid="fArrearsColumns"/>
+		<include refid="fArrearsColumnsb"/>
 		,csu.name AS "unitName"
 		FROM f_arrears a
 		<include refid="fArrearsJoins"/>
