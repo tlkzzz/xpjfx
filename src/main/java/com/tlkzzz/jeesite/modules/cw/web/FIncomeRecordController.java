@@ -6,6 +6,8 @@ package com.tlkzzz.jeesite.modules.cw.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
+import com.tlkzzz.jeesite.modules.ck.service.CRkckddinfoService;
 import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
 import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 import com.tlkzzz.jeesite.modules.cw.service.FAccountService;
@@ -43,6 +45,8 @@ public class FIncomeRecordController extends BaseController {
 	private FArrearsService fArrearsService;
 	@Autowired
 	private FAccountService fAccountService;
+	@Autowired
+	private CRkckddinfoService cRkckddinfoService;
 	@ModelAttribute
 	public FIncomeRecord get(@RequestParam(required=false) String id) {
 		FIncomeRecord entity = null;
@@ -104,7 +108,7 @@ public class FIncomeRecordController extends BaseController {
 	@RequestMapping(value = "khhkForm")
 	public String khhkForm(FIncomeRecord fIncomeRecord, Model model) {
 		model.addAttribute("fIncomeRecord", fIncomeRecord);
-		model.addAttribute("orderIdList", fArrearsService.findList(new FArrears()));
+		model.addAttribute("orderIdList", cRkckddinfoService.findList(new CRkckddinfo()));
 		model.addAttribute("IDcarddList", fAccountService.findList(new FAccount()));
 		return "modules/cw/khhkForm";
 	}
