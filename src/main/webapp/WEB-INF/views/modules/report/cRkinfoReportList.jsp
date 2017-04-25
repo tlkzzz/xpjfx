@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>入库单查询</title>
+	<title>入库报表</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,12 +18,22 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cRkinfo/rkReport">入库单</a></li>
+		<li class="active"><a href="${ctx}/ck/cRkinfo/rkReport">入库报表</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cRkinfo" action="${ctx}/ck/cRkinfo/rkReport" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+			<li><label>开始时间：</label>
+				<input name="startDate" id="startDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					   value="<fmt:formatDate value="${cRkinfo.startDate}" pattern="yyyy-MM-dd"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'endDate\')}',isShowClear:false});"/>
+			</li>
+			<li><label>截止时间：</label>
+				<input name="endDate" id="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					   value="<fmt:formatDate value="${cRkinfo.endDate}" pattern="yyyy-MM-dd"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'startDate\')}',isShowClear:false});"/>
+			</li>
 			<li><label>商品名称：</label>
 				<form:input path="goods.name" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
@@ -38,8 +48,8 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>商品</th>
 				<th>仓库</th>
+				<th>商品</th>
 				<th>入库数量</th>
 				<th>入库后的总数量</th>
 				<th>入库前成本价</th>
@@ -53,10 +63,10 @@
 		<c:forEach items="${page.list}" var="cRkinfo">
 			<tr>
 				<td>
-					${cRkinfo.goods.name}
+						${cRkinfo.house.name}
 				</td>
 				<td>
-					${cRkinfo.house.name}
+					${cRkinfo.goods.name}
 				</td>
 				<td>
 					${cRkinfo.rknub}
