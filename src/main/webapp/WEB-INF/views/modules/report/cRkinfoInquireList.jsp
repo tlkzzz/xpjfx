@@ -18,9 +18,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cRkinfo/rkReport">入库单</a></li>
+		<li class="active"><a href="${ctx}/ck/cRkinfo/rkInquire">入库单</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cRkinfo" action="${ctx}/ck/cRkinfo/rkReport" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cRkinfo" action="${ctx}/ck/cRkinfo/rkInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
