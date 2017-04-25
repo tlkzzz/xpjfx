@@ -82,13 +82,13 @@ public class CRkinfoController extends BaseController {
 	}
 
 	/** 	报表	start	**/
-	@RequiresPermissions("ck:cRkinfoReport:view")
-	@RequestMapping(value = "rkReport")
-	public String rkReport(CRkinfo cRkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+	@RequiresPermissions("ck:cRkinfoInquire:view")
+	@RequestMapping(value = "rkInquire")
+	public String rkInquire(CRkinfo cRkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkinfo> page = cRkinfoService.findPage(new Page<CRkinfo>(request, response), cRkinfo);
 		model.addAttribute("cRkinfo", cRkinfo);
 		model.addAttribute("page", page);
-		return "modules/report/cRkinfoReportList";
+		return "modules/report/cRkinfoInquireList";
 	}
 
 }
