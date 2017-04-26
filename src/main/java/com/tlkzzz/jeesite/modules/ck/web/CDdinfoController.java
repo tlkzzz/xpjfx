@@ -24,6 +24,7 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class CDdinfoController extends BaseController {
 
 	@Autowired
 	private CDdinfoService cDdinfoService;
+	@Autowired
+	private CHouseService cHouseService;
 	@Autowired
 	private CHgoodsService cHgoodsService;
 	@Autowired
@@ -80,14 +83,14 @@ public class CDdinfoController extends BaseController {
 	@RequiresPermissions("ck:cDdinfo:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(CDdinfo cDdinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<CDdinfo> page = cDdinfoService.findPage(new Page<CDdinfo>(request, response), cDdinfo); 
+		Page<CDdinfo> page = cDdinfoService.findPage(new Page<CDdinfo>(request, response), cDdinfo);
 		model.addAttribute("cDdinfo", cDdinfo);
 		model.addAttribute("page", page);
 		return "modules/ck/cDdinfoList";
 	}
 
 	@RequiresPermissions("ck:cDdinfo:view")
-	@RequestMapping(value = {"returnGoodsList", ""})
+	@RequestMapping(value = "returnGoodsList")
 	public String returnGoodsList(CDdinfo cDdinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CDdinfo> page = cDdinfoService.findPage(new Page<CDdinfo>(request, response), cDdinfo);
 		model.addAttribute("cDdinfoList", cDdinfoService.thfindList(cDdinfo));
@@ -113,7 +116,7 @@ public class CDdinfoController extends BaseController {
 		addMessage(redirectAttributes, "保存订单成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cDdinfo/?repage";
 	}
-	
+
 	@RequiresPermissions("ck:cDdinfo:edit")
 	@RequestMapping(value = "delete")
 	public String delete(CDdinfo cDdinfo, RedirectAttributes redirectAttributes) {
@@ -290,4 +293,30 @@ public class CDdinfoController extends BaseController {
 		return "modules/ck/GysReturn";
 	}
 
+	/**		报表start	**/
+	/**
+	 * 报废报表
+	 * @param cDdinfo
+	 * @param type 1或null:商品明细，2:商品汇总
+	 * @param model
+	 * @return
+	 */
+//	@RequiresPermissions("ck:cDdinfoReport:view")
+	@RequestMapping(value = "scrapList")
+	public String scrapList(CDdinfo cDdinfo, String type, Model model) {
+		cDdinfo.setRkckddinfo(new CRkckddinfo());
+		cDdinfo.getRkckddinfo().setState("4");//报废录单
+		List<CDdinfo> list = new ArrayList<CDdinfo>();
+		if(StringUtils.isNotBlank(type)&&"2".equals(type)){
+			cDdinfoService.findReportList(cDdinfo);
+		}else {
+			list = cDdinfoService.processUnit(cDdinfoService.findList(cDdinfo));
+		}
+		model.addAttribute("list",list);
+		model.addAttribute("type",type);
+		model.addAttribute("cDdinfo",cDdinfo);
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));
+		return "modules/report/cDdinfoScrapList";
+	}
 }
