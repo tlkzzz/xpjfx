@@ -13,6 +13,13 @@
 		ch.name AS "house.name",
 		a.goods_id AS "goods.id",
 		cg.name AS "goods.name",
+		cg.sj AS "goods.sj",
+		cg.big AS "goods.big.id",
+		cuna.name AS "goods.big.name",
+		cg.zong AS "goods.zong.id",
+		cunb.name AS "goods.zong.name",
+		cg.small AS "goods.small.id",
+		cunc.name AS "goods.small.name",
 		a.supplier_id AS "supplier.id",
 		csu.name AS "supplier.name",
 		a.store_id AS "store.id",
@@ -26,6 +33,7 @@
 		a.yhje AS "yhje",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
+		su.name AS "createBy.name",
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
@@ -49,6 +57,10 @@
 		LEFT JOIN c_supplier csu ON a.supplier_id=csu.id
 		LEFT JOIN c_store cst	ON a.store_id=cst.id
 		LEFT JOIN c_spec sp ON sp.id=cg.specid
+		LEFT JOIN c_unit cuna ON cg.`big`=cuna.`id`
+		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
+		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
+		LEFT JOIN sys_user su ON su.id=a.create_by
 	</sql>
     
 	<select id="get" resultType="CDdinfo">
@@ -82,6 +94,9 @@
 			<if test="rkckddinfo != null and rkckddinfo.id != null and rkckddinfo.id != ''">
 				AND a.rkckddinfoid = #{rkckddinfo.id}
 			</if>
+			<if test="rkckddinfo != null and rkckddinfo.state != null and rkckddinfo.state != ''">
+				AND crkck.state = #{rkckddinfo.state}
+			</if>
 			<if test="house != null and house.id != null and house.id != ''">
 				AND a.hous_id = #{house.id}
 			</if>
@@ -101,6 +116,55 @@
 				AND a.cgzbinfo = #{cgzbinfo.id}
 			</if>
 		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findReportList" resultType="CDdinfo">
+		SELECT
+			a.goods_id AS "goods.id",
+			cg.name AS "goods.name",
+			cg.sj AS "goods.sj",
+			cg.big AS "goods.big.id",
+			cuna.name AS "goods.big.name",
+			cg.zong AS "goods.zong.id",
+			cunb.name AS "goods.zong.name",
+			cg.small AS "goods.small.id",
+			cunc.name AS "goods.small.name",
+			cg.specid AS "goods.spec.id",
+			sp.name AS "goods.spec.name",
+			SUM(a.nub) AS "nub",
+			SUM(a.yhje) AS "yhje"
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="rkckddinfo != null and rkckddinfo.id != null and rkckddinfo.id != ''">
+				AND a.rkckddinfoid = #{rkckddinfo.id}
+			</if>
+			<if test="rkckddinfo != null and rkckddinfo.state != null and rkckddinfo.state != ''">
+				AND crkck.state = #{rkckddinfo.state}
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.hous_id = #{house.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goods_id = #{goods.id}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.store_id = #{store.id}
+			</if>
+		</where>
+		GROUP BY a.goods_id
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
