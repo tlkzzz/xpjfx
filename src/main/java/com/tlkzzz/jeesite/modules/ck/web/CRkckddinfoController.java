@@ -241,6 +241,13 @@ public class CRkckddinfoController extends BaseController {
 		return retStr;
 	}
 
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "selectHouse")
+	public String selectHouse(CHouse house, Model model){
+		model.addAttribute("houseList", houseService.findList(new CHouse()));
+		model.addAttribute("house", house);
+		return "modules/ck/selectHouse";
+	}
 
 
 	/**		采购申请结束		*/

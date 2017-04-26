@@ -7,6 +7,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * 入库记录Entity
@@ -26,6 +27,10 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 	private CSupplier supplier;	// 供应商
 	private String state;		// 入库类型 0进货入库1其他入库
 	private CStore storeId;      //客户ID
+
+	private Date startDate;		//开始入库时间
+	private Date endDate;		//结束入库时间
+	private String total;		//入库总金额
 
 	public CRkinfo() {
 		super();
@@ -117,5 +122,29 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 
 	public void setStoreId(CStore storeId) {
 		this.storeId = storeId;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
 	}
 }
