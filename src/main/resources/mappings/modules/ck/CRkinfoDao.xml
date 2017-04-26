@@ -6,6 +6,7 @@
 		a.id AS "id",
 		a.goodsid AS "goods.id",
 		cg.name AS "goods.name",
+		cg.sj AS "goods.sj",
 		cg.big AS "goods.big.id",
 		cuna.name AS "goods.big.name",
 		cg.zong AS "goods.zong.id",
@@ -24,6 +25,7 @@
 		csu.name AS "supplier.name",
 		a.state AS "state",
 		a.create_by AS "createBy.id",
+		su.name AS "createBy.name",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -40,6 +42,7 @@
 		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
 		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
 		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+		LEFT JOIN sys_user su ON su.id=a.create_by
 	</sql>
     
 	<select id="get" resultType="CRkinfo">
@@ -75,6 +78,12 @@
 					<if test="dbName == 'mssql'">'%'+#{house.name}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{house.name},'%')</if>
 			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt; #{endDate}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -103,7 +112,75 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="findReportList" resultType="CRkinfo">
+		SELECT
+			cgcl.name AS "goods.gclass.parent.name",
+			cgc.name AS "goods.gclass.name",
+			a.goodsid AS "goods.id",
+			cg.big AS "goods.big.id",
+			cuna.name AS "goods.big.name",
+			cg.zong AS "goods.zong.id",
+			cunb.name AS "goods.zong.name",
+			cg.small AS "goods.small.id",
+			cunc.name AS "goods.small.name",
+			cg.specid AS "goods.spec.id",
+			csp.name AS "goods.spec.name",
+			cg.name AS "goods.name",
+			cg.cbj AS "goods.cbj",
+			csp.name AS "goods.spec.name",
+			SUM(a.rknub*a.rkhcbj) AS "total",
+			SUM(a.rknub*cg.sj) AS "goods.sj",
+			a.rknub AS "rknub",
+			a.rkhnub AS "rkhnub",
+			a.rkqcbj AS "rkqcbj",
+			a.rkhcbj AS "rkhcbj"
+		FROM c_rkinfo a
+		LEFT JOIN c_goods cg ON cg.id=a.goodsid
+		LEFT JOIN c_gclass cgc ON cgc.id=cg.gclassid
+		LEFT JOIN c_gclass cgcl ON cgcl.id=cgc.parent_id
+		LEFT JOIN c_unit cuna ON cg.`big`=cuna.`id`
+		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
+		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
+		LEFT JOIN c_spec csp ON csp.id=cg.specid
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.name != null and goods.name != ''">
+				AND cg.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{goods.name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{goods.name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.houseid = #{house.id}
+			</if>
+			<if test="house != null and house.name != null and house.name != ''">
+				AND ch.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{house.name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{house.name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{house.name},'%')</if>
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt; #{endDate}
+			</if>
+		</where>
+		GROUP BY a.goodsid
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<insert id="insert">
 		INSERT INTO c_rkinfo(
 			id,
