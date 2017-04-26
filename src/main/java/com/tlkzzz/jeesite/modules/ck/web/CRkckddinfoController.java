@@ -64,7 +64,6 @@ public class CRkckddinfoController extends BaseController {
 	private FAccountService fAccountService;
 	@Autowired
 	private CHouseService houseService;
-
 	@Autowired
 	private FDiscountService fDiscountService;
 
@@ -284,6 +283,7 @@ public class CRkckddinfoController extends BaseController {
 		fReceipt.setHtje(String.valueOf(orderTotal));
 		fReceipt.setJe(String.valueOf(orderTotal-yhTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("houseList", houseService.findList(new CHouse()));
 		model.addAttribute("toDiscount", (yhTotal > 0));
 		model.addAttribute("fReceipt", fReceipt);
 		return "modules/ck/submitOrder";
@@ -305,7 +305,7 @@ public class CRkckddinfoController extends BaseController {
 		fReceipt.setReceiptType(UserUtils.getCache("RKCKSTATE").toString());
 		if(fReceipt.getReceiptDate()==null)fReceipt.setReceiptDate(new Date());
 		fReceiptService.save(fReceipt);
-		return fReceipt.getId();
+		return fReceipt.getId()+","+fReceipt.getHouseId();
 	}
 	/**
 	 * 出库提交订单打开填写财务信息页面（付款）
@@ -328,6 +328,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 		payment.setJe(String.valueOf(orderTotal));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("houseList", houseService.findList(new CHouse()));
 		model.addAttribute("toDiscount", (yhTotal > 0));
 		model.addAttribute("payment", payment);
 		return "modules/ck/submitOrderPayment";
@@ -348,7 +349,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 		payment.setPaymentType(UserUtils.getCache("RKCKSTATE").toString());
 		fPaymentService.save(payment);
-		return payment.getId();
+		return payment.getId()+","+payment.getHouseId();
 	}
 
 	/**		出库结束		**/
