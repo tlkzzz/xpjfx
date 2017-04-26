@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
+import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,20 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public List<CDdinfo> findList(CDdinfo cDdinfo) {
 		return super.findList(cDdinfo);
 	}
-	
+
+	public List<CDdinfo> findReportList(CDdinfo cDdinfo){
+		return processUnit(dao.findReportList(cDdinfo));
+	}
+
+	public List<CDdinfo> processUnit(List<CDdinfo> list){
+		for(CDdinfo cd: list){
+			if(cd==null||cd.getGoods()==null)continue;
+			String[] unit = {cd.getGoods().getBig().getName(),cd.getGoods().getZong().getName(),cd.getGoods().getSmall().getName()};
+			cd.setType(ToolsUtils.unitTools(cd.getGoods().getSpec().getName(),unit,Integer.parseInt(cd.getNub())));
+		}
+		return list;
+	}
+
 	public Page<CDdinfo> findPage(Page<CDdinfo> page, CDdinfo cDdinfo) {
 		return super.findPage(page, cDdinfo);
 	}
