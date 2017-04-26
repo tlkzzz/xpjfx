@@ -35,15 +35,35 @@ public class CRkinfoService extends CrudService<CRkinfoDao, CRkinfo> {
 	
 	public Page<CRkinfo> findPage(Page<CRkinfo> page, CRkinfo cRkinfo) {
 		page = super.findPage(page, cRkinfo);
+		page.setList(process(page.getList()));
+		return page;
+	}
+
+	public List<CRkinfo> findReportList(CRkinfo cRkinfo) {
+		List<CRkinfo> list = dao.findReportList(cRkinfo);
 		DecimalFormat df = new DecimalFormat("#.####");
-		for(CRkinfo cc:page.getList()){
+		for(CRkinfo cc: list){
+			if(cc.getGoods()!=null&&StringUtils.isNotBlank(cc.getGoods().getSj()))cc.getGoods().setSj(df.format(Double.parseDouble(cc.getGoods().getSj())));
+			if(StringUtils.isNotBlank(cc.getTotal()))cc.setTotal(df.format(Double.parseDouble(cc.getTotal())));
+			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
+			cc.setRknub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getRknub())));
+		}
+		return list;
+	}
+
+	public List<CRkinfo> process(List<CRkinfo> list){
+		DecimalFormat df = new DecimalFormat("#.####");
+		for(CRkinfo cc: list){
+			if(StringUtils.isNotBlank(cc.getRkqcbj()))cc.setRkqcbj(df.format(Double.parseDouble(cc.getRkqcbj())));
+			if(StringUtils.isNotBlank(cc.getRkhcbj()))cc.setRkhcbj(df.format(Double.parseDouble(cc.getRkhcbj())));
+			if(StringUtils.isNotBlank(cc.getRkhcbj())&&StringUtils.isNotBlank(cc.getRknub())){
+				cc.setTotal(df.format(Double.parseDouble(cc.getRkhcbj())*Integer.parseInt(cc.getRknub())));
+			}
 			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
 			cc.setRkhnub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getRkhnub())));
 			cc.setRknub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getRknub())));
-			if(StringUtils.isNotBlank(cc.getRkqcbj()))cc.setRkqcbj(df.format(Double.parseDouble(cc.getRkqcbj())));
-			if(StringUtils.isNotBlank(cc.getRkhcbj()))cc.setRkhcbj(df.format(Double.parseDouble(cc.getRkhcbj())));
 		}
-		return page;
+		return list;
 	}
 	
 	@Transactional(readOnly = false)
