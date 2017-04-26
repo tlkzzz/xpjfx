@@ -8,21 +8,16 @@
 		$(document).ready(function() {
 			
 		});
-		function page(n,s){
-			$("#pageNo").val(n);
-			$("#pageSize").val(s);
-			$("#searchForm").submit();
-        	return false;
-        }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cRkinfo/rkReport">入库报表</a></li>
+		<li <c:if test="${empty type ||type eq '1'}">class="active"</c:if>><a href="${ctx}/ck/cRkinfo/rkReport">入库报表</a></li>
+		<li <c:if test="${not empty type&&type eq '2'}">class="active"</c:if>><a href="${ctx}/ck/cRkinfo/rkReport?type=2">商品汇总</a></li>
+		<li <c:if test="${not empty type&&type eq '3'}">class="active"</c:if>><a href="${ctx}/ck/cRkinfo/rkReport?type=3">单据明细</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cRkinfo" action="${ctx}/ck/cRkinfo/rkReport" method="post" class="breadcrumb form-search">
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input name="type" type="hidden" value="${type}"/>
 		<ul class="ul-form">
 			<li><label>开始时间：</label>
 				<input name="startDate" id="startDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
@@ -35,50 +30,64 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'startDate\')}',isShowClear:false});"/>
 			</li>
 			<li><label>商品名称：</label>
-				<form:input path="goods.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:select path="goods.id">
+					<form:option value="" label="请选择"/>
+					<form:options items="${goodsList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li><label>仓库名称：</label>
-				<form:input path="house.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:select path="house.id">
+					<form:option value="" label="请选择"/>
+					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<c:if test="${empty type || type eq '1'}">
+	<table id="contentTableOne" class="table table-bordered">
 		<thead>
+		<tr>长沙市优彼食品入库报表-商品明细</tr></br>
+			<tr>开始时间：<fmt:formatDate value="${cRkinfo.startDate}" pattern="yyyy-MM-dd"/> |结束时间：<fmt:formatDate value="${cRkinfo.endDate}" pattern="yyyy-MM-dd"/></tr>
 			<tr>
-				<th>仓库</th>
-				<th>商品</th>
+				<th>行</th>
+				<th>仓库名称</th>
+				<th>商品名称</th>
+				<th>规格型号</th>
 				<th>入库数量</th>
-				<th>入库后的总数量</th>
-				<th>入库前成本价</th>
-				<th>入库成本价</th>
+				<th>单价</th>
+				<th>金额</th>
 				<th>入库类型</th>
 				<th>入库时间</th>
 				<th>备注</th>
+				<th>操作人</th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="cRkinfo">
+		<c:forEach items="${list}" var="cRkinfo" varStatus="status">
 			<tr>
 				<td>
-						${cRkinfo.house.name}
+					${status.index+1}
+				</td>
+				<td>
+					${cRkinfo.house.name}
 				</td>
 				<td>
 					${cRkinfo.goods.name}
 				</td>
 				<td>
+					${cRkinfo.goods.spec.name}
+				</td>
+				<td>
 					${cRkinfo.rknub}
 				</td>
 				<td>
-					${cRkinfo.rkhnub}
-				</td>
-				<td>
-					${cRkinfo.rkqcbj}
-				</td>
-				<td>
 					${cRkinfo.rkhcbj}
+				</td>
+				<td>
+					${cRkinfo.total}
 				</td>
 				<td>
 					${fns:getDictLabel(cRkinfo.state, "rkState", "")}
@@ -89,10 +98,117 @@
 				<td>
 					${cRkinfo.remarks}
 				</td>
+				<td>
+					${cRkinfo.createBy.name}
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	</c:if>
+	<c:if test="${not empty type && type eq '2'}">
+	<table id="contentTableTwo" class="table table-bordered">
+		<thead>
+		<tr>长沙市优彼食品入库报表-商品汇总</tr></br>
+			<tr>开始时间：<fmt:formatDate value="${cRkinfo.startDate}" pattern="yyyy-MM-dd"/> |结束时间：<fmt:formatDate value="${cRkinfo.endDate}" pattern="yyyy-MM-dd"/></tr>
+			<tr>
+				<th>行</th>
+				<th>商品大类</th>
+				<th>商品小类</th>
+				<th>商品名称</th>
+				<th>规格型号</th>
+				<th>入库数量</th>
+				<th>金额</th>
+				<th>成本金额</th>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${list}" var="cRkinfo" varStatus="status">
+			<tr>
+				<td>
+					${status.index+1}
+				</td>
+				<td>
+					${cRkinfo.goods.gclass.parent.name}
+				</td>
+				<td>
+					${cRkinfo.goods.gclass.name}
+				</td>
+				<td>
+					${cRkinfo.goods.name}
+				</td>
+				<td>
+					${cRkinfo.goods.spec.name}
+				</td>
+				<td>
+					${cRkinfo.rknub}
+				</td>
+				<td>
+					${cRkinfo.goods.sj}
+				</td>
+				<td>
+					${cRkinfo.total}
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${not empty type && type eq '3'}">
+	<table id="contentTableTree" class="table table-bordered">
+		<thead>
+		<tr>长沙市优彼食品入库报表-单据明细</tr></br>
+			<tr>开始时间：<fmt:formatDate value="${cRkinfo.startDate}" pattern="yyyy-MM-dd"/> |结束时间：<fmt:formatDate value="${cRkinfo.endDate}" pattern="yyyy-MM-dd"/></tr>
+			<tr>
+				<th>行</th>
+				<th>仓库名称</th>
+				<th>入库类型</th>
+				<th>供应商</th>
+				<th>入库时间</th>
+				<th>金额</th>
+				<th>成本金额</th>
+				<th>实付款</th>
+				<th>备注</th>
+				<th>操作人</th>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${list}" var="cRkinfo" varStatus="status">
+			<tr>
+				<td>
+					${status.index+1}
+				</td>
+				<td>
+					${cRkinfo.house.name}
+				</td>
+				<td>
+					${fns:getDictLabel(cRkinfo.state, "rkState", "")}
+				</td>
+				<td>
+					${cRkinfo.supplier.name}
+				</td>
+				<td>
+					<fmt:formatDate value="${cRkinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					${cRkinfo.rknub*cRkinfo.goods.sj}
+				</td>
+				<td>
+					<fmt:formatNumber value="${cRkinfo.rknub*cRkinfo.rkhcbj}" pattern="#.####"/>
+				</td>
+				<td>
+                    <fmt:formatNumber value="${cRkinfo.rknub*cRkinfo.rkhcbj}" pattern="#.####"/>
+				</td>
+				<td>
+					${cRkinfo.remarks}
+				</td>
+				<td>
+					${cRkinfo.createBy.name}
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
 </body>
 </html>
