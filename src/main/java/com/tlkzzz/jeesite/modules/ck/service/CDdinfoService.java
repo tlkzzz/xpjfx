@@ -70,6 +70,7 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public void saveInfo(CShop cs, CRkckddinfo cRkckddinfo) {
 		CDdinfo cd = new CDdinfo();
 		cd.setRkckddinfo(cRkckddinfo);
+		cd.setHouse(cRkckddinfo.getcHouse());
 		cd.setGoods(cs.getGoods());
 		cd.setDdbh(cs.getSpbh());
 		cd.setSupplier(cs.getSupplier());
