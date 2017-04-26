@@ -6,6 +6,10 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
+import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
+import com.tlkzzz.jeesite.modules.ck.service.CGoodsService;
+import com.tlkzzz.jeesite.modules.ck.service.CHouseService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,9 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.entity.CRkinfo;
 import com.tlkzzz.jeesite.modules.ck.service.CRkinfoService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 入库记录Controller
  * @author xrc
@@ -33,6 +40,10 @@ public class CRkinfoController extends BaseController {
 
 	@Autowired
 	private CRkinfoService cRkinfoService;
+	@Autowired
+	private CGoodsService cGoodsService;
+	@Autowired
+	private CHouseService cHouseService;
 	
 	@ModelAttribute
 	public CRkinfo get(@RequestParam(required=false) String id) {
@@ -82,13 +93,39 @@ public class CRkinfoController extends BaseController {
 	}
 
 	/** 	报表	start	**/
-	@RequiresPermissions("ck:cRkinfoInquire:view")
-	@RequestMapping(value = "rkInquire")
+//	@RequiresPermissions("ck:cRkinfoInquire:view")
+	@RequestMapping(value = "rkInquire")//单据查询
 	public String rkInquire(CRkinfo cRkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkinfo> page = cRkinfoService.findPage(new Page<CRkinfo>(request, response), cRkinfo);
 		model.addAttribute("cRkinfo", cRkinfo);
 		model.addAttribute("page", page);
 		return "modules/report/cRkinfoInquireList";
+	}
+
+	/**
+	 * 入库报表显示
+	 * @param cRkinfo
+	 * @param type 1或null:商品明细，2:商品汇总，3:单据明细
+	 * @param model
+	 * @return
+	 */
+//	@RequiresPermissions("ck:cRkinfoReport:view")
+	@RequestMapping(value = "rkReport")//报表
+	public String rkReport(CRkinfo cRkinfo, String type, Model model) {
+		List<CRkinfo> list = new ArrayList<CRkinfo>();
+		if(StringUtils.isNotBlank(type)&&"2".equals(type)){
+			list = cRkinfoService.findReportList(cRkinfo);
+		}else if(StringUtils.isNotBlank(type)&&"3".equals(type)) {
+			list = cRkinfoService.findList(cRkinfo);
+		}else {
+			list = cRkinfoService.findList(cRkinfo);
+		}
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("cRkinfo", cRkinfo);
+		model.addAttribute("type", type);
+		model.addAttribute("list", list);
+		return "modules/report/cRkinfoReportList";
 	}
 
 }
