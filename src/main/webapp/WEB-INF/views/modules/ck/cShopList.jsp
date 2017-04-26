@@ -43,8 +43,12 @@
                         }
                     });
                 }else{
-                    //直接提交订单
-                    window.location.href = '${ctx}/ck/cRkckddinfo/saveCgInfo';
+                    //选择仓库后提交订单
+                    top.$.jBox.open("iframe:${ctx}/ck/cRkckddinfo/selectHouse", "仓库选择", 700, $(top.document).height()-180, {
+                        buttons:{"确定":"ok"},loaded:function(h){
+                            $(".jbox-content", top.document).css("overflow-y","hidden");
+                        }
+                    });
                 }
             }else {
                 top.$.jBox.tip("请添加订单后再提交！","系统提示","warning");
