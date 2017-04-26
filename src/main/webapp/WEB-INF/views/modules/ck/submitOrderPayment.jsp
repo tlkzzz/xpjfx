@@ -34,7 +34,8 @@
                 async:false,
                 success:function (data) {
                     if(data!='') {
-                        var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?receipt.id="+data;
+                        var datas = data.split(",");
+                        var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?receipt.id="+datas[0]+"&cHouse.id="+datas[1];
                         if(top!=self){
                             window.parent.setMainFrame(url);
                         }else {
@@ -58,6 +59,15 @@
 	<form:form id="inputForm" modelAttribute="fPayment" action="${ctx}/ck/cRkckddinfo/submitOrderPaymentSave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
+		<div class="control-group">
+			<label class="control-label">仓库：</label>
+			<div class="controls">
+				<form:select path="houseId" class="required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
 		<div class="control-group">
 			<label class="control-label">科目编码：</label>
 			<div class="controls">
