@@ -103,7 +103,7 @@
 	<table id="contentTableTwo" class="table table-bordered">
 		<thead>
 		<tr>长沙市优彼食品报废报表-商品汇总</tr></br>
-			<tr>开始时间：<fmt:formatDate value="${cRkinfo.startDate}" pattern="yyyy-MM-dd"/> |结束时间：<fmt:formatDate value="${cRkinfo.endDate}" pattern="yyyy-MM-dd"/></tr>
+			<tr>开始时间：<fmt:formatDate value="${cDdinfo.startDate}" pattern="yyyy-MM-dd"/> |结束时间：<fmt:formatDate value="${cDdinfo.endDate}" pattern="yyyy-MM-dd"/></tr>
 			<tr>
 				<th>行</th>
 				<th>商品名称</th>
