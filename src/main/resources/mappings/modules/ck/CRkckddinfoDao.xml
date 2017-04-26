@@ -12,6 +12,8 @@
 		a.spr AS "spr.id",
 		su.name AS "spr.name",
 		a.spsj AS "spsj",
+		a.cHouse AS "cHouse.id",
+		ch.name AS "cHouse.name",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
@@ -22,6 +24,7 @@
 	</sql>
 	
 	<sql id="cRkckddinfoJoins">
+		LEFT JOIN c_house ch ON ch.id=a.cHouse
 		LEFT JOIN sys_user su ON su.id=a.spr
 	</sql>
     
@@ -94,6 +97,7 @@
 			issp,
 			spr,
 			spsj,
+			cHouse,
 			create_date,
 			create_by,
 			update_date,
@@ -110,6 +114,7 @@
 			#{issp},
 			#{spr},
 			#{spsj},
+			#{cHouse.id},
 			#{createDate},
 			#{createBy.id},
 			#{updateDate},
@@ -129,6 +134,7 @@
 			issp = #{issp},
 			spr = #{spr},
 			spsj = #{spsj},
+			cHouse = #{cHouse.id},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks},
