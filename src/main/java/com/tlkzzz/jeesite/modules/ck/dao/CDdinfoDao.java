@@ -22,7 +22,12 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
      */
     public void updateCgzbInfo(CDdinfo cDdinfo);
 
-
+    /**
+     * 通过商品分组查询报表信息
+     * @param cDdinfo
+     * @return
+     */
+    public List<CDdinfo> findReportList(CDdinfo cDdinfo);
     /**
      * 退货信息保存，更新原有自订单，新增退货信息添加
      * */
