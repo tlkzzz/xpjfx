@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CRkinfo;
 
+import java.util.List;
+
 /**
  * 入库记录DAO接口
  * @author xrc
@@ -14,5 +16,10 @@ import com.tlkzzz.jeesite.modules.ck.entity.CRkinfo;
  */
 @MyBatisDao
 public interface CRkinfoDao extends CrudDao<CRkinfo> {
-	
+    /**
+     * 查询报表商品汇总数据
+     * @param cRkinfo
+     * @return
+     */
+	public List<CRkinfo> findReportList(CRkinfo cRkinfo);
 }
