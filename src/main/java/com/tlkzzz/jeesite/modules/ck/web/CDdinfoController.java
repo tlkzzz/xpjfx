@@ -308,7 +308,7 @@ public class CDdinfoController extends BaseController {
 		cDdinfo.getRkckddinfo().setState("4");//报废录单
 		List<CDdinfo> list = new ArrayList<CDdinfo>();
 		if(StringUtils.isNotBlank(type)&&"2".equals(type)){
-			cDdinfoService.findReportList(cDdinfo);
+		 	list = cDdinfoService.findReportList(cDdinfo);
 		}else {
 			list = cDdinfoService.processUnit(cDdinfoService.findList(cDdinfo));
 		}
