@@ -34,7 +34,8 @@
 				async:false,
 				success:function (data) {
 			        if(data!='') {
-                        var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?receipt.id="+data;
+			            var datas = data.split(",");
+                        var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?receipt.id="+datas[0]+"&cHouse.id="+datas[1];
                         if(top!=self){
                             window.parent.setMainFrame(url);
                         }else {
@@ -58,6 +59,16 @@
 	<form:form id="inputForm" modelAttribute="fReceipt" action="${ctx}/ck/cRkckddinfo/submitOrderSave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
+		<div class="control-group">
+			<label class="control-label">出货仓库：</label>
+			<div class="controls">
+				<form:select path="houseId" class="required">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
 		<div class="control-group">
 			<label class="control-label">来往单位：</label>
 			<div class="controls">
