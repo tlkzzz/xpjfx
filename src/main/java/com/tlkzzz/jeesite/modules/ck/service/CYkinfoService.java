@@ -43,6 +43,15 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 		}
 		return list;
 	}
+
+	public List<CYkinfo> findReportList(CYkinfo cYkinfo) {
+		List<CYkinfo> list = dao.findReportList(cYkinfo);
+		for(CYkinfo cc: list){
+			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
+			cc.setSpecNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+		}
+		return list;
+	}
 	
 	public Page<CYkinfo> findPage(Page<CYkinfo> page, CYkinfo cYkinfo) {
 		page = super.findPage(page, cYkinfo);

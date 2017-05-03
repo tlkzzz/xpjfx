@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CYkinfo;
 
+import java.util.List;
+
 /**
  * 移库记录DAO接口
  * @author xrc
@@ -14,5 +16,11 @@ import com.tlkzzz.jeesite.modules.ck.entity.CYkinfo;
  */
 @MyBatisDao
 public interface CYkinfoDao extends CrudDao<CYkinfo> {
-	
+
+    /**
+     * 通过仓库商品分组查询报表信息
+     * @param cYkinfo
+     * @return
+     */
+    public List<CYkinfo> findReportList(CYkinfo cYkinfo);
 }

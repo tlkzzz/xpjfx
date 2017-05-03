@@ -100,7 +100,7 @@ public class CYkinfoController extends BaseController {
 		if(StringUtils.isBlank(type)||"1".equals(type)){//商品明细
 			list = cYkinfoService.findList(cYkinfo);
 		}else {//商品汇总
-
+			list = cYkinfoService.findReportList(cYkinfo);//仓库商品分组报表
 		}
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));

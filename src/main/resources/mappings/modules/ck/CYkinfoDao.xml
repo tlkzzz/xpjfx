@@ -20,7 +20,7 @@
 		cunc.name AS "goods.small.name",
 		cg.specid AS "goods.spec.id",
 		csp.name AS "goods.spec.name",
-		a.nub AS "nub",
+		SUM(a.nub) AS "nub",
 		a.create_by AS "createBy.id",
 		su.name AS "createBy.name",
 		a.create_date AS "createDate",
@@ -87,6 +87,53 @@
 					<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
 			</if>
 		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findReportList" resultType="CYkinfo">
+		SELECT
+			<include refid="cYkinfoColumns"/>
+		FROM c_ykinfo a
+		<include refid="cYkinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="startHouse != null and startHouse.id != null and startHouse.id != ''">
+				AND a.starthouid = #{startHouse.id}
+			</if>
+
+			<if test="startHouse != null and startHouse.name != null and startHouse.name != ''">
+				AND ch.name LIKE
+					<if test="dbName == 'oracle'">'%'||#{startHouse.name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{startHouse.name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{startHouse.name},'%')</if>
+			</if>
+			<if test="endHouse != null and endHouse.id != null and endHouse.id != ''">
+				AND a.endhouid = #{endHouse.id}
+			</if>
+			<if test="endHouse != null and endHouse.name != null and endHouse.name != ''">
+				AND cho.name LIKE
+					<if test="dbName == 'oracle'">'%'||#{endHouse.name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{endHouse.name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{endHouse.name},'%')</if>
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.storeid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.name != null and goods.name != ''">
+				AND cg.name LIKE
+					<if test="dbName == 'oracle'">'%'||#{goods.name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{goods.name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
+			</if>
+		</where>
+		GROUP BY a.housid,a.goodsid
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
