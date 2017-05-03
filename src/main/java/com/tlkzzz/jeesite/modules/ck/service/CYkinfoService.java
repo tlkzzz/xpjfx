@@ -5,10 +5,12 @@ package com.tlkzzz.jeesite.modules.ck.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHgoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,9 @@ import com.tlkzzz.jeesite.modules.ck.dao.CYkinfoDao;
 @Service
 @Transactional(readOnly = true)
 public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
+
+	@Autowired
+	private CGoodsDao cGoodsDao;
 
 	public CYkinfo get(String id) {
 		return super.get(id);
@@ -55,17 +60,16 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 
 	@Transactional(readOnly = false)
 	public void saveInfo(CHgoods cHgoods,String outHouseId) {
-		CGoods cGoods=new CGoods();
-		cGoods.setId(cHgoods.getGoods().getId());
-		CGoodsService cGoodsService=new CGoodsService();
-		List<CGoods> cGoodsList=cGoodsService.findList(cGoods);
+		CGoods goods = cGoodsDao.get(cHgoods.getGoods().getId());
 		CYkinfo cYkinfo = new CYkinfo();
 		cYkinfo.setStartHouse(new CHouse(outHouseId));
 		cYkinfo.setEndHouse(cHgoods.getHouse());
 		cYkinfo.setGoods(cHgoods.getGoods());
-		cYkinfo.setCbj(cGoodsList.get(0).getCbj());
-		cYkinfo.setXsj(cGoodsList.get(0).getSj());
 		cYkinfo.setNub(cHgoods.getNub());
+		if(goods!=null) {
+			cYkinfo.setCbj(goods.getCbj());
+			cYkinfo.setXsj(goods.getSj());
+		}
 		super.save(cYkinfo);
 	}
 	
