@@ -15,7 +15,7 @@
 		<li <c:if test="${empty type ||type eq '1'}">class="active"</c:if>><a href="${ctx}/ck/cYkinfo/ykReport">商品明细</a></li>
 		<li <c:if test="${not empty type&&type eq '2'}">class="active"</c:if>><a href="${ctx}/ck/cYkinfo/ykReport?type=2">商品汇总</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cDdinfo/scrapList" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cYkinfo/ykReport" method="post" class="breadcrumb form-search">
 		<input name="type" type="hidden" value="${type}"/>
 		<ul class="ul-form">
 			<li><label>报废时间：</label>
