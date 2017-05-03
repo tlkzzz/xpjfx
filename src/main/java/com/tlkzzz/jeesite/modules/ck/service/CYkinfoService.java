@@ -5,6 +5,7 @@ package com.tlkzzz.jeesite.modules.ck.service;
 
 import java.util.List;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHgoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
@@ -54,10 +55,16 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 
 	@Transactional(readOnly = false)
 	public void saveInfo(CHgoods cHgoods,String outHouseId) {
+		CGoods cGoods=new CGoods();
+		cGoods.setId(cHgoods.getGoods().getId());
+		CGoodsService cGoodsService=new CGoodsService();
+		List<CGoods> cGoodsList=cGoodsService.findList(cGoods);
 		CYkinfo cYkinfo = new CYkinfo();
 		cYkinfo.setStartHouse(new CHouse(outHouseId));
 		cYkinfo.setEndHouse(cHgoods.getHouse());
 		cYkinfo.setGoods(cHgoods.getGoods());
+		cYkinfo.setCbj(cGoodsList.get(0).getCbj());
+		cYkinfo.setXsj(cGoodsList.get(0).getSj());
 		cYkinfo.setNub(cHgoods.getNub());
 		super.save(cYkinfo);
 	}
