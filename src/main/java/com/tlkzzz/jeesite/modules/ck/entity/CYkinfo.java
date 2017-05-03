@@ -27,6 +27,9 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 	private Date startDate;		//报表起始时间
 	private Date endDate;		//报表结束时间
 
+	private String cbj;       //移库时成本价
+	private String xsj;       //移库时销售价
+
 	public CYkinfo() {
 		super();
 	}
@@ -93,5 +96,21 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getCbj() {
+		return cbj;
+	}
+
+	public void setCbj(String cbj) {
+		this.cbj = cbj;
+	}
+
+	public String getXsj() {
+		return xsj;
+	}
+
+	public void setXsj(String xsj) {
+		this.xsj = xsj;
 	}
 }

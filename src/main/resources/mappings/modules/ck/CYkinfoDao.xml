@@ -27,6 +27,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+		a.cbj AS "cbj",
+		a.xsj AS "xsj",
 		a.del_flag AS "delFlag"
 	</sql>
 	
@@ -125,6 +127,8 @@
 			update_by,
 			update_date,
 			remarks,
+			cbj,
+			xsj,
 			del_flag
 		) VALUES (
 			#{id},
@@ -137,6 +141,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
+			#{cbj},
+			#{xsj},
 			#{delFlag}
 		)
 	</insert>
@@ -149,6 +155,8 @@
 			nub = #{nub},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
+			cbj = #{cbj},
+			xsj = #{xsj},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
