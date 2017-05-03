@@ -6,6 +6,10 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
+import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
+import com.tlkzzz.jeesite.modules.ck.service.CGoodsService;
+import com.tlkzzz.jeesite.modules.ck.service.CHouseService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,9 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.entity.CYkinfo;
 import com.tlkzzz.jeesite.modules.ck.service.CYkinfoService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 移库记录Controller
  * @author  xrc
@@ -33,6 +40,10 @@ public class CYkinfoController extends BaseController {
 
 	@Autowired
 	private CYkinfoService cYkinfoService;
+	@Autowired
+	private CHouseService cHouseService;
+	@Autowired
+	private CGoodsService cGoodsService;
 	
 	@ModelAttribute
 	public CYkinfo get(@RequestParam(required=false) String id) {
@@ -79,6 +90,24 @@ public class CYkinfoController extends BaseController {
 //		cYkinfoService.delete(cYkinfo);
 		addMessage(redirectAttributes, "删除移库记录成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cYkinfo/?repage";
+	}
+
+	/** 报表start **/
+//	@RequiresPermissions("ck:cYkinfoReport:view")
+	@RequestMapping(value = "ykReport")
+	public String ykReport(CYkinfo cYkinfo, String type, Model model) {
+		List<CYkinfo> list = new ArrayList<CYkinfo>();
+		if(StringUtils.isBlank(type)||"1".equals(type)){//商品明细
+			list = cYkinfoService.findList(cYkinfo);
+		}else {//商品汇总
+
+		}
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("list", list);
+		model.addAttribute("cYkinfo", cYkinfo);
+		model.addAttribute("type", type);
+		return "modules/report/cYkReportList";
 	}
 
 }

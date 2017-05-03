@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * 移库记录Entity
@@ -21,7 +22,11 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 	private CHouse endHouse;		// 结束仓库
 	private CGoods goods;			// 商品
 	private String nub;			// 移库数量
-	
+	private String specNub;		//规格数量
+
+	private Date startDate;		//报表起始时间
+	private Date endDate;		//报表结束时间
+
 	public CYkinfo() {
 		super();
 	}
@@ -65,5 +70,28 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 	public void setNub(String nub) {
 		this.nub = nub;
 	}
-	
+
+	public String getSpecNub() {
+		return specNub;
+	}
+
+	public void setSpecNub(String specNub) {
+		this.specNub = specNub;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 }

@@ -10,6 +10,8 @@
 		cho.name AS "endHouse.name",
 		a.storeid AS "goods.id",
 		cg.name AS "goods.name",
+		cg.sj AS "goods.sj",
+		cg.cbj AS "goods.cbj",
 		cg.big AS "goods.big.id",
 		cuna.name AS "goods.big.name",
 		cg.zong AS "goods.zong.id",
@@ -20,6 +22,7 @@
 		csp.name AS "goods.spec.name",
 		a.nub AS "nub",
 		a.create_by AS "createBy.id",
+		su.name AS "createBy.name",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -35,6 +38,7 @@
 		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
 		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
 		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+		LEFT JOIN sys_user su ON su.id=a.create_by
 	</sql>
     
 	<select id="get" resultType="CYkinfo">
