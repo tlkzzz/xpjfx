@@ -12,8 +12,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li <c:if test="${empty type ||type eq '1'}">class="active"</c:if>><a href="${ctx}/ck/cDdinfo/scrapList">商品明细</a></li>
-		<li <c:if test="${not empty type&&type eq '2'}">class="active"</c:if>><a href="${ctx}/ck/cDdinfo/scrapList?type=2">商品汇总</a></li>
+		<li <c:if test="${empty type ||type eq '1'}">class="active"</c:if>><a href="${ctx}/ck/cYkinfo/ykReport">商品明细</a></li>
+		<li <c:if test="${not empty type&&type eq '2'}">class="active"</c:if>><a href="${ctx}/ck/cYkinfo/ykReport?type=2">商品汇总</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cDdinfo/scrapList" method="post" class="breadcrumb form-search">
 		<input name="type" type="hidden" value="${type}"/>
