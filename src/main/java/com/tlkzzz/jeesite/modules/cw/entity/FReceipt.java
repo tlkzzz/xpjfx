@@ -39,6 +39,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private String ddbh;		//单据的订单编号
 	private String thstatus;    //账单状态   0审核状态   1审核通过
 
+	private String houseId;		//仓库ID作为中转使用不保存到数据库
+
 	
 	public FReceipt() {
 		super();
@@ -179,5 +181,13 @@ public class FReceipt extends DataEntity<FReceipt> {
 
 	public void setThstatus(String thstatus) {
 		this.thstatus = thstatus;
+	}
+
+	public String getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(String houseId) {
+		this.houseId = houseId;
 	}
 }

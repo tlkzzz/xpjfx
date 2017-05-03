@@ -38,6 +38,7 @@ public class FPayment extends DataEntity<FPayment> {
 	private String ddbh;          //shizx 新增字段，用于取 订单ID
 
 	private String thstatus;    //账单状态   0 审核状态   1 审核通过
+	private String houseId;		//仓库ID作为中转字段不保存到数据库
 
 	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
 	public String getHtje() {
@@ -174,5 +175,13 @@ public class FPayment extends DataEntity<FPayment> {
 
 	public void setThstatus(String thstatus) {
 		this.thstatus = thstatus;
+	}
+
+	public String getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(String houseId) {
+		this.houseId = houseId;
 	}
 }
