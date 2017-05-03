@@ -133,7 +133,7 @@
 					<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
 			</if>
 		</where>
-		GROUP BY a.housid,a.goodsid
+		GROUP BY a.starthouid,a.storeid
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
