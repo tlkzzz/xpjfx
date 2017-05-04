@@ -28,6 +28,9 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * 仓库商品Controller
  * @author xrc
@@ -53,8 +56,12 @@ public class CHgoodsController extends BaseController {
 	private FExpenRecordService fExpenRecordService;
 	@Autowired
 	private FArrearsService fArrearsService;
-
+	@Autowired
+	private CCkinfoService cCkinfoService;
+	@Autowired
+	private CRkinfoService cRkinfoService;
 	@ModelAttribute
+
 	public CHgoods get(@RequestParam(required=false) String id) {
 		CHgoods entity = null;
 		if (StringUtils.isNotBlank(id)){
@@ -204,6 +211,30 @@ public class CHgoodsController extends BaseController {
 			return form(cHgoods, model);
 		}
 		cHgoodsService.moveSave(cHgoods);
+		//出库记录
+		CCkinfo cCkinfo=new CCkinfo();
+		CGoods cGoods=new CGoods();
+		cGoods.setId(cHgoods.getGoods().getId());
+		List<CGoods> cGoodsList=cGoodsService.findList(cGoods);
+		cCkinfo.setCkdate(new Date());
+		cCkinfo.setCkqcbj(cGoodsList.get(0).getCbj());
+		cCkinfo.setCkhcbj(cGoodsList.get(0).getCbj());
+		cCkinfo.setJe(cGoodsList.get(0).getCbj());
+		cCkinfo.setNub(cHgoods.getNub());
+		cCkinfo.setGoods(cHgoods.getGoods());
+		cCkinfo.setHouse(cHgoods.getHouse());
+		cCkinfo.setState("9");
+		cCkinfoService.save(cCkinfo);
+		CRkinfo cRkinfo = new CRkinfo();
+		cRkinfo.setGoods(cHgoods.getGoods());
+		cRkinfo.setHouse(cHgoods.getHouse());
+		cRkinfo.setRknub(cHgoods.getNub());
+		List<CHgoods> cHgoodsList=cHgoodsService.findList(cHgoods);
+		cRkinfo.setRkhnub(cHgoodsList.get(0).getNub());
+		cRkinfo.setRkqcbj(cGoodsList.get(0).getCbj());
+		cRkinfo.setRkhcbj(cGoodsList.get(0).getCbj());
+		cRkinfo.setState("9");
+		cRkinfoService.save(cRkinfo);
 		addMessage(redirectAttributes, "保存仓库商品成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cHgoods/list?repage";
 	}

@@ -25,7 +25,7 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 	private String rkhcbj;		// 入库成本价
 	private String cgzbid;		// 采购总订单ID
 	private CSupplier supplier;	// 供应商
-	private String state;		// 入库类型 0进货入库1其他入库
+	private String state;		// 入库类型 0进货入库1其他入库9(移库入库)
 	private CStore storeId;      //客户ID
 
 	private Date startDate;		//开始入库时间
