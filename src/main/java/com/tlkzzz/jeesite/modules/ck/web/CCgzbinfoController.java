@@ -155,16 +155,18 @@ public class CCgzbinfoController extends BaseController {
 		String retStr = "false";
 		if(StringUtils.isNotBlank(id)&&StringUtils.isNotBlank(state)){
 			boolean saveTrue = false;
-			CRkckddinfo cRkckddinfo = new CRkckddinfo(id);
+			CRkckddinfo cRkckddinfo = cRkckddinfoService.get(id);
 			CDdinfo cDdinfo = new CDdinfo();
 			cDdinfo.setRkckddinfo(cRkckddinfo);
 			List<CDdinfo> cdList = cDdinfoService.findList(cDdinfo);
 			if("0".equals(state)||"1".equals(state)) {//入库
 				for (CDdinfo cd: cdList) {
+					cd.setHouse(cRkckddinfo.getcHouse());
 					saveTrue = cCgzbinfoService.saveInfo(cd);
 				}
 			}else {//出库
 				for (CDdinfo cd:cdList){//一个一个订单出库
+					cd.setHouse(cRkckddinfo.getcHouse());
 					saveTrue = cHgoodsService.CKMinStore(cd);
 				}
 				/** 财务信息记录	**/
