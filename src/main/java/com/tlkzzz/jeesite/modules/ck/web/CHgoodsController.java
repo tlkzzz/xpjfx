@@ -16,6 +16,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.service.FArrearsService;
 import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
 import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -238,7 +239,74 @@ public class CHgoodsController extends BaseController {
 		addMessage(redirectAttributes, "保存仓库商品成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cHgoods/list?repage";
 	}
-	
+
+	/**
+	 * 库存调整列表
+	 * @param cHgoods
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cHgoods:edit")
+	@RequestMapping(value = "changeStore")
+	public String changeStore(CHgoods cHgoods, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CHgoods> page = cHgoodsService.findPage(new Page<CHgoods>(request, response), cHgoods);
+		model.addAttribute("page", page);
+		model.addAttribute("cHgoods", cHgoods);
+		return "modules/ck/cHgoodsStoreChangeList";
+	}
+
+	@RequiresPermissions("ck:cHgoods:edit")
+	@RequestMapping(value = "changeStoreForm")
+	public String changeStoreForm(CHgoods cHgoods, Model model, RedirectAttributes redirectAttributes){
+		if(cHgoods.getId()==null){
+			addMessage(redirectAttributes,"库存商品不存在");
+			return "redirect:"+Global.getAdminPath()+"/ck/cHgoods/changeStore?repage";
+		}
+		cHgoods.setUnit(cHgoods.getNub());
+		model.addAttribute("cHgoods", cHgoods);
+		return "modules/ck/cHgoodsStoreChangeForm";
+	}
+
+	@ResponseBody
+	@RequiresPermissions("ck:cHgoods:edit")
+	@RequestMapping(value = "changeStoreSave")
+	public String changeStoreSave(CHgoods cHgoods){
+		if(StringUtils.isBlank(cHgoods.getId()))return "库存商品不存在";
+		if(StringUtils.isBlank(cHgoods.getNub())||StringUtils.isBlank(cHgoods.getUnit()))return "调整数量不能为空";
+		if(Integer.parseInt(cHgoods.getNub())==Integer.parseInt(cHgoods.getUnit()))return "调整数量差不能为0";
+		cHgoods.setNub(cHgoods.getNub().trim());//调整后数量
+		cHgoods.setUnit(cHgoods.getUnit().trim());//调整前数量
+		if(Integer.parseInt(cHgoods.getNub())>Integer.parseInt(cHgoods.getUnit())){//增加库存,入库记录
+			CRkinfo cRkinfo = new CRkinfo();
+			cRkinfo.setState("8");//调整库存
+			cRkinfo.setHouse(cHgoods.getHouse());
+			cRkinfo.setGoods(cHgoods.getGoods());
+			cRkinfo.setRknub(String.valueOf(Integer.parseInt(cHgoods.getNub())-Integer.parseInt(cHgoods.getUnit())));
+			cRkinfo.setRkhnub(cHgoods.getNub());
+			cRkinfo.setRkqcbj(cHgoods.getGoods().getCbj());
+			cRkinfo.setRkhcbj(cHgoods.getGoods().getCbj());
+			cRkinfoService.save(cRkinfo);
+		}else {//减少库存，出库记录
+			CCkinfo cCkinfo = new CCkinfo();
+			cCkinfo.setState("8");//调整库存
+			cCkinfo.setHouse(cHgoods.getHouse());
+			cCkinfo.setGoods(cHgoods.getGoods());
+			cCkinfo.setNub(String.valueOf(Integer.parseInt(cHgoods.getUnit())-Integer.parseInt(cHgoods.getNub())));
+			cCkinfo.setCkqcbj(cHgoods.getGoods().getCbj());
+			cCkinfo.setCkhcbj(cHgoods.getGoods().getCbj());
+			cCkinfo.setJe(cHgoods.getGoods().getCbj());
+			cCkinfo.setCkdate(new Date());
+			cCkinfo.setIssp("1");
+			cCkinfo.setJsr(UserUtils.getUser());
+			cCkinfoService.save(cCkinfo);
+		}
+		cHgoodsService.kcsl(cHgoods);
+		return "true";
+	}
+
+
 	@RequiresPermissions("ck:cHgoods:edit")
 	@RequestMapping(value = "delete")
 	public String delete(CHgoods cHgoods, RedirectAttributes redirectAttributes) {
