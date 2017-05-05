@@ -24,7 +24,7 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private String ddbh;		// 订单编号
 	private String je;		// 金额
 	private String lx;		// 0入库1出库
-	private String state;		// 0临时采购入库1其他入库2出库录单3其它出库4报废录单5退货录单
+	private String state;		// 0临时采购入库1采购入库2出库录单3其它出库4报废录单5退货录单9预售录单
 	private String issp;		// 0未审批1已审批
 	private User spr;		// 审批人
 	private Date spsj;		// 审批时间
