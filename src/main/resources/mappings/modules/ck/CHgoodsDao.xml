@@ -104,6 +104,79 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findReportListByG" resultType="CHgoods">
+		SELECT
+			<include refid="cHgoodsColumns"/>,
+			SUM(a.nub) AS "unit"
+		FROM c_hgoods a
+		<include refid="cHgoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.name != null and goods.name != ''">
+				AND cg.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{goods.name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{goods.name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.housid = #{house.id}
+			</if>
+			<if test="house != null and house.name != null and house.name != ''">
+				AND ch.name LIKE
+				<if test="dbName == 'oracsql'">'%'+#{house.name}+'%'</if>
+				<if test="dbName == le'">'%'||#{house.name}||'%'</if>
+				<if test="dbName == 'ms'mysql'">concat('%',#{house.name},'%')</if>
+			</if>
+		</where>
+		GROUP BY a.goodsid
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findReportListByBands" resultType="CHgoods">
+		SELECT
+			cg.bandsid AS "goods.bands.id",
+			cb.name AS "goods.bands.name",
+			SUM(a.nub) AS "nub",
+			SUM(a.nub*cg.sj)/SUM(a.nub) AS "goods.sj",
+			SUM(a.nub*cg.cbj)/SUM(a.nub) AS "goods.cbj"
+		FROM c_hgoods a
+		LEFT JOIN c_goods cg ON cg.id=a.goodsid
+		LEFT JOIN c_bands cb ON cb.id=cg.bandsid
+		<include refid="cHgoodsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.name != null and goods.name != ''">
+				AND cg.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{goods.name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{goods.name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{goods.name},'%')</if>
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.housid = #{house.id}
+			</if>
+		</where>
+		GROUP BY cg.bandsid
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
 	
 	<select id="findAllList" resultType="CHgoods">
 		SELECT 

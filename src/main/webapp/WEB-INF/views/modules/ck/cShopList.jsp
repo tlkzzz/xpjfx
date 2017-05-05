@@ -24,7 +24,7 @@
         }
         function submitOrder() {
             if(listCount>0){
-                if(state==2||state==3){
+                if(state==2||state==3||state==9){
                     //填写收款信息后提交订单
                     top.$.jBox.open("iframe:${ctx}/ck/cRkckddinfo/submitOrder", "提交订单", 700, $(top.document).height()-180, {
                         buttons:{"确定":"ok"}, submit:function (v,f,h) {
@@ -64,7 +64,15 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/ck/cRkckddinfo/${urlParam}?state=${cShop.state}">订单列表</a></li>
+		<li><a href="${ctx}/ck/cRkckddinfo/${urlParam}?state=${cShop.state}">
+			<c:if test="${cShop.state eq '0'}">临时采购列表</c:if>
+			<c:if test="${cShop.state eq '1'}">采购入库列表</c:if>
+			<c:if test="${cShop.state eq '2'}">出库录单列表</c:if>
+			<c:if test="${cShop.state eq '3'}">其他出库列表</c:if>
+			<c:if test="${cShop.state eq '4'}">报废录单列表</c:if>
+			<c:if test="${cShop.state eq '5'}">退货录单列表</c:if>
+			<c:if test="${cShop.state eq '9'}">预售单列表</c:if>
+		</a></li>
 		<li class="active"><a href="">订单添加</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cShop" action="${ctx}/ck/cShop/cgAdd" method="post" class="breadcrumb form-search">

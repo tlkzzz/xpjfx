@@ -30,6 +30,7 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 仓库商品Controller
@@ -61,7 +62,6 @@ public class CHgoodsController extends BaseController {
 	@Autowired
 	private CRkinfoService cRkinfoService;
 	@ModelAttribute
-
 	public CHgoods get(@RequestParam(required=false) String id) {
 		CHgoods entity = null;
 		if (StringUtils.isNotBlank(id)){
@@ -282,6 +282,35 @@ public class CHgoodsController extends BaseController {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@RequiresPermissions("ck:cHgoodsReport:view")
+	@RequestMapping(value = "aqkcReport")
+	public String aqkcReport(CHgoods cHgoods, Model model){
+		model.addAttribute("list", cHgoodsService.findList(cHgoods));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cHgoods", cHgoods);
+		return "modules/report/cHgoodsReportList";
+	}
+
+	@RequiresPermissions("ck:cHgoodsReport:view")
+	@RequestMapping(value = "kcReport")
+	public String kcReport(CHgoods cHgoods, String type, Model model){
+		List<CHgoods> list = new ArrayList<CHgoods>();
+		if(StringUtils.isBlank(type)||"1".equals(type)){
+			list = cHgoodsService.findList(cHgoods);
+		}else if("2".equals(type)){
+			list = cHgoodsService.findReportListByGoods(cHgoods);
+		}else if("3".equals(type)){
+			list = cHgoodsService.findReportListByBands(cHgoods);
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cHgoods", cHgoods);
+		model.addAttribute("type", type);
+		return "modules/report/cHgoodsReportList";
 	}
 
 }

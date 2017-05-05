@@ -44,7 +44,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cRkckddinfo/cgList?state=${cRkckddinfo.state}">总订单列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cRkckddinfo/cgList?state=${cRkckddinfo.state}">采购入库列表</a></li>
 		<shiro:hasPermission name="ck:cCginfo:edit"><li><a href="${ctx}/ck/cShop/cgAdd">订单添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/cgList" method="post" class="breadcrumb form-search">

@@ -46,7 +46,28 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	}
 	
 	public List<CHgoods> findList(CHgoods cHgoods) {
-		return super.findList(cHgoods);
+		List<CHgoods> list = super.findList(cHgoods);
+		for(CHgoods hGoods: list){
+			CGoods goods = hGoods.getGoods();
+			String[] unit = {goods.getBig().getName(),goods.getZong().getName(),goods.getSmall().getName()};
+			hGoods.setUnit(ToolsUtils.unitTools(goods.getSpec().getName(),unit,Integer.parseInt(hGoods.getNub())));
+		}
+		return list;
+	}
+
+	public List<CHgoods> findReportListByGoods(CHgoods cHgoods) {
+		List<CHgoods> list = dao.findReportListByG(cHgoods);
+		for(CHgoods hGoods: list){
+			hGoods.setNub(cHgoods.getUnit());//汇总后的数量保存在unit字段中
+			CGoods goods = hGoods.getGoods();
+			String[] unit = {goods.getBig().getName(),goods.getZong().getName(),goods.getSmall().getName()};
+			hGoods.setUnit(ToolsUtils.unitTools(goods.getSpec().getName(),unit,Integer.parseInt(hGoods.getNub())));
+		}
+		return list;
+	}
+
+	public List<CHgoods> findReportListByBands(CHgoods cHgoods) {
+		return dao.findReportListByG(cHgoods);
 	}
 
 	public Integer findStockNum(CHgoods cHgoods) {

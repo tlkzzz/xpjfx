@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CHgoods;
 
+import java.util.List;
+
 /**
  * 仓库商品DAO接口
  * @author xrc
@@ -51,4 +53,18 @@ public interface CHgoodsDao extends CrudDao<CHgoods> {
      * 退货更新库存数量
      * */
     public void kcsl(CHgoods cHgoods);
+
+    /**
+     * 通过商品分组查询库存报表
+     * @param cHgoods
+     * @return
+     */
+    public List<CHgoods> findReportListByG(CHgoods cHgoods);
+
+    /**
+     * 通过商品品牌分组查询库存报表
+     * @param cHgoods
+     * @return
+     */
+    public List<CHgoods> findReportListByBands(CHgoods cHgoods);
 }

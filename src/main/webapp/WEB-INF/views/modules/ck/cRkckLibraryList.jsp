@@ -51,6 +51,7 @@
 			<c:if test="${cRkckddinfo.state eq '3'}">其他出库列表</c:if>
 			<c:if test="${cRkckddinfo.state eq '4'}">报废录单列表</c:if>
 			<c:if test="${cRkckddinfo.state eq '5'}">退货录单列表</c:if>
+			<c:if test="${cRkckddinfo.state eq '9'}">预售单列表</c:if>
 		</a></li>
 		<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cShop/cgAdd">订单添加</a></li></shiro:hasPermission>
 	</ul>
