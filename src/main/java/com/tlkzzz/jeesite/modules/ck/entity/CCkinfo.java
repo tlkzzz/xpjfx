@@ -28,7 +28,7 @@ public class CCkinfo extends DataEntity<CCkinfo> {
 	private CHouse house;		// 仓库
 	private CStore store;		// 客户
 	private Date ckdate;		// 出库时间
-	private String state;		// 出库方式1(进货退货)2(报废录单)3(其他出库)4(出库录单)9(移库出库)
+	private String state;		// 出库方式1(进货退货)2(报废录单)3(其他出库)4(出库录单)8(调整库存)9(移库出库)
 	private String issp;		// 是否审批0未审批1已审批
 	private User jsr;		// 经手人
 	
