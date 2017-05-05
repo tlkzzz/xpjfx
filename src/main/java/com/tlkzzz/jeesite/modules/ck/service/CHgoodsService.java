@@ -175,6 +175,7 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	/**
 	 * 退货更新库存方法
 	 * */
+	@Transactional(readOnly = false)
 	public void kcsl(CHgoods cHgoods) {
 		dao.kcsl(cHgoods);
 	}
