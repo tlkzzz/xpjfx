@@ -30,8 +30,10 @@
 				success:function (data) {
 					if(data=="true"){
 						top.$.jBox.tip("调整库存成功", "系统提示","warning");
-						top.reloadFrom();
-						top.$.jBox.close();
+                        top.$.jBox.close();
+//                        top.parent.reloadFrom();
+//                        $("#searchForm",document.parentWindow).submit();
+//						parent.reloadFrom();
 					}else {
                         top.$.jBox.tip(data, "系统提示","warning");
                         window.parent.reloadFrom();
