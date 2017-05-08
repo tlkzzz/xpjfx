@@ -14,9 +14,6 @@
 			$("#searchForm").submit();
         	return false;
         }
-        function reloadFrom() {
-			$("#searchForm").submit();
-        }
         function openForm(id) {
             top.$.jBox.open("iframe:${ctx}/ck/cHgoods/changeStoreForm?id="+id, "调整库存", 700, $(top.document).height()-180, {
                 buttons:{"确定":"ok"},loaded:function(h){

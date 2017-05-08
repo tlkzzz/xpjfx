@@ -30,13 +30,12 @@
 				success:function (data) {
 					if(data=="true"){
 						top.$.jBox.tip("调整库存成功", "系统提示","warning");
+                        $("#searchForm",top.frames["mainFrame"].document).submit();
+//						top.frames["mainFrame"].document.execCommand('Refresh');
                         top.$.jBox.close();
-//                        top.parent.reloadFrom();
-//                        $("#searchForm",document.parentWindow).submit();
-//						parent.reloadFrom();
 					}else {
                         top.$.jBox.tip(data, "系统提示","warning");
-                        window.parent.reloadFrom();
+                        $("#searchForm",top.frames["mainFrame"].document).submit();
 					}
                 }
 			});
