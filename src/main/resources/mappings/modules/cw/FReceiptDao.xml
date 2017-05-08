@@ -60,7 +60,6 @@
 		FROM f_receipt a
 		<include refid="fReceiptJoins"/>
 		<where>
-			a.receipt_type IN ('6','7','8')
 			<if test="receiptDate != null and receiptDate != ''">
 				AND a.receipt_date &gt;= #{receiptDate}
 			</if>
@@ -69,9 +68,54 @@
 			</if>
 
 			<if test="receiptType != null and receiptType != ''">
-				AND a.receipt_type = #{receiptType}
+				AND a.receipt_type LIKE
+				<if test="dbName == 'oracle'">'%,'||#{receiptCode}||',%')</if>
+				<if test="dbName == 'mssql'">'%,'+#{receiptCode}+',%')</if>
+				<if test="dbName == 'mysql'">CONCAT('%,', #{receiptCode}, ',%')</if>
 			</if>
 		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findListByStore" resultType="FReceipt">
+		SELECT
+			a.travel_unit AS "travelUnit.id",
+			cs.name AS "travelUnit.name",
+			a.htje AS "htje",
+			a.je AS "je",
+			csc.name AS "travelUnit.sclass.name"
+		FROM f_receipt a
+		LEFT JOIN c_store cs ON cs.id=a.travel_unit
+		LEFT JOIN c_sclass csc ON csc.id=cs.sclassid
+		<where>
+			a.travel_unit &gt;&lt;""
+			<if test="receiptDate != null and receiptDate != ''">
+				AND a.receipt_date &gt;= #{receiptDate}
+			</if>
+			<if test="receiptCode != null and receiptCode != ''">
+				AND a.receipt_code = #{receiptCode}
+			</if>
+			<if test="receiptType != null and receiptType != ''">
+				AND a.receipt_type LIKE
+				<if test="dbName == 'oracle'">'%,'||#{receiptType}||',%')</if>
+				<if test="dbName == 'mssql'">'%,'+#{receiptType}+',%')</if>
+				<if test="dbName == 'mysql'">CONCAT('%,', #{receiptType}, ',%')</if>
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.receipt_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.receipt_date &lt; #{endDate}
+			</if>
+		</where>
+		GROUP BY a.travel_unit
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
