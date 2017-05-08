@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.cw.service;
 import java.util.List;
 
 import com.tlkzzz.jeesite.common.utils.StringUtils;
+import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,7 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 	@Transactional(readOnly = false)
 	public void saveByReceipt(FReceipt receipt, Double htje, Double sfje){
 		FArrears arrears = new FArrears();
+		arrears.setRkckdd(new CRkckddinfo(receipt.getReceiptCode()));//保存订单信息
 		arrears.setArrearsUnit(receipt.getTravelUnit().getId());
 		arrears.setArrearsMode("0");
 		arrears.setArrearsDate(receipt.getReceiptDate());
