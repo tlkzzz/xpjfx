@@ -103,10 +103,7 @@
 				AND a.receipt_code = #{receiptCode}
 			</if>
 			<if test="receiptType != null and receiptType != ''">
-				AND a.receipt_type LIKE
-				<if test="dbName == 'oracle'">'%,'||#{receiptType}||',%')</if>
-				<if test="dbName == 'mssql'">'%,'+#{receiptType}+',%')</if>
-				<if test="dbName == 'mysql'">CONCAT('%,', #{receiptType}, ',%')</if>
+				AND FIND_IN_SET(a.receipt_type,#{receiptType})
 			</if>
 			<if test="startDate != null and startDate != ''">
 				AND a.receipt_date &gt; #{startDate}
