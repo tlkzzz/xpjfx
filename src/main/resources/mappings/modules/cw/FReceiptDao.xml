@@ -92,7 +92,7 @@
 		LEFT JOIN c_store cs ON cs.id=a.travel_unit
 		LEFT JOIN c_sclass csc ON csc.id=cs.sclassid
 		<where>
-			a.travel_unit &gt;&lt;""
+			a.travel_unit &lt;&gt;""
 			<if test="receiptDate != null and receiptDate != ''">
 				AND a.receipt_date &gt;= #{receiptDate}
 			</if>
@@ -116,6 +116,49 @@
 			</when>
 			<otherwise>
 				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findArrearsList" resultType="FReceipt">
+		SELECT
+			fre.travel_unit AS "travelUnit.id",
+			cs.name AS "travelUnit.name",
+			a.arrears_date AS "receiptDate",
+			a.total AS "receiptMode",
+			crk.ddbh AS "ddbh",
+			fre.htje AS "htje",
+			fre.je AS "je",
+			csc.name AS "travelUnit.sclass.name"
+		FROM f_arrears a
+		LEFT JOIN f_receipt fre ON fre.receipt_code=a.rkckdd
+		LEFT JOIN c_store cs ON cs.id=a.arrears_unit
+		LEFT JOIN c_sclass csc ON csc.id=cs.sclassid
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckdd
+		<where>
+			a.arrears_type = '0' AND a.rkckdd &lt;&gt;""
+			<if test="receiptDate != null and receiptDate != ''">
+				AND fre.receipt_date &gt;= #{receiptDate}
+			</if>
+			<if test="receiptCode != null and receiptCode != ''">
+				AND fre.receipt_code = #{receiptCode}
+			</if>
+			<if test="receiptType != null and receiptType != ''">
+				AND FIND_IN_SET(fre.receipt_type,#{receiptType})
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND fre.receipt_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND fre.receipt_date &lt; #{endDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY fre.update_date DESC
 			</otherwise>
 		</choose>
 	</select>

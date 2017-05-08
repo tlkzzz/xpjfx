@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 
+import java.util.List;
+
 /**
  * 收款DAO接口
  * @author xrc
@@ -44,4 +46,18 @@ public interface FReceiptDao extends CrudDao<FReceipt> {
     public void minHTJE(FReceipt receipt);
 
     public void thstatusUpdate(FReceipt receipt);
+
+    /**
+     * 通过客户汇总付款报表
+     * @param receipt
+     * @return
+     */
+    public List<FReceipt> findListByStore(FReceipt receipt);
+
+    /**
+     * 通过订单编号查询客户欠款记录
+     * @param receipt
+     * @return
+     */
+    public List<FReceipt> findArrearsList(FReceipt receipt);
 }

@@ -10,6 +10,7 @@ import com.tlkzzz.jeesite.modules.ck.entity.CCkinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
+import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
 import com.tlkzzz.jeesite.modules.cw.entity.FFixedAssetsCgbm;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -29,6 +30,9 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 收款Controller
  * @author xrc
@@ -40,6 +44,8 @@ public class FReceiptController extends BaseController {
 
 	@Autowired
 	private FReceiptService fReceiptService;
+	@Autowired
+	private CStoreService cStoreService;
 
 	@ModelAttribute
 	public FReceipt get(@RequestParam(required=false) String id) {
@@ -186,6 +192,25 @@ public class FReceiptController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("fReceipt", fReceipt);
 		return "modules/cw/GysReturn";
+	}
+
+	/**	财务报表开始 	**/
+	@RequiresPermissions("cw:fReceipt:view")
+	@RequestMapping(value = "reportList")
+	public String reportList(FReceipt fReceipt, String type, Model model){
+		List<FReceipt> list = new ArrayList<FReceipt>();
+		if(StringUtils.isBlank(type)||"1".equals(type)){
+			list = fReceiptService.findList(fReceipt);
+		}else if("2".equals(type)){//通过客户分类查询
+			list = fReceiptService.findListByStore(fReceipt);
+		}else if("3".equals(type)){
+			list = fReceiptService.findArrearsList(fReceipt);
+		}
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("fReceipt", fReceipt);
+		model.addAttribute("list", list);
+		model.addAttribute("type", type);
+		return "modules/report/fReceiptReportList";
 	}
 
 }
