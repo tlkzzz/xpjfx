@@ -40,7 +40,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private String thstatus;    //账单状态   0审核状态   1审核通过
 
 	private String houseId;		//仓库ID作为中转使用不保存到数据库
-
+	private Date startDate;		//开始时间
+	private Date endDate;		//结束时间
 	
 	public FReceipt() {
 		super();
@@ -189,5 +190,21 @@ public class FReceipt extends DataEntity<FReceipt> {
 
 	public void setHouseId(String houseId) {
 		this.houseId = houseId;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }
