@@ -68,10 +68,7 @@
 			</if>
 
 			<if test="receiptType != null and receiptType != ''">
-				AND a.receipt_type LIKE
-				<if test="dbName == 'oracle'">'%,'||#{receiptCode}||',%')</if>
-				<if test="dbName == 'mssql'">'%,'+#{receiptCode}+',%')</if>
-				<if test="dbName == 'mysql'">CONCAT('%,', #{receiptCode}, ',%')</if>
+				AND FIND_IN_SET(a.receipt_type,#{receiptType})
 			</if>
 		</where>
 		<choose>
