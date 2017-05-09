@@ -120,6 +120,19 @@ public class CGoodsController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/ck/cGoods/list?repage";
 	}
 
+	@RequiresPermissions("ck:cGoodsAnalysis:view")
+	@RequestMapping(value = "goodsAnalysisIndex")
+	public String goodsAnalysisIndex(){
+		return "modules/report/cGoodsAnalysisIndex";
+	}
+
+	@RequiresPermissions("ck:cGoodsAnalysis:view")
+	@RequestMapping(value = "goodsAnalysis")
+	public String goodsAnalysis(CGoods cGoods, Model model){
+		model.addAttribute("list", cGoodsService.findList(cGoods));
+		return "modules/report/cGoodsAnalysisList";
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "getGoods")
 	public CGoods getGoods(CGoods goods){
