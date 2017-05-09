@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import com.tlkzzz.jeesite.common.persistence.DataEntity;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * 优惠表Entity
@@ -24,6 +25,9 @@ public class FDiscount extends DataEntity<FDiscount> {
 	private CStore store;		// 客户id
 	private CRkckddinfo ddid;		// 订单id
 	private String remaks;		// 备注
+
+	private Date startDate;		//开始时间
+	private Date endDate;		//结束时间
 	
 	public FDiscount() {
 		super();
@@ -76,5 +80,20 @@ public class FDiscount extends DataEntity<FDiscount> {
 	public void setRemaks(String remaks) {
 		this.remaks = remaks;
 	}
-	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 }
