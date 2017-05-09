@@ -26,6 +26,9 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
 import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 优惠表Controller
  * @author xlc
@@ -90,6 +93,14 @@ public class FDiscountController extends BaseController {
 		fDiscountService.delete(fDiscount);
 		addMessage(redirectAttributes, "删除优惠表成功");
 		return "redirect:"+Global.getAdminPath()+"/cw/fDiscount/?repage";
+	}
+
+	@RequiresPermissions("cw:fDiscountReport:edit")
+	@RequestMapping(value = "discountReport")
+	public String discountReport(FDiscount fDiscount, Model model) {
+		model.addAttribute("list", fDiscountService.findList(fDiscount));
+		model.addAttribute("fDiscount", fDiscount);
+		return "modules/report/fDiscountReportList";
 	}
 
 }
