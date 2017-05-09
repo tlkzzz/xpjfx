@@ -38,6 +38,12 @@
 		<include refid="fDiscountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt; #{endDate}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
