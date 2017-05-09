@@ -37,6 +37,10 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		return processUnit(dao.findReportList(cDdinfo));
 	}
 
+	public List<CDdinfo> findDiscountList(CDdinfo cDdinfo){
+		return processUnit(dao.findDiscountList(cDdinfo));
+	}
+
 	public List<CDdinfo> processUnit(List<CDdinfo> list){
 		for(CDdinfo cd: list){
 			if(cd==null||cd.getGoods()==null)continue;

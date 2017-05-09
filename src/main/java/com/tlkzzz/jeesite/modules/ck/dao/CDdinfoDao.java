@@ -34,4 +34,11 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
     public void thUpdate(CDdinfo cddinfo);
 
     public List<CDdinfo> thfindList(CDdinfo cddinfo);
+
+    /**
+     * 查询出有进行优惠的所有订单
+     * @param cDdinfo
+     * @return
+     */
+    public List<CDdinfo> findDiscountList(CDdinfo cDdinfo);
 }

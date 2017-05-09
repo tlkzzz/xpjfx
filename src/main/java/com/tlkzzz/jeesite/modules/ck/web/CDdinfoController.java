@@ -301,7 +301,7 @@ public class CDdinfoController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-//	@RequiresPermissions("ck:cDdinfoReport:view")
+	@RequiresPermissions("ck:cDdinfoReport:view")
 	@RequestMapping(value = "scrapList")
 	public String scrapList(CDdinfo cDdinfo, String type, Model model) {
 		cDdinfo.setRkckddinfo(new CRkckddinfo());
@@ -318,5 +318,15 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));
 		return "modules/report/cDdinfoScrapList";
+	}
+
+	@RequiresPermissions("cw:fDiscountReport:view")
+	@RequestMapping(value = "discountDDinfoReport")
+	public String discountDDinfoReport(CDdinfo cDdinfo, Model model){
+		model.addAttribute("list", cDdinfoService.findDiscountList(cDdinfo));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cDdinfo", cDdinfo);
+		return "modules/report/fDisDDinfoReportList";
 	}
 }

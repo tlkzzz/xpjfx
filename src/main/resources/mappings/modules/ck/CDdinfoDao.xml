@@ -126,6 +126,39 @@
 		</choose>
 	</select>
 
+	<select id="findDiscountList" resultType="CDdinfo">
+		SELECT
+			<include refid="cDdinfoColumns"/>
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.yhje>0
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.hous_id = #{house.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goods_id = #{goods.id}
+			</if>
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.store_id = #{store.id}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt; #{endDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="findReportList" resultType="CDdinfo">
 		SELECT
 			a.goods_id AS "goods.id",
