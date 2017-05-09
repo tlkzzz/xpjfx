@@ -231,7 +231,7 @@ public class CRkckddinfoController extends BaseController {
 				if(yhTotal>0||Double.parseDouble(receipt.getHtje())>sjTotal) {
 					FDiscount discount = new FDiscount();
 					discount.setDdid(cRkckddinfo);
-					discount.setStoreid(receipt.getTravelUnit());
+					discount.setStore(receipt.getTravelUnit());
 					discount.setYhje(String.valueOf(yhTotal));
 					discount.setLx((yhTotal>0)?"0":"1");
 					fDiscountService.save(discount);
