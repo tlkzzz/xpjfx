@@ -95,7 +95,7 @@ public class FDiscountController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/cw/fDiscount/?repage";
 	}
 
-	@RequiresPermissions("cw:fDiscountReport:edit")
+	@RequiresPermissions("cw:fDiscountReport:view")
 	@RequestMapping(value = "discountReport")
 	public String discountReport(FDiscount fDiscount, Model model) {
 		model.addAttribute("list", fDiscountService.findList(fDiscount));
