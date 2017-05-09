@@ -21,7 +21,7 @@ public class FDiscount extends DataEntity<FDiscount> {
 	private static final long serialVersionUID = 1L;
 	private String yhje;		// 优惠金额
 	private String lx;		// 类型	0:优惠，1:总体抹零
-	private CStore storeid;		// 客户id
+	private CStore store;		// 客户id
 	private CRkckddinfo ddid;		// 订单id
 	private String remaks;		// 备注
 	
@@ -51,12 +51,12 @@ public class FDiscount extends DataEntity<FDiscount> {
 	}
 
 	@NotNull(message = "客户名称不能为空")
-	public CStore getStoreid() {
-		return storeid;
+	public CStore getStore() {
+		return store;
 	}
 
-	public void setStoreid(CStore storeid) {
-		this.storeid = storeid;
+	public void setStore(CStore store) {
+		this.store = store;
 	}
 
 	@NotNull(message = "订单编号不能为空")
