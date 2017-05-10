@@ -33,6 +33,7 @@ public class CSpec extends DataEntity<CSpec> {
 
 	public void setName(String name) {
 		this.name = name;
+		if(name!=null&&!"".equals(name))this.arrSpec = name.split("\\*");
 	}
 
 	public String[] getArrSpec() {
