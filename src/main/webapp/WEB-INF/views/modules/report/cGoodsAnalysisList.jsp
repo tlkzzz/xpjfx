@@ -25,9 +25,13 @@
 				<th>商品名称</th>
 				<th>商品编码</th>
 				<th>规格型号</th>
-				<th>成本单价</th>
-				<th>参考成本价</th>
-				<th>销售单价</th>
+				<th>成本小单价</th>
+				<th>成本中单价</th>
+				<th>成本大单价</th>
+				<th>参考成本单价</th>
+				<th>销售小单价</th>
+				<th>销售中单价</th>
+				<th>销售大单价</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -55,10 +59,36 @@
 					<fmt:formatNumber value="${cGoods.cbj}" pattern="#.####"/>
 				</td>
 				<td>
-					<fmt:formatNumber value="${cGoods.sj}" pattern="#.####"/>
+					<c:if test="${fn:length(cGoods.spec.arrSpec)>2}">
+					<fmt:formatNumber value="${cGoods.spec.arrSpec[2]*cGoods.cbj}" pattern="#.####"/>
+					</c:if>
+				</td>
+				<td>
+					<c:if test="${fn:length(cGoods.spec.arrSpec)<3}">
+						<fmt:formatNumber value="${cGoods.spec.arrSpec[1]*cGoods.cbj}" pattern="#.####"/>
+					</c:if>
+					<c:if test="${fn:length(cGoods.spec.arrSpec)>2}">
+						<fmt:formatNumber value="${cGoods.spec.arrSpec[1]*cGoods.spec.arrSpec[2]*cGoods.cbj}" pattern="#.####"/>
+					</c:if>
 				</td>
 				<td>
 					<fmt:formatNumber value="${cGoods.ckcbj}" pattern="#.####"/>
+				</td>
+				<td>
+					<fmt:formatNumber value="${cGoods.sj}" pattern="#.####"/>
+				</td>
+				<td>
+					<c:if test="${fn:length(cGoods.spec.arrSpec)>2}">
+						<fmt:formatNumber value="${cGoods.spec.arrSpec[2]*cGoods.sj}" pattern="#.####"/>
+					</c:if>
+				</td>
+				<td>
+					<c:if test="${fn:length(cGoods.spec.arrSpec)<3}">
+						<fmt:formatNumber value="${cGoods.spec.arrSpec[1]*cGoods.sj}" pattern="#.####"/>
+					</c:if>
+					<c:if test="${fn:length(cGoods.spec.arrSpec)>2}">
+						<fmt:formatNumber value="${cGoods.spec.arrSpec[1]*cGoods.spec.arrSpec[2]*cGoods.sj}" pattern="#.####"/>
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>
