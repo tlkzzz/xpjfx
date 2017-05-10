@@ -16,7 +16,8 @@ public class CSpec extends DataEntity<CSpec> {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;		// 规格名称
-	
+	private String[] arrSpec;	// 规格数组
+
 	public CSpec() {
 		super();
 	}
@@ -33,5 +34,12 @@ public class CSpec extends DataEntity<CSpec> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	public String[] getArrSpec() {
+		return arrSpec;
+	}
+
+	public void setArrSpec(String[] arrSpec) {
+		this.arrSpec = arrSpec;
+	}
 }
