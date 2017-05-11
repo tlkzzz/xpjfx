@@ -78,7 +78,7 @@ public class CCgzbinfoController extends BaseController {
 	}
 	
 	@RequiresPermissions("ck:cCgzbinfo:view")
-	@RequestMapping(value = {"list", ""})
+	@RequestMapping(value = "list")
 	public String list(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CCgzbinfo> page = cCgzbinfoService.findPage(new Page<CCgzbinfo>(request, response), cCgzbinfo);
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
@@ -209,5 +209,37 @@ public class CCgzbinfoController extends BaseController {
 			}
 		}
 		return retStr;
+	}
+
+	/**
+	 * 采购单查询
+	 * 报表开始
+	 */
+	@RequiresPermissions("ck:cCgzbinfoInquire:view")
+	@RequestMapping(value = "ckInquire")
+	public String ckInquire(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CCgzbinfo> page = cCgzbinfoService.findPage(new Page<CCgzbinfo>(request, response), cCgzbinfo);
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cCgzbinfo", cCgzbinfo);
+		model.addAttribute("page", page);
+		return "modules/ck/cCgzbinfoInquireList";
+	}
+
+	/**
+	 * 业务员start
+	 * @param cCgzbinfo
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	//@RequiresPermissions("report:cCgzbinfoInquire:view")
+	@RequestMapping(value = "ywyInquire")
+	public String ywyInquire(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CCgzbinfo> page = cCgzbinfoService.findPage(new Page<CCgzbinfo>(request, response), cCgzbinfo);
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cCgzbinfo", cCgzbinfo);
+		model.addAttribute("page", page);
+		return "modules/report/cCgzbinfoywyInquireList";
 	}
 }

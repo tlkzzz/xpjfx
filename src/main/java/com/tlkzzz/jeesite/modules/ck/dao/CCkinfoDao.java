@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CCkinfo;
 
+import java.util.List;
+
 /**
  * 出库信息DAO接口
  * @author xrc
@@ -14,5 +16,12 @@ import com.tlkzzz.jeesite.modules.ck.entity.CCkinfo;
  */
 @MyBatisDao
 public interface CCkinfoDao extends CrudDao<CCkinfo> {
+    public List<CCkinfo> findListStore(CCkinfo cCkinfo);
+
+    /*
+    品牌
+     */
+
+    public List<CCkinfo> findListBands(CCkinfo cCkinfo);
 	
 }

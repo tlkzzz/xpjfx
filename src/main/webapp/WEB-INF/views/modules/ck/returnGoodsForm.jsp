@@ -15,8 +15,6 @@
         var lastsel=[];
         $(document).ready(function() {
             $('#btnSubmit').on('click', function() {
-//                alert("Jinru");
-//                console.log(lastsel);
                 if(lastsel.length>0){
                 for(var i = 0;i<lastsel.length;i++){
                     $("#dataGrid").saveRow(lastsel[i], false, 'clientArray');
@@ -108,13 +106,6 @@
                         {name : 'goods.spec.name',index : 'goods.spec.name',width : 50},
 //                      {name : 'note',index : 'note',width : 150,sortable : false}
                     ],
-//                    rowNum : 10,
-//                    pager : '#pager2',
-//                    sortname : 'id',
-//                    viewrecords : true,
-//                    sortorder : "desc",
-//                    cellEdit:true,
-                    <%--cellurl : "${ctx}/ck/cRkckddinfo/jqGrid?ids=",--%>
                     gridComplete:function () {
                         var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
                         var sjje=0;

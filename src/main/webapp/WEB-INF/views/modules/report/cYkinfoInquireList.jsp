@@ -18,10 +18,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cYkinfo/list">移库记录</a></li>
-		<shiro:hasPermission name="ck:cHgoods:edit"><li><a href="${ctx}/ck/cHgoods/move">移库</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/report/cYkinfo/ckInquire">移库记录</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cYkinfo/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cYkinfo/ckInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">

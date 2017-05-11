@@ -64,6 +64,7 @@ public class CRkckddinfoController extends BaseController {
 	private FAccountService fAccountService;
 	@Autowired
 	private CHouseService houseService;
+
 	@Autowired
 	private FDiscountService fDiscountService;
 
@@ -79,7 +80,7 @@ public class CRkckddinfoController extends BaseController {
 		return entity;
 	}
 	
-	/*@RequiresPermissions("ck:cRkckddinfo:view")
+	@RequiresPermissions("ck:cRkckddinfo:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo); 
@@ -103,7 +104,8 @@ public class CRkckddinfoController extends BaseController {
 		cRkckddinfoService.save(cRkckddinfo);
 		addMessage(redirectAttributes, "保存总订单成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/?repage";
-	}*/
+	}
+
 	/**
 	 * shizx销售退货单List
 	 * */
@@ -231,7 +233,7 @@ public class CRkckddinfoController extends BaseController {
 				if(yhTotal>0||Double.parseDouble(receipt.getHtje())>sjTotal) {
 					FDiscount discount = new FDiscount();
 					discount.setDdid(cRkckddinfo);
-					discount.setStore(receipt.getTravelUnit());
+			//		discount.setStore(receipt.getTravelUnit());
 					discount.setYhje(String.valueOf(yhTotal));
 					discount.setLx((yhTotal>0)?"0":"1");
 					fDiscountService.save(discount);

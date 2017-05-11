@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ import com.tlkzzz.jeesite.common.config.Global;
 import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 出库信息Controller
@@ -175,6 +179,80 @@ public class CCkinfoController extends BaseController {
 //		cCkinfoService.delete(cCkinfo);
 		addMessage(redirectAttributes, "删除出库信息成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cCkinfo/?repage";
+	}
+
+	@RequiresPermissions("report:cCkinfoInquire:view")
+	@RequestMapping(value = {"listInquire", ""})
+	public String listInquire(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CCkinfo> page = cCkinfoService.findPage(new Page<CCkinfo>(request, response), cCkinfo);
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("page", page);
+		return "modules/report/cCkinfoInquireList";
+	}
+	/**
+	 * 销售单查询state
+	 * @param cCkinfo
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+
+	//@RequiresPermissions("report:cCkinfoInquire:view")
+	@RequestMapping(value = {"xsInquire", ""})
+	public String xsInquire(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CCkinfo> page = cCkinfoService.findPage(new Page<CCkinfo>(request, response), cCkinfo);
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("page", page);
+		return "modules/report/cCkinfoxsInquireList";
+	}
+
+
+
+	/**
+	 * 出库报表显示
+	 * @param cCkinfo
+	 * @param type
+	 * @param model
+	 * @return
+	 */
+//	@RequiresPermissions("ck:cRkinfoReport:view")
+	@RequestMapping(value = "rkReport")//报表
+	public String rkReport(CCkinfo cCkinfo, String type, Model model ) {
+	//	cCkinfo.setState("1,2,3,4");
+		List<CCkinfo> list = new ArrayList<CCkinfo>();
+			if (StringUtils.isNotBlank(type) && "2".equals(type)
+					) {
+				list = cCkinfoService.selectList("1,2,3,4",new CCkinfo());
+			} else if (StringUtils.isNotBlank(type) && "3".equals(type)) {
+				list = cCkinfoService.selectList("1,2,3,4",new CCkinfo());
+			} else if (StringUtils.isNotBlank(type) && "4".equals(type)) {
+				list = cCkinfoService.storeList("1,2,3,4",new CCkinfo());
+			} else if (StringUtils.isNotBlank(type) && "5".equals(type)) {
+				list = cCkinfoService.storeList("1,2,3,4",new CCkinfo());
+			}else if (StringUtils.isNotBlank(type) && "6".equals(type)) {
+				list = cCkinfoService.storeList("1,2,3,4",new CCkinfo());
+			}else if (StringUtils.isNotBlank(type) && "7".equals(type)) {
+				list = cCkinfoService.bandsList("1,2,3,4",new CCkinfo());
+			} else if (StringUtils.isNotBlank(type) && "8".equals(type)) {
+				list = cCkinfoService.bandsList("1,2,3,4",new CCkinfo());
+			}else {
+				list = cCkinfoService.selectList("1,2,3,4",new CCkinfo());
+			}
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("type", type);
+		model.addAttribute("list", list);
+		return "modules/report/cCkinfoReportList";
 	}
 
 }

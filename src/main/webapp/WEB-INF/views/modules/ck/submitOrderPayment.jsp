@@ -56,7 +56,7 @@
 <body>
 	<ul class="nav nav-tabs">
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="fPayment" action="${ctx}/ck/cRkckddinfo/submitOrderPaymentSave" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="payment" action="${ctx}/ck/cRkckddinfo/submitOrderPaymentSave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
@@ -135,8 +135,8 @@
 		<div class="control-group">
 			<label class="control-label">经手人：</label>
 			<div class="controls">
-				<sys:treeselect id="jsr" name="jsr.id" value="${fPayment.jsr.id}" labelName="jsr.name" labelValue="${fPayment.jsr.name}"
-								title="经手人" url="/sys/user/treeData" cssClass="required" allowClear="true"/>
+				<sys:treeselect id="user" name="user.id" value="${testData.user.id}" labelName="jsr" labelValue="${testData.user.name}"
+								title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

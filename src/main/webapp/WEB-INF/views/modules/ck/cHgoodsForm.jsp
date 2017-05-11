@@ -38,7 +38,7 @@
 		<div class="control-group">
 			<label class="control-label">商品：</label>
 			<div class="controls">
-				<form:select path="goods.id" class="required">
+				<form:select path="goods.id" required="true">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${goodsList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
@@ -47,7 +47,7 @@
 		<div class="control-group">
 			<label class="control-label">仓库：</label>
 			<div class="controls">
-				<form:select path="house.id" class="required">
+				<form:select path="house.id" required="true">
 					<form:option value="" label="请选择" ></form:option>
 					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>

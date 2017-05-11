@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>移库记录管理</title>
+	<title>订单管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,21 +18,18 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cYkinfo/list">移库记录</a></li>
-		<shiro:hasPermission name="ck:cHgoods:edit"><li><a href="${ctx}/ck/cHgoods/move">移库</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/report/cDdinfo/listInquire">订单列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cYkinfo/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cDdinfo" action="${ctx}/ck/cDdinfo/listInquire" method="post" class="breadcrumb form-search">
+		<input name="rkckddinfo.id" type="hidden" value="${cDdinfo.rkckddinfo.id}"/>
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>起始仓库：</label>
-				<form:input path="startHouse.name" htmlEscape="false" maxlength="64" class="input-medium"/>
-			</li>
-			<li><label>结束仓库：</label>
-				<form:input path="endHouse.name" htmlEscape="false" maxlength="64" class="input-medium"/>
-			</li>
 			<li><label>商品：</label>
-				<form:input path="goods.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:select path="goods.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${storesList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -42,34 +39,39 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>起始仓库</th>
-				<th>结束仓库</th>
 				<th>商品</th>
+				<th>规格</th>
+				<th>退货数量</th>
 				<th>数量</th>
-				<th>移库时间</th>
-				<th>备注</th>
+				<th>单位</th>
+				<th>单价</th>
+				<th>金额</th>
+
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="cYkinfo">
+		<c:forEach items="${page.list}" var="cDdinfo">
 			<tr>
 				<td>
-					${cYkinfo.startHouse.name}
+					${cDdinfo.goods.name}
 				</td>
 				<td>
-					${cYkinfo.endHouse.name}
+				    ${cDdinfo.goods.spec.name}
 				</td>
 				<td>
-					${cYkinfo.goods.name}
+					${cDdinfo.thsl}
+			    </td>
+				<td>
+				    ${cDdinfo.nub}
 				</td>
 				<td>
-					${cYkinfo.nub}
+				   ${cDdinfo.goods.unit.name}
 				</td>
 				<td>
-					<fmt:formatDate value="${cYkinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				   ${cDdinfo.rksjcbj}
 				</td>
 				<td>
-					${cYkinfo.remarks}
+				   ${cDdinfo.je}
 				</td>
 			</tr>
 		</c:forEach>

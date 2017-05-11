@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>采购订单管理</title>
+	<title>业务员订单查询</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -45,10 +45,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cCgzbinfo/list">采购订单列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cCgzbinfo/ywyInquire">业务员订单查询</a></li>
 	</ul>
 
-	<form:form id="searchForm" modelAttribute="cCgzbinfo" action="${ctx}/ck/cCgzbinfo/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cCgzbinfo" action="${ctx}/ck/cCgzbinfo/ywyInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -72,8 +72,6 @@
 				<th>价格</th>
 				<th>实际入库量</th>
 				<th>入库时间</th>
-				<th>备注</th>
-				<shiro:hasPermission name="ck:cCgzbinfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
@@ -97,14 +95,6 @@
 				<td>
 					<fmt:formatDate value="${cCgzbinfo.rkDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<td>
-					${cCgzbinfo.remarks}
-				</td>
-				<shiro:hasPermission name="ck:cCgzbinfo:edit"><td>
-					<%--<a href="${ctx}/ck/cCgzbinfo/delete?id=${cCgzbinfo.id}" onclick="return confirmx('确认要删除该采购订单吗？', this.href)">删除</a>--%>
-					<c:if test="${cCgzbinfo.state=='0'}"><a href="javascript:void(0)" onclick="changeState('${cCgzbinfo.id}','1')">采购</a></c:if>
-					<c:if test="${cCgzbinfo.state=='1'}"><a href="javascript:void(0)" onclick="inHouse('${cCgzbinfo.id}')">入库</a></c:if>
-					</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>

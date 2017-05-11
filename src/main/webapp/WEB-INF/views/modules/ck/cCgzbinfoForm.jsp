@@ -55,7 +55,7 @@
 		<div class="control-group">
 			<label class="control-label">仓库：</label>
 			<div class="controls">
-				<form:select path="house.id" cssclass="input-xlarge required">
+				<form:select path="house.id"  required="true">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${houseList}" itemValue="id" itemLabel="name" htmlEscape="false"></form:options>
 				</form:select>
@@ -64,7 +64,7 @@
 		<div class="control-group">
 			<label class="control-label">商品：</label>
 			<div class="controls">
-				<form:select path="goods.id" cssclass="input-xlarge required" onchange="setSpec($(this).val())">
+				<form:select path="goods.id" required="true" onchange="setSpec($(this).val())">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${goodsList}" itemValue="id" itemLabel="name" htmlEscape="false"></form:options>
 				</form:select><span id="spec"></span>
@@ -73,7 +73,7 @@
 		<div class="control-group">
 			<label class="control-label">供应商：</label>
 			<div class="controls">
-				<form:select path="rkinfo.supplier.id" cssclass="input-xlarge required">
+				<form:select path="rkinfo.supplier.id" required="true">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${supplierList}" itemValue="id" itemLabel="name" htmlEscape="false"></form:options>
 				</form:select>

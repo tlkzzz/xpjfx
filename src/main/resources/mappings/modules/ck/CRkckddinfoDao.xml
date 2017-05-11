@@ -112,7 +112,7 @@
 			#{lx},
 			#{state},
 			#{issp},
-			#{spr},
+			#{spr.id},
 			#{spsj},
 			#{cHouse.id},
 			#{createDate},
@@ -132,7 +132,7 @@
 			lx = #{lx},
 			state = #{state},
 			issp = #{issp},
-			spr = #{spr},
+			spr = #{spr.id},
 			spsj = #{spsj},
 			cHouse = #{cHouse.id},
 			update_date = #{updateDate},
@@ -145,7 +145,7 @@
 	<update id="changeIssp">
 		UPDATE c_rkckddinfo SET 
 			issp = #{issp},
-			spr = #{spr},
+			spr = #{spr.id},
 			spsj = #{spsj}
 		WHERE id = #{id}
 	</update>

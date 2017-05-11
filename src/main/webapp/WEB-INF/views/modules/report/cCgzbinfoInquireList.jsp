@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>移库记录管理</title>
+	<title>采购订单管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,21 +18,18 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cYkinfo/list">移库记录</a></li>
-		<shiro:hasPermission name="ck:cHgoods:edit"><li><a href="${ctx}/ck/cHgoods/move">移库</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/report/cCgzbinfo/ckInquire">采购订单列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cYkinfo" action="${ctx}/ck/cYkinfo/" method="post" class="breadcrumb form-search">
+
+	<form:form id="searchForm" modelAttribute="cCgzbinfo" action="${ctx}/ck/cCgzbinfo/ckInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>起始仓库：</label>
-				<form:input path="startHouse.name" htmlEscape="false" maxlength="64" class="input-medium"/>
-			</li>
-			<li><label>结束仓库：</label>
-				<form:input path="endHouse.name" htmlEscape="false" maxlength="64" class="input-medium"/>
-			</li>
 			<li><label>商品：</label>
-				<form:input path="goods.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:select path="goods.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${goodsList}" itemValue="id" itemLabel="name"></form:options>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -42,34 +39,38 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>起始仓库</th>
-				<th>结束仓库</th>
 				<th>商品</th>
-				<th>数量</th>
-				<th>移库时间</th>
+				<th>采购数量</th>
+				<th>供应商</th>
+				<th>价格</th>
+				<th>实际入库量</th>
+				<th>入库时间</th>
 				<th>备注</th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="cYkinfo">
+		<c:forEach items="${page.list}" var="cCgzbinfo">
 			<tr>
 				<td>
-					${cYkinfo.startHouse.name}
+					${cCgzbinfo.goods.name}
 				</td>
 				<td>
-					${cYkinfo.endHouse.name}
+					${cCgzbinfo.nub}
 				</td>
 				<td>
-					${cYkinfo.goods.name}
+					<c:if test="${not empty cCgzbinfo.rkinfo}">${cCgzbinfo.rkinfo.supplier.name}</c:if>
 				</td>
 				<td>
-					${cYkinfo.nub}
+					${cCgzbinfo.jg}
 				</td>
 				<td>
-					<fmt:formatDate value="${cYkinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${cCgzbinfo.rknub}
 				</td>
 				<td>
-					${cYkinfo.remarks}
+					<fmt:formatDate value="${cCgzbinfo.rkDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					${cCgzbinfo.remarks}
 				</td>
 			</tr>
 		</c:forEach>
