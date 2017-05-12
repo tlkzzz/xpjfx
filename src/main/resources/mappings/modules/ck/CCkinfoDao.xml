@@ -12,10 +12,35 @@
 		csu.name AS "supplier.name",
 		a.goodsid AS "goods.id",
 		cg.name AS "goods.name",
+		cgcl.name AS "goods.gclass.parent.name",
+		cgc.name AS "goods.gclass.name",
+		cg.tm AS "goods.tm",
+		cg.sort AS "goods.sort",
+
+		cg.sj AS "goods.sj",
+		cg.cbj AS "goods.cbj",
+        cg.big AS "goods.big.id",
+		cuna.name AS "goods.big.name",
+		cg.zong AS "goods.zong.id",
+		cunb.name AS "goods.zong.name",
+		cg.small AS "goods.small.id",
+		cg.specid AS "goods.spec.id",
+		csp.name AS "goods.spec.name",
+		cunc.name AS "goods.small.name",
 		a.housid AS "house.id",
 		ch.name AS "house.name",
 		a.storeid AS "store.id",
 		cst.name AS "store.name",
+		sao.name AS "store.area.name",
+		sat.name AS "store.area.parent.name",
+		cst.lxr  AS "store.lxr",
+		cst.dh   AS "store.dh",
+        cst.dz   AS "store.dz",
+        cst.khhzh AS "store.khhzh",
+		a.ddinfo AS "ddinfo.id",
+        mc.ddbh  AS "ddinfo.ddbh",
+        mc.thsl  AS "ddinfo.thsl",
+        mc.thje AS "ddinfo.thje",
 		a.ckdate AS "ckdate",
 		a.state AS "state",
 		a.issp AS "issp",
@@ -31,10 +56,21 @@
 	
 	<sql id="cCkinfoJoins">
 		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_gclass cgc ON cgc.id=cg.gclassid
+		LEFT JOIN c_gclass cgcl ON cgcl.id=cgc.parent_id
 		LEFT JOIN c_house	ch ON a.housid=ch.id
 		LEFT JOIN c_store cst ON a.storeid=cst.id
 		LEFT JOIN c_supplier csu ON a.supplierid=csu.id
 		LEFT JOIN sys_user su ON a.jsr=su.id
+		LEFT JOIN c_ddinfo mc on a.ddinfo=mc.id
+		LEFT JOIN c_unit cuna ON cg.`big`=cuna.`id`
+		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
+		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
+		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+		LEFT JOIN sys_area sao ON sao.id=cst.areaid
+		LEFT JOIN sys_area sat ON sat.id=sao.parent_id
+
+
 	</sql>
     
 	<select id="get" resultType="CCkinfo">
@@ -58,11 +94,15 @@
 			<if test="goods != null and goods.id != null and goods.id != ''">
 				AND a.goodsid = #{goods.id}
 			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
 			<if test="house != null and house.id != null and house.id != ''">
 				AND a.housid = #{house.id}
 			</if>
-			<if test="store != null and store.id != null and store.id != ''">
-				AND a.storeid = #{store.id}
+			<if test="state != null and state != ''">
+				AND FIND_IN_SET(a.state,#{state})
+
 			</if>
 		</where>
 		<choose>
@@ -74,7 +114,129 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+
+	<select id="findListStore" resultType="CCkinfo">
+		SELECT
+		a.ddinfo AS "ddinfo.id",
+		mc.ddbh  AS "ddinfo.ddbh",
+		mc.thsl  AS "ddinfo.thsl",
+		mc.thje AS  "ddinfo.thje",
+		a.housid AS "house.id",
+		ch.name AS "house.name",
+		a.storeid AS "store.id",
+		cst.name AS "store.name",
+		sao.name AS "store.area.name",
+		sat.name AS "store.area.parent.name",
+		  a.storeid AS "store.id",
+		  cst.name AS "store.name",
+		  a.goodsid AS "goods.id",
+		  cg.name AS "goods.name",
+		  cg.specid AS "goods.spec.id",
+		  SUM(cg.sj) AS "goods.sj",
+		  csp.name AS "goods.spec.name",
+		  SUM(a.nub) AS "nub",
+		  SUM( cg.cbj) AS "goods.cbj"
+		FROM c_ckinfo a
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_store cst ON a.storeid=cst.id
+		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+		LEFT JOIN sys_area sao ON sao.id=cst.areaid
+		LEFT JOIN sys_area sat ON sat.id=sao.parent_id
+		LEFT JOIN c_house	ch ON a.housid=ch.id
+		LEFT JOIN c_ddinfo mc on a.ddinfo=mc.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplierid = #{supplier.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.housid = #{house.id}
+			</if>
+			<if test="state != null and state != ''">
+				AND FIND_IN_SET(a.state,#{state})
+			</if>
+		</where>
+		GROUP BY cst.name
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findListBands" resultType="CCkinfo">
+		SELECT
+		a.ddinfo AS "ddinfo.id",
+		mc.ddbh  AS "ddinfo.ddbh",
+		mc.thsl  AS "ddinfo.thsl",
+		mc.thje AS  "ddinfo.thje",
+		mc.yhje AS  "ddinfo.yhje",
+		a.housid AS "house.id",
+		ch.name AS "house.name",
+		a.storeid AS "store.id",
+		cst.name AS "store.name",
+		sao.name AS "store.area.name",
+		sat.name AS "store.area.parent.name",
+		a.storeid AS "store.id",
+		cst.name AS "store.name",
+		a.goodsid AS "goods.id",
+		cg.name AS "goods.name",
+
+		cgs.name AS  "goods.bands.name",
+		cg.specid AS "goods.spec.id",
+		SUM(cg.sj) AS "goods.sj",
+		csp.name AS "goods.spec.name",
+
+		SUM(a.nub) AS "nub",
+		SUM( cg.cbj) AS "goods.cbj"
+		FROM c_ckinfo a
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_store cst ON a.storeid=cst.id
+		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+		LEFT JOIN c_bands cgs ON  cgs.id=cg.bandsid
+		LEFT JOIN sys_area sao ON sao.id=cst.areaid
+		LEFT JOIN sys_area sat ON sat.id=sao.parent_id
+		LEFT JOIN c_house	ch ON a.housid=ch.id
+		LEFT JOIN c_ddinfo mc on a.ddinfo=mc.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplierid = #{supplier.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="house != null and house.id != null and house.id != ''">
+				AND a.housid = #{house.id}
+			</if>
+			<if test="state != null and state != ''">
+				AND FIND_IN_SET(a.state,#{state})
+			</if>
+		</where>
+		GROUP BY cgs.name
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="findAllList" resultType="CCkinfo">
 		SELECT 
 			<include refid="cCkinfoColumns"/>

@@ -31,6 +31,10 @@ public class CCkinfo extends DataEntity<CCkinfo> {
 	private String state;		// 出库方式1(进货退货)2(报废录单)3(其他出库)4(出库录单)8(调整库存)9(移库出库)
 	private String issp;		// 是否审批0未审批1已审批
 	private User jsr;		// 经手人
+	private CDdinfo ddinfo; //订单主键
+
+	private Date startDate;		//开始入库时间
+	private Date endDate;		//结束入库时间
 	
 	public CCkinfo() {
 		super();
@@ -98,6 +102,10 @@ public class CCkinfo extends DataEntity<CCkinfo> {
 	public void setHouse(CHouse house) {
 		this.house = house;
 	}
+
+	public CDdinfo getDdinfo(){ return  ddinfo;}
+
+	public  void setDdinfo(CDdinfo ddinfo){this.ddinfo=ddinfo;}
 	
 	public CStore getStore() {
 		return store;
@@ -141,5 +149,20 @@ public class CCkinfo extends DataEntity<CCkinfo> {
 	public void setJsr(User jsr) {
 		this.jsr = jsr;
 	}
-	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 }

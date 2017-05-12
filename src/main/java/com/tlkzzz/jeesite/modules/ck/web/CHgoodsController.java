@@ -351,6 +351,18 @@ public class CHgoodsController extends BaseController {
 		}
 		return null;
 	}
+/**
+ *  库存明细
+ *   报表开始
+ */
+@RequiresPermissions("report:cHgoodsInquiry:view")
+@RequestMapping(value = "kcInquiry")
+public String kcInquiry(CHgoods cHgoods, HttpServletRequest request, HttpServletResponse response, Model model) {
+	Page<CHgoods> page = cHgoodsService.findPage(new Page<CHgoods>(request, response), cHgoods);
+	model.addAttribute("page", page);
+	model.addAttribute("cHgoods", cHgoods);
+	return "modules/report/cHgoodsInquiryList";
+}
 
 	@RequiresPermissions("ck:cHgoodsReport:view")
 	@RequestMapping(value = "aqkcReport")

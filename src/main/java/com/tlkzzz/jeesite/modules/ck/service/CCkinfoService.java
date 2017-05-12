@@ -7,10 +7,13 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
 import com.tlkzzz.jeesite.modules.ck.dao.CHgoodsDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHgoods;
+import com.tlkzzz.jeesite.modules.ck.entity.CRkinfo;
+import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,17 @@ public class CCkinfoService extends CrudService<CCkinfoDao, CCkinfo> {
 	public List<CCkinfo> findList(CCkinfo cCkinfo) {
 		return super.findList(cCkinfo);
 	}
+
+
+	public List<CCkinfo> findListStore(CCkinfo cCkinfo) {
+		List<CCkinfo> list = dao.findListStore(cCkinfo);
+		return list;
+	}
+
+	public List<CCkinfo> findListBands(CCkinfo cCkinfo){
+		List<CCkinfo> list=dao.findListBands(cCkinfo);
+	    return list;
+	}
 	
 	public Page<CCkinfo> findPage(Page<CCkinfo> page, CCkinfo cCkinfo) {
 		page = super.findPage(page, cCkinfo);
@@ -52,7 +66,20 @@ public class CCkinfoService extends CrudService<CCkinfoDao, CCkinfo> {
 		}
 		return page;
 	}
-	
+
+	public List<CCkinfo> selectList(String states,CCkinfo cCkinfo) {
+		cCkinfo.setState(states);
+		return super.findList(cCkinfo);
+	}
+	public List<CCkinfo> storeList(String states,CCkinfo cCkinfo) {
+		cCkinfo.setState(states);
+		return dao.findListStore(cCkinfo);
+	}
+	public  List<CCkinfo> bandsList(String states,CCkinfo cCkinfo){
+		cCkinfo.setState(states);
+		return dao.findListBands(cCkinfo);
+	}
+
 	@Transactional(readOnly = false)
 	public void save(CCkinfo cCkinfo) {
 		super.save(cCkinfo);
