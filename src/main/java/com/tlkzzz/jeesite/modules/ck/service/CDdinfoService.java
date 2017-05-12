@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
@@ -28,9 +29,25 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public CDdinfo get(String id) {
 		return super.get(id);
 	}
-	
+
+	public CDdinfo getSalesSum(CDdinfo cDdinfo) {
+		return dao.getSalesSum(cDdinfo);
+	}
+
+	public CDdinfo getGoodsSalesSum(CDdinfo cDdinfo) {
+		return dao.getGoodsSalesSum(cDdinfo);
+	}
+
 	public List<CDdinfo> findList(CDdinfo cDdinfo) {
 		return super.findList(cDdinfo);
+	}
+
+	public List<CDdinfo> findUserList(CDdinfo cDdinfo) {
+		return dao.findUserList(cDdinfo);
+	}
+
+	public List<CDdinfo> findGoodsList(CDdinfo cDdinfo) {
+		return dao.findGoodsList(cDdinfo);
 	}
 
 	public List<CDdinfo> findReportList(CDdinfo cDdinfo){
@@ -41,6 +58,11 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		return processUnit(dao.findDiscountList(cDdinfo));
 	}
 
+	/**
+	 * 将数组中的数量变为规格数量
+	 * @param list
+	 * @return
+	 */
 	public List<CDdinfo> processUnit(List<CDdinfo> list){
 		for(CDdinfo cd: list){
 			if(cd==null||cd.getGoods()==null)continue;
@@ -50,12 +72,49 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		return list;
 	}
 
+	/**
+	 * 初始化年份
+	 * @param cDdinfo
+	 * @param date
+	 * @return
+	 */
+	public CDdinfo processYear(CDdinfo	cDdinfo,Date date){
+		if (cDdinfo.getRkckdate() == null) {
+			cDdinfo.setRkckdate(date);
+			cDdinfo.setStartDate(new Date(date.getYear(), 0, 0));
+			cDdinfo.setEndDate(new Date(date.getYear() + 1, 0, 0));
+		} else {
+			cDdinfo.setStartDate(new Date(cDdinfo.getRkckdate().getYear(), 0, 0));
+			cDdinfo.setEndDate(new Date(cDdinfo.getRkckdate().getYear() + 1, 0, 0));
+		}
+		return cDdinfo;
+	}
+
+	/**
+	 * 初始化年月
+	 * @param cDdinfo
+	 * @param date
+	 * @return
+	 */
+	public CDdinfo processYearMonth(CDdinfo	cDdinfo,Date date){
+		if (cDdinfo.getRkckdate() == null) {
+			cDdinfo.setRkckdate(date);
+			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth()-1, 1));
+			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1-1, 1));
+		} else {
+			cDdinfo.setStartDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth(), 1));
+			cDdinfo.setEndDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth()+1, 1));
+		}
+		return cDdinfo;
+	}
+
 	public Page<CDdinfo> findPage(Page<CDdinfo> page, CDdinfo cDdinfo) {
 		return super.findPage(page, cDdinfo);
 	}
-/**
- * 查询退货单信息
- * */
+
+	/**
+	 * 查询退货单信息
+	 */
 	public List<CDdinfo> thfindList(CDdinfo cDdinfo) {
 		return dao.thfindList(cDdinfo);
 	}

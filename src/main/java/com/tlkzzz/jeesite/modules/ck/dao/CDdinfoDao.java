@@ -41,4 +41,31 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
      * @return
      */
     public List<CDdinfo> findDiscountList(CDdinfo cDdinfo);
+
+    /**
+     * 查询出所有下过订单的业务员
+     * @param cDdinfo
+     * @return
+     */
+    public List<CDdinfo> findUserList(CDdinfo cDdinfo);
+
+    /**
+     * 按照业务员查询时间段内的销售汇总数据
+     * @param cDdinfo
+     * @return
+     */
+    public CDdinfo getSalesSum(CDdinfo cDdinfo);
+    /**
+     * 查询出时间段内所有出售过的商品
+     * @param cDdinfo
+     * @return
+     */
+    public List<CDdinfo> findGoodsList(CDdinfo cDdinfo);
+
+    /**
+     * 按照商品查询时间段内的销售汇总数据
+     * @param cDdinfo
+     * @return
+     */
+    public CDdinfo getGoodsSalesSum(CDdinfo cDdinfo);
 }

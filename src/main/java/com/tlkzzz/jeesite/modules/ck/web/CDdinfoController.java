@@ -24,9 +24,8 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 订单Controller
@@ -329,4 +328,111 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("cDdinfo", cDdinfo);
 		return "modules/report/fDisDDinfoReportList";
 	}
+
+	/**
+	 * 业务员销售分析
+	 * @param cDdinfo
+	 * @param type
+	 * @param model
+	 * @return
+	 */
+//	@RequiresPermissions("ck:salesAnalysisReport:view")
+	@RequestMapping(value = "salesAnalysis")
+	public String salesAnalysis(CDdinfo cDdinfo, String type, Model model){
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		Date date = new Date();
+		cDdinfo.setType("2,3,9");//只查询状态为2，3，9的数据(销售的)
+		List<Map> mapList = new ArrayList<Map>();
+		if(StringUtils.isBlank(type)||"1".equals(type)) {
+			sdf.applyPattern("yyyy");
+			cDdinfo = cDdinfoService.processYear(cDdinfo, date);
+			List<CDdinfo> userList = cDdinfoService.findUserList(cDdinfo);
+			for (CDdinfo cd : userList) {
+				Map map = new HashMap();
+				List<CDdinfo> cdList = new ArrayList<CDdinfo>();
+				for (int i = 0; i < 12; i++) {
+					cd.setStartDate(new Date(cDdinfo.getEndDate().getYear(), i, 1));
+					cd.setEndDate(new Date(cDdinfo.getEndDate().getYear(), i + 1, 1));
+					cdList.add(i, cDdinfoService.getSalesSum(cd));
+				}
+				map.put("cDdinfo", cd);
+				map.put("cdList", cdList);
+				map.put("date", sdf.format(cd.getStartDate()));
+				mapList.add(map);
+			}
+			model.addAttribute("mapList", mapList);
+		}else if("2".equals(type)){
+			sdf.applyPattern("yyyy年MM");
+			cDdinfo = cDdinfoService.processYearMonth(cDdinfo, date);
+			List<CDdinfo> userList = cDdinfoService.findUserList(cDdinfo);
+			for (CDdinfo cd : userList) {
+				Map map = new HashMap();
+				List<CDdinfo> cdList = new ArrayList<CDdinfo>();
+				cDdinfo.getEndDate().setDate(cDdinfo.getEndDate().getDay()-1);
+				for (int i=1;i<=cDdinfo.getEndDate().getDate();i++) {
+					cd.setStartDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i));
+					cd.setEndDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i+1));
+					cdList.add(i-1, cDdinfoService.getSalesSum(cd));
+				}
+				map.put("cDdinfo", cd);
+				map.put("cdList", cdList);
+				map.put("date", sdf.format(cd.getStartDate()));
+				mapList.add(map);
+			}
+			model.addAttribute("mapList", mapList);
+		}
+		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("type", type);
+		return "modules/report/cDdinfoSalesAnalysis";//页面需要调整样式和值的展示
+	}
+
+	/**
+	 * 商品销售分析
+	 * @param cDdinfo
+	 * @param type
+	 * @param model
+	 * @return
+	 */
+//	@RequiresPermissions("ck:salesAnalysisReport:view")
+	@RequestMapping(value = "goodsSalesAnalysis")
+	public String goodsSalesAnalysis(CDdinfo cDdinfo, String type, Model model){
+		Date date = new Date();
+		cDdinfo.setType("2,3,9");
+		List<Map> mapList = new ArrayList<Map>();
+		if(StringUtils.isBlank(type)||"1".equals(type)) {
+			cDdinfo = cDdinfoService.processYear(cDdinfo,date);
+			List<CDdinfo> userList = cDdinfoService.findGoodsList(cDdinfo);
+			for (CDdinfo cd : userList) {
+				Map map = new HashMap();
+				map.put("cDdinfo", cd);
+				for (int i = 0; i < 12; i++) {
+					cd.setStartDate(new Date(cDdinfo.getEndDate().getYear(), i, 1));
+					cd.setEndDate(new Date(cDdinfo.getEndDate().getYear(), i + 1, 1));
+					map.put("Month" + (i + 1), cDdinfoService.getGoodsSalesSum(cd));
+				}
+				mapList.add(map);
+			}
+			model.addAttribute("mapList", mapList);
+		}else if("2".equals(type)){
+			cDdinfo = cDdinfoService.processYearMonth(cDdinfo,date);
+			List<CDdinfo> userList = cDdinfoService.findGoodsList(cDdinfo);
+			for (CDdinfo cd : userList) {
+				Map map = new HashMap();
+				map.put("cDdinfo", cd);
+				cDdinfo.getEndDate().setDate(cDdinfo.getEndDate().getDay()-1);
+				for (int i=1;i<=cDdinfo.getEndDate().getDate();i++) {
+					cd.setStartDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i));
+					cd.setEndDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i+1));
+					map.put("Day" + i, cDdinfoService.getGoodsSalesSum(cd));
+				}
+				mapList.add(map);
+			}
+			model.addAttribute("mapList", mapList);
+		}
+		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("type", type);
+		return "modules/report/";//页面还没生成
+	}
+
+
 }

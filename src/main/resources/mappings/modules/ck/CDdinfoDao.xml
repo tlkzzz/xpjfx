@@ -126,6 +126,123 @@
 		</choose>
 	</select>
 
+	<select id="findUserList" resultType="CDdinfo">
+		SELECT
+			a.create_by AS "createBy.id",
+			su.name AS "createBy.name"
+		FROM c_ddinfo a
+		LEFT JOIN sys_user su ON su.id=a.create_by
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckddinfoid
+		<where>
+			 a.del_flag = #{DEL_FLAG_NORMAL} AND su.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="type != null and type != ''">
+				AND FIND_IN_SET(crk.state,#{type})
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.rkckdate &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.rkckdate &lt; #{endDate}
+			</if>
+		</where>
+		GROUP BY a.create_by
+	</select>
+
+	<select id="findGoodsList" resultType="CDdinfo">
+		SELECT
+			a.goods_id AS "goods.id",
+			cg.name AS "goods.name",
+			cg.sj AS "goods.sj",
+			cg.big AS "goods.big.id",
+			cuna.name AS "goods.big.name",
+			cg.zong AS "goods.zong.id",
+			cunb.name AS "goods.zong.name",
+			cg.small AS "goods.small.id",
+			cunc.name AS "goods.small.name",
+			sp.id AS "goods.spec.id",
+			sp.name AS "goods.spec.name"
+		FROM c_ddinfo a
+		LEFT JOIN c_goods cg ON cg.id=a.goods_id
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckddinfoid
+		LEFT JOIN c_spec sp ON sp.id=cg.specid
+		LEFT JOIN c_unit cuna ON cg.`big`=cuna.`id`
+		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
+		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
+		<where>
+			 a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="type != null and type != ''">
+				AND FIND_IN_SET(crk.state,#{type})
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.rkckdate &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.rkckdate &lt; #{endDate}
+			</if>
+		</where>
+		GROUP BY a.goods_id
+	</select>
+
+	<select id="getGoodsSalesSum" resultType="CDdinfo">
+		SELECT
+			SUM(a.je) AS "je",
+			SUM(a.nub) AS "nub",
+			SUM(a.thje) AS "thje",
+			SUM(a.thsl) AS "thsl"
+		FROM c_ddinfo a
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckddinfoid
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.create_by = #{createBy.id}
+			<if test="type != null and type != ''">
+				AND FIND_IN_SET(crk.state,#{type})
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.rkckdate &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.rkckdate &lt; #{endDate}
+			</if>
+		</where>
+		GROUP BY a.goods_id
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getSalesSum" resultType="CDdinfo">
+		SELECT
+			SUM(a.je*a.nub) AS "je",
+			SUM(a.thje*a.thsl) AS "thje"
+		FROM c_ddinfo a
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckddinfoid
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.create_by = #{createBy.id}
+			<if test="type != null and type != ''">
+				AND FIND_IN_SET(crk.state,#{type})
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.rkckdate &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.rkckdate &lt; #{endDate}
+			</if>
+		</where>
+		GROUP BY a.create_by
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="findDiscountList" resultType="CDdinfo">
 		SELECT
 			<include refid="cDdinfoColumns"/>
