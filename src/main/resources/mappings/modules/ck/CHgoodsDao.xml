@@ -105,6 +105,17 @@
 		</choose>
 	</select>
 
+	<select id="mkc" resultType="CHgoods">
+		SELECT
+		<include refid="cHgoodsColumns"/>
+		FROM c_hgoods a
+		<where>
+			a.goodsid=#{goods.id}
+			and a.housid=#{hous.id}
+		</where>
+
+	</select>
+
 	<select id="findReportListByG" resultType="CHgoods">
 		SELECT
 			<include refid="cHgoodsColumns"/>,

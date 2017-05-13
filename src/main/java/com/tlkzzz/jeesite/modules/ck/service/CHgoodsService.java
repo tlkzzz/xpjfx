@@ -172,6 +172,11 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		super.delete(cHgoods);
 	}
 
+	public List<CHgoods> mkc(CHgoods cHgoods) {
+		List<CHgoods> mkcList=dao.mkc(cHgoods);
+		return mkcList;
+	}
+
 	/**
 	 * 退货更新库存方法
 	 * */
@@ -189,5 +194,9 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		page.setList((list));
 		return page;
 	}
-	
+
+	public void ckUpdate(CHgoods cHgoods) {
+		dao.ckUpdate(cHgoods);
+
+	}
 }

@@ -67,4 +67,16 @@ public interface CHgoodsDao extends CrudDao<CHgoods> {
      * @return
      */
     public List<CHgoods> findReportListByBands(CHgoods cHgoods);
+
+
+    /**
+     * app查询商品是否有库存
+     *
+     * */
+    public List<CHgoods> mkc(CHgoods cHgoods);
+
+    /**
+     * app入库添加更新库存
+     * */
+    public void ckUpdate(CHgoods cHgoods);
 }
