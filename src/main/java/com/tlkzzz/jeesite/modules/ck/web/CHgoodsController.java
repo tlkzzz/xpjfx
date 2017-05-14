@@ -364,7 +364,7 @@ public String kcInquiry(CHgoods cHgoods, HttpServletRequest request, HttpServlet
 	return "modules/report/cHgoodsInquiryList";
 }
 
-	@RequiresPermissions("ck:cHgoodsReport:view")
+	//@RequiresPermissions("ck:cHgoodsReport:view")
 	@RequestMapping(value = "aqkcReport")
 	public String aqkcReport(CHgoods cHgoods, Model model){
 		model.addAttribute("list", cHgoodsService.findList(cHgoods));
@@ -374,7 +374,7 @@ public String kcInquiry(CHgoods cHgoods, HttpServletRequest request, HttpServlet
 		return "modules/report/cHgoodsReportList";
 	}
 
-	@RequiresPermissions("ck:cHgoodsReport:view")
+//	@RequiresPermissions("ck:cHgoodsReport:view")
 	@RequestMapping(value = "kcReport")
 	public String kcReport(CHgoods cHgoods, String type, Model model){
 		List<CHgoods> list = new ArrayList<CHgoods>();

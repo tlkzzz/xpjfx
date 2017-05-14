@@ -433,6 +433,34 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("type", type);
 		return "modules/report/";//页面还没生成
 	}
+	/**
+	 * 业务员品项销售
+	 * @param cDdinfo
+	 * @param type
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "xslist")
+	public String xslist(CDdinfo cDdinfo, String type, Model model ) {
+		cDdinfo.setType("2,3,5");
+		List<CDdinfo> list = new ArrayList<CDdinfo>();
+		List<CDdinfo> userList=cDdinfoService.findUserList(cDdinfo);
+		if (StringUtils.isNotBlank(type) && "2".equals(type)) {
+			list = cDdinfoService.getgclass(cDdinfo);
+		} else if (StringUtils.isNotBlank(type) && "3".equals(type)) {
+			list = cDdinfoService.setgclass(cDdinfo);
+		}
+		else {
+				list = cDdinfoService.getgclass(cDdinfo);
 
+		}
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("type", type);
+		model.addAttribute("list", list);
+		model.addAttribute("userList", userList);
+		return "modules/report/cDdinfoxsList";
+	}
 
 }

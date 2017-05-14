@@ -28,6 +28,7 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -241,5 +242,32 @@ public class CCgzbinfoController extends BaseController {
 		model.addAttribute("cCgzbinfo", cCgzbinfo);
 		model.addAttribute("page", page);
 		return "modules/report/cCgzbinfoywyInquireList";
+	}
+
+	/**
+	 * 业务员品项销售
+	 * @param cCgzbinfo
+	 * @param type
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "xslist")
+	public String xslist(CCgzbinfo cCgzbinfo, String type, Model model ) {
+		List<CCgzbinfo> list = new ArrayList<CCgzbinfo>();
+		if (StringUtils.isNotBlank(type) && "2".equals(type)) {
+			list = cCgzbinfoService.findList(cCgzbinfo);
+		} else if (StringUtils.isNotBlank(type) && "3".equals(type)) {
+			list = cCgzbinfoService.findListxl(cCgzbinfo);
+		}
+		else {
+			list = cCgzbinfoService.findList(cCgzbinfo);
+
+		}
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("cCgzbinfo", cCgzbinfo);
+		model.addAttribute("type", type);
+		model.addAttribute("list", list);
+		return "modules/report/cCgzbinfoxsList";
 	}
 }
