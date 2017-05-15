@@ -340,6 +340,9 @@ public class CDdinfoController extends BaseController {
 	@RequestMapping(value = "salesAnalysis")
 	public String salesAnalysis(CDdinfo cDdinfo, String type, String rkckdate, Model model){
 		SimpleDateFormat sdf = new SimpleDateFormat();
+		if(cDdinfo.getRkckdate()==null&&StringUtils.isNotBlank(rkckdate)){
+			cDdinfo.setRkckdate(new Date(Integer.parseInt(rkckdate)-1900,0,1));
+		}
 		Date date = new Date();
 		cDdinfo.setType("2,3,4,5,9");//只查询状态为2,3,4,5,9的数据(销售的)
 		List<Map> mapList = new ArrayList<Map>();
@@ -395,8 +398,11 @@ public class CDdinfoController extends BaseController {
 	 */
 	@RequiresPermissions("ck:salesAnalysisReport:view")
 	@RequestMapping(value = "goodsSalesAnalysis")
-	public String goodsSalesAnalysis(CDdinfo cDdinfo, String type, Model model){
+	public String goodsSalesAnalysis(CDdinfo cDdinfo, String type, String rkckdate, Model model){
 		SimpleDateFormat sdf = new SimpleDateFormat();
+		if(cDdinfo.getRkckdate()==null&&StringUtils.isNotBlank(rkckdate)){
+			cDdinfo.setRkckdate(new Date(Integer.parseInt(rkckdate)-1900,0,1));
+		}
 		Date date = new Date();
 		cDdinfo.setType(null);
 		List<Map> mapList = new ArrayList<Map>();
