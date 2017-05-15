@@ -99,8 +99,8 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public CDdinfo processYearMonth(CDdinfo	cDdinfo,Date date){
 		if (cDdinfo.getRkckdate() == null) {
 			cDdinfo.setRkckdate(date);
-			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth()-1, 1));
-			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1-1, 1));
+			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth(), 1));
+			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1, 1));
 		} else {
 			cDdinfo.setStartDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth(), 1));
 			cDdinfo.setEndDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth()+1, 1));
