@@ -471,5 +471,23 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("userList", userList);
 		return "modules/report/cDdinfoxsList";
 	}
-
+	/**
+	 * 业务员订单查询
+	 * @param cDdinfo
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:ywylistInquire:view")
+	@RequestMapping(value = "ywylistInquire")
+	public String ywylistInquire(CDdinfo cDdinfo,  Model model ) {
+		List<CDdinfo> list = new ArrayList<CDdinfo>();
+		list = cDdinfoService.findList(cDdinfo);
+		List<CDdinfo> userList=cDdinfoService.findUserList(cDdinfo);
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("list", list);
+		model.addAttribute("userList", userList);
+		return "modules/report/cDdinfoywyList";
+	}
 }

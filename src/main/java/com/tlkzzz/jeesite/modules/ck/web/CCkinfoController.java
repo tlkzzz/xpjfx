@@ -180,17 +180,17 @@ public class CCkinfoController extends BaseController {
 		addMessage(redirectAttributes, "删除出库信息成功");
 		return "redirect:"+Global.getAdminPath()+"/ck/cCkinfo/?repage";
 	}
-
-	@RequiresPermissions("report:cCkinfoInquire:view")
-	@RequestMapping(value = {"listInquire", ""})
+//客户订单
+	@RequiresPermissions("ck:cCkinfoInquire:view")
+	@RequestMapping(value = "listInquire")
 	public String listInquire(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<CCkinfo> page = cCkinfoService.findPage(new Page<CCkinfo>(request, response), cCkinfo);
+		List<CCkinfo> list = cCkinfoService.selectList("1,2,3,4,9",new CCkinfo());
 		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		model.addAttribute("cCkinfo", cCkinfo);
-		model.addAttribute("page", page);
+		model.addAttribute("list", list);
 		return "modules/report/cCkinfoInquireList";
 	}
 	/**
@@ -202,8 +202,8 @@ public class CCkinfoController extends BaseController {
 	 * @return
 	 */
 
-	//@RequiresPermissions("report:cCkinfoInquire:view")
-	@RequestMapping(value = {"xsInquire", ""})
+	@RequiresPermissions("ck:cCkinfoInquire:view")
+	@RequestMapping(value = "xsInquire")
 	public String xsInquire(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CCkinfo> page = cCkinfoService.findPage(new Page<CCkinfo>(request, response), cCkinfo);
 		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
@@ -254,5 +254,30 @@ public class CCkinfoController extends BaseController {
 		model.addAttribute("list", list);
 		return "modules/report/cCkinfoReportList";
 	}
-
+	//退货单查询
+	@RequiresPermissions("ck:cCkinfoInquire:view")
+	@RequestMapping(value = "listInquiret")
+	public String listInquiret(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<CCkinfo> list = cCkinfoService.selectList("1",new CCkinfo());
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("list", list);
+		return "modules/report/cCkinfothList";
+	}
+	//报废单查询
+	@RequiresPermissions("ck:cCkinfoInquire:view")
+	@RequestMapping(value = "bfInquiret")
+	public String bfInquiret(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<CCkinfo> list = cCkinfoService.selectList("2",new CCkinfo());
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("list", list);
+		return "modules/report/cCkinfobfList";
+	}
 }

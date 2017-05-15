@@ -93,7 +93,7 @@ public class CRkinfoController extends BaseController {
 	}
 
 	/** 	报表	start	**/
-//	@RequiresPermissions("ck:cRkinfoInquire:view")
+	@RequiresPermissions("ck:cRkinfoInquire:view")
 	@RequestMapping(value = "rkInquire")//单据查询
 	public String rkInquire(CRkinfo cRkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkinfo> page = cRkinfoService.findPage(new Page<CRkinfo>(request, response), cRkinfo);

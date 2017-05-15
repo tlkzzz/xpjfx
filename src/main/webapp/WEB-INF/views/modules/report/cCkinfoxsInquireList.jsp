@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cCkinfo/xsInquire">出库信息列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cCkinfo/xsInquire">销售单列表</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cCkinfo" action="${ctx}/ck/cCkinfo/xsInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
