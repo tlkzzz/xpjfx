@@ -192,7 +192,7 @@
 		FROM c_ddinfo a
 		LEFT JOIN c_rkckddinfo crk ON crk.id=a.rkckddinfoid
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} AND a.create_by = #{createBy.id}
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.goods_id = #{goods.id}
 			<if test="type != null and type != ''">
 				AND FIND_IN_SET(crk.state,#{type})
 			</if>
