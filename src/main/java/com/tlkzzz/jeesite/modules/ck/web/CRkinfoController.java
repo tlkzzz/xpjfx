@@ -109,7 +109,7 @@ public class CRkinfoController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-//	@RequiresPermissions("ck:cRkinfoReport:view")
+	@RequiresPermissions("ck:cRkinfoReport:view")
 	@RequestMapping(value = "rkReport")//报表
 	public String rkReport(CRkinfo cRkinfo, String type, Model model) {
 		List<CRkinfo> list = new ArrayList<CRkinfo>();
