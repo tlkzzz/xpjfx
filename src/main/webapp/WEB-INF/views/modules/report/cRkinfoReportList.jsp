@@ -87,7 +87,7 @@
 					${cRkinfo.rkhcbj}
 				</td>
 				<td>
-					<fmt:formatNumber value="${cRkinfo.rknub*cRkinforkhcbj}" pattern="#.####"/>
+					<fmt:formatNumber value="${cRkinfo.rknub*cRkinfo.rkhcbj}" pattern="#.####"/>
 				</td>
 				<td>
 					${fns:getDictLabel(cRkinfo.state, "rkState", "")}
