@@ -39,8 +39,8 @@
 		<table id="contentTable" class="table table-striped table-bordered table-condensed">
 			<thead>
 			<tr>
-				<th>商品类别</th>
-				<th>品名,规格</th>
+				<th>商品名称</th>
+				<th>规格</th>
 				<th>单位</th>
 				<th>合计金额</th>
 				<th>业务员</th>
