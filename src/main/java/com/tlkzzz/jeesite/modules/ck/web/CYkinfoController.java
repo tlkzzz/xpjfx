@@ -109,5 +109,13 @@ public class CYkinfoController extends BaseController {
 		model.addAttribute("type", type);
 		return "modules/report/cYkReportList";
 	}
-
+	//移库记录查询
+	@RequiresPermissions("ck:cYInquirekinfo:view")
+	@RequestMapping(value = "ckInquire")
+	public String ckInquire(CYkinfo cYkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<CYkinfo> page = cYkinfoService.findPage(new Page<CYkinfo>(request, response), cYkinfo);
+		model.addAttribute("cYkinfo", cYkinfo);
+		model.addAttribute("page", page);
+		return "modules/report/cYkinfoInquireList";
+	}
 }

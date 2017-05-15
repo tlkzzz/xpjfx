@@ -223,7 +223,7 @@ public class CCgzbinfoController extends BaseController {
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("cCgzbinfo", cCgzbinfo);
 		model.addAttribute("page", page);
-		return "modules/ck/cCgzbinfoInquireList";
+		return "modules/report/cCgzbinfoInquireList";
 	}
 
 	/**

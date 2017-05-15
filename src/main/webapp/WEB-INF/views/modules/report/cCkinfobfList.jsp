@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>客户订单明细管理</title>
+	<title>报废单查询</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,9 +18,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/report/cCkinfo/listInquire">客户订单明细列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cCkinfo/bfInquiret">报废单列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cCkinfo" action="${ctx}/report/cCkinfo/listInquire" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cCkinfo" action="${ctx}/ck/cCkinfo/bfInquiret" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
