@@ -3,9 +3,7 @@
  */
 package com.tlkzzz.jeesite.common.utils;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.Map;
 
 import org.springframework.core.io.DefaultResourceLoader;
@@ -65,6 +63,39 @@ public class FreeMarkers {
 //		model.put("userName", "calvin");
 //		String result = FreeMarkers.renderString("hello ${userName} ${r'${userName}'}", model);
 //		System.out.println(result);
+	}
+
+	public static String renderFile(String filePath, String fileName, Map<String,Object> map){
+		String content = "";
+		if(StringUtils.isNotBlank(fileName)&&fileName.contains(".ftl")) {
+			Configuration configuration = new Configuration();
+			try {
+				configuration.setDirectoryForTemplateLoading(new File(filePath));
+				configuration.setDefaultEncoding("UTF-8");
+				Template template = configuration.getTemplate(fileName);
+				content = renderTemplate(template, map);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if(StringUtils.isNotBlank(fileName)&&fileName.contains(".html")){
+			InputStream input = null;
+			try {
+				input = new FileInputStream(filePath+"\\"+fileName);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			StringBuffer buffer = new StringBuffer();
+			byte[] bytes = new byte[1024];
+			try {
+				for(int n ; (n = input.read(bytes))!=-1 ; ){
+					buffer.append(new String(bytes,0,n,"UTF-8"));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			content = renderString(buffer.toString(), map);
+		}
+		return content;
 	}
 	
 }
