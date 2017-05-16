@@ -6,14 +6,19 @@ package com.tlkzzz.jeesite.modules.test.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.common.config.Global;
+import com.tlkzzz.jeesite.common.utils.FreeMarkers;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +29,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.modules.test.entity.Test;
 import com.tlkzzz.jeesite.modules.test.service.TestService;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 测试Controller
@@ -125,6 +134,22 @@ public class TestController extends BaseController {
 //		addMessage(redirectAttributes, "删除测试成功");
 //		return "redirect:" + adminPath + "/test/test/?repage";
 		return "true";
+	}
+
+	@RequiresPermissions("test:test:edit")
+	@RequestMapping(value = "freemarkTest")
+	public void freemarkTest(HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> model = new HashMap();
+		model.put("userName", "XRC");
+
+
+		String ftlPath = request.getSession().getServletContext().getRealPath("/WEB-INF/views/modules/test");
+		String content = FreeMarkers.renderFile(ftlPath,"index.ftl", model);//利用模版生成html页面
+
+		String indexPath = request.getSession().getServletContext().getRealPath("/WEB-INF/views/static");
+		String contentTow = FreeMarkers.renderFile(indexPath,"index.html", model);//利用html文件生成页面
+
+		renderString(response,contentTow,"text/html; charset=UTF-8");
 	}
 
 }
