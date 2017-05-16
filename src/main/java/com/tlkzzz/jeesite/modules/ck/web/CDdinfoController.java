@@ -487,7 +487,7 @@ public class CDdinfoController extends BaseController {
 	@RequestMapping(value = "ywylistInquire")
 	public String ywylistInquire(CDdinfo cDdinfo,  Model model ) {
 		List<CDdinfo> list = new ArrayList<CDdinfo>();
-		list = cDdinfoService.findList(cDdinfo);
+		list = cDdinfoService.ywylist(cDdinfo);
 		List<CDdinfo> userList=cDdinfoService.findUserList(cDdinfo);
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));

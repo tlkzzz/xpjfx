@@ -50,13 +50,15 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		return dao.findGoodsList(cDdinfo);
 	}
 	public List<CDdinfo> getgclass(CDdinfo cDdinfo) {
-
 		return dao.getgclass(cDdinfo);
 	}
 
 	public List<CDdinfo> setgclass(CDdinfo cDdinfo) {
 
 		return dao.setgclass(cDdinfo);
+	}
+	public List<CDdinfo> ywylist(CDdinfo cDdinfo) {
+		return dao.ywylist(cDdinfo);
 	}
 
 	public List<CDdinfo> findReportList(CDdinfo cDdinfo){

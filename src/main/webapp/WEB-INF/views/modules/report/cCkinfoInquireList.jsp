@@ -83,7 +83,7 @@
 					${cCkinfo.je}
 				</td>
 				<td>
-					${cCkinfo.ckqcbj}
+					<fmt:formatNumber value="${cCkinfo.ckqcbj}" pattern="#.####"/>
 				</td>
 				<td>
 					${cCkinfo.nub}

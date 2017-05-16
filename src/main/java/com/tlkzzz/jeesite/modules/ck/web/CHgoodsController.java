@@ -40,7 +40,7 @@ import java.util.ArrayList;
  */
 @Controller
 @RequestMapping(value = "${adminPath}/ck/cHgoods")
-public class CHgoodsController extends BaseController {
+public class 	CHgoodsController extends BaseController {
 
 	@Autowired
 	private CHgoodsService cHgoodsService;

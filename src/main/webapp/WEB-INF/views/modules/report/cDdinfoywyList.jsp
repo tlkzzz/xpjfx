@@ -40,6 +40,8 @@
 			<thead>
 			<tr>
 				<th>商品名称</th>
+				<th>所在仓库</th>
+				<th>供应商</th>
 				<th>规格</th>
 				<th>单位</th>
 				<th>合计金额</th>
@@ -52,8 +54,14 @@
 					<td>
 							${cDdinfo.goods.name}
 					</td>
-					<td>
-						${cDdinfo.goods.spec.name}
+				    <td>
+				            ${cDdinfo.house.name}
+					</td>
+				    <td>
+						     ${cDdinfo.supplier.name}
+				    </td>
+				    <td>
+						    ${cDdinfo.goods.spec.name}
 					</td>
 					<td>
 							${cDdinfo.goods.big.name}
