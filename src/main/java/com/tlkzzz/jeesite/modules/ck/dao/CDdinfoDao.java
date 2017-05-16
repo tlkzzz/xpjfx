@@ -82,4 +82,6 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
      * @return
      */
     public List <CDdinfo> setgclass(CDdinfo cddinfo);
+
+    public List <CDdinfo> ywylist(CDdinfo cddinfo);
 }
