@@ -184,7 +184,7 @@ public class CCkinfoController extends BaseController {
 	@RequiresPermissions("ck:cCkinfoInquire:view")
 	@RequestMapping(value = "listInquire")
 	public String listInquire(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		List<CCkinfo> list = cCkinfoService.selectList("1,2,3,4,9",new CCkinfo());
+		List<CCkinfo> list = cCkinfoService.selectList("2,3,4,9",new CCkinfo());
 		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
