@@ -18,7 +18,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-	<li class="active"><a href="${ctx}/ck/cDdinfo/bfInquiret">报废单列表</a></li>
+	<li class="active"><a href="${ctx}/ck/cDdinfo/bfInquiret">业务员订单列表</a></li>
 </ul>
 	<form:form id="searchForm" modelAttribute="cDdinfo" action="${ctx}/ck/cDdinfo/ywylistInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
