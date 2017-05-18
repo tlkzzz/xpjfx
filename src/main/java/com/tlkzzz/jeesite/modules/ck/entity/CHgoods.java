@@ -43,7 +43,8 @@ public class CHgoods extends DataEntity<CHgoods> {
 		super(id);
 	}
 
-	@ExcelField(title="商品名称", align=2, sort=20)
+	@ExcelField(title="商品名称",value = "goods.name", align=2, sort=20)
+
 	@NotNull(message = "商品不能为空")
 	public CGoods getGoods() {
 		return goods;
@@ -53,7 +54,7 @@ public class CHgoods extends DataEntity<CHgoods> {
 		this.goods = goods;
 	}
 
-	@ExcelField(title="所在仓库", align=2, sort=25)
+	@ExcelField(title="所在仓库",value = "house.name", align=2, sort=25)
 	@NotNull(message = "仓库不能为空")
 	public CHouse getHouse() {
 		return house;
@@ -116,7 +117,7 @@ public class CHgoods extends DataEntity<CHgoods> {
 		this.ckState = ckState;
 	}
 
-	@ExcelField(title="供应商", align=2, sort=50)
+	@ExcelField(title="供应商",value = "goods.supplier.name", align=2, sort=50)
 	public String getSupplierid() {
 		return supplierid;
 	}
