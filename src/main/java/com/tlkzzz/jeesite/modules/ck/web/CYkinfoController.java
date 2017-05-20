@@ -10,6 +10,7 @@ import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.ck.service.CGoodsService;
 import com.tlkzzz.jeesite.modules.ck.service.CHouseService;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -117,5 +118,15 @@ public class CYkinfoController extends BaseController {
 		model.addAttribute("cYkinfo", cYkinfo);
 		model.addAttribute("page", page);
 		return "modules/report/cYkinfoInquireList";
+	}
+
+	//移库记录导出
+	@RequestMapping(value = "ykExcellist")
+	public String ykExcellist(CYkinfo cYkinfo,HttpServletResponse response, Model model) {
+		List<CYkinfo> list = cYkinfoService.findList(cYkinfo);
+		ExcelCreateUtils.ykexport(response,list,"1");
+		model.addAttribute("cYkinfo", cYkinfo);
+		model.addAttribute("list", list);
+		return null;
 	}
 }

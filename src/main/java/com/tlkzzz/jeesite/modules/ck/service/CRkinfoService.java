@@ -32,7 +32,11 @@ public class CRkinfoService extends CrudService<CRkinfoDao, CRkinfo> {
 	public List<CRkinfo> findList(CRkinfo cRkinfo) {
 		return super.findList(cRkinfo);
 	}
-	
+	public List<CRkinfo> selectList(String state,CRkinfo cRkinfo) {
+		cRkinfo.setState(state);
+		return super.findList(cRkinfo);
+	}
+
 	public Page<CRkinfo> findPage(Page<CRkinfo> page, CRkinfo cRkinfo) {
 		page = super.findPage(page, cRkinfo);
 		page.setList(process(page.getList()));

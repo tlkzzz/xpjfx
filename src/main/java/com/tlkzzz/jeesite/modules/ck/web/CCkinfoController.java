@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
@@ -193,6 +192,13 @@ public class CCkinfoController extends BaseController {
 		model.addAttribute("list", list);
 		return "modules/report/cCkinfoInquireList";
 	}
+	//客户订单导出
+	@RequestMapping(value = "khExcel")
+	public String khExcel(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<CCkinfo> list = cCkinfoService.selectList("2,3,4,9",new CCkinfo());
+		ExcelCreateUtils.khexport(response,list,"1");
+		return null;
+	}
 	/**
 	 * 销售单查询state
 	 * @param cCkinfo
@@ -203,8 +209,9 @@ public class CCkinfoController extends BaseController {
 	 */
 
 	@RequiresPermissions("ck:cCkinfoInquire:view")
-	@RequestMapping(value = "xsInquire")
+	@RequestMapping(value = "xsInquire" )
 	public String xsInquire(CCkinfo cCkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		cCkinfo.setState("3,4,8");
 		Page<CCkinfo> page = cCkinfoService.findPage(new Page<CCkinfo>(request, response), cCkinfo);
 		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
@@ -215,7 +222,27 @@ public class CCkinfoController extends BaseController {
 		return "modules/report/cCkinfoxsInquireList";
 	}
 
-
+	/**
+	 * 销售导出
+	 * @param cCkinfo
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "xsExcel")
+	@ResponseBody
+	public String xsExcel(CCkinfo cCkinfo, HttpServletResponse response, Model model) {
+		cCkinfo.setState("3,4,8");
+		List<CCkinfo> list = cCkinfoService.findList(cCkinfo);
+		ExcelCreateUtils.xsexport(response,list,"1");
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("list", list);
+		return "true";
+	}
 
 	/**
 	 * 出库报表显示
@@ -267,6 +294,19 @@ public class CCkinfoController extends BaseController {
 		model.addAttribute("list", list);
 		return "modules/report/cCkinfothList";
 	}
+	//退货单导出
+	@RequestMapping(value = "thExcel")
+	public String thExcel(CCkinfo cCkinfo,HttpServletResponse response, Model model) {
+		List<CCkinfo> list = cCkinfoService.selectList("1",new CCkinfo());
+		ExcelCreateUtils.thexport(response,list,"1");
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("list", list);
+		return null;
+	}
 	//报废单查询
 	@RequiresPermissions("ck:cCkinfoInquire:view")
 	@RequestMapping(value = "bfInquiret")
@@ -279,5 +319,18 @@ public class CCkinfoController extends BaseController {
 		model.addAttribute("cCkinfo", cCkinfo);
 		model.addAttribute("list", list);
 		return "modules/report/cCkinfobfList";
+	}
+	//报废导出查询
+	@RequestMapping(value = "bfExcel",method = RequestMethod.POST)
+	public String bfExcel(CCkinfo cCkinfo,HttpServletResponse response, Model model) {
+		List<CCkinfo> list = cCkinfoService.selectList("2",new CCkinfo());
+		ExcelCreateUtils.bfexport(response,list,"1");
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("cCkinfo", cCkinfo);
+		model.addAttribute("list", list);
+		return null;
 	}
 }

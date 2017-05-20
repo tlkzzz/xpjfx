@@ -14,6 +14,17 @@
 			$("#searchForm").submit();
         	return false;
         }
+         function derive(){
+                            $.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
+                                if(v=="ok"){
+                                    $("#searchForm").attr("action","${ctx}/ck/cCkinfo/khExcel");
+                                    $("#searchForm").submit();
+                                    //还原默认action
+                                    $("#searchForm").attr("action","${ctx}/ck/cCkinfo/listInquire");
+                                }
+                            },{buttonsFocus:1});
+                            $('.jbox-body .jbox-icon').css('top','55px');
+                        }
 	</script>
 </head>
 <body>
@@ -49,6 +60,7 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

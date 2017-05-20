@@ -10,13 +10,12 @@ import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
 import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.ck.service.CGoodsService;
 import com.tlkzzz.jeesite.modules.ck.service.CHouseService;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
@@ -127,5 +126,34 @@ public class CRkinfoController extends BaseController {
 		model.addAttribute("list", list);
 		return "modules/report/cRkinfoReportList";
 	}
-
+	/**
+	 * 入库报表显示
+	 * @param cRkinfo
+	 * @param type 1或null:商品明细，2:商品汇总，3:单据明细
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "rkExcel")//报表
+	public String rkExcel(CRkinfo cRkinfo, String type, Model model) {
+		List<CRkinfo> list = new ArrayList<CRkinfo>();
+		if(StringUtils.isNotBlank(type)&&"2".equals(type)){
+			list = cRkinfoService.findReportList(cRkinfo);
+		}else if(StringUtils.isNotBlank(type)&&"3".equals(type)) {
+			list = cRkinfoService.findList(cRkinfo);
+		}else {
+			list = cRkinfoService.findList(cRkinfo);
+		}
+		return null;
+	}
+	/** 入库单导出	**/
+	@ResponseBody
+	@RequestMapping(value = "exportFile")
+	public String exportFile( CRkinfo cRkinfo, HttpServletResponse response, Model model ,String status) {
+		cRkinfo.setState("1,2,3,4,5");
+		List<CRkinfo> list = cRkinfoService.selectList("1,2,3,4,5",cRkinfo);
+		ExcelCreateUtils.exportNonRegExcel(response, list,"1,2,3,4,5");
+		model.addAttribute("cRkinfo", cRkinfo);
+		model.addAttribute("page", list);
+		return "true";
+	}
 }

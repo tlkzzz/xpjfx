@@ -8,6 +8,15 @@
 		$(document).ready(function() {
 			
 		});
+		function exportFile(){
+		$.post('${ctx}/ck/cRkinfo/rkReport',form.serialize(),function(data){
+		if(data){
+		  aler('导出成功')
+		}else{
+		 alert('导出失败！')
+		}
+		})
+		}
 	</script>
 </head>
 <body>
