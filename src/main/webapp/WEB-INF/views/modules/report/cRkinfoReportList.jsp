@@ -8,14 +8,9 @@
 		$(document).ready(function() {
 			
 		});
-		function exportFile(){
-		$.post('${ctx}/ck/cRkinfo/rkReport',form.serialize(),function(data){
-		if(data){
-		  aler('导出成功')
-		}else{
-		 alert('导出失败！')
-		}
-		})
+		function derive(){
+        var form = $("#searchForm");
+        window.open('${ctx}/ck/cRkinfo/rkExcel?'+form.serialize());
 		}
 	</script>
 </head>
@@ -51,6 +46,8 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
+
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

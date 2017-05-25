@@ -319,7 +319,21 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));
 		return "modules/report/cDdinfoScrapList";
 	}
-
+//报废导出
+@RequestMapping(value = "bfexcel")
+public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletResponse response) {
+	cDdinfo.setRkckddinfo(new CRkckddinfo());
+	cDdinfo.getRkckddinfo().setState("4");//报废录单
+	List<CDdinfo> list = new ArrayList<CDdinfo>();
+	if(StringUtils.isNotBlank(type)&&"2".equals(type)){
+		list = cDdinfoService.findReportList(cDdinfo);
+		ExcelCreateUtils.bfexportlist(response,list,"2");
+	}else {
+		list = cDdinfoService.processUnit(cDdinfoService.findList(cDdinfo));
+		ExcelCreateUtils.bfexportlist(response,list,"1");
+	}
+	return null;
+}
 	@RequiresPermissions("cw:fDiscountReport:view")
 	@RequestMapping(value = "discountDDinfoReport")
 	public String discountDDinfoReport(CDdinfo cDdinfo, Model model){
@@ -329,7 +343,12 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("cDdinfo", cDdinfo);
 		return "modules/report/fDisDDinfoReportList";
 	}
-
+	@RequestMapping(value = "goodsexcel")
+	public String goodsexcel(CDdinfo cDdinfo,HttpServletResponse response){
+		List<CDdinfo> list=cDdinfoService.findList(cDdinfo);
+		ExcelCreateUtils.goodsexcel(response,list,"1");
+		return null;
+	}
 	/**
 	 * 业务员销售分析
 	 * @param cDdinfo

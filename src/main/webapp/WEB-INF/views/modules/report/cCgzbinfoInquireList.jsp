@@ -14,17 +14,10 @@
 			$("#searchForm").submit();
         	return false;
         }
-         function derive(){
-                            $.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
-                                if(v=="ok"){
-                                    $("#searchForm").attr("action","${ctx}/ck/cCgzbinfo/cgExcel");
-                                    $("#searchForm").submit();
-                                    //还原默认action
-                                    $("#searchForm").attr("action","${ctx}/ck/cCgzbinfo/ckInquire");
-                                }
-                            },{buttonsFocus:1});
-                            $('.jbox-body .jbox-icon').css('top','55px');
-                        }
+          function derive(){
+        var form = $("#searchForm");
+        window.open('${ctx}/ck/cCgzbinfo/cgExcel?'+form.serialize());
+		}
 	</script>
 </head>
 <body>

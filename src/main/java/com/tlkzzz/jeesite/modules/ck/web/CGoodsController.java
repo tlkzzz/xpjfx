@@ -133,6 +133,12 @@ public class CGoodsController extends BaseController {
 		return "modules/report/cGoodsAnalysisList";
 	}
 
+	@RequestMapping(value = "goodslistexcel")
+	public String goodslistexcel(CGoods cGoods, Model model,HttpServletResponse response){
+		List<CGoods> lsit=cGoodsService.findList(cGoods);
+		return null;
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "getGoods")
 	public CGoods getGoods(CGoods goods){

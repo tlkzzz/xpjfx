@@ -110,6 +110,20 @@ public class CYkinfoController extends BaseController {
 		model.addAttribute("type", type);
 		return "modules/report/cYkReportList";
 	}
+	/** 移库导出 **/
+//	@RequiresPermissions("ck:cYkinfoReport:view")
+	@RequestMapping(value = "ykexcel")
+	public String ykexcel(CYkinfo cYkinfo, String type, Model model,HttpServletResponse response) {
+		List<CYkinfo> list = new ArrayList<CYkinfo>();
+		if(StringUtils.isBlank(type)||"1".equals(type)){//商品明细
+			list = cYkinfoService.findList(cYkinfo);
+			ExcelCreateUtils.ykexcellist(response,list,"1");
+		}else {//商品汇总
+			list = cYkinfoService.findReportList(cYkinfo);//仓库商品分组报表
+			ExcelCreateUtils.ykexcellist(response,list,"2");
+		}
+		return null;
+	}
 	//移库记录查询
 	@RequiresPermissions("ck:cYInquirekinfo:view")
 	@RequestMapping(value = "ckInquire")
@@ -127,6 +141,6 @@ public class CYkinfoController extends BaseController {
 		ExcelCreateUtils.ykexport(response,list,"1");
 		model.addAttribute("cYkinfo", cYkinfo);
 		model.addAttribute("list", list);
-		return null;
+		return "true";
 	}
 }

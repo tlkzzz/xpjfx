@@ -321,7 +321,7 @@ public class CCkinfoController extends BaseController {
 		return "modules/report/cCkinfobfList";
 	}
 	//报废导出查询
-	@RequestMapping(value = "bfExcel",method = RequestMethod.POST)
+	@RequestMapping(value = "bfExcel")
 	public String bfExcel(CCkinfo cCkinfo,HttpServletResponse response, Model model) {
 		List<CCkinfo> list = cCkinfoService.selectList("2",new CCkinfo());
 		ExcelCreateUtils.bfexport(response,list,"1");

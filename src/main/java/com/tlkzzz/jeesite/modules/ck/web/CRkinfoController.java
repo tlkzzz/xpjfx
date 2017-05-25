@@ -134,14 +134,17 @@ public class CRkinfoController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "rkExcel")//报表
-	public String rkExcel(CRkinfo cRkinfo, String type, Model model) {
+	public String rkExcel(CRkinfo cRkinfo, String type, Model model ,HttpServletResponse  response) {
 		List<CRkinfo> list = new ArrayList<CRkinfo>();
 		if(StringUtils.isNotBlank(type)&&"2".equals(type)){
 			list = cRkinfoService.findReportList(cRkinfo);
+			ExcelCreateUtils.rkexport(response,list,"2");
 		}else if(StringUtils.isNotBlank(type)&&"3".equals(type)) {
 			list = cRkinfoService.findList(cRkinfo);
+			ExcelCreateUtils.rkexport(response,list,"3");
 		}else {
 			list = cRkinfoService.findList(cRkinfo);
+			ExcelCreateUtils.rkexport(response,list,"");
 		}
 		return null;
 	}
