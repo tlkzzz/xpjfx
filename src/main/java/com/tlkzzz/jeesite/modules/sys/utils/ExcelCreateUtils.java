@@ -482,14 +482,77 @@ public class ExcelCreateUtils {
             headArr = head;
 
             for (CGoods o : list) {
-                String[] a=o.getSpec().getArrSpec();
+                String[]  b=o.getSpec().getArrSpec();
+                double ccc = b.length;
+                String aa=o.getCbj();
+                String sj=o.getSj();
+                double cc=0.0;
+                double dd=0.0;
+                double sj1=0.0;
+                double sj2=0.0;
+                if(ccc==3) {
+                    double aaaa = Double.parseDouble(String.valueOf(b[2]));
+                    cc = Double.parseDouble(aa) * aaaa;
+                }
+                else{
+                    cc=0.0;
+                }
+                if(ccc==3){
+                    double aaaa = Double.parseDouble(String.valueOf(b[1]));
+                    double bbbb = Double.parseDouble(String.valueOf(b[2]));
+                    dd=aaaa*bbbb*Double.parseDouble(aa);
+                }else{
+                    double aaaa = Double.parseDouble(String.valueOf(b[1]));
+                    dd = Double.parseDouble(aa) * aaaa;
+                }
+
+                if(ccc==3) {
+                    double aaaa = Double.parseDouble(String.valueOf(b[2]));
+                    sj1 = Double.parseDouble(sj) * aaaa;
+                }
+                else{
+                    sj1=0.0;
+                }
+                if(ccc==3){
+                    double aaaa = Double.parseDouble(String.valueOf(b[1]));
+                    double bbbb = Double.parseDouble(String.valueOf(b[2]));
+                    sj2=aaaa*bbbb*Double.parseDouble(sj);
+                }else{
+                    double aaaa = Double.parseDouble(String.valueOf(b[1]));
+                    sj2 = Double.parseDouble(sj) * aaaa;
+                }
+
+
                 String[] value = {o.getGclass().getName(),o.getBands().getName(),o.getName(),o.getSort(),
-                                  o.getSpec().getName(),o.getCbj(),
+                                  o.getSpec().getName(),o.getCbj(),String.valueOf(cc),String.valueOf(dd),
+                                  o.getCkcbj(),o.getSj(),String.valueOf(sj1),String.valueOf(sj2)
                 };
                 valueList.add(value);
             }
         }
         WordCreateUtils.exportExcel(response,"商品价格表格","商品价格表格",headArr,valueList);
+    }
+    /**
+     * 业务员销售导出
+     * 处理原始数据后导出信息为Excel
+     * @param response 返回信息
+     * @param list 原始数据列表 CHgoods
+     * @param status 导出表格类型
+     */
+    public static void ywyxsexcel(HttpServletResponse response, List<CDdinfo> list, String status){
+        String[] headArr = {};
+        List<String[]> valueList = new ArrayList<String[]>();
+        if(StringUtils.isNotBlank(status)&&status.equals("1")) {
+            String head[] = {"客户名称", "商品名称", "规格型号", "规格数量", "最小单位数量","售价","优惠金额"};
+            headArr = head;
+            for (CDdinfo o : list) {
+                String[] value = {o.getStore().getName(),o.getGoods().getName(),o.getGoods().getSpec().getName(),
+                        o.getType(),o.getNub(),o.getJe(),o.getYhje()
+                };
+                valueList.add(value);
+            }
+        }
+        WordCreateUtils.exportExcel(response,"客户商品表格","客户商品表格",headArr,valueList);
     }
     /**
      * 获取字符串数组元素（防止越界）

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -136,6 +137,7 @@ public class CGoodsController extends BaseController {
 	@RequestMapping(value = "goodslistexcel")
 	public String goodslistexcel(CGoods cGoods, Model model,HttpServletResponse response){
 		List<CGoods> lsit=cGoodsService.findList(cGoods);
+		ExcelCreateUtils.goodslistexcel(response,lsit,"1");
 		return null;
 	}
 
