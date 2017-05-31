@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.sys.security;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -231,8 +232,16 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 		private String loginName; // 登录名
 		private String name; // 姓名
 		private boolean mobileLogin; // 是否手机登录
-		
-//		private Map<String, Object> cacheMap;
+		private Map<String, Object> map;
+
+		public Map<String, Object> getMap() {
+			return map;
+		}
+
+		public void setMap(Map<String, Object> map) {
+			this.map = map;
+		}
+		//		private Map<String, Object> cacheMap;
 
 		public Principal(User user, boolean mobileLogin) {
 			this.id = user.getId();
