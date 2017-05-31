@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.tlkzzz.jeesite.modules.sys.security.SystemAuthorizingRealm;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,5 +96,16 @@ public class CBandsController extends BaseController {
 		return renderString(response, principal);
 	}
 
-
+	@ResponseBody
+	@RequestMapping(value = "/logout",method = RequestMethod.GET)
+	public String logout( HttpServletRequest request, HttpServletResponse response){
+		SystemAuthorizingRealm.Principal principal = UserUtils.getPrincipal();
+		Session session= UserUtils.getSession();
+		UserUtils.getSubject().logout();
+		Map<String,Object> map =new HashMap<String, Object>();
+		map.put("out","登出");
+		map.put("out",session);
+		principal.setMap(map);
+		return renderString(response, principal);
+	}
 }

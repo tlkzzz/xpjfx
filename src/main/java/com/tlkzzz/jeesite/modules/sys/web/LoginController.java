@@ -72,6 +72,9 @@ public class LoginController extends BaseController{
 		if(principal != null && !principal.isMobileLogin()){
 			return "redirect:" + adminPath;
 		}
+//		if(principal == null || principal.isMobileLogin()){
+//			return  renderString(response, principal);
+//		}
 //		String view;
 //		view = "/WEB-INF/views/modules/sys/sysLogin.jsp";
 //		view = "classpath:";
@@ -189,10 +192,16 @@ public class LoginController extends BaseController{
 //		System.out.println("==========================b");
 		return "modules/sys/sysIndex";
 	}
+//
+//	@RequestMapping(value = "${adminPath}/logouts",method = RequestMethod.GET)
+//	public String logouts( HttpServletRequest request, HttpServletResponse response){
+//		Principal principal = UserUtils.getPrincipal();
+//		UserUtils.getSubject().logout();
+//		return renderString(response, principal);
+//	}
 
 
 
-	
 	/**
 	 * 获取主题方案
 	 */
@@ -205,7 +214,7 @@ public class LoginController extends BaseController{
 		}
 		return "redirect:"+request.getParameter("url");
 	}
-	
+
 	/**
 	 * 是否是验证码登录
 	 * @param useruame 用户名
