@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.common.config.Global;
 import com.tlkzzz.jeesite.common.utils.FreeMarkers;
+import com.tlkzzz.jeesite.common.utils.IdGen;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
+import com.tlkzzz.jeesite.modules.sys.utils.DictUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -143,13 +145,22 @@ public class TestController extends BaseController {
 		model.put("userName", "XRC");
 
 
-		String ftlPath = request.getSession().getServletContext().getRealPath("/WEB-INF/views/modules/test");
-		String content = FreeMarkers.renderFile(ftlPath,"index.ftl", model);//利用模版生成html页面
+		String content = FreeMarkers.renderFile("/WEB-INF/views/modules/test","index.ftl", request, model);//利用模版生成html页面
 
-		String indexPath = request.getSession().getServletContext().getRealPath("/WEB-INF/views/static");
-		String contentTow = FreeMarkers.renderFile(indexPath,"index.html", model);//利用html文件生成页面
+		String contentTow = FreeMarkers.renderFile("/WEB-INF/views/static","index.html", request, model);//利用html文件生成页面
 
 		renderString(response,contentTow,"text/html; charset=UTF-8");
+	}
+
+
+	@RequestMapping(value = "shopTest")
+	public void shopTest(HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> model = new HashMap();
+		model.put("ctx", request.getContextPath()+Global.getAdminPath());
+		model.put("ctxStatic", request.getContextPath()+"/static");
+		model.put("userName", "XRC");
+		String contentTow = FreeMarkers.renderFile("/WEB-INF/views/static/one","login.html",request, model);//利用html文件生成页面
+		renderString(response,contentTow,"text/html;charset=UTF-8");
 	}
 
 }
