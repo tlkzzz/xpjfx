@@ -10,6 +10,7 @@ import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
 import com.tlkzzz.jeesite.modules.cw.entity.*;
 import com.tlkzzz.jeesite.modules.cw.service.*;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -318,7 +319,21 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));
 		return "modules/report/cDdinfoScrapList";
 	}
-
+//报废导出
+@RequestMapping(value = "bfexcel")
+public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletResponse response) {
+	cDdinfo.setRkckddinfo(new CRkckddinfo());
+	cDdinfo.getRkckddinfo().setState("4");//报废录单
+	List<CDdinfo> list = new ArrayList<CDdinfo>();
+	if(StringUtils.isNotBlank(type)&&"2".equals(type)){
+		list = cDdinfoService.findReportList(cDdinfo);
+		ExcelCreateUtils.bfexportlist(response,list,"2");
+	}else {
+		list = cDdinfoService.processUnit(cDdinfoService.findList(cDdinfo));
+		ExcelCreateUtils.bfexportlist(response,list,"1");
+	}
+	return null;
+}
 	@RequiresPermissions("cw:fDiscountReport:view")
 	@RequestMapping(value = "discountDDinfoReport")
 	public String discountDDinfoReport(CDdinfo cDdinfo, Model model){
@@ -328,7 +343,12 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("cDdinfo", cDdinfo);
 		return "modules/report/fDisDDinfoReportList";
 	}
-
+	@RequestMapping(value = "goodsexcel")
+	public String goodsexcel(CDdinfo cDdinfo,HttpServletResponse response){
+		List<CDdinfo> list=cDdinfoService.findList(cDdinfo);
+		ExcelCreateUtils.goodsexcel(response,list,"1");
+		return null;
+	}
 	/**
 	 * 业务员销售分析
 	 * @param cDdinfo
@@ -488,12 +508,23 @@ public class CDdinfoController extends BaseController {
 	public String ywylistInquire(CDdinfo cDdinfo,  Model model ) {
 		List<CDdinfo> list = new ArrayList<CDdinfo>();
 		list = cDdinfoService.ywylist(cDdinfo);
-		List<CDdinfo> userList=cDdinfoService.findUserList(cDdinfo);
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("cDdinfo", cDdinfo);
 		model.addAttribute("list", list);
-		model.addAttribute("userList", userList);
 		return "modules/report/cDdinfoywyList";
+	}
+	/**
+	 * 业务员订单导出
+	 * @param cDdinfo
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "ywyExcel")
+	public String ywyExcel(CDdinfo cDdinfo,  Model model,HttpServletResponse response  ) {
+		List<CDdinfo> list = new ArrayList<CDdinfo>();
+		list = cDdinfoService.ywylist(cDdinfo);
+		ExcelCreateUtils.ywyexport(response,list,"1");
+		return null;
 	}
 }

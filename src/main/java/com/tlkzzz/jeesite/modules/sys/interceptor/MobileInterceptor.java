@@ -22,12 +22,16 @@ public class MobileInterceptor extends BaseService implements HandlerInterceptor
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
+
+		System.out.print("******************************************之前访问手机访问拦截器");
+
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			ModelAndView modelAndView) throws Exception {
+		System.out.print("******************************************之后手机访问拦截器"+modelAndView);
 		if (modelAndView != null){
 			// 如果是手机或平板访问的话，则跳转到手机视图页面。
 			if(UserAgentUtils.isMobileOrTablet(request) && !StringUtils.startsWithIgnoreCase(modelAndView.getViewName(), "redirect:")){

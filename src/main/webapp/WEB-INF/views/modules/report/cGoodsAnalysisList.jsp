@@ -8,12 +8,22 @@
 		$(document).ready(function() {
 			
 		});
+		function derive(){
+        var form = $("#searchForm");
+        window.open('${ctx}/ck/cGoods/goodslistexcel?'+form.serialize());
+		}
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/ck/cGoods/goodsAnalysis">商品价格一览表</a></li>
 	</ul>
+
+	<ul>
+		<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/>
+		</li>
+	</ul>
+
 	<sys:message content="${message}"/>
 	<table id="contentTableOne" class="table table-bordered">
 		<thead>
@@ -63,6 +73,7 @@
 					<fmt:formatNumber value="${cGoods.spec.arrSpec[2]*cGoods.cbj}" pattern="#.####"/>
 					</c:if>
 				</td>
+
 				<td>
 					<c:if test="${fn:length(cGoods.spec.arrSpec)<3}">
 						<fmt:formatNumber value="${cGoods.spec.arrSpec[1]*cGoods.cbj}" pattern="#.####"/>

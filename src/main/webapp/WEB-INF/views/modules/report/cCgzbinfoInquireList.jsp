@@ -14,6 +14,10 @@
 			$("#searchForm").submit();
         	return false;
         }
+          function derive(){
+        var form = $("#searchForm");
+        window.open('${ctx}/ck/cCgzbinfo/cgExcel?'+form.serialize());
+		}
 	</script>
 </head>
 <body>
@@ -32,6 +36,7 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

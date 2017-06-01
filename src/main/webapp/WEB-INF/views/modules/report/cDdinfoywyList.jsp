@@ -14,11 +14,15 @@
 			$("#searchForm").submit();
         	return false;
         }
+         function derive(){
+        var form = $("#searchForm");
+        window.open('${ctx}/ck/cDdinfo/ywyExcel?'+form.serialize());
+		}
 	</script>
 </head>
 <body>
 <ul class="nav nav-tabs">
-	<li class="active"><a href="${ctx}/ck/cDdinfo/bfInquiret">报废单列表</a></li>
+	<li class="active"><a href="${ctx}/ck/cDdinfo/ywylistInquire">业务员订单列表</a></li>
 </ul>
 	<form:form id="searchForm" modelAttribute="cDdinfo" action="${ctx}/ck/cDdinfo/ywylistInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -32,6 +36,7 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -69,12 +74,10 @@
 					<td>
 						<fmt:formatNumber value="${cDdinfo.je}" pattern="#.####"/>
 					</td>
-					<c:forEach items="${userList}" var="cDdinfo">
 					<td>
 							${cDdinfo.createBy.name}
 					</td>
 				</tr>
-					</c:forEach>
 			</c:forEach>
 			</tbody>
 		</table>

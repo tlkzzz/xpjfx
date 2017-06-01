@@ -314,7 +314,8 @@ public class CRkckddinfoController extends BaseController {
 		fReceipt.setReceiptType(UserUtils.getCache("RKCKSTATE").toString());
 		if(fReceipt.getReceiptDate()==null)fReceipt.setReceiptDate(new Date());
 		fReceiptService.save(fReceipt);
-		return fReceipt.getId()+","+fReceipt.getHouseId();
+//		return fReceipt.getId()+","+fReceipt.getHouseId();
+		return fReceipt.getId();
 	}
 	/**
 	 * 出库提交订单打开填写财务信息页面（付款）
@@ -358,7 +359,8 @@ public class CRkckddinfoController extends BaseController {
 		}
 		payment.setPaymentType(UserUtils.getCache("RKCKSTATE").toString());
 		fPaymentService.save(payment);
-		return payment.getId()+","+payment.getHouseId();
+//		return payment.getId()+","+payment.getHouseId();
+		return payment.getId();
 	}
 
 	/**		出库结束		**/

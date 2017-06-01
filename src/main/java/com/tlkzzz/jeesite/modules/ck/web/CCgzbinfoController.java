@@ -12,6 +12,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import com.tlkzzz.jeesite.modules.cw.service.*;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,7 +226,20 @@ public class CCgzbinfoController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/report/cCgzbinfoInquireList";
 	}
-
+	/**
+	 * 采购单导出
+	 * 报表开始
+	 */
+	@RequiresPermissions("ck:cCgzbinfoInquire:view")
+	@RequestMapping(value = "cgExcel")
+	public String cgExcel(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<CCgzbinfo> list = cCgzbinfoService.findList( cCgzbinfo);
+		ExcelCreateUtils.cgexport(response,list,"1");
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cCgzbinfo", cCgzbinfo);
+		model.addAttribute("list", list);
+		return null;
+	}
 	/**
 	 * 业务员start
 	 * @param cCgzbinfo
