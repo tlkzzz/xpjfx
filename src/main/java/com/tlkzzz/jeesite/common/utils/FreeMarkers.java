@@ -6,11 +6,14 @@ package com.tlkzzz.jeesite.common.utils;
 import java.io.*;
 import java.util.Map;
 
+import com.tlkzzz.jeesite.common.config.Global;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * FreeMarkers工具类
@@ -65,8 +68,11 @@ public class FreeMarkers {
 //		System.out.println(result);
 	}
 
-	public static String renderFile(String filePath, String fileName, Map<String,Object> map){
+	public static String renderFile(String filePath, String fileName, HttpServletRequest request, Map<String,Object> map){
 		String content = "";
+		map.put("ctx", request.getContextPath()+ Global.getAdminPath());
+		map.put("ctxStatic", request.getContextPath()+"/static");
+		filePath = request.getSession().getServletContext().getRealPath(filePath);
 		if(StringUtils.isNotBlank(fileName)&&fileName.contains(".ftl")) {
 			Configuration configuration = new Configuration();
 			try {
