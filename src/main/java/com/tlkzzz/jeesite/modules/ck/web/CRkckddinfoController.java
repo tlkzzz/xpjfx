@@ -177,7 +177,7 @@ public class CRkckddinfoController extends BaseController {
 		}else {
 			addMessage(redirectAttributes, "删除总订单失败，总订单下存在子订单请删除后再试！");
 		}
-		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/?repage";
+		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/cgList?repage&state="+cRkckddinfo.getState();
 	}
 
 	/**		采购申请开始 	 */
