@@ -10,7 +10,7 @@
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
-					form.submit();
+                    submitForm();
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
@@ -49,7 +49,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cShop/cgAdd">订单<shiro:hasPermission name="ck:cCginfo:edit">${not empty cShop.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cCginfo:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/ck/cShop/form">订单<shiro:hasPermission name="ck:cCginfo:edit">${not empty cShop.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="ck:cCginfo:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="cShop" action="${ctx}/ck/cShop/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -94,7 +94,7 @@
 		<div class="control-group">
 			<label class="control-label">数量：</label>
 			<div class="controls">
-				<form:input path="nub" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<form:input path="nub" htmlEscape="false" maxlength="11" digits="true" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">最小单位*</font> </span>
 			</div>
 		</div>
@@ -118,7 +118,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="button" value="保 存" onclick="submitForm()"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="closejBox()"/>
 		</div>
 	</form:form>
