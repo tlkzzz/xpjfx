@@ -19,6 +19,25 @@ import java.util.List;
  */
 public class ToolsUtils {
 	static ScriptEngine jse = new ScriptEngineManager().getEngineByName("JavaScript");
+
+	/**
+	 * 商城购物数量上下限处理
+	 * @param num
+	 * @param MaxNum
+	 * @return
+	 */
+	public static String processNum(String num, int MaxNum){
+		if(StringUtils.isNotBlank(num)){
+			int intNum = Integer.parseInt(num.trim());
+			if(intNum<=0)intNum=1;
+			if (intNum>MaxNum)intNum = MaxNum;
+			num = String.valueOf(intNum);
+		}else {
+			num	= "1";
+		}
+		return num;
+	}
+
 	/**
 	 * 单位工具方法（合成商品规格单位）
 	 * @param spec
