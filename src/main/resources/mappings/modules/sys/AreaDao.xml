@@ -61,7 +61,7 @@
 			p.name AS "parent.name"
 		FROM sys_area a
 		LEFT JOIN sys_area p ON p.id = a.parent_id
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_id = #{parent.id}
 		ORDER BY a.code
 	</select>
 	
