@@ -41,7 +41,15 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo) {
 		return dao.findListId(cRkckddinfo);
 	}
-	
+
+	public List<CRkckddinfo> fyfindList(CRkckddinfo cRkckddinfo) {
+		return dao.fyfindList(cRkckddinfo);
+	}
+
+	public List<CRkckddinfo> ywyfindList(CRkckddinfo cRkckddinfo) {
+		return dao.ywyfindList(cRkckddinfo);
+	}
+
 	public Page<CRkckddinfo> findPage(Page<CRkckddinfo> page, CRkckddinfo cRkckddinfo) {
 		return super.findPage(page, cRkckddinfo);
 	}

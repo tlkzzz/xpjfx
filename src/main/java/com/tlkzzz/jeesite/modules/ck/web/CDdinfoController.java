@@ -10,7 +10,6 @@ import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
 import com.tlkzzz.jeesite.modules.cw.entity.*;
 import com.tlkzzz.jeesite.modules.cw.service.*;
-import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -319,21 +318,7 @@ public class CDdinfoController extends BaseController {
 		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));
 		return "modules/report/cDdinfoScrapList";
 	}
-//报废导出
-@RequestMapping(value = "bfexcel")
-public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletResponse response) {
-	cDdinfo.setRkckddinfo(new CRkckddinfo());
-	cDdinfo.getRkckddinfo().setState("4");//报废录单
-	List<CDdinfo> list = new ArrayList<CDdinfo>();
-	if(StringUtils.isNotBlank(type)&&"2".equals(type)){
-		list = cDdinfoService.findReportList(cDdinfo);
-		ExcelCreateUtils.bfexportlist(response,list,"2");
-	}else {
-		list = cDdinfoService.processUnit(cDdinfoService.findList(cDdinfo));
-		ExcelCreateUtils.bfexportlist(response,list,"1");
-	}
-	return null;
-}
+
 	@RequiresPermissions("cw:fDiscountReport:view")
 	@RequestMapping(value = "discountDDinfoReport")
 	public String discountDDinfoReport(CDdinfo cDdinfo, Model model){
@@ -343,12 +328,7 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 		model.addAttribute("cDdinfo", cDdinfo);
 		return "modules/report/fDisDDinfoReportList";
 	}
-	@RequestMapping(value = "goodsexcel")
-	public String goodsexcel(CDdinfo cDdinfo,HttpServletResponse response){
-		List<CDdinfo> list=cDdinfoService.findList(cDdinfo);
-		ExcelCreateUtils.goodsexcel(response,list,"1");
-		return null;
-	}
+
 	/**
 	 * 业务员销售分析
 	 * @param cDdinfo
@@ -356,15 +336,12 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("ck:salesAnalysisReport:view")
+//	@RequiresPermissions("ck:salesAnalysisReport:view")
 	@RequestMapping(value = "salesAnalysis")
-	public String salesAnalysis(CDdinfo cDdinfo, String type, String rkckdate, Model model){
+	public String salesAnalysis(CDdinfo cDdinfo, String type, Model model){
 		SimpleDateFormat sdf = new SimpleDateFormat();
-		if(cDdinfo.getRkckdate()==null&&StringUtils.isNotBlank(rkckdate)){
-			cDdinfo.setRkckdate(new Date(Integer.parseInt(rkckdate)-1900,0,1));
-		}
 		Date date = new Date();
-		cDdinfo.setType("2,3,4,5,9");//只查询状态为2,3,4,5,9的数据(销售的)
+		cDdinfo.setType("2,3,9");//只查询状态为2，3，9的数据(销售的)
 		List<Map> mapList = new ArrayList<Map>();
 		if(StringUtils.isBlank(type)||"1".equals(type)) {
 			sdf.applyPattern("yyyy");
@@ -391,7 +368,7 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 			for (CDdinfo cd : userList) {
 				Map map = new HashMap();
 				List<CDdinfo> cdList = new ArrayList<CDdinfo>();
-				cDdinfo.getEndDate().setDate(cDdinfo.getEndDate().getDate()-1);
+				cDdinfo.getEndDate().setDate(cDdinfo.getEndDate().getDay()-1);
 				for (int i=1;i<=cDdinfo.getEndDate().getDate();i++) {
 					cd.setStartDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i));
 					cd.setEndDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i+1));
@@ -406,7 +383,7 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 		}
 		model.addAttribute("cDdinfo", cDdinfo);
 		model.addAttribute("type", type);
-		return "modules/report/cDdinfoSalesAnalysis";
+		return "modules/report/cDdinfoSalesAnalysis";//页面需要调整样式和值的展示
 	}
 
 	/**
@@ -416,115 +393,46 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("ck:salesAnalysisReport:view")
+//	@RequiresPermissions("ck:salesAnalysisReport:view")
 	@RequestMapping(value = "goodsSalesAnalysis")
-	public String goodsSalesAnalysis(CDdinfo cDdinfo, String type, String rkckdate, Model model){
-		SimpleDateFormat sdf = new SimpleDateFormat();
-		if(cDdinfo.getRkckdate()==null&&StringUtils.isNotBlank(rkckdate)){
-			cDdinfo.setRkckdate(new Date(Integer.parseInt(rkckdate)-1900,0,1));
-		}
+	public String goodsSalesAnalysis(CDdinfo cDdinfo, String type, Model model){
 		Date date = new Date();
-		cDdinfo.setType(null);
+		cDdinfo.setType("2,3,9");
 		List<Map> mapList = new ArrayList<Map>();
 		if(StringUtils.isBlank(type)||"1".equals(type)) {
-			sdf.applyPattern("yyyy");
 			cDdinfo = cDdinfoService.processYear(cDdinfo,date);
-			List<CDdinfo> goodsList = cDdinfoService.findGoodsList(cDdinfo);
-			for (CDdinfo cd : goodsList) {
+			List<CDdinfo> userList = cDdinfoService.findGoodsList(cDdinfo);
+			for (CDdinfo cd : userList) {
 				Map map = new HashMap();
-				List<CDdinfo> cdList = new ArrayList<CDdinfo>();
+				map.put("cDdinfo", cd);
 				for (int i = 0; i < 12; i++) {
 					cd.setStartDate(new Date(cDdinfo.getEndDate().getYear(), i, 1));
 					cd.setEndDate(new Date(cDdinfo.getEndDate().getYear(), i + 1, 1));
-					cdList.add(i, cDdinfoService.getGoodsSalesSum(cd));
+					map.put("Month" + (i + 1), cDdinfoService.getGoodsSalesSum(cd));
 				}
-				map.put("cDdinfo", cd);
-				map.put("cdList", cdList);
-				map.put("date", sdf.format(cd.getStartDate()));
 				mapList.add(map);
 			}
 			model.addAttribute("mapList", mapList);
 		}else if("2".equals(type)){
-			sdf.applyPattern("yyyy年MM");
 			cDdinfo = cDdinfoService.processYearMonth(cDdinfo,date);
-			List<CDdinfo> goodsList = cDdinfoService.findGoodsList(cDdinfo);
-			for (CDdinfo cd : goodsList) {
+			List<CDdinfo> userList = cDdinfoService.findGoodsList(cDdinfo);
+			for (CDdinfo cd : userList) {
 				Map map = new HashMap();
-				List<CDdinfo> cdList = new ArrayList<CDdinfo>();
-				cDdinfo.getEndDate().setDate(cDdinfo.getEndDate().getDate()-1);
+				map.put("cDdinfo", cd);
+				cDdinfo.getEndDate().setDate(cDdinfo.getEndDate().getDay()-1);
 				for (int i=1;i<=cDdinfo.getEndDate().getDate();i++) {
 					cd.setStartDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i));
 					cd.setEndDate(new Date(cDdinfo.getStartDate().getYear(), cDdinfo.getStartDate().getMonth(), i+1));
-					cdList.add(i-1, cDdinfoService.getGoodsSalesSum(cd));
+					map.put("Day" + i, cDdinfoService.getGoodsSalesSum(cd));
 				}
-				map.put("cDdinfo", cd);
-				map.put("cdList", cdList);
-				map.put("date", sdf.format(cd.getStartDate()));
 				mapList.add(map);
 			}
 			model.addAttribute("mapList", mapList);
 		}
 		model.addAttribute("cDdinfo", cDdinfo);
 		model.addAttribute("type", type);
-		return "modules/report/cDdinfoGoodsSalesAnalysis";
+		return "modules/report/";//页面还没生成
 	}
-	/**
-	 * 业务员品项销售
-	 * @param cDdinfo
-	 * @param type
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "xslist")
-	public String xslist(CDdinfo cDdinfo, String type, Model model ) {
-		cDdinfo.setType("2,3,5");
-		List<CDdinfo> list = new ArrayList<CDdinfo>();
-		List<CDdinfo> userList=cDdinfoService.findUserList(cDdinfo);
-		if (StringUtils.isNotBlank(type) && "2".equals(type)) {
-			list = cDdinfoService.getgclass(cDdinfo);
-		} else if (StringUtils.isNotBlank(type) && "3".equals(type)) {
-			list = cDdinfoService.setgclass(cDdinfo);
-		}
-		else {
-				list = cDdinfoService.getgclass(cDdinfo);
 
-		}
-		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
-		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
-		model.addAttribute("cDdinfo", cDdinfo);
-		model.addAttribute("type", type);
-		model.addAttribute("list", list);
-		model.addAttribute("userList", userList);
-		return "modules/report/cDdinfoxsList";
-	}
-	/**
-	 * 业务员订单查询
-	 * @param cDdinfo
-	 * @param model
-	 * @return
-	 */
-	@RequiresPermissions("ck:ywylistInquire:view")
-	@RequestMapping(value = "ywylistInquire")
-	public String ywylistInquire(CDdinfo cDdinfo,  Model model ) {
-		List<CDdinfo> list = new ArrayList<CDdinfo>();
-		list = cDdinfoService.ywylist(cDdinfo);
-		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
-		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
-		model.addAttribute("cDdinfo", cDdinfo);
-		model.addAttribute("list", list);
-		return "modules/report/cDdinfoywyList";
-	}
-	/**
-	 * 业务员订单导出
-	 * @param cDdinfo
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "ywyExcel")
-	public String ywyExcel(CDdinfo cDdinfo,  Model model,HttpServletResponse response  ) {
-		List<CDdinfo> list = new ArrayList<CDdinfo>();
-		list = cDdinfoService.ywylist(cDdinfo);
-		ExcelCreateUtils.ywyexport(response,list,"1");
-		return null;
-	}
+
 }

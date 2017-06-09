@@ -42,7 +42,8 @@ public class FReceipt extends DataEntity<FReceipt> {
 	private String houseId;		//仓库ID作为中转使用不保存到数据库
 	private Date startDate;		//开始时间
 	private Date endDate;		//结束时间
-	
+	private int fybs;			//分页标识
+
 	public FReceipt() {
 		super();
 	}
@@ -206,5 +207,13 @@ public class FReceipt extends DataEntity<FReceipt> {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public int getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(int fybs) {
+		this.fybs = fybs;
 	}
 }

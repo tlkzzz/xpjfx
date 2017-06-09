@@ -22,4 +22,6 @@ public interface CRkinfoDao extends CrudDao<CRkinfo> {
      * @return
      */
 	public List<CRkinfo> findReportList(CRkinfo cRkinfo);
+
+	public List<CRkinfo> fyfindList(CRkinfo cRkinfo);
 }

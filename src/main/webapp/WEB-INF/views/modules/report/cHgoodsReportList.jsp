@@ -8,15 +8,11 @@
 		$(document).ready(function() {
 			
 		});
-			function derive(){
-        var form = $("#searchForm");
-        window.open('${ctx}/ck/cHgoods/aqkExcel?'+form.serialize());
-		}
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cHgoods/aqkcReport">安全库存预警</a></li>
+		<li class="active"><a href="">安全库存预警</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cHgoods" action="${ctx}/ck/cHgoods/aqkcReport" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
@@ -33,7 +29,6 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

@@ -15,7 +15,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlkzzz.jeesite.common.config.Global;
@@ -92,7 +95,7 @@ public class CRkinfoController extends BaseController {
 	}
 
 	/** 	报表	start	**/
-	@RequiresPermissions("ck:cRkinfoInquire:view")
+//	@RequiresPermissions("ck:cRkinfoInquire:view")
 	@RequestMapping(value = "rkInquire")//单据查询
 	public String rkInquire(CRkinfo cRkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkinfo> page = cRkinfoService.findPage(new Page<CRkinfo>(request, response), cRkinfo);
@@ -108,7 +111,7 @@ public class CRkinfoController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("ck:cRkinfoReport:view")
+//	@RequiresPermissions("ck:cRkinfoReport:view")
 	@RequestMapping(value = "rkReport")//报表
 	public String rkReport(CRkinfo cRkinfo, String type, Model model) {
 		List<CRkinfo> list = new ArrayList<CRkinfo>();

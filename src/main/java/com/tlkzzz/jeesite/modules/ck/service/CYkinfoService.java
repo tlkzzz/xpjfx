@@ -44,6 +44,8 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 		return list;
 	}
 
+	public List<CYkinfo> fyfindList(CYkinfo cYkinfo){return dao.fyfindList(cYkinfo);}
+
 	public List<CYkinfo> findReportList(CYkinfo cYkinfo) {
 		List<CYkinfo> list = dao.findReportList(cYkinfo);
 		for(CYkinfo cc: list){

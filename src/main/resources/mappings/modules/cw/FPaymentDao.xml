@@ -60,6 +60,16 @@
 		WHERE id = #{id}
 	</update>
 
+	<select id="fyfindList" resultType="FPayment">
+		SELECT o.*
+		FROM (
+		SELECT
+		<include refid="fPaymentColumns"/>
+		FROM f_payment a
+		<include refid="fPaymentJoins"/>
+		) o LIMIT ${fybs},10
+	</select>
+
 	<select id="findList" resultType="FPayment">
 		SELECT
 		<include refid="fPaymentColumns"/>

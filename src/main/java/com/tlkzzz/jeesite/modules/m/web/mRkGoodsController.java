@@ -1,12 +1,8 @@
 package com.tlkzzz.jeesite.modules.m.web;
 
 import com.tlkzzz.jeesite.common.web.BaseController;
-import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
-import com.tlkzzz.jeesite.modules.ck.entity.CHgoods;
-import com.tlkzzz.jeesite.modules.ck.entity.CRkinfo;
-import com.tlkzzz.jeesite.modules.ck.service.CGoodsService;
-import com.tlkzzz.jeesite.modules.ck.service.CHgoodsService;
-import com.tlkzzz.jeesite.modules.ck.service.CRkinfoService;
+import com.tlkzzz.jeesite.modules.ck.entity.*;
+import com.tlkzzz.jeesite.modules.ck.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +22,10 @@ public class mRkGoodsController extends BaseController{
     private CGoodsService cGoodsService;
     @Autowired
     private CRkinfoService cRkinfoService;
+    @Autowired
+    private CHouseService cHouseService;
+    @Autowired
+    private CSupplierService cSupplierService;
 
     /**
      * APP入库添加，入库记录，库存增加
@@ -79,4 +79,26 @@ public class mRkGoodsController extends BaseController{
         }
     }
 
+    @ResponseBody
+    @RequestMapping(value = {"ckxz"})
+    public List<CHouse> ckxz(){
+        List<CHouse> cHouseList=cHouseService.findList(new CHouse());
+        return cHouseList;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"gysxz"})
+    public List<CSupplier> gysxz(){
+        List<CSupplier> cSupplierList=cSupplierService.findList(new CSupplier());
+        return cSupplierList;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"rukjl"})
+    public List<CRkinfo> rukjl(int fybs){
+        CRkinfo cRkinfo=new CRkinfo();
+        cRkinfo.setFybs(fybs);
+        List<CRkinfo> cRkinfoList=cRkinfoService.fyfindList(cRkinfo);
+        return cRkinfoList;
+    }
 }

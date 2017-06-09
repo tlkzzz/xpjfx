@@ -12,7 +12,6 @@ import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import com.tlkzzz.jeesite.modules.cw.service.*;
-import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -224,22 +222,9 @@ public class CCgzbinfoController extends BaseController {
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("cCgzbinfo", cCgzbinfo);
 		model.addAttribute("page", page);
-		return "modules/report/cCgzbinfoInquireList";
+		return "modules/ck/cCgzbinfoInquireList";
 	}
-	/**
-	 * 采购单导出
-	 * 报表开始
-	 */
-	@RequiresPermissions("ck:cCgzbinfoInquire:view")
-	@RequestMapping(value = "cgExcel")
-	public String cgExcel(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		List<CCgzbinfo> list = cCgzbinfoService.findList( cCgzbinfo);
-		ExcelCreateUtils.cgexport(response,list,"1");
-		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
-		model.addAttribute("cCgzbinfo", cCgzbinfo);
-		model.addAttribute("list", list);
-		return null;
-	}
+
 	/**
 	 * 业务员start
 	 * @param cCgzbinfo
@@ -256,32 +241,5 @@ public class CCgzbinfoController extends BaseController {
 		model.addAttribute("cCgzbinfo", cCgzbinfo);
 		model.addAttribute("page", page);
 		return "modules/report/cCgzbinfoywyInquireList";
-	}
-
-	/**
-	 * 业务员品项销售
-	 * @param cCgzbinfo
-	 * @param type
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "xslist")
-	public String xslist(CCgzbinfo cCgzbinfo, String type, Model model ) {
-		List<CCgzbinfo> list = new ArrayList<CCgzbinfo>();
-		if (StringUtils.isNotBlank(type) && "2".equals(type)) {
-			list = cCgzbinfoService.findList(cCgzbinfo);
-		} else if (StringUtils.isNotBlank(type) && "3".equals(type)) {
-			list = cCgzbinfoService.findListxl(cCgzbinfo);
-		}
-		else {
-			list = cCgzbinfoService.findList(cCgzbinfo);
-
-		}
-		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
-		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
-		model.addAttribute("cCgzbinfo", cCgzbinfo);
-		model.addAttribute("type", type);
-		model.addAttribute("list", list);
-		return "modules/report/cCgzbinfoxsList";
 	}
 }

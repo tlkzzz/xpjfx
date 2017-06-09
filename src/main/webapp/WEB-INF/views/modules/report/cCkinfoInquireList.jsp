@@ -14,15 +14,15 @@
 			$("#searchForm").submit();
         	return false;
         }
-       function derive(){
-        var form = $("#searchForm");
-        window.open('${ctx}/ck/cCkinfo/khExcel?'+form.serialize());
-		}
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/report/cCkinfo/listInquire">客户订单明细列表</a></li>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/library">出库录单</a></li></shiro:hasPermission>--%>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/other">其他出库</a></li></shiro:hasPermission>--%>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/scrapped">报废录单</a></li></shiro:hasPermission>--%>
+		<%--<shiro:hasPermission name="ck:cCkinfo:edit"><li><a href="${ctx}/ck/cCkinfo/returnOfGoods">退货录单</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cCkinfo" action="${ctx}/report/cCkinfo/listInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -53,7 +53,6 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -76,7 +75,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${list}" var="cCkinfo">
+		<c:forEach items="${page.list}" var="cCkinfo">
 			<tr>
 				<td>
 					${cCkinfo.house.name}
@@ -88,7 +87,7 @@
 					${cCkinfo.je}
 				</td>
 				<td>
-					<fmt:formatNumber value="${cCkinfo.ckqcbj}" pattern="#.####"/>
+					${cCkinfo.ckqcbj}
 				</td>
 				<td>
 					${cCkinfo.nub}

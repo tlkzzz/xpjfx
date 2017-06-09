@@ -26,9 +26,7 @@ public class CCgzbinfo extends DataEntity<CCgzbinfo> {
 	private Date rkDate;		// 入库时间
 	private CRkinfo rkinfo;		//入库记录
 	private String state;		// 采购状态0子订单未审批1审批完采购中2采购完成已入库
-
-	private Date startDate;		//开始入库时间
-	private Date endDate;		//结束入库时间
+	
 	public CCgzbinfo() {
 		super();
 	}
@@ -102,22 +100,6 @@ public class CCgzbinfo extends DataEntity<CCgzbinfo> {
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date endDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
 	}
 	
 }

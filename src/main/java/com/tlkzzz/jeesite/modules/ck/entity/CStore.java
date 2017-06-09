@@ -48,6 +48,7 @@ public class CStore extends DataEntity<CStore> {
 	private String xsqd;        //销售渠道
 	private String jhqd;         //进货渠道
 	private String quota;       //限额    shizx 新增字段，用于设定客户欠款额度
+	private int fybs;         //分页标识  shizx
 
 
 	public String getCgy() {
@@ -339,5 +340,13 @@ public class CStore extends DataEntity<CStore> {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public int getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(int fybs) {
+		this.fybs = fybs;
 	}
 }

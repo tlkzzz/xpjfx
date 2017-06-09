@@ -68,20 +68,4 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
      * @return
      */
     public CDdinfo getGoodsSalesSum(CDdinfo cDdinfo);
-
-    /**
-     * 根据商品查询出类别(大类)
-     * @param cddinfo
-     * @return
-     */
-    public List <CDdinfo> getgclass(CDdinfo cddinfo);
-
-    /**
-     * 根据商品查询类别(小类)
-     * @param cddinfo
-     * @return
-     */
-    public List <CDdinfo> setgclass(CDdinfo cddinfo);
-
-    public List <CDdinfo> ywylist(CDdinfo cddinfo);
 }

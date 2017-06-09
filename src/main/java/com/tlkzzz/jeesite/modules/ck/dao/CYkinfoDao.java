@@ -23,4 +23,8 @@ public interface CYkinfoDao extends CrudDao<CYkinfo> {
      * @return
      */
     public List<CYkinfo> findReportList(CYkinfo cYkinfo);
+/**
+ * APP 分页方法
+ * */
+    public List<CYkinfo> fyfindList(CYkinfo cYkinfo);
 }

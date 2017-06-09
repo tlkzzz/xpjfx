@@ -13,11 +13,8 @@ import com.tlkzzz.jeesite.common.utils.CacheUtils;
 import com.tlkzzz.jeesite.common.utils.CookieUtils;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +30,6 @@ import com.tlkzzz.jeesite.common.utils.IdGen;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.modules.sys.security.FormAuthenticationFilter;
 import com.tlkzzz.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 登录Controller
@@ -72,9 +68,6 @@ public class LoginController extends BaseController{
 		if(principal != null && !principal.isMobileLogin()){
 			return "redirect:" + adminPath;
 		}
-//		if(principal == null || principal.isMobileLogin()){
-//			return  renderString(response, principal);
-//		}
 //		String view;
 //		view = "/WEB-INF/views/modules/sys/sysLogin.jsp";
 //		view = "classpath:";
@@ -161,17 +154,14 @@ public class LoginController extends BaseController{
 		
 		// 如果是手机登录，则返回JSON字符串
 		if (principal.isMobileLogin()){
-//			if (request.getParameter("login") != null){
-//				return renderString(response, principal);
-//			}
-//			if (request.getParameter("index") != null){
-//				return "modules/sys/sysIndex";
-//			}
-			return renderString(response, principal);
+			if (request.getParameter("login") != null){
+				return renderString(response, principal);
+			}
+			if (request.getParameter("index") != null){
+				return "modules/sys/sysIndex";
+			}
+			return "redirect:" + adminPath + "/login";
 		}
-
-
-
 		
 //		// 登录成功后，获取上次登录的当前站点ID
 //		UserUtils.putCache("siteId", StringUtils.toLong(CookieUtils.getCookie(request, "siteId")));
@@ -192,16 +182,7 @@ public class LoginController extends BaseController{
 //		System.out.println("==========================b");
 		return "modules/sys/sysIndex";
 	}
-//
-//	@RequestMapping(value = "${adminPath}/logouts",method = RequestMethod.GET)
-//	public String logouts( HttpServletRequest request, HttpServletResponse response){
-//		Principal principal = UserUtils.getPrincipal();
-//		UserUtils.getSubject().logout();
-//		return renderString(response, principal);
-//	}
-
-
-
+	
 	/**
 	 * 获取主题方案
 	 */
@@ -214,7 +195,7 @@ public class LoginController extends BaseController{
 		}
 		return "redirect:"+request.getParameter("url");
 	}
-
+	
 	/**
 	 * 是否是验证码登录
 	 * @param useruame 用户名

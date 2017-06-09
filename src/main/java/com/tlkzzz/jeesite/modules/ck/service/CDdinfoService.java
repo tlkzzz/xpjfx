@@ -49,17 +49,6 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public List<CDdinfo> findGoodsList(CDdinfo cDdinfo) {
 		return dao.findGoodsList(cDdinfo);
 	}
-	public List<CDdinfo> getgclass(CDdinfo cDdinfo) {
-		return dao.getgclass(cDdinfo);
-	}
-
-	public List<CDdinfo> setgclass(CDdinfo cDdinfo) {
-
-		return dao.setgclass(cDdinfo);
-	}
-	public List<CDdinfo> ywylist(CDdinfo cDdinfo) {
-		return dao.ywylist(cDdinfo);
-	}
 
 	public List<CDdinfo> findReportList(CDdinfo cDdinfo){
 		return processUnit(dao.findReportList(cDdinfo));
@@ -110,8 +99,8 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public CDdinfo processYearMonth(CDdinfo	cDdinfo,Date date){
 		if (cDdinfo.getRkckdate() == null) {
 			cDdinfo.setRkckdate(date);
-			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth(), 1));
-			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1, 1));
+			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth()-1, 1));
+			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1-1, 1));
 		} else {
 			cDdinfo.setStartDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth(), 1));
 			cDdinfo.setEndDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth()+1, 1));

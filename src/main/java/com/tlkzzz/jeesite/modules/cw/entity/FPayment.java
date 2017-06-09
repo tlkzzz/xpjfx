@@ -39,6 +39,7 @@ public class FPayment extends DataEntity<FPayment> {
 
 	private String thstatus;    //账单状态   0 审核状态   1 审核通过
 	private String houseId;		//仓库ID作为中转字段不保存到数据库
+	private int fybs;     		//分页标识
 
 	@Length(min=0, max=20, message="合同金额长度必须介于 0 和 20 之间")
 	public String getHtje() {
@@ -183,5 +184,13 @@ public class FPayment extends DataEntity<FPayment> {
 
 	public void setHouseId(String houseId) {
 		this.houseId = houseId;
+	}
+
+	public int getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(int fybs) {
+		this.fybs = fybs;
 	}
 }

@@ -177,7 +177,7 @@ public class CRkckddinfoController extends BaseController {
 		}else {
 			addMessage(redirectAttributes, "删除总订单失败，总订单下存在子订单请删除后再试！");
 		}
-		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/cgList?repage&state="+cRkckddinfo.getState();
+		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/?repage";
 	}
 
 	/**		采购申请开始 	 */
@@ -314,8 +314,7 @@ public class CRkckddinfoController extends BaseController {
 		fReceipt.setReceiptType(UserUtils.getCache("RKCKSTATE").toString());
 		if(fReceipt.getReceiptDate()==null)fReceipt.setReceiptDate(new Date());
 		fReceiptService.save(fReceipt);
-//		return fReceipt.getId()+","+fReceipt.getHouseId();
-		return fReceipt.getId();
+		return fReceipt.getId()+","+fReceipt.getHouseId();
 	}
 	/**
 	 * 出库提交订单打开填写财务信息页面（付款）
@@ -359,8 +358,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 		payment.setPaymentType(UserUtils.getCache("RKCKSTATE").toString());
 		fPaymentService.save(payment);
-//		return payment.getId()+","+payment.getHouseId();
-		return payment.getId();
+		return payment.getId()+","+payment.getHouseId();
 	}
 
 	/**		出库结束		**/

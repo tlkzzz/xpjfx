@@ -70,7 +70,17 @@
 		<include refid="cGoodsJoins"/>
 		WHERE a.sort = #{sort}
 	</select>
-	
+
+	<select id="GoodsFind" resultType="CGoods">
+	SELECT
+		<include refid="cGoodsColumns"/>
+	FROM c_goods a
+		<include refid="cGoodsJoins"/>
+	<where>
+		a.id=#{id}
+	</where>
+	</select>
+
 	<select id="findList" resultType="CGoods">
 		SELECT 
 			<include refid="cGoodsColumns"/>

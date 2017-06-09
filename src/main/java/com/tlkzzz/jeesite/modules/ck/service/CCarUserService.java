@@ -45,5 +45,9 @@ public class CCarUserService extends CrudService<CCarUserDao, CCarUser> {
 	public void delete(CCarUser cCarUser) {
 		super.delete(cCarUser);
 	}
-	
+
+	public List<CCarUser> xsckck(CCarUser cCarUser) {
+		return dao.xsckck(cCarUser);
+	}
+
 }
