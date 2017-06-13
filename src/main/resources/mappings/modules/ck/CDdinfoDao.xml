@@ -71,6 +71,59 @@
 		WHERE a.id = #{id}
 	</select>
 
+	<select id="tblist" resultType="CDDinfo">
+		SELECT
+		<include refid="cDdinfoColumns"/>
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt;= #{startDate} AND a.create_date &lt;= #{startDate}
+			</if>
+			<if test="type != null and type != ''">
+				AND FIND_IN_SET(crkck.state,#{type})
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="ywylrlist" resultType="CDDinfo">
+		SELECT
+		<include refid="cDdinfoColumns"/>
+		FROM c_ddinfo a
+		<include refid="cDdinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt; #{endDate}
+			</if>
+			<if test="type != null and type != ''">
+				AND FIND_IN_SET(crkck.state,#{type})
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="thfindList" resultType="CDdinfo">
 	SELECT
 		<include refid="cDdinfoColumns"/>

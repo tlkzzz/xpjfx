@@ -85,7 +85,7 @@
 		FROM c_rkckddinfo a
 		<include refid="cRkckddinfoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx} AND a.state = #{state}
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx} AND a.state = #{state} AND a.issp= #{issp}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -96,7 +96,25 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="shenhelist" resultType="CRkckddinfo">
+		SELECT
+		<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = 1 AND FIND_IN_SET(a.state,#{state}) AND a.issp= 0
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="findAllList" resultType="CRkckddinfo">
 		SELECT 
 			<include refid="cRkckddinfoColumns"/>
