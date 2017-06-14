@@ -5,8 +5,6 @@ package com.tlkzzz.jeesite.modules.sys.utils;
 
 import java.util.List;
 
-import com.tlkzzz.jeesite.modules.p.dao.ShopMemberDao;
-import com.tlkzzz.jeesite.modules.p.entity.ShopMember;
 import com.tlkzzz.jeesite.modules.sys.dao.OfficeDao;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
@@ -40,10 +38,8 @@ public class UserUtils {
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
 	private static AreaDao areaDao = SpringContextHolder.getBean(AreaDao.class);
 	private static OfficeDao officeDao = SpringContextHolder.getBean(OfficeDao.class);
-	private static ShopMemberDao memberDao = SpringContextHolder.getBean(ShopMemberDao.class);
 
 	public static final String USER_CACHE = "userCache";
-	public static final String MEMBER_CACHE = "memberCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
 	public static final String USER_CACHE_LIST_BY_OFFICE_ID_ = "oid_";
@@ -132,41 +128,6 @@ public class UserUtils {
 		}
 		// 如果没有登录，则返回实例化空的User对象。
 		return new User();
-	}
-
-	/**
-	 * 根据ID获取商城用户
-	 * @param id
-	 * @return 取不到返回null
-	 */
-	public static ShopMember getMember(String id){
-		ShopMember member = (ShopMember) CacheUtils.get(MEMBER_CACHE, USER_CACHE_ID_ + id);
-		if (member ==  null){
-			member = memberDao.get(id);
-			if (member == null){
-				return null;
-			}
-			CacheUtils.put(MEMBER_CACHE, USER_CACHE_ID_ + member.getId(), member);
-			CacheUtils.put(MEMBER_CACHE, USER_CACHE_LOGIN_NAME_ + member.getLoginName(), member);
-		}
-		return member;
-	}
-
-	/**
-	 * 获取当前商城用户
-	 * @return 取不到返回 new Member()
-	 */
-	public static ShopMember getMember(){
-		Principal principal = getPrincipal();
-		if (principal!=null){
-			ShopMember member = getMember(principal.getId());
-			if (member != null){
-				return member;
-			}
-			return new ShopMember();
-		}
-		// 如果没有登录，则返回实例化空的Member对象。
-		return new ShopMember();
 	}
 
 	/**
