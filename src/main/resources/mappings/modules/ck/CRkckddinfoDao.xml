@@ -85,7 +85,16 @@
 		FROM c_rkckddinfo a
 		<include refid="cRkckddinfoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx} AND a.state = #{state} AND a.issp= #{issp}
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="lx != null and lx != ''">
+				AND a.lx = #{lx}
+			</if>
+			<if	test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="issp != null and	issp != ''">
+				AND a.issp= #{issp}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
