@@ -37,6 +37,10 @@
 		<thead>
 			<tr>
 				<th>账户名称</th>
+				<th>开户行</th>
+				<th>银行卡号</th>
+				<th>帐户余额</th>
+				<th>帐户类型</th>
 				<th>创建时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="cw:fAccount:edit"><th>操作</th></shiro:hasPermission>
@@ -48,6 +52,18 @@
 				<td><a href="${ctx}/cw/fAccount/form?id=${fAccount.id}">
 					${fAccount.name}
 				</a></td>
+				<td>
+					${fAccount.bankName}
+				</td>
+				<td>
+					${fAccount.bankCode}
+				</td>
+				<td>
+					<fmt:formatNumber value="${fAccount.accountBalance}" pattern="#.####"/>
+				</td>
+				<td>
+					${fns:getDictLabel(fAccount.accountType, "expenMode", "")}
+				</td>
 				<td>
 					<fmt:formatDate value="${fAccount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
