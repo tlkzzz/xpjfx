@@ -74,10 +74,6 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		return dao.findStockNum(cHgoods);
 	}
 
-	public Integer findStockSumNum(String id) {
-		return dao.findStockSumNum(id);
-	}
-
 	public Page<CHgoods> findPage(Page<CHgoods> page, CHgoods cHgoods) {
 		page = super.findPage(page, cHgoods);
 		DecimalFormat df = new DecimalFormat("#.####");

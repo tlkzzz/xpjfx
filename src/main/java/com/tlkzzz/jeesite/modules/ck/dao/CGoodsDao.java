@@ -22,4 +22,5 @@ public interface CGoodsDao extends CrudDao<CGoods> {
      */
 	public void updateCBJ(CGoods goods);
 	public List<CGoods> getsort(String sort);
+	public List<CGoods> GoodsFind(CGoods goods);
 }

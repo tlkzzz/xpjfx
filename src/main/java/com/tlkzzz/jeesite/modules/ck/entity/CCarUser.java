@@ -18,7 +18,9 @@ public class CCarUser extends DataEntity<CCarUser> {
 	private static final long serialVersionUID = 1L;
 	private CCar car;		// 车辆
 	private User user;		// 人员
-	
+	private CHouCar cHouCar;
+	private CHouse cHouse;
+
 	public CCarUser() {
 		super();
 	}
@@ -44,5 +46,20 @@ public class CCarUser extends DataEntity<CCarUser> {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+	public CHouCar getcHouCar() {
+		return cHouCar;
+	}
+
+	public void setcHouCar(CHouCar cHouCar) {
+		this.cHouCar = cHouCar;
+	}
+
+	public CHouse getcHouse() {
+		return cHouse;
+	}
+
+	public void setcHouse(CHouse cHouse) {
+		this.cHouse = cHouse;
+	}
 }

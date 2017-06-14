@@ -4,7 +4,9 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import com.tlkzzz.jeesite.modules.sys.security.FormAuthenticationFilter;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -30,39 +32,88 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017-05-08.
  */
 @Controller
 @RequestMapping(value = "${adminPath}/m/mLogin")
 public class mLoginController extends BaseController {
-
-
+    public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";
+    public static final String DEFAULT_MOBILE_PARAM = "mobileLogin";
+    public static final String DEFAULT_REMEMBER_ME_PARAM = "rememberMe";
+    private String captchaParam = DEFAULT_CAPTCHA_PARAM;
+    private String mobileLoginParam = DEFAULT_MOBILE_PARAM;
+    private String rememberMeParam = DEFAULT_REMEMBER_ME_PARAM;
 
     @ResponseBody
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
-    public String login(String  name,String pass) {
+    public String login(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("---------------手机访问拦截器");
-//        if("11".equals(user)&&"22".equals(pass)){
-//                return "true";
-//        }else{
-//            return "false";
-//        }
-//
-//        boolean rememberMe = isRememberMe(request);
-//        String host = StringUtils.getRemoteAddr((HttpServletRequest)request);
-//        String captcha = getCaptcha(request);
-//        boolean mobile = isMobileLogin(request);
-//
+          String username=  request.getParameter("username");
+          String password = request.getParameter("password");
+        String host = StringUtils.getRemoteAddr((HttpServletRequest)request);
+        if (password==null){
+            password = "";
+        }
+        boolean rememberMe = isRememberMe(request);
 
-        UsernamePasswordToken token = new UsernamePasswordToken(name, pass);
-        token.setRememberMe(true);
-        Subject currentUser = SecurityUtils.getSubject();
-        currentUser.login(token);
-//           String message = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_MESSAGE_PARAM);
-
-
-        return "true";
+        String captcha = getCaptcha(request);
+        boolean mobile = isMobileLogin(request);
+        //得到当前执行数据库的用户
+        Subject subject = SecurityUtils.getSubject();
+        //创建token令牌,前台传过来的 用户和密码
+        UsernamePasswordToken token = new com.tlkzzz.jeesite.modules.sys.security.UsernamePasswordToken(username, password.toCharArray(), rememberMe, host, captcha, mobile);
+        try{
+            //登录,身份验证
+            subject.login(token);
+//            User uers=   UserUtils.getUser();
+            System.out.println("登录成功");
+            return "true";
+        }catch(AuthenticationException e){
+            e.printStackTrace();
+            System.out.println("登录失败");
+            return "false";
+        }
     }
 
+    @ResponseBody
+    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
+    public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response) {
+        User uer=   UserUtils.getUser();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("username",uer);
+
+      return map;
+    }
+    @ResponseBody
+    @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        //退出登录
+        UserUtils.getSubject().logout();
+        return "true";
+
+    }
+    protected boolean isRememberMe(ServletRequest request) {
+        return WebUtils.isTrue(request, getRememberMeParam());
+    }
+
+    public String getRememberMeParam() {
+        return rememberMeParam;
+    }
+
+    protected String getCaptcha(ServletRequest request) {
+        return WebUtils.getCleanParam(request, getCaptchaParam());
+    }
+    public String getCaptchaParam() {
+        return captchaParam;
+    }
+    protected boolean isMobileLogin(ServletRequest request) {
+        return WebUtils.isTrue(request, getMobileLoginParam());
+    }
+    public String getMobileLoginParam() {
+        return mobileLoginParam;
+    }
 }

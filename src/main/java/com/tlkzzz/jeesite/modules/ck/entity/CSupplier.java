@@ -30,7 +30,8 @@ public class CSupplier extends DataEntity<CSupplier> {
 	private String gszy;		// 公司主页
 	private String email;		// 电子邮件
 	private String name;		// 供应商名称
-	
+	private int fybs;        //分页标识
+
 	public CSupplier() {
 		super();
 	}
@@ -174,5 +175,12 @@ public class CSupplier extends DataEntity<CSupplier> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	public int getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(int fybs) {
+		this.fybs = fybs;
+	}
 }

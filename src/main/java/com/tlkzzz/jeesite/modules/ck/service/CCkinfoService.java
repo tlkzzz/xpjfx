@@ -67,12 +67,10 @@ public class CCkinfoService extends CrudService<CCkinfoDao, CCkinfo> {
 		return page;
 	}
 
-	public List<CCkinfo> selectList(String state,CCkinfo cCkinfo) {
-		cCkinfo.setState(state);
+	public List<CCkinfo> selectList(String states,CCkinfo cCkinfo) {
+		cCkinfo.setState(states);
 		return super.findList(cCkinfo);
 	}
-
-
 	public List<CCkinfo> storeList(String states,CCkinfo cCkinfo) {
 		cCkinfo.setState(states);
 		return dao.findListStore(cCkinfo);

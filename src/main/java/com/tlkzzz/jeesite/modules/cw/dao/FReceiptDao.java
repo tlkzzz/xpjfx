@@ -60,4 +60,6 @@ public interface FReceiptDao extends CrudDao<FReceipt> {
      * @return
      */
     public List<FReceipt> findArrearsList(FReceipt receipt);
+
+    public List<FReceipt> fyfindList(FReceipt receipt);
 }

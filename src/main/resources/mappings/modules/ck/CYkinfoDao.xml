@@ -50,7 +50,18 @@
 		<include refid="cYkinfoJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+	<select id="fyfindList" resultType="CYkinfo">
+		SELECT
+		o.*
+		FROM(
+		SELECT
+		<include refid="cYkinfoColumns"/>
+		FROM c_ykinfo a
+		<include refid="cYkinfoJoins"/>
+		) o LIMIT ${fybs},10
+	</select>
+
 	<select id="findList" resultType="CYkinfo">
 		SELECT 
 			<include refid="cYkinfoColumns"/>

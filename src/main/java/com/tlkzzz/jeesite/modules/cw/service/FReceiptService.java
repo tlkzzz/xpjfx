@@ -57,6 +57,7 @@ public class FReceiptService extends CrudService<FReceiptDao, FReceipt> {
 		return dao.findArrearsList(fReceipt);
 	}
 
+	public List<FReceipt> fyfindList(FReceipt fReceipt){return dao.fyfindList(fReceipt);}
 	/**
 	 * 数组元素筛选，筛选出包含states字符串中的所有类型
 	 * @param states	类型串，每个类型用‘，’隔开

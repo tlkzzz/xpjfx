@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 
+import java.util.List;
+
 /**
  * 客户表DAO接口
  * @author xrc
@@ -14,5 +16,5 @@ import com.tlkzzz.jeesite.modules.ck.entity.CStore;
  */
 @MyBatisDao
 public interface CStoreDao extends CrudDao<CStore> {
-	
+	public List<CStore> fyfindList(CStore cStore);
 }

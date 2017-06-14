@@ -28,14 +28,12 @@
                 if(v=="ok"){
                     $.ajax({
                         url:"${ctx}/ck/cCgzbinfo/auditing?id="+id+"&state="+state,
-                        type:"POST",
+                        type:"pose",
                         dataType:"json",
                         success:function (data) {
                             if(data){
                                 top.$.jBox.tip("审核成功","系统提示","warning");
                                 $("#searchForm").submit();
-                            }else {
-                                top.$.jBox.tip("审核失败！","系统提示","warning");
                             }
                         }
                     });
@@ -94,7 +92,7 @@
 				</td>
 				<shiro:hasPermission name="ck:cCginfo:edit"><td>
 					<c:if test="${cRkckddinfo.issp!='1'}"><a href="javascript:void(0)" onclick="auditing('${cRkckddinfo.id}','${cRkckddinfo.state}')">审批</a></c:if>
-					<a href="${ctx}/ck/cRkckddinfo/delete?id=${cRkckddinfo.id}&state=${cRkckddinfo.state}" onclick="return confirmx('确认要删除该总订单吗？', this.href)">删除</a>
+					<a href="${ctx}/ck/cRkckddinfo/delete?id=${cRkckddinfo.id}" onclick="return confirmx('确认要删除该总订单吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

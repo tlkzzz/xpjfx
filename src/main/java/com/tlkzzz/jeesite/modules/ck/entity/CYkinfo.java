@@ -30,6 +30,8 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 	private String cbj;       //移库时成本价
 	private String xsj;       //移库时销售价
 
+	private int fybs;     //分页标识
+
 	public CYkinfo() {
 		super();
 	}
@@ -112,5 +114,13 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 
 	public void setXsj(String xsj) {
 		this.xsj = xsj;
+	}
+
+	public int getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(int fybs) {
+		this.fybs = fybs;
 	}
 }

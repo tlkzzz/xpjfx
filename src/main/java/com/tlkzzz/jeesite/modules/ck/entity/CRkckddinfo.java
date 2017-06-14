@@ -28,6 +28,7 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private String issp;		// 0未审批1已审批
 	private User spr;		// 审批人
 	private Date spsj;		// 审批时间
+	private String htje;		// 合同金额
 	private String sjje;     //实际金额
 	private FReceipt receipt;	//收款信息
 	private FAccount fAccount;	//付款信息
@@ -35,6 +36,8 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private FPayment fPayment;//付款信息
 
 	private String thxx;  //退货信息
+
+	private int fybs;     //分页标识
 
 	public CHouse getcHouse() {
 		return cHouse;
@@ -151,5 +154,21 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 
 	public void setfPayment(FPayment fPayment) {
 		this.fPayment = fPayment;
+	}
+
+	public String getHtje() {
+		return htje;
+	}
+
+	public void setHtje(String htje) {
+		this.htje = htje;
+	}
+
+	public int getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(int fybs) {
+		this.fybs = fybs;
 	}
 }

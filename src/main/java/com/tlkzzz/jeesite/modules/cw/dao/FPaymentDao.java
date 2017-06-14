@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 
+import java.util.List;
+
 /**
  * 付款DAO接口
  * @author xrc
@@ -43,4 +45,6 @@ public interface FPaymentDao extends CrudDao<FPayment> {
 	 * @param payment
 	 */
 	public void minHTJE(FPayment payment);
+
+	public List<FPayment> fyfindList(FPayment payment);
 }

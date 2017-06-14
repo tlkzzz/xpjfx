@@ -52,7 +52,18 @@
 		<include refid="cSupplierJoins"/>
 		WHERE a.code = #{code}
 	</select>
-	
+
+	<select id="fyfindList" resultType="CSupplier">
+		SELECT
+		o.*
+		FROM(
+		SELECT
+		<include refid="cSupplierColumns"/>
+		FROM c_supplier a
+		<include refid="cSupplierJoins"/>
+		) o LIMIT ${fybs},10
+	</select>
+
 	<select id="findList" resultType="CSupplier">
 		SELECT 
 			<include refid="cSupplierColumns"/>

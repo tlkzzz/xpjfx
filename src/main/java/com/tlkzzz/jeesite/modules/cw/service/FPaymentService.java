@@ -132,4 +132,5 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 		super.delete(fPayment);
 	}
 
+	public List<FPayment> fyfindList(FPayment fPayment){return dao.fyfindList(fPayment);}
 }

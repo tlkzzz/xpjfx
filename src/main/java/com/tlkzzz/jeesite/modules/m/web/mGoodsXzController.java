@@ -37,4 +37,12 @@ public class mGoodsXzController extends BaseController {
 
         return map;
     }
+
+    @ResponseBody
+    @RequestMapping(value = {"goodsList"})
+    public List<CGoods> goodsList(String goodsId) {
+        CGoods cGoods=new CGoods(goodsId);
+        List<CGoods> cGoodsList=cGoodsService.GoodsFind(cGoods);
+        return cGoodsList;
+    }
 }

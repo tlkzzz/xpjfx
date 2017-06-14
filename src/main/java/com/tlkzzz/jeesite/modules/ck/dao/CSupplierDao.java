@@ -18,4 +18,5 @@ import java.util.List;
 public interface CSupplierDao extends CrudDao<CSupplier> {
 	public List<CSupplier> getname(String name);
 	public List<CSupplier> getcode(String code);
+	public List<CSupplier> fyfindList(CSupplier cSupplier);
 }

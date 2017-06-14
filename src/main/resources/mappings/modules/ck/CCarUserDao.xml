@@ -10,10 +10,14 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		cho.name AS "cHouse.name",
+		cho.id AS "cHouse.id"
 	</sql>
 	
 	<sql id="cCarUserJoins">
+		LEFT JOIN c_hou_car ch ON ch.carid=a.carid
+		LEFT JOIN c_house cho ON cho.id=ch.houseid
 	</sql>
     
 	<select id="get" resultType="CCarUser">
@@ -23,7 +27,20 @@
 		<include refid="cCarUserJoins"/>
 		WHERE a.carid = #{id}
 	</select>
-	
+
+	<select id="xsckck" resultType="CCarUser">
+		SELECT
+		<include refid="cCarUserColumns"/>
+		FROM c_car_user a
+		<include refid="cCarUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.userid = #{user.id}
+			</if>
+		</where>
+	</select>
+
 	<select id="findList" resultType="CCarUser">
 		SELECT 
 			<include refid="cCarUserColumns"/>

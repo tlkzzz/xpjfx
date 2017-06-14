@@ -2,16 +2,16 @@
  * Copyright &copy; 2012-2016 <a href="https://github.com/tlkzzz/jeesite">JeeSite</a> All rights reserved.
  */
 package com.tlkzzz.jeesite.modules.ck.service;
-
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.service.CrudService;
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
@@ -32,6 +32,14 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 
 	public CDdinfo getSalesSum(CDdinfo cDdinfo) {
 		return dao.getSalesSum(cDdinfo);
+	}
+
+	public List<CDdinfo>  tblist(CDdinfo cDdinfo) {
+		return dao.tblist(cDdinfo);
+	}
+
+	public List<CDdinfo> ywylrlist(CDdinfo cDdinfo){
+		return dao.ywylrlist(cDdinfo);
 	}
 
 	public CDdinfo getGoodsSalesSum(CDdinfo cDdinfo) {
@@ -110,8 +118,8 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public CDdinfo processYearMonth(CDdinfo	cDdinfo,Date date){
 		if (cDdinfo.getRkckdate() == null) {
 			cDdinfo.setRkckdate(date);
-			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth(), 1));
-			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1, 1));
+			cDdinfo.setStartDate(new Date(date.getYear(), date.getMonth()-1, 1));
+			cDdinfo.setEndDate(new Date(date.getYear(), date.getMonth()+1-1, 1));
 		} else {
 			cDdinfo.setStartDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth(), 1));
 			cDdinfo.setEndDate(new Date(cDdinfo.getRkckdate().getYear(), cDdinfo.getRkckdate().getMonth()+1, 1));
@@ -168,5 +176,27 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	public void thUpdate(CDdinfo cddinfo) {
 		dao.thUpdate(cddinfo);
 	}
-	
+
+	/**
+	 * 计算利润方法
+	 */
+	public Double lr(CDdinfo cDdinfo) {
+		double htje =0.0; double lr =0.0;  double yhje=0.0; double sl=0.0; double cbj=0.0; double thje=0.0; double thcbj=0.0;
+		double thsl=0.0;
+		htje =(StringUtils.isNotBlank(cDdinfo.getSjje()))?Double.parseDouble(cDdinfo.getSjje()):0.0;
+		sl	=(StringUtils.isNotBlank(cDdinfo.getNub()))?Double.parseDouble(cDdinfo.getNub()):0.0;
+		yhje=(StringUtils.isNoneBlank(cDdinfo.getYhje()))?Double.parseDouble(cDdinfo.getYhje()):0.0; //优惠金额
+		cbj =(StringUtils.isNoneBlank(cDdinfo.getRksjcbj()))?Double.parseDouble(cDdinfo.getRksjcbj()):0.0;
+		lr=(htje*sl)-yhje-(cbj*sl);
+		if(StringUtils.isNotBlank(cDdinfo.getThje())){
+			//退货金额
+			thje=(StringUtils.isNotBlank(cDdinfo.getThje()))?Double.parseDouble(cDdinfo.getThje()):0.0;
+			thcbj=(StringUtils.isNoneBlank(cDdinfo.getRksjcbj()))?Double.parseDouble(cDdinfo.getRksjcbj()):0.0;
+			thsl=(StringUtils.isNoneBlank(cDdinfo.getNub()))?Double.parseDouble(cDdinfo.getNub()):0.0;
+			double thlr=thje+(thcbj*thsl);
+			//退货利润
+			lr=lr-thlr;
+		}
+		return lr;
+	}
 }

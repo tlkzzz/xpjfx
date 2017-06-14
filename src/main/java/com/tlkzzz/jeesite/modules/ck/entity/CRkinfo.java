@@ -32,6 +32,8 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 	private Date endDate;		//结束入库时间
 	private String total;		//入库总金额
 
+	private Integer fybs;		//分页标识
+
 	public CRkinfo() {
 		super();
 	}
@@ -146,5 +148,13 @@ public class CRkinfo extends DataEntity<CRkinfo> {
 
 	public void setTotal(String total) {
 		this.total = total;
+	}
+
+	public Integer getFybs() {
+		return fybs;
+	}
+
+	public void setFybs(Integer fybs) {
+		this.fybs = fybs;
 	}
 }

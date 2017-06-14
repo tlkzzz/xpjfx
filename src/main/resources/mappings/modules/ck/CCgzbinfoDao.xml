@@ -14,10 +14,6 @@
 		cunc.name AS "goods.small.name",
 		cg.specid AS "goods.spec.id",
 		csp.name AS "goods.spec.name",
-		sao.name AS "goods.gclass.name",
-		sat.name AS "goods.gclass.parent.name",
-
-		sai.name AS "goods.bands.name",
 		a.nub AS "nub",
 		a.jg AS "jg",
 		a.rknub AS "rknub",
@@ -42,9 +38,6 @@
 		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
 		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
 		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
-		LEFT JOIN c_gclass sao ON sao.id=cg.gclassid
-		LEFT JOIN c_gclass sat ON sat.id=sao.parent_id
-		LEFT JOIN c_bands sai ON sai.id=cg.bandsid
 	</sql>
     
 	<select id="get" resultType="CCgzbinfo">
@@ -73,15 +66,6 @@
 			<if test="goods != null and goods.id != null and goods.id != ''">
 				AND a.goodsid = #{goods.id}
 			</if>
-			<if test="startDate != null and startDate != ''">
-				AND a.rk_date &gt; #{startDate}
-			</if>
-			<if test="endDate != null and endDate != ''">
-			AND a.rk_date &lt; #{endDate}
-			</if>
-
-
-
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -92,43 +76,7 @@
 			</otherwise>
 		</choose>
 	</select>
-
-	<select id="findListxl" resultType="CCgzbinfo">
-		SELECT
-		a.goodsid AS "goods.id",
-		cg.name AS "goods.name",
-		sao.name AS "goods.gclass.name",
-		sat.name AS "goods.gclass.parent.name",
-		a.nub AS "nub",
-		SUM(a.nub) AS "nub",
-		SUM(a.jg) AS "jg"
-		FROM c_cgzbinfo a
-		LEFT JOIN c_goods cg ON a.goodsid=cg.id
-		LEFT JOIN c_gclass sao ON sao.id=cg.gclassid
-		LEFT JOIN c_gclass sat ON sat.id=sao.parent_id
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="goods != null and goods.id != null and goods.id != ''">
-				AND a.goodsid = #{goods.id}
-			</if>
-			<if test="startDate != null and startDate != ''">
-				AND a.rk_date &gt; #{startDate}
-			</if>
-			<if test="endDate != null and endDate != ''">
-				AND a.rk_date &lt; #{endDate}
-			</if>
-		</where>
-		GROUP BY sao.name
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-
+	
 	<select id="findAllList" resultType="CCgzbinfo">
 		SELECT 
 			<include refid="cCgzbinfoColumns"/>

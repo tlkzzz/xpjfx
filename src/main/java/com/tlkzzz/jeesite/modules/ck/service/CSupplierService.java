@@ -31,7 +31,8 @@ public class CSupplierService extends CrudService<CSupplierDao, CSupplier> {
 	public List<CSupplier> getcode(String code) {
 		return dao.getcode(code);
 	}
-	
+	public List<CSupplier> fyfindList(CSupplier cSupplier){return dao.fyfindList(cSupplier);}
+
 	public List<CSupplier> findList(CSupplier cSupplier) {
 		return super.findList(cSupplier);
 	}

@@ -32,4 +32,14 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
      * shizx 查询总订单ID
      * */
     public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo);
+
+    /**
+     * shizx APP分页查询
+     * */
+    public List<CRkckddinfo> fyfindList(CRkckddinfo cRkckddinfo);
+
+    /**
+     * shizx APP分页查询
+     * */
+    public List<CRkckddinfo> ywyfindList(CRkckddinfo cRkckddinfo);
 }

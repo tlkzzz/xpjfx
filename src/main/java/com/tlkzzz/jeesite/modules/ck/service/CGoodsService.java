@@ -37,7 +37,11 @@ public class CGoodsService extends CrudService<CGoodsDao, CGoods> {
 	public List<CGoods> findList(CGoods cGoods) {
 		return super.findList(cGoods);
 	}
-	
+
+	public List<CGoods> GoodsFind(CGoods cGoods) {
+		return dao.GoodsFind(cGoods);
+	}
+
 	public Page<CGoods> findPage(Page<CGoods> page, CGoods cGoods) {
 		page = super.findPage(page, cGoods);
 		DecimalFormat df = new DecimalFormat("#.####");

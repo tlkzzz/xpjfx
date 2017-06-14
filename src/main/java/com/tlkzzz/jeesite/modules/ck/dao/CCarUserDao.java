@@ -19,4 +19,5 @@ import java.util.List;
 public interface CCarUserDao extends CrudDao<CCarUser> {
 	public void deleteByCar(CCarUser carUser);
 	public List<User> findListByCar(CCarUser carUser);
+	public List<CCarUser> xsckck(CCarUser carUser);
 }

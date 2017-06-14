@@ -56,7 +56,17 @@
 		<include refid="cStoreJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+	<select id="fyfindList" resultType="CStore">
+		SELECT o.*
+		FROM (
+		SELECT
+		<include refid="cStoreColumns"/>
+		FROM c_store a
+		<include refid="cStoreJoins"/>
+		) o LIMIT ${fybs},10
+	</select>
+
 	<select id="findList" resultType="CStore">
 		SELECT 
 			<include refid="cStoreColumns"/>
@@ -78,6 +88,9 @@
 			</if>
 			<if test="yyzz != null and yyzz != ''">
 				AND a.yyzz = #{yyzz}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
 			</if>
 			<if test="sclass != null and sclass.id != null and sclass.id != ''">
 				AND a.sclassid = #{sclass.id}

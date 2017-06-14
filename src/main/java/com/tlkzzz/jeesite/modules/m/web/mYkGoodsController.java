@@ -104,4 +104,14 @@ public class mYkGoodsController extends BaseController {
         cYkinfoService.save(cYkinfo);
         return "true";
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = {"yikjl"})
+    public List<CYkinfo> yikjl(int fybs){
+        CYkinfo cYkinfo=new CYkinfo();
+        cYkinfo.setFybs(fybs);
+        List<CYkinfo> cYkinfoList=cYkinfoService.fyfindList(cYkinfo);
+        return cYkinfoList;
+    }
 }

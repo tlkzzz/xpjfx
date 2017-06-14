@@ -57,7 +57,6 @@
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
-
 	<sys:message content="${message}"/>
 	<c:if test="${empty type || type eq '1'}">
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">

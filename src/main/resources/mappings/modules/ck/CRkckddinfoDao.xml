@@ -20,7 +20,8 @@
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.sjje AS "sjje"
+		a.sjje AS "sjje",
+		a.htje AS "htje"
 	</sql>
 	
 	<sql id="cRkckddinfoJoins">
@@ -34,6 +35,33 @@
 		FROM c_rkckddinfo a
 		<include refid="cRkckddinfoJoins"/>
 		WHERE a.id = #{id}
+	</select>
+
+	<select id="ywyfindList" resultType="CRkckddinfo">
+		SELECT
+		o.*
+		FROM(
+		SELECT
+		<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		<where>
+			<if test="createBy.id != null and createBy.id != ''">
+				a.create_by &gt; #{createBy.id}
+			</if>
+		</where>
+		) o LIMIT ${fybs},10
+	</select>
+
+	<select id="fyfindList" resultType="CRkckddinfo">
+		SELECT
+			o.*
+			FROM(
+				SELECT
+				<include refid="cRkckddinfoColumns"/>
+				FROM c_rkckddinfo a
+				<include refid="cRkckddinfoJoins"/>
+			) o LIMIT ${fybs},10
 	</select>
 
 	<select id="findListId" resultType="CRkckddinfo">
@@ -57,7 +85,7 @@
 		FROM c_rkckddinfo a
 		<include refid="cRkckddinfoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx} AND a.state = #{state}
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = #{lx} AND a.state = #{state} AND a.issp= #{issp}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -68,7 +96,25 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="shenhelist" resultType="CRkckddinfo">
+		SELECT
+		<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND a.lx = 1 AND FIND_IN_SET(a.state,#{state}) AND a.issp= 0
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<select id="findAllList" resultType="CRkckddinfo">
 		SELECT 
 			<include refid="cRkckddinfoColumns"/>
@@ -104,7 +150,8 @@
 			update_by,
 			remarks,
 			del_flag,
-			sjje
+			sjje,
+			htje
 		) VALUES (
 			#{id},
 			#{ddbh},
@@ -121,7 +168,8 @@
 			#{updateBy.id},
 			#{remarks},
 			#{delFlag},
-			#{sjje}
+			#{sjje},
+			#{htje}
 		)
 	</insert>
 	
@@ -138,7 +186,8 @@
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks},
-			sjje=#{sjje}
+			sjje=#{sjje},
+			htje=#{htje}
 		WHERE id = #{id}
 	</update>
 	

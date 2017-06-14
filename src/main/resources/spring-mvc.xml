@@ -94,7 +94,7 @@
 		</mvc:interceptor>
 		<!-- 手机视图拦截器 -->
 		<mvc:interceptor>
-			<mvc:mapping path="${adminPath}/**" />
+			<mvc:mapping path="${adminPath}/m/**" />
 			<bean class="com.tlkzzz.jeesite.modules.sys.interceptor.MobileInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

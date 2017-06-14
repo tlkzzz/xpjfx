@@ -36,6 +36,8 @@ public class CStoreService extends CrudService<CStoreDao, CStore> {
 		return super.findList(cStore);
 	}
 
+	public List<CStore> fyfindList(CStore cStore){return dao.fyfindList(cStore);}
+
 	public Page<CStore> findPage(Page<CStore> page, CStore cStore) {
 		return super.findPage(page, cStore);
 	}
