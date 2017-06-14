@@ -85,7 +85,9 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
 
     public List <CDdinfo> ywylist(CDdinfo cddinfo);
 
-    //查询出库存信息状态的时候显示状态为3,4
+    /**
+     * 查询出库存信息状态的时候显示状态为3,4
+     */
     public List<CDdinfo> tblist(CDdinfo cDdinfo);
 
     public List<CDdinfo> ywylrlist(CDdinfo cDdinfo);
