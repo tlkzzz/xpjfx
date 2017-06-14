@@ -103,6 +103,18 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		<div class="control-group"  id="DbankName">
+			<label class="control-label">开户行：</label>
+			<div class="controls">
+				<form:input path="bankName" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group" id="DbankCode">
+			<label class="control-label">银行卡号：</label>
+			<div class="controls">
+				<form:input path="bankCode"  htmlEscape="false" maxlength="100" class="input-xlarge " creditcard="true"/>
+			</div>
+		</div>
 		<div class="control-group">
 			<label class="control-label">帐户余额：</label>
 			<div class="controls">
@@ -114,18 +126,6 @@
 			<label class="control-label">备注：</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
-			</div>
-		</div>
-		<div class="control-group"  id="DbankName">
-			<label class="control-label">开户行：</label>
-			<div class="controls">
-				<form:input path="bankName" htmlEscape="false" maxlength="100" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group" id="DbankCode">
-			<label class="control-label">银行卡号：</label>
-			<div class="controls">
-				<form:input path="bankCode"  htmlEscape="false" maxlength="100" class="input-xlarge " creditcard="true"/>
 			</div>
 		</div>
 		<div class="form-actions">
