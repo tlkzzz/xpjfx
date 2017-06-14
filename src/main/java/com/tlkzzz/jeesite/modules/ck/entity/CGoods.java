@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.entity;
 
+import com.tlkzzz.jeesite.modules.p.entity.ShopGoods;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -43,6 +44,8 @@ public class CGoods extends DataEntity<CGoods> {
 	private String sj;		// 售价
 	private String yjsj;    //预警售价
 	private String ckcbj;   //参考成本价
+
+	private ShopGoods shopGoods;	//商城商品信息
 
 
 	public String getYjsj() {
@@ -274,5 +277,12 @@ public class CGoods extends DataEntity<CGoods> {
 	public void setSj(String sj) {
 		this.sj = sj;
 	}
-	
+
+	public ShopGoods getShopGoods() {
+		return shopGoods;
+	}
+
+	public void setShopGoods(ShopGoods shopGoods) {
+		this.shopGoods = shopGoods;
+	}
 }

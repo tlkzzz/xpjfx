@@ -14,6 +14,28 @@
 			$("#searchForm").submit();
         	return false;
         }
+        function changeGoodsShow(goodsId,id,state) {
+			if(id==""){
+			    if(top.confirm("还未填写商城商品信息，是否前往填写？")){
+					window.location.href = "${ctx}/p/shopGoods/form?id="+goodsId;
+				}
+			    return;
+			}
+			if(state==""){
+			    top.$.jBox.tip("状态不能为空！","warning","系统提示！")
+			}
+			$.ajax({
+			    url:"${ctx}/p/shopGoods/changeGoodsShow",
+				type:"POST",
+				dataType:"json",
+				data:{id:id,goodsShow:state},
+				success:function (data) {
+					if(data!="true"){
+					    top.$.jBox.tip(data,"warning","系统提示！");
+					}
+                }
+			})
+        }
 	</script>
 </head>
 <body>
@@ -67,6 +89,7 @@
 				<th>预警售价</th>
 				<th>参考成本价</th>
 				<th>创建时间</th>
+				<th>是否上架</th>
 				<th>备注</th>
 				<shiro:hasPermission name="ck:cGoods:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -114,10 +137,19 @@
 					<fmt:formatDate value="${cGoods.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
+					${cGoods.shopGoods.goodsShow}
+				</td>
+				<td>
 					${cGoods.remarks}
 				</td>
 				<shiro:hasPermission name="ck:cGoods:edit"><td>
     				<a href="${ctx}/ck/cGoods/form?id=${cGoods.id}">修改</a>
+					<c:if test="${cGoods.shopGoods.goodsShow=='1'}">
+						<a href="javascript:void(0)" onclick="changeGoodsShow('${cGoods.id}','${cGoods.shopGoods.id}','0')">下架</a>
+					</c:if>
+					<c:if test="${cGoods.shopGoods.goodsShow=='0'||cGoods.shopGoods.goodsShow==null}">
+						<a href="javascript:void(0)" onclick="changeGoodsShow('${cGoods.id}','${cGoods.shopGoods.id}','1')">上架</a>
+					</c:if>
 					<a href="${ctx}/ck/cGoods/delete?id=${cGoods.id}" onclick="return confirmx('确认要删除该商品吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

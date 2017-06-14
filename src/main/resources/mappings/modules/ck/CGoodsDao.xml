@@ -42,7 +42,50 @@
 		a.cbj AS "cbj",
 		a.sj AS "sj",
 		a.yjsj AS "yjsj",
-		a.ckcbj AS "ckcbj"
+		a.ckcbj AS "ckcbj",
+		sg.id AS "shopGoods.id",
+		sg.goods_subtitle AS "shopGoods.goodsSubtitle",
+		sg.shop_id AS "shopGoods.shopId",
+		sg.shop_name AS "shopGoods.shopName",
+		sg.goods_image AS "shopGoods.goodsImage",
+		sg.goods_image_more AS "shopGoods.goodsImageMore",
+		sg.goods_show AS "shopGoods.goodsShow",
+		sg.goods_click AS "shopGoods.goodsClick",
+		sg.goods_state AS "shopGoods.goodsState",
+		sg.goods_commend AS "shopGoods.goodsCommend",
+		sg.goods_burden AS "shopGoods.goodsBurden",
+		sg.goods_place AS "shopGoods.goodsPlace",
+		sg.goods_origin_place AS "shopGoods.goodsOriginPlace",
+		sg.goods_shelf_life AS "shopGoods.goodsShelfLife",
+		sg.goods_keywords AS "shopGoods.goodsKeywords",
+		sg.goods_description AS "shopGoods.goodsDescription",
+		sg.goods_body AS "shopGoods.goodsBody",
+		sg.goods_attr AS "shopGoods.goodsAttr",
+		sg.goods_spec AS "shopGoods.goodsSpec",
+		sg.goods_col_img AS "shopGoods.goodsColImg",
+		sg.start_time AS "shopGoods.startTime",
+		sg.end_time AS "shopGoods.endTime",
+		sg.goods_form AS "shopGoods.goodsForm",
+		sg.transport_id AS "shopGoods.transportId",
+		sg.py_price AS "shopGoods.pyPrice",
+		sg.kd_price AS "shopGoods.kdPrice",
+		sg.es_price AS "shopGoods.esPrice",
+		sg.goods_close_reason AS "shopGoods.goodsCloseReason",
+		sg.goods_store_state AS "shopGoods.goodsStoreState",
+		sg.commentnum AS "shopGoods.commentnum",
+		sg.salenum AS "shopGoods.salenum",
+		sg.goods_collect AS "shopGoods.goodsCollect",
+		sg.goods_transfee_charge AS "shopGoods.goodsTransfeeCharge",
+		sg.store_class_id AS "shopGoods.storeClassId",
+		sg.goods_market_price AS "shopGoods.goodsMarketPrice",
+		sg.goods_store_price AS "shopGoods.goodsStorePrice",
+		sg.goods_cost_price AS "shopGoods.goodsCostPrice",
+		sg.static_url AS "shopGoods.staticUrl",
+		sg.dynameic_url AS "shopGoods.dynameicUrl",
+		sg.real_url AS "shopGoods.realUrl",
+		sg.is_code AS "shopGoods.isCode",
+		sg.goods_commission_rate AS "shopGoods.goodsCommissionRate",
+		sg.goods_close_info AS "shopGoods.goodsCloseInfo"
 	</sql>
 	
 	<sql id="cGoodsJoins">
@@ -53,6 +96,7 @@
 		LEFT JOIN c_supplier cs ON a.`supplierid`=cs.`id`
 		LEFT JOIN c_gclass cgc ON a.`gclassid`=cgc.`id`
 		LEFT JOIN c_spec csp ON a.`specid`=csp.`id`
+		LEFT JOIN shop_goods sg ON sg.id=a.id
 	</sql>
     
 	<select id="get" resultType="CGoods">

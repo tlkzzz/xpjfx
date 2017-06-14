@@ -589,15 +589,20 @@
 			<artifactId>UserAgentUtils</artifactId>
 			<version>1.13</version>
 		</dependency>
-		
-		<!-- 自定义jar依赖包
-		<dependency>
-			<groupId>com.tlkzzz.xpjfxgroupId>
-			<artifactId>test-core</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/test-core-1.0.jar</systemPath>
-		</dependency> -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <!-- 自定义jar依赖包
+        <dependency>
+            <groupId>com.tlkzzz.xpjfxgroupId>
+            <artifactId>test-core</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/test-core-1.0.jar</systemPath>
+        </dependency> -->
 		
 		<!-- 使用 Jetty JSP引擎 
 		<dependency>
