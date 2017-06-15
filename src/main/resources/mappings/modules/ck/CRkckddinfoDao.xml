@@ -14,6 +14,11 @@
 		a.spsj AS "spsj",
 		a.cHouse AS "cHouse.id",
 		ch.name AS "cHouse.name",
+		a.supplier_id AS "supplier.id",
+		csu.name AS "supplier.name",
+		a.store_id AS "store.id",
+		cst.name AS "store.name",
+		a.rkckdate AS "rkckdate",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
@@ -26,6 +31,8 @@
 	
 	<sql id="cRkckddinfoJoins">
 		LEFT JOIN c_house ch ON ch.id=a.cHouse
+		LEFT JOIN c_supplier csu ON a.supplier_id=csu.id
+		LEFT JOIN c_store cst	ON a.store_id=cst.id
 		LEFT JOIN sys_user su ON su.id=a.spr
 	</sql>
     
@@ -153,6 +160,9 @@
 			spr,
 			spsj,
 			cHouse,
+			supplier_id,
+			store_id,
+			rkckdate,
 			create_date,
 			create_by,
 			update_date,
@@ -171,6 +181,9 @@
 			#{spr.id},
 			#{spsj},
 			#{cHouse.id},
+			#{supplier.id},
+			#{store.id},
+			#{rkckdate},
 			#{createDate},
 			#{createBy.id},
 			#{updateDate},
@@ -192,6 +205,9 @@
 			spr = #{spr.id},
 			spsj = #{spsj},
 			cHouse = #{cHouse.id},
+			supplier_id = #{supplier.id},
+			store_id = #{store.id},
+			rkckdate = #{rkckdate},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks},
@@ -204,6 +220,7 @@
 		UPDATE c_rkckddinfo SET 
 			issp = #{issp},
 			spr = #{spr.id},
+			rkckdate = #{spsj},
 			spsj = #{spsj}
 		WHERE id = #{id}
 	</update>

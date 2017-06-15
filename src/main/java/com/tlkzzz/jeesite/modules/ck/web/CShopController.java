@@ -89,8 +89,6 @@ public class CShopController extends BaseController {
 			cShop.setState(UserUtils.getCache("RKCKSTATE").toString());
 		}
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
-		model.addAttribute("storeList", cStoreService.findList(new CStore()));
-		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("cShop", cShop);
 		return "modules/ck/cShopForm";
 	}

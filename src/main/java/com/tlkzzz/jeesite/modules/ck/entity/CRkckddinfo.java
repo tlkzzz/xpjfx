@@ -35,6 +35,10 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private CHouse cHouse;	//仓库信息
 	private FPayment fPayment;//付款信息
 
+	private CSupplier supplier;		// 供应商	//新增字段，出库入库填写信息 子订单信息从这里关联查询到
+	private CStore store;		// 客户
+	private Date rkckdate;		// 入库出库时间(就是审批时间)
+
 	private String thxx;  //退货信息
 
 	private int fybs;     //分页标识
@@ -170,5 +174,29 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 
 	public void setFybs(int fybs) {
 		this.fybs = fybs;
+	}
+
+	public CSupplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(CSupplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public CStore getStore() {
+		return store;
+	}
+
+	public void setStore(CStore store) {
+		this.store = store;
+	}
+
+	public Date getRkckdate() {
+		return rkckdate;
+	}
+
+	public void setRkckdate(Date rkckdate) {
+		this.rkckdate = rkckdate;
 	}
 }

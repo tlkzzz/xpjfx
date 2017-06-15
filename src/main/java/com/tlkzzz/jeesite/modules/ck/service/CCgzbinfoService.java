@@ -139,21 +139,30 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		cDdinfo.setCgzbinfo(cCgzbinfo);
 		List<CDdinfo> cdList = cDdinfoDao.findList(cDdinfo);
 		CGoods goods = cGoodsDao.get(cHgoods.getGoods());
-		double sumMoney = 0.0;
 		for(CDdinfo cd: cdList){
-			if(cDdinfo.getRkckddinfo()==null)//取得总订单ID
-				cDdinfo.setRkckddinfo(cd.getRkckddinfo());
 			cd.setRkckdate(date);
+			cd.setHouse(cHgoods.getHouse());
+			cd.setSupplier(new CSupplier(cHgoods.getSupplierid()));
 			cd.setRkqcbj(goods.getCbj());
 			cd.setRksjcbj(String.valueOf(cHgoods.getCbj()));
-			double money = Integer.parseInt(cd.getNub())*cHgoods.getCbj();
-			cd.setJe(String.valueOf(money));
-			sumMoney += money;
+			cd.setJe(String.valueOf(cHgoods.getCbj()));
 			cDdinfoDao.update(cd);
+			/**	保存入库信息到总订单中	**/
+			double sumMoney = 0.0;
+			cDdinfo.setCgzbinfo(null);
+			cDdinfo.setRkckddinfo(cd.getRkckddinfo());
+			List<CDdinfo> cDdinfoList = cDdinfoDao.findList(cDdinfo);//获取同一个总订单下的所有子订单
+			for(CDdinfo cdd: cDdinfoList){
+				if(cdd.getId().equals(cd.getId())){
+					sumMoney += Integer.parseInt(cd.getNub())*Double.parseDouble(cd.getJe());
+				}else {
+					sumMoney += Integer.parseInt(cdd.getNub())*Double.parseDouble(cdd.getJe());
+				}
+			}
+			cDdinfo.getRkckddinfo().setJe(String.valueOf(sumMoney));
+			cRkckddinfoDao.updateJe(cDdinfo.getRkckddinfo());
 		}
-		/**	保存入库信息到总订单中	**/
-		cDdinfo.getRkckddinfo().setJe(String.valueOf(sumMoney));
-		cRkckddinfoDao.updateJe(cDdinfo.getRkckddinfo());
+
 	}
 
 	@Transactional(readOnly = false)

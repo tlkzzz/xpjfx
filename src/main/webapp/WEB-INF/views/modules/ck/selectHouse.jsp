@@ -10,17 +10,22 @@
 		});
 		function submitForm() {
 		    var id = $("#id").val();
-            if(id!=''){
-                var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?cHouse.id="+id;
-                if(top!=self){
-                    window.parent.setMainFrame(url);
-                }else {
-                    window.location.href = url;
-                }
-                top.$.jBox.close(true);
-            }else{
+		    var suid = $("#suid").val();
+            if(id==''){
                 top.$.jBox.tip("请选择仓库", "系统提示", "warning");
+                return;
             }
+            if(suid=='') {
+                top.$.jBox.tip("请选择供应商", "系统提示", "warning");
+                return;
+            }
+            var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?cHouse.id="+id+"&supplier.id="+suid;
+            if(top!=self){
+                window.parent.setMainFrame(url);
+            }else {
+                window.location.href = url;
+            }
+            top.$.jBox.close(true);
         }
 	</script>
 </head>
@@ -35,6 +40,16 @@
 				<form:select path="id" id="id" class="required">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">供应商选择：</label>
+			<div class="controls">
+				<form:select path="name" id="suid" class="required">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>

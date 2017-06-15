@@ -66,24 +66,6 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">供应商：</label>
-			<div class="controls">
-				<form:select path="supplier.id" cssClass="required">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">客户：</label>
-			<div class="controls">
-				<form:select path="store.id" cssClass="required">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${storeList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">需求时间：</label>
 			<div class="controls">
 				<input name="xqdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
@@ -94,7 +76,7 @@
 		<div class="control-group">
 			<label class="control-label">数量：</label>
 			<div class="controls">
-				<form:input path="nub" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<form:input path="nub" htmlEscape="false" maxlength="11" digits="true" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">最小单位*</font> </span>
 			</div>
 		</div>

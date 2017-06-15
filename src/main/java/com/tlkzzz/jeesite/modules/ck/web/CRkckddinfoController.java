@@ -57,6 +57,8 @@ public class CRkckddinfoController extends BaseController {
 	@Autowired
 	private CStoreService cStoreService;
 	@Autowired
+	private CSupplierService cSupplierService;
+	@Autowired
 	private CDdinfoService cDdinfoService;
 	@Autowired
 	private CShopService cShopService;
@@ -110,7 +112,7 @@ public class CRkckddinfoController extends BaseController {
 	 * shizx销售退货单List
 	 * */
 	@RequiresPermissions("ck:cRkckddinfo:view")
-	@RequestMapping(value = {"returnGoodsList", ""})
+	@RequestMapping(value = "returnGoodsList")
 	public String returnGoodsList(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo);
 		model.addAttribute("page", page);
@@ -167,7 +169,7 @@ public class CRkckddinfoController extends BaseController {
 
 	@RequiresPermissions("ck:cCginfo:edit")
 	@RequestMapping(value = "delete")
-	public String delete(CRkckddinfo cRkckddinfo, RedirectAttributes redirectAttributes) {
+	public String delete(CRkckddinfo cRkckddinfo, String pageName, RedirectAttributes redirectAttributes) {
 		CDdinfo cd = new CDdinfo();
 		cd.setRkckddinfo(cRkckddinfo);
 		List<CDdinfo> cdList = cDdinfoService.findList(cd);
@@ -177,7 +179,7 @@ public class CRkckddinfoController extends BaseController {
 		}else {
 			addMessage(redirectAttributes, "删除总订单失败，总订单下存在子订单请删除后再试！");
 		}
-		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/?repage";
+		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/"+pageName+"?repage&state="+cRkckddinfo.getState();
 	}
 
 	/**		采购申请开始 	 */
@@ -217,26 +219,39 @@ public class CRkckddinfoController extends BaseController {
 			cs.setUserid(UserUtils.getUser().getId());
 			List<CShop> shopList = cShopService.findList(cs);
 			cRkckddinfoService.saveRkInfo(cRkckddinfo, shopList);
-			cShopService.deleteByUserId(cs.getUserid());
-			if(cRkckddinfo.getReceipt()!=null){//保存订单ID到收款表
-				cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
-				fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
+			cShopService.deleteByUserId(cs.getUserid(), state);
+			if(cRkckddinfo.getReceipt()!=null) {//保存订单ID到收款表
 				//如果receipt中有ID则为出库财务信息保存后跳转过来，并且带有收款记录ID为参数
-
-				FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
-				double yhTotal = 0.0;//优惠总金额
-				double sjTotal = 0.0;//实际总金额
-				for (CShop cShop:  shopList){
-					if(cShop.getYhje()!=null&&cShop.getYhje()>0)yhTotal += cShop.getYhje();
-					if(cShop.getJe()!=null&&cShop.getJe()>0)sjTotal += cShop.getJe();
-				}
-				if(yhTotal>0||Double.parseDouble(receipt.getHtje())>sjTotal) {
-					FDiscount discount = new FDiscount();
-					discount.setDdid(cRkckddinfo);
-			//		discount.setStore(receipt.getTravelUnit());
-					discount.setYhje(String.valueOf(yhTotal));
-					discount.setLx((yhTotal>0)?"0":"1");
-					fDiscountService.save(discount);
+				if (!"5".equals(state)) {
+					cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
+					fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
+					FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
+					cRkckddinfo.setStore(receipt.getTravelUnit());
+					cRkckddinfoService.save(cRkckddinfo);//保存来往单位（客户）
+					double yhTotal = 0.0;//优惠总金额
+					double sjTotal = 0.0;//实际总金额
+					for (CShop cShop : shopList) {
+						if (cShop.getYhje() != null && cShop.getYhje() > 0) yhTotal += cShop.getYhje();
+						if (cShop.getJe() != null && cShop.getJe() > 0) sjTotal += cShop.getJe();
+					}
+					if (yhTotal > 0 || Double.parseDouble(receipt.getHtje()) > sjTotal) {
+						FDiscount discount = new FDiscount();
+						discount.setDdid(cRkckddinfo);
+						//		discount.setStore(receipt.getTravelUnit());
+						discount.setYhje(String.valueOf(yhTotal));
+						discount.setLx((yhTotal > 0) ? "0" : "1");
+						fDiscountService.save(discount);
+					}
+				}else {
+					FPayment payment = fPaymentService.get(cRkckddinfo.getReceipt().getId());
+					if(payment!=null) {
+						cRkckddinfo.setSupplier(payment.getTravelUnit());
+						cRkckddinfoService.save(cRkckddinfo);//保存来往单位（供应商）
+						payment.setPaymentCode(cRkckddinfo.getId());
+						fPaymentService.save(payment);
+					}else {
+						redirectAttributes.addAttribute("message","付款信息不存在，系统出现异常，请与管理员联系！");
+					}
 				}
 			}
 		}
@@ -247,6 +262,7 @@ public class CRkckddinfoController extends BaseController {
 	@RequestMapping(value = "selectHouse")
 	public String selectHouse(CHouse house, Model model){
 		model.addAttribute("houseList", houseService.findList(new CHouse()));
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("house", house);
 		return "modules/ck/selectHouse";
 	}
@@ -268,6 +284,42 @@ public class CRkckddinfoController extends BaseController {
 		}else {
 			return "error/400";
 		}
+	}
+
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "libraryPrint")//打印销售单
+	public String libraryPrint(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if(cRkckddinfo!=null&&StringUtils.isNotBlank(cRkckddinfo.getId())) {
+			CDdinfo cDdinfo = new CDdinfo();
+			cDdinfo.setRkckddinfo(cRkckddinfo);
+			List<CDdinfo> list = cDdinfoService.findList(cDdinfo);
+			cDdinfoService.processUnit(list);
+			model.addAttribute("cRkckddinfo", cRkckddinfo);
+			model.addAttribute("list", list);
+			model.addAttribute("data", new Date());
+			return "modules/ck/cDdinfoPrint";
+		}else {
+			return "error/400";
+		}
+	}
+
+	/**
+	 * 业务员销售单查询
+	 * @param cRkckddinfo
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "clerkSales")
+	public String clerkSales(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		cRkckddinfo.setLx("1");//出库
+		cRkckddinfo.setState("2");
+		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo);
+		model.addAttribute("cRkckddinfo", cRkckddinfo);
+		model.addAttribute("page", page);
+		return "modules/ck/cRkckClerkSales";
 	}
 
 	/**

@@ -16,9 +16,9 @@ import com.tlkzzz.jeesite.modules.ck.entity.CShop;
 public interface CShopDao extends CrudDao<CShop> {
     /**
      * 通过用户ID删除该用户下购物车中的所有订单
-     * @param userid
+     * @param userId
      */
-    public void deleteByUserId(String userid);
+    public void deleteByUserId(String userId,String state);
 
     /**
      * 通过商品ID和创建人ID查询订单

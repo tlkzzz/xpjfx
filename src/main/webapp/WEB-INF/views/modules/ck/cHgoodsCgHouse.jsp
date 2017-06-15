@@ -5,12 +5,14 @@
 	<title>采购入库</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+        var flag = true;
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
-					form.submit();
+                    formSubmit();
+                    closeLoading();
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
@@ -23,6 +25,25 @@
 				}
 			});
 		});
+		function formSubmit() {
+		    var form = $("#inputForm");
+		    if(flag) {
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    dataType: "json",
+                    data: form.serialize(),
+                    success: function (data) {
+                        if (data) {
+                            top.$.jBox.tip("入库成功", "系统提示", "warning");
+                            flag = false;
+                        }
+                    }
+                });
+            }else {
+                top.$.jBox.tip("商品已入库！", "系统提示", "warning");
+			}
+        }
 	</script>
 </head>
 <body>
@@ -68,7 +89,7 @@
 		<div class="control-group">
 			<label class="control-label">实际入库数：</label>
 			<div class="controls">
-				<form:input path="nub" class="required" digits="true" maxlength="11" htmlEscape="true"></form:input>
+				<form:input path="nub" class="required" digits="true" maxlength="11" htmlEscape="true" value="${cCgzbinfo.nub}" />
 				<span class="help-inline"><font color="red">* 最小单位计量</font> </span>
 			</div>
 		</div>

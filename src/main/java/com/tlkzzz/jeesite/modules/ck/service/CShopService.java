@@ -58,8 +58,8 @@ public class CShopService extends CrudService<CShopDao, CShop> {
 	}
 
 	@Transactional(readOnly = false)
-	public void deleteByUserId(String userid) {
-		dao.deleteByUserId(userid);
+	public void deleteByUserId(String userId, String state) {
+		dao.deleteByUserId(userId, state);
 	}
 	
 }

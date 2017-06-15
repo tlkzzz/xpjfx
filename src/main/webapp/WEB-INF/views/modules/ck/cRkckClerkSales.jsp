@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>总订单管理</title>
+	<title>业务员销售查询</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -23,33 +23,13 @@
                 });
         	}
         }
-        function auditing(id,state) {
-            top.$.jBox.confirm("确认审批通过吗？","系统提示",function(v,h,f) {
-                if(v=="ok"){
-                    $.ajax({
-                        url:"${ctx}/ck/cCgzbinfo/auditing?id="+id+"&state="+state,
-                        type:"POST",
-                        dataType:"json",
-                        success:function (data) {
-                            if(data){
-                                top.$.jBox.tip("审核成功","系统提示","warning");
-                                $("#searchForm").submit();
-                            }else {
-                                top.$.jBox.tip("审核失败，请联系管理员","系统提示","warning");
-                            }
-                        }
-                    });
-                }
-            });
-        }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cRkckddinfo/cgList?state=${cRkckddinfo.state}">采购入库列表</a></li>
-		<shiro:hasPermission name="ck:cCginfo:edit"><li><a href="${ctx}/ck/cShop/cgAdd">订单添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/ck/cRkckddinfo/clerkSales">业务员销售列表	</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/cgList" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/clerkSales" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input name="state" type="hidden" value="${cRkckddinfo.state}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
@@ -68,7 +48,6 @@
 				<th>审批时间</th>
 				<th>创建时间</th>
 				<th>备注</th>
-				<shiro:hasPermission name="ck:cCginfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
@@ -92,10 +71,6 @@
 				<td>
 					${cRkckddinfo.remarks}
 				</td>
-				<shiro:hasPermission name="ck:cCginfo:edit"><td>
-					<c:if test="${cRkckddinfo.issp!='1'}"><a href="javascript:void(0)" onclick="auditing('${cRkckddinfo.id}','${cRkckddinfo.state}')">审批</a></c:if>
-					<a href="${ctx}/ck/cRkckddinfo/delete?id=${cRkckddinfo.id}&pageName=cgList" onclick="return confirmx('确认要删除该总订单吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>
