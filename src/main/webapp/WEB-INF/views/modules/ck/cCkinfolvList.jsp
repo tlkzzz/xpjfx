@@ -21,7 +21,6 @@
 					   onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="btns"><input class="btn btn-primary" type="button" onclick="testC()" value="测试"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -42,6 +41,7 @@
 				dataType:"json",
 				data:{startDate:startDate},
 				success:function(data){
+
                     var myChart = echarts.init(document.getElementById('main'));
                     // 指定图表的配置项和数据
                     var option = {

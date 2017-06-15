@@ -179,6 +179,7 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 
 	/**
 	 * 计算利润方法
+	 *
 	 */
 	public Double lr(CDdinfo cDdinfo) {
 		double htje =0.0; double lr =0.0;  double yhje=0.0; double sl=0.0; double cbj=0.0; double thje=0.0; double thcbj=0.0;
@@ -199,4 +200,5 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		}
 		return lr;
 	}
+
 }

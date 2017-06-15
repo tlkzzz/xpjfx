@@ -893,37 +893,194 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 		}
 		return yuex;
 	}
+
+	/**
+	 * 业务员
+	 * @param cDdinfo
+	 * @param type
+	 * @param startDate
+	 * @param endDate
+	 * @param model
+	 * @return
+	 */
 	@RequiresPermissions("ck:cDdinfo:view")
 	@RequestMapping(value = "ywylr")
 	public String ywylr(CDdinfo cDdinfo, String type, String startDate, String endDate, Model model) {
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		if(StringUtils.isEmpty(startDate)){
 			Date date=new Date();
 			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			startDate=format.format(date);
+		}
+		if(StringUtils.isEmpty(endDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			endDate=format.format(date);
 		}
 		model.addAttribute("startDate",startDate);
 		model.addAttribute("endDate",endDate);
 		return "modules/ck/cDdinfoywyList";
 	}
-	@RequiresPermissions("ck:cDdinfo:view")
+	@ResponseBody
 	@RequestMapping(value = "ywylrAjax")
 	public List ywylrAjax(CDdinfo cDdinfo, String type, String startDate, String endDate, Model model) {
 		cDdinfo.setType("3,4");
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		if(StringUtils.isEmpty(startDate)){
 			Date date=new Date();
 			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			startDate=format.format(date);
+		}
+		if(StringUtils.isEmpty(endDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			endDate=format.format(date);
 		}
+		Map map=new HashMap();
+		List<Map> mapList = new ArrayList<Map>();
+		Double zlr=0.0;
 		List<CDdinfo> list=cDdinfoService.ywylrlist(cDdinfo);
 		for(int i=0; i< list.size(); i++) {
-		User user = list.get(i).getCreateBy();
-
-
+			cDdinfo=list.get(i);
+			if(StringUtils.isNotBlank(cDdinfo.getCreateBy().getName())){
+				Double lr = cDdinfoService.lr(cDdinfo);
+				String a=cDdinfo.getCreateBy().getName();
+				if(list.get(i).getCreateBy().getName().contains(a)){
+					zlr+=lr;
+					map.put("zlr",zlr);
+					map.put("name",cDdinfo.getHouse().getName());
+					mapList.add(map);
+				}else{
+					map.put("zlr",zlr);
+					map.put("name",cDdinfo.getHouse().getName());
+					mapList.add(map);
+				}
+			}
+		}
+		return mapList;
+	}
+	/**
+	 * 仓库
+	 * @param cDdinfo
+	 * @param type
+	 * @param startDate
+	 * @param endDate
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cDdinfo:view")
+	@RequestMapping(value = "cklist")
+	public String cklist(CDdinfo cDdinfo, String type, String startDate, String endDate, Model model) {
+		if(StringUtils.isEmpty(startDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			startDate=format.format(date);
+		}
+		if(StringUtils.isEmpty(endDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			endDate=format.format(date);
 		}
 		model.addAttribute("startDate",startDate);
 		model.addAttribute("endDate",endDate);
-		return null;
+		return "modules/ck/cDdinfockList";
+	}
+	@ResponseBody
+	@RequestMapping(value = "ckAjax")
+	public List ckAjax(CDdinfo cDdinfo, String type, String startDate, String endDate, Model model) {
+		cDdinfo.setType("3,4");
+		if(StringUtils.isEmpty(startDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			startDate=format.format(date);
+		}
+		if(StringUtils.isEmpty(endDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			endDate=format.format(date);
+		}
+		Map map=new HashMap();
+		List<Map> mapList = new ArrayList<Map>();
+		Double zlr=0.0;
+		List<CDdinfo> list=cDdinfoService.ywylrlist(cDdinfo);
+		for(int i=0; i< list.size(); i++) {
+			cDdinfo=list.get(i);
+			if(StringUtils.isNotBlank(cDdinfo.getHouse().getName())){
+				Double lr = cDdinfoService.lr(cDdinfo);
+				String a=cDdinfo.getHouse().getName();
+				if(list.get(i).getHouse().getName().contains(a)){
+					zlr+=lr;
+					map.put("zlr",zlr);
+					map.put("name",cDdinfo.getHouse().getName());
+					mapList.add(map);
+				}else{
+					map.put("zlr",zlr);
+					map.put("name",cDdinfo.getHouse().getName());
+					mapList.add(map);
+				}
+			}
+		}
+		return mapList;
+	}
+	/**
+	 * 客户
+	 * @param cDdinfo
+	 * @param type
+	 * @param startDate
+	 * @param endDate
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cDdinfo:view")
+	@RequestMapping(value = "cstore")
+	public String cstore(CDdinfo cDdinfo, String type, String startDate, String endDate, Model model) {
+		if(StringUtils.isEmpty(startDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			startDate=format.format(date);
+		}
+		if(StringUtils.isEmpty(endDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			endDate=format.format(date);
+		}
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
+		return "modules/ck/cDdinfostoreList";
+	}
+	@ResponseBody
+	@RequestMapping(value = "cstoreAjax")
+	public List cstoreAjax(CDdinfo cDdinfo, String type, String startDate, String endDate, Model model) {
+		cDdinfo.setType("3,4");
+		if(StringUtils.isEmpty(startDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			startDate=format.format(date);
+		}
+		if(StringUtils.isEmpty(endDate)){
+			Date date=new Date();
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			endDate=format.format(date);
+		}
+		Map map=new HashMap();
+		List<Map> mapList = new ArrayList<Map>();
+		Double zlr=0.0;
+		List<CDdinfo> list=cDdinfoService.ywylrlist(cDdinfo);
+		for(int i=0; i< list.size(); i++) {
+			cDdinfo=list.get(i);
+			if(StringUtils.isNotBlank(cDdinfo.getStore().getName())){
+				Double lr = cDdinfoService.lr(cDdinfo);
+				String a=cDdinfo.getStore().getName();
+				if(list.get(i).getStore().getName().contains(a)){
+					zlr+=lr;
+					map.put("zlr",zlr);
+					map.put("name",cDdinfo.getStore().getName());
+					mapList.add(map);
+				}else{
+					map.put("zlr",zlr);
+					map.put("name",cDdinfo.getStore().getName());
+					mapList.add(map);
+				}
+			}
+		}
+		return mapList;
 	}
 }
