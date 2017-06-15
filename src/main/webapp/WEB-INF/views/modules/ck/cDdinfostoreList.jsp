@@ -47,6 +47,9 @@
                       var xslr= list[i].zlr;
 					  var ywy=list[i].name;
                     }
+                    if(ywy==undefined){
+                        ywy="当前时间段没有产生利润";
+                    }
                     // 基于准备好的dom，初始化echarts实例
                     var myChart = echarts.init(document.getElementById('main'));
 
