@@ -2,16 +2,16 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>业务员利润</title>
+	<title>仓库利润排行</title>
 	<meta name="decorator" content="default"/>
 	<script src="${ctxStatic}/echarts/echarts.js"></script>
 
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cDdinfo/ywylr">业务员利润排行</a></li>
+		<li class="active"><a href="${ctx}/ck/cDdinfo/cklist">仓库利润排行</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="cDdinfo" action="${ctx}/ck/cDdinfo/ywylr" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="cDdinfo" action="${ctx}/ck/cDdinfo/cklist" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -37,12 +37,13 @@
 			var startDate = $("#startDate").val();
 			var endDate  =$("#endDate").val();
 			$.ajax({
-				url:"${ctx}/ck/cDdinfo/ywylrAjax",
+				url:"${ctx}/ck/cDdinfo/ckAjax",
 				type:"POST",
 				dataType:"text",
 				data:{startDate:startDate,endDate:endDate},
 				success:function(data){
 				    var list = eval(data);
+
                     for(var i=0;i<list.length;i++){
                       var xslr= list[i].zlr;
 					  var ywy=list[i].name;
@@ -54,7 +55,7 @@
                     // 指定图表的配置项和数据
                     var option = {
                         title: {
-                            text: '业务员利润排行'
+                            text: '仓库利润排行'
                         },
                         tooltip: {},
                         legend: {
