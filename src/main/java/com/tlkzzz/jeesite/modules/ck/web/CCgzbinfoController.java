@@ -78,7 +78,7 @@ public class CCgzbinfoController extends BaseController {
 	}
 	
 	@RequiresPermissions("ck:cCgzbinfo:view")
-	@RequestMapping(value = "list")
+	@RequestMapping(value = {"list",""})
 	public String list(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CCgzbinfo> page = cCgzbinfoService.findPage(new Page<CCgzbinfo>(request, response), cCgzbinfo);
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
@@ -154,7 +154,7 @@ public class CCgzbinfoController extends BaseController {
 	public String auditing(String id,String state){
 		String retStr = "false";
 		if(StringUtils.isNotBlank(id)&&StringUtils.isNotBlank(state)){
-			boolean saveTrue = false;
+			boolean saveTrue = true;
 			CRkckddinfo cRkckddinfo = cRkckddinfoService.get(id);
 			CDdinfo cDdinfo = new CDdinfo();
 			cDdinfo.setRkckddinfo(cRkckddinfo);
@@ -162,40 +162,47 @@ public class CCgzbinfoController extends BaseController {
 			if("0".equals(state)||"1".equals(state)) {//入库
 				for (CDdinfo cd: cdList) {
 					cd.setHouse(cRkckddinfo.getcHouse());
-					saveTrue = cCgzbinfoService.saveInfo(cd);
+					if(saveTrue&&!cCgzbinfoService.saveInfo(cd)) {
+						saveTrue = false;
+					}
 				}
 			}else {//出库
-				for (CDdinfo cd:cdList){//一个一个订单出库
-					cd.setHouse(cRkckddinfo.getcHouse());
-					saveTrue = cHgoodsService.CKMinStore(cd);
-				}
-				/** 财务信息记录	**/
-				if("5".equals(state)) {//退货退款
-					FPayment payment = new FPayment();
-					payment.setPaymentType(state);
-					payment = fPaymentService.getByPaymentCode(payment);
-					if(payment !=null){
-						payment.setApprovalStatus("1");
-						payment.setAuditor(UserUtils.getUser());
-						fPaymentService.updateApprovalStatus(payment);
-						fExpenRecordService.saveByPayment(payment);
+				saveTrue = cHgoodsService.checkStore(cdList);//
+				if(saveTrue) {
+					for (CDdinfo cd : cdList) {//一个一个订单出库
+						cd.setHouse(cRkckddinfo.getcHouse());
+						if (saveTrue && !cHgoodsService.CKMinStore(cd)) {
+							saveTrue = false;
+						}
 					}
-				}else if("4".equals(state)) {//报废 暂时没有财务
+					/** 财务信息记录	**/
+					if ("5".equals(state)) {//退货退款
+						FPayment payment = new FPayment();
+						payment.setPaymentCode(cRkckddinfo.getId());
+						payment = fPaymentService.getByPaymentCode(payment);
+						if (payment != null) {
+							payment.setApprovalStatus("1");
+							payment.setAuditor(UserUtils.getUser());
+							fPaymentService.updateApprovalStatus(payment);
+							fExpenRecordService.saveByPayment(payment);
+						}
+					} else if ("4".equals(state)) {//报废 暂时没有财务
 
-				}else {//录单，其他
-					FReceipt receipt = new FReceipt();
-					receipt.setReceiptCode(cRkckddinfo.getId());
-					receipt = fReceiptService.getByReceiptCode(receipt);
-					if (receipt != null) {
-						receipt.setApprovalStatus("1");
-						receipt.setAuditor(UserUtils.getUser());
-						fReceiptService.updateApprovalStatus(receipt);
-						fIncomeRecordService.saveByReceipt(receipt);
-						double htje = Double.parseDouble(receipt.getHtje());
-						double sfje	= Double.parseDouble(receipt.getJe());
-						if(htje>0&&htje>sfje){
-							//当合同金额大于实付金额的时候产生欠款
-							fArrearsService.saveByReceipt(receipt,htje,sfje);
+					} else {//录单，其他
+						FReceipt receipt = new FReceipt();
+						receipt.setReceiptCode(cRkckddinfo.getId());
+						receipt = fReceiptService.getByReceiptCode(receipt);
+						if (receipt != null) {
+							receipt.setApprovalStatus("1");
+							receipt.setAuditor(UserUtils.getUser());
+							fReceiptService.updateApprovalStatus(receipt);
+							fIncomeRecordService.saveByReceipt(receipt);
+							double htje = Double.parseDouble(receipt.getHtje());
+							double sfje = Double.parseDouble(receipt.getJe());
+							if (htje > 0 && htje > sfje) {
+								//当合同金额大于实付金额的时候产生欠款
+								fArrearsService.saveByReceipt(receipt, htje, sfje);
+							}
 						}
 					}
 				}

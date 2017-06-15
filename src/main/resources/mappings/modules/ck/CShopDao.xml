@@ -44,7 +44,7 @@
 			<include refid="cShopColumns"/>
 		FROM c_shop a
 		<include refid="cShopJoins"/>
-		WHERE a.goodsid = #{goods.id} AND a.userid = #{userid}
+		WHERE a.goodsid = #{goods.id} AND a.userid = #{userid} AND a.state = #{state}
 	</select>
 	
 	<select id="findList" resultType="CShop">
@@ -164,7 +164,7 @@
 	</delete>
 
 	<delete id="deleteByUserId" parameterType="java.lang.String">
-		DELETE FROM c_shop WHERE userid = #{userid}
+		DELETE FROM c_shop WHERE userid = #{param1} AND state = #{param2}
 	</delete>
 	
 </mapper>

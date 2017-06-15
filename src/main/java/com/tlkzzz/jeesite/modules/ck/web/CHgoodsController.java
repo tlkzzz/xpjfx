@@ -153,6 +153,7 @@ public class CHgoodsController extends BaseController {
 	}
 
 	@RequiresPermissions("ck:cHgoods:edit")
+	@ResponseBody
 	@RequestMapping(value = "saveCG")
 	public String saveCG(CHgoods cHgoods, Model model, RedirectAttributes redirectAttributes) {
 		//采购入库库存保存方法
@@ -202,7 +203,7 @@ public class CHgoodsController extends BaseController {
 		cHgoodsService.save(cHgoods);
 		cCgzbinfoService.savePrice(cHgoods);//添加入库信息到采购订单表
 		addMessage(redirectAttributes, "保存仓库商品成功");
-		return "redirect:"+Global.getAdminPath()+"/ck/cHgoods/list?repage";
+		return "true";
 	}
 
 	@RequiresPermissions("ck:cHgoods:edit")

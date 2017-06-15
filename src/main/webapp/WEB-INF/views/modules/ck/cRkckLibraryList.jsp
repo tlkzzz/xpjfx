@@ -23,12 +23,21 @@
                 });
         	}
         }
+        function printSubOrder(id){
+			if(id!=''){//iframe打开子订单待打印页面
+                top.$.jBox.open("iframe:${ctx}/ck/cRkckddinfo/libraryPrint?id="+id, "订单打印", 1000, $(top.document).height()-180, {
+                    buttons:{"确定":"ok"}, loaded:function(h){
+                        $(".jbox-content", top.document).css("overflow-y","hidden");
+                    }
+                });
+        	}
+        }
         function auditing(id,state) {
             top.$.jBox.confirm("确认审批通过吗？","系统提示",function(v,h,f) {
                 if(v=="ok"){
                     $.ajax({
                         url:"${ctx}/ck/cCgzbinfo/auditing?id="+id+"&state="+state,
-                        type:"post",
+                        type:"POST",
                         dataType:"json",
                         success:function (data) {
                             if(data){
@@ -100,7 +109,7 @@
 				</td>
 				<shiro:hasPermission name="ck:cCkinfo:edit"><td>
 					<c:if test="${cRkckddinfo.issp!='1'}"><a href="javascript:void(0)" onclick="auditing('${cRkckddinfo.id}','${cRkckddinfo.state}')">审批</a></c:if>
-					<a href="${ctx}/ck/cRkckddinfo/delete?id=${cRkckddinfo.id}" onclick="return confirmx('确认要删除该总订单吗？', this.href)">删除</a>
+					<a href="${ctx}/ck/cRkckddinfo/delete?id=${cRkckddinfo.id}&pageName=libraryList" onclick="return confirmx('确认要删除该总订单吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

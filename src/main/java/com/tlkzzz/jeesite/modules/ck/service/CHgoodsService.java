@@ -137,6 +137,20 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		cYkinfoService.saveInfo(cHgoods,outHouseId);
 	}
 
+	public boolean checkStore(List<CDdinfo> list){
+		boolean flag = true;
+		for(CDdinfo cd: list){
+			CHgoods cHgoods = new CHgoods();
+			cHgoods.setHouse(cd.getHouse());
+			cHgoods.setGoods(cd.getGoods());
+			CHgoods ch = dao.findHGByHG(cHgoods);
+			if(ch==null||Integer.parseInt(ch.getNub())<Integer.parseInt(cd.getNub())){
+				flag = false;
+			}
+		}
+		return flag;
+	}
+
 	/**
 	 * 出库并记录
 	 * @param cDdinfo
