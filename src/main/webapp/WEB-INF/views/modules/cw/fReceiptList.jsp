@@ -65,12 +65,12 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>单据编号</th>
 			    <th>收款类型</th>
 			    <th>来往账号</th>
 			    <th>收款帐号</th>
 			    <th>来往单位</th>
-			     <th>收款方式</th>
-				<th>单据编号</th>
+			 	<th>收款方式</th>
 				<th>审核状态</th>
 			    <th>收款日期</th>
 				<th>创建时间</th>
@@ -81,6 +81,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fReceipt" varStatus="status">
 			<tr>
+				<td>
+					${fReceipt.ddbh}
+				</td>
 			     <td>
                   ${fns:getDictLabel(fReceipt.receiptType, "receiptType", "")}
                  </td>
@@ -91,14 +94,11 @@
                  ${fReceipt.receiptAccount}
                </td>
                <td>
-               	${fReceipt.travelUnit.id}
+               	${fReceipt.travelUnit.name}
                	</td>
 			    <td>
                    ${fns:getDictLabel(fReceipt.receiptMode, "receiptMode", "")}
                  </td>
-				<td>
-					${fReceipt.receiptCode}
-				</td>
 				<td id="approvalStatus${status.index}">
                             ${fns:getDictLabel(fReceipt.approvalStatus, "storeState", "")}
                    </td>
