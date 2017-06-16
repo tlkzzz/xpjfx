@@ -25,6 +25,8 @@ public class FExpenRecord extends DataEntity<FExpenRecord> {
 	private String jsr;		// 经手人
 	private String expenMode;		// 支出方式
 	private String expenType;		// 支出类型
+
+	private String ddbh;		//订单编号
 	
 	public FExpenRecord() {
 		super();
@@ -104,5 +106,12 @@ public class FExpenRecord extends DataEntity<FExpenRecord> {
 	public void setExpenType(String expenType) {
 		this.expenType = expenType;
 	}
-	
+
+	public String getDdbh() {
+		return ddbh;
+	}
+
+	public void setDdbh(String ddbh) {
+		this.ddbh = ddbh;
+	}
 }

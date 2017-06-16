@@ -5,6 +5,7 @@
 	<sql id="fExpenRecordColumns">
 		a.id AS "id",
 		a.order_id AS "orderId",
+		crk.ddbh AS "ddbh",
 		a.expen_account AS "expenAccount",
 		a.travel_account AS "travelAccount",
 		a.expen_money AS "expenMoney",
@@ -20,6 +21,7 @@
 	</sql>
 	
 	<sql id="fExpenRecordJoins">
+		LEFT JOIN c_rkckddinfo crk ON crk.id=a.order_id
 	</sql>
     
 	<select id="get" resultType="FExpenRecord">

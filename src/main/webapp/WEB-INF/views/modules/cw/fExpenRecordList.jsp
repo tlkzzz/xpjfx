@@ -33,24 +33,39 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>创建时间</th>
+				<th>订单编号</th>
+				<th>支出帐号</th>
+				<th>来往帐号</th>
+				<th>支出金额</th>
+				<th>支出方式</th>
+				<th>支出时间</th>
 				<th>备注</th>
-				<shiro:hasPermission name="cw:fExpenRecord:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="fExpenRecord">
 			<tr>
 				<td>
-					<fmt:formatDate value="${fExpenRecord.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${empty fExpenRecord.ddbh?"采购订单":fExpenRecord.ddbh}
 				</td>
-				<td><a href="${ctx}/cw/fExpenRecord/form?id=${fExpenRecord.id}">
-						${fExpenRecord.remarks}
-				</a></td>
-				<shiro:hasPermission name="cw:fExpenRecord:edit"><td>
-    				<a href="${ctx}/cw/fExpenRecord/form?id=${fExpenRecord.id}">修改</a>
-					<a href="${ctx}/cw/fExpenRecord/delete?id=${fExpenRecord.id}" onclick="return confirmx('确认要删除该支出记录吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				<td>
+					${fExpenRecord.expenAccount}
+				</td>
+				<td>
+					${fExpenRecord.travelAccount}
+				</td>
+				<td>
+					${fExpenRecord.expenMoney}
+				</td>
+				<td>
+					${fns:getDictLabel(fExpenRecord.expenMode, "expenMode", "")}
+				</td>
+				<td>
+					<fmt:formatDate value="${fExpenRecord.expenDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					${fExpenRecord.remarks}
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
