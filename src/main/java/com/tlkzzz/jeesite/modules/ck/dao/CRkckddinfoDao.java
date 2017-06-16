@@ -33,6 +33,8 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
      * */
     public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo);
 
+    public List<CRkckddinfo> shenhelist(CRkckddinfo cRkckddinfo);
+
     /**
      * shizx APP分页查询
      * */
