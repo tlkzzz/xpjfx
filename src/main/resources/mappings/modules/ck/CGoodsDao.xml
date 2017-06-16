@@ -132,6 +132,9 @@
 		<include refid="cGoodsJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				and a.id=#{id}
+			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>

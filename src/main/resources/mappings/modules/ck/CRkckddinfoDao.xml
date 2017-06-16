@@ -54,7 +54,7 @@
 		<include refid="cRkckddinfoJoins"/>
 		<where>
 			<if test="createBy.id != null and createBy.id != ''">
-				a.create_by &gt; #{createBy.id}
+				a.create_by = #{createBy.id}
 			</if>
 		</where>
 		) o LIMIT ${fybs},10

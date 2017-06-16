@@ -32,8 +32,8 @@ public class mYkGoodsController extends BaseController {
     public String list(String ycck, String yrck,String xzGoods,String shul,String cbj) {
         //移出库存减少
         CHgoods cHgoods=new CHgoods();
-        cHgoods.getHouse().setId(ycck);
-        cHgoods.getGoods().setId(xzGoods);
+        cHgoods.setHouse(new CHouse(ycck));
+        cHgoods.setGoods(new CGoods(xzGoods));
         List<CHgoods> mkcList=cHgoodsService.mkc(cHgoods);
         Double nub=Double.parseDouble(mkcList.get(0).getNub());//出库库存
         Double shuls=Double.parseDouble(shul);
@@ -50,16 +50,16 @@ public class mYkGoodsController extends BaseController {
         cCkinfo.setCkqcbj(cGoodsList.get(0).getCbj());
         cCkinfo.setCkhcbj(cGoodsList.get(0).getCbj());
         cCkinfo.setNub(shul);
-        cCkinfo.getGoods().setId(xzGoods);
-        cCkinfo.getHouse().setId(ycck);
+        cCkinfo.setGoods(new CGoods(xzGoods));
+        cCkinfo.setHouse(new CHouse(ycck));
         cCkinfo.setCkdate(new Date());
         cCkinfo.setState("9");
         cCkinfo.setIssp("1");
         cCkinfoService.save(cCkinfo);
         //移入库存添加
         CHgoods rkcHgoods=new CHgoods();
-        rkcHgoods.getHouse().setId(yrck);
-        rkcHgoods.getGoods().setId(xzGoods);
+        rkcHgoods.setHouse(new CHouse(yrck));
+        rkcHgoods.setGoods(new CGoods(xzGoods));
         List<CHgoods> rkkcList=cHgoodsService.mkc(cHgoods);
         CRkinfo cRkinfo=new CRkinfo();
         if(rkkcList.size()>0){
@@ -72,8 +72,8 @@ public class mYkGoodsController extends BaseController {
             Double qcbj=Double.parseDouble(cGoodsList.get(0).getCbj());
             Double rkhcbj=(qcbj*rnub+rshuls*Double.parseDouble(cbj))/rkhnub;//计算入库后成本价
             //添加入库记录表
-            cRkinfo.getGoods().setId(xzGoods);
-            cRkinfo.getHouse().setId(yrck);
+            cRkinfo.setGoods(new CGoods(xzGoods));
+            cRkinfo.setHouse(new CHouse(yrck));
             cRkinfo.setRknub(shul);
             cRkinfo.setRkhnub(rkhnub.toString());
             cRkinfo.setRkqcbj(qcbj.toString());
@@ -84,8 +84,8 @@ public class mYkGoodsController extends BaseController {
             rkcHgoods.setNub(shul);
             cHgoodsService.save(rkcHgoods);
             //添加入库记录表
-            cRkinfo.getGoods().setId(xzGoods);
-            cRkinfo.getHouse().setId(yrck);
+            cRkinfo.setGoods(new CGoods(xzGoods));
+            cRkinfo.setHouse(new CHouse(yrck));
             cRkinfo.setRknub(shul);
             cRkinfo.setRkhnub(shul);
             cRkinfo.setRkqcbj(cbj);
@@ -95,9 +95,9 @@ public class mYkGoodsController extends BaseController {
         }
         //添加移库记录
         CYkinfo cYkinfo=new CYkinfo();
-        cYkinfo.getGoods().setId(xzGoods);
-        cYkinfo.getStartHouse().setId(ycck);
-        cYkinfo.getEndHouse().setId(yrck);
+        cYkinfo.setGoods(new CGoods(xzGoods));
+        cYkinfo.setStartHouse(new CHouse(ycck));
+        cYkinfo.setEndHouse(new CHouse(yrck));
         cYkinfo.setNub(shul);
         cYkinfo.setCbj(cGoodsList.get(0).getCbj());
         cYkinfo.setXsj(cGoodsList.get(0).getSj());

@@ -52,8 +52,8 @@ public class mLoginController extends BaseController {
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     public String login(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("---------------手机访问拦截器");
-          String username=  request.getParameter("username");
-          String password = request.getParameter("password");
+          String username= request.getParameter("user");
+          String password = request.getParameter("pass");
         String host = StringUtils.getRemoteAddr((HttpServletRequest)request);
         if (password==null){
             password = "";

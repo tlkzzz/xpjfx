@@ -44,6 +44,7 @@ public class CXsddlsService extends CrudService<CXsddlsDao, CXsddls> {
 		super.delete(cXsddls);
 	}
 
+	@Transactional(readOnly = false)
 	public void stateUpdate(CXsddls cXsddls){dao.stateUpdate(cXsddls);}
 
 	public List<CXsddls> fyfindList(CXsddls cXsddls){return dao.fyfindList(cXsddls);}
