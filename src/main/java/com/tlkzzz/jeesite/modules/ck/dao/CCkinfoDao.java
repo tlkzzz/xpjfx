@@ -23,5 +23,7 @@ public interface CCkinfoDao extends CrudDao<CCkinfo> {
      */
 
     public List<CCkinfo> findListBands(CCkinfo cCkinfo);
-	
+
+
+    public List<CCkinfo> lrlist(CCkinfo cCkinfo);
 }
