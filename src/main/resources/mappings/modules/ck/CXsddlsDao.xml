@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CXsddlsDao">
+    
+	<sql id="cXsddlsColumns">
+		a.id AS "id",
+		a.fid AS "fid",
+		a.store_id AS "storeId",
+		a.nub AS "nub",
+		a.sj AS "sj",
+		a.goodsid AS "goodsid",
+		a.sjje AS "sjje",
+		a.dates AS "dates",
+		a.state AS "state",
+		cr.ddbh AS "ddbh",
+		cg.name AS "name",
+		cs.dz AS "dz",
+		cs.name AS "csName"
+	</sql>
+	
+	<sql id="cXsddlsJoins">
+		LEFT JOIN c_rkckddinfo cr ON a.fid=cr.id
+		LEFT JOIN c_goods cg ON a.goodsid=cg.id
+		LEFT JOIN c_store cs ON a.store_id=cs.id
+	</sql>
+    
+	<select id="get" resultType="CXsddls">
+		SELECT 
+			<include refid="cXsddlsColumns"/>
+		FROM c_xsddls a
+		<include refid="cXsddlsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="fyfindList" resultType="CXsddls">
+		SELECT
+		o.*
+		FROM(
+		SELECT
+		<include refid="cXsddlsColumns"/>
+		FROM c_xsddls a
+		<include refid="cXsddlsJoins"/>
+		WHERE a.state='1'
+		) o LIMIT ${fybs},10
+	</select>
+
+	<select id="findList" resultType="CXsddls">
+		SELECT 
+			<include refid="cXsddlsColumns"/>
+		FROM c_xsddls a
+		<include refid="cXsddlsJoins"/>
+		<where>
+			<if test="fid != null and fid != ''">
+				AND a.fid = #{fid}
+			</if>
+			<if test="goodsid != null and goodsid != ''">
+				AND a.goodsid = #{goodsid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CXsddls">
+		SELECT 
+			<include refid="cXsddlsColumns"/>
+		FROM c_xsddls a
+		<include refid="cXsddlsJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_xsddls(
+			id,
+			fid,
+			store_id,
+			nub,
+			sj,
+			goodsid,
+			sjje,
+			dates,
+			state
+		) VALUES (
+			#{id},
+			#{fid},
+			#{storeId},
+			#{nub},
+			#{sj},
+			#{goodsid},
+			#{sjje},
+			#{dates},
+			#{state}
+		)
+	</insert>
+
+	<update id="stateUpdate">
+		UPDATE c_xsddls SET
+		state=#{state}
+		WHERE fid = #{fid}
+	</update>
+
+	<update id="update">
+		UPDATE c_xsddls SET 	
+			fid = #{fid},
+			store_id = #{storeId},
+			nub = #{nub},
+			sj = #{sj},
+			goodsid=#{goodsid},
+			sjje=#{sjje},
+			dates=#{dates},
+			state=#{state}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM c_xsddls
+		WHERE fid = #{fid}
+		and goodsid = #{goodsid}
+	</update>
+	
+</mapper>
