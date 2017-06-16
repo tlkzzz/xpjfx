@@ -16,7 +16,7 @@ import com.tlkzzz.jeesite.modules.ck.dao.CXsddlsDao;
 /**
  * 销售订单临时表Service
  * @author szx
- * @version 2017-05-16
+ * @version 2017-05-1
  */
 @Service
 @Transactional(readOnly = true)
