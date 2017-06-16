@@ -43,7 +43,10 @@ public class CXsddlsService extends CrudService<CXsddlsDao, CXsddls> {
 	public void delete(CXsddls cXsddls) {
 		super.delete(cXsddls);
 	}
-
+/**
+ *
+ * shizx
+ * */
 	@Transactional(readOnly = false)
 	public void stateUpdate(CXsddls cXsddls){dao.stateUpdate(cXsddls);}
 

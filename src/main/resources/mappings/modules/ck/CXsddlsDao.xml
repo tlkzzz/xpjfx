@@ -83,7 +83,6 @@
 		</choose>
 	</select>
 
-
 	<insert id="insert">
 		INSERT INTO c_xsddls(
 			id,
