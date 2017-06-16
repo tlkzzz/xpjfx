@@ -4,14 +4,20 @@
 <head>
 	<title>销售单打印</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/jqprint/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+	<script src="${ctxStatic}/jqprint/jquery.jqprint-0.3.js" type="text/javascript"></script>
 	<style>
 		li{ float:left; list-style:none}
 		ul{width:500px;}
 	</style>
-	<script type="text/javascript">
+	<script language="javascript">
+        function printPage(){
+            $("#print").jqprint();
+        }
 	</script>
 </head>
 <body>
+	<div id="print">
 	<div>
 		<ul>
 			<li><label>打印时间：</label><fmt:formatDate value="${date}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
@@ -34,7 +40,7 @@
 			<li><label>联系人：</label></li>
 		</ul>
 	</div>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th>行</th>
@@ -90,8 +96,9 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</div>
 	<div>
-
+		<input type="button" value="打印" onclick="printPage()" />
 	</div>
 </body>
 </html>
