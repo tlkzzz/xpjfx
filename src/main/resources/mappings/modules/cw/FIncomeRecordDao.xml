@@ -5,6 +5,7 @@
 	<sql id="fIncomeRecordColumns">
 		a.id AS "id",
 		a.order_id AS "orderId",
+		crk.ddbh AS "ddbh",
 		a.income_account AS "incomeAccount",
 		a.traver_account AS "traverAccount",
 		a.income_money AS "incomeMoney",
@@ -21,6 +22,7 @@
 	</sql>
 	
 	<sql id="fIncomeRecordJoins">
+	LEFT JOIN c_rkckddinfo crk ON crk.id=a.order_id
 	LEFT JOIN f_arrears fa ON fa.rkckdd=a.order_id
 	LEFT JOIN c_store cs ON cs.id=fa.arrears_unit
 	</sql>
