@@ -7,13 +7,9 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
 import com.tlkzzz.jeesite.modules.ck.dao.CHgoodsDao;
-import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
-import com.tlkzzz.jeesite.modules.ck.entity.CHgoods;
-import com.tlkzzz.jeesite.modules.ck.entity.CRkinfo;
-import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
+import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.service.CrudService;
-import com.tlkzzz.jeesite.modules.ck.entity.CCkinfo;
 import com.tlkzzz.jeesite.modules.ck.dao.CCkinfoDao;
 
 /**
@@ -46,6 +41,10 @@ public class CCkinfoService extends CrudService<CCkinfoDao, CCkinfo> {
 		return super.findList(cCkinfo);
 	}
 
+	public List<CCkinfo> lrlist(CCkinfo cCkinfo) {
+		List<CCkinfo> list = dao.lrlist(cCkinfo);
+		return list;
+	}
 
 	public List<CCkinfo> findListStore(CCkinfo cCkinfo) {
 		List<CCkinfo> list = dao.findListStore(cCkinfo);
@@ -56,7 +55,10 @@ public class CCkinfoService extends CrudService<CCkinfoDao, CCkinfo> {
 		List<CCkinfo> list=dao.findListBands(cCkinfo);
 	    return list;
 	}
-	
+	public List<CCkinfo> state(String state,CCkinfo cCkinfo){
+		List<CCkinfo> list=dao.lrlist(cCkinfo);
+		return list;
+	}
 	public Page<CCkinfo> findPage(Page<CCkinfo> page, CCkinfo cCkinfo) {
 		page = super.findPage(page, cCkinfo);
 		DecimalFormat df = new DecimalFormat("#.####");
@@ -79,6 +81,24 @@ public class CCkinfoService extends CrudService<CCkinfoDao, CCkinfo> {
 		cCkinfo.setState(states);
 		return dao.findListBands(cCkinfo);
 	}
+	/**
+	 * 初始化年份
+	 * @param cCkinfo
+	 * @param date
+	 * @return
+	 */
+	public CCkinfo processYear(CCkinfo	cCkinfo, Date date){
+		if (cCkinfo.getCkdate() == null) {
+			cCkinfo.setCkdate(date);
+			cCkinfo.setStartDate(new Date(date.getYear(), 0, 0));
+			cCkinfo.setEndDate(new Date(date.getYear() + 1, 0, 0));
+		} else {
+			cCkinfo.setStartDate(new Date(cCkinfo.getCkdate().getYear(), 0, 0));
+			cCkinfo.setEndDate(new Date(cCkinfo.getCkdate().getYear() + 1, 0, 0));
+		}
+		return cCkinfo;
+	}
+
 
 	@Transactional(readOnly = false)
 	public void save(CCkinfo cCkinfo) {
