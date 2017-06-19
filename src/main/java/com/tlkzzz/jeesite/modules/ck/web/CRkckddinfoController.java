@@ -192,6 +192,7 @@ public class CRkckddinfoController extends BaseController {
 			UserUtils.putCache("RKCKSTATE", cRkckddinfo.getState());
 			Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request, response), cRkckddinfo);
 			model.addAttribute("cRkckddinfo", cRkckddinfo);
+			model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 			model.addAttribute("page", page);
 			return "modules/ck/cRkckddinfoList";
 		}else {
@@ -302,7 +303,6 @@ public class CRkckddinfoController extends BaseController {
 			return "error/400";
 		}
 	}
-
 	/**
 	 * 业务员销售单查询
 	 * @param cRkckddinfo
@@ -320,6 +320,21 @@ public class CRkckddinfoController extends BaseController {
 		model.addAttribute("cRkckddinfo", cRkckddinfo);
 		model.addAttribute("page", page);
 		return "modules/ck/cRkckClerkSales";
+	}
+
+	@RequiresPermissions("ck:cRkckddinfo:view")
+	@RequestMapping(value = "shenhelist")
+	public String shenhelist(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<CRkckddinfo> list = cRkckddinfoService.selectList("2",cRkckddinfo);
+		int a= list.size();
+			model.addAttribute("a", a);
+	    List<CRkckddinfo> list1=cRkckddinfoService.selectList("5",cRkckddinfo);
+	     int th=list1.size();
+	     model.addAttribute("th",th);
+	     List<CRkckddinfo> list2=cRkckddinfoService.selectList("4",cRkckddinfo);
+	     int bf=list2.size();
+	     model.addAttribute("bf",bf);
+			return "modules/ck/shenheList";
 	}
 
 	/**

@@ -33,10 +33,14 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>仓库：</label>
-				<form:input path="house.id" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:select path="house.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
 			</li>
 			<li><label>商品分类：</label>
-				<form:input path="gclass.id" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<sys:treeselect id="gclassId" name="gclass.id" value="${cHouseCheckInventory.gclass.id}" labelName="gclass.name" labelValue="${cHouseCheckInventory.gclass.name}"
+								title="商品分类选择" url="/ck/cGclass/treeData" cssClass="input-medium"/>
 			</li>
 			<li><label>盘点时间：</label>
 				<input name="checkDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -44,7 +48,10 @@
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>状态：</label>
-				<form:input path="state" htmlEscape="false" maxlength="1" class="input-medium"/>
+				<form:select path="state" >
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('storeState')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>

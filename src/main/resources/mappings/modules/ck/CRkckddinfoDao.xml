@@ -93,6 +93,12 @@
 		<include refid="cRkckddinfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ddbh != null and ddbh != ''">
+				AND a.ddbh = #{ddbh}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
 			<if test="lx != null and lx != ''">
 				AND a.lx = #{lx}
 			</if>

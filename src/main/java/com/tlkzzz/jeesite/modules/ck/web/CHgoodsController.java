@@ -257,6 +257,8 @@ public class CHgoodsController extends BaseController {
 		Page<CHgoods> page = cHgoodsService.findPage(new Page<CHgoods>(request, response), cHgoods);
 		model.addAttribute("page", page);
 		model.addAttribute("cHgoods", cHgoods);
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		return "modules/ck/cHgoodsStoreChangeList";
 	}
 

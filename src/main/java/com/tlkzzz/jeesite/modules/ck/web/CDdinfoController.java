@@ -43,6 +43,10 @@ public class CDdinfoController extends BaseController {
 	@Autowired
 	private CDdinfoService cDdinfoService;
 	@Autowired
+	private CSupplierService cSupplierService;
+	@Autowired
+	private CStoreService cStoreService;
+	@Autowired
 	private CHouseService cHouseService;
 	@Autowired
 	private CHgoodsService cHgoodsService;
@@ -77,6 +81,10 @@ public class CDdinfoController extends BaseController {
 	public String cgDdList(CDdinfo cDdinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CDdinfo> page = cDdinfoService.findPage(new Page<CDdinfo>(request, response), cDdinfo);
 		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		model.addAttribute("page", page);
 		return "modules/ck/cDdinfoList";
 	}

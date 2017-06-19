@@ -82,6 +82,7 @@ public class CCgzbinfoController extends BaseController {
 	public String list(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CCgzbinfo> page = cCgzbinfoService.findPage(new Page<CCgzbinfo>(request, response), cCgzbinfo);
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("cCgzbinfo", cCgzbinfo);
 		model.addAttribute("page", page);
 		return "modules/ck/cCgzbinfoList";

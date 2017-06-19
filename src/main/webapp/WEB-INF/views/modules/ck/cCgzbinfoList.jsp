@@ -58,6 +58,12 @@
 					<form:options items="${goodsList}" itemValue="id" itemLabel="name"></form:options>
 				</form:select>
 			</li>
+			<li><label>供应商：</label>
+				<form:select path="rkinfo.supplier.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

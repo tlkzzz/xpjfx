@@ -6,8 +6,8 @@
 		a.id AS "id",
 		a.house_id AS "house.id",
 		ch.name AS "house.name",
-		a.gclass_id AS "gclass.id",
-		cgc.name AS "gclass.name",
+		a.gclassid AS "gclass.id",
+		gclass.name AS "gclass.name",c
 		a.inventory_text AS "inventoryText",
 		a.check_date AS "checkDate",
 		a.state AS "state",
@@ -21,7 +21,7 @@
 	
 	<sql id="cHouseCheckInventoryJoins">
 		LEFT JOIN c_house ch ON ch.id=a.house_id
-		LEFT JOIN c_gclass cgc ON cgc.id=a.gclass_id
+		LEFT JOIN c_gclass gclass ON gclass.id=a.gclassid
 	</sql>
     
 	<select id="get" resultType="CHouseCheckInventory">
@@ -51,7 +51,7 @@
 				AND a.house_id = #{house.id}
 			</if>
 			<if test="gclass != null and gclass.id != null and gclass.id != ''">
-				AND a.gclass_id = #{gclass.id}
+				AND (gclass.parent_ids LIKE concat('%',#{gclass.id},'%')OR a.gclassid = #{gclass.id})
 			</if>
 			<if test="checkDate != null and checkDate != ''">
 				AND a.check_date = #{checkDate}
@@ -92,7 +92,7 @@
 		INSERT INTO c_house_check_inventory(
 			id,
 			house_id,
-			gclass_id,
+			gclassid,
 			inventory_text,
 			check_date,
 			state,
@@ -121,7 +121,7 @@
 	<update id="update">
 		UPDATE c_house_check_inventory SET 	
 			house_id = #{house.id},
-			gclass_id = #{gclass.id},
+			gclassid = #{gclass.id},
 			inventory_text = #{inventoryText},
 			check_date = #{checkDate},
 			state = #{state},
