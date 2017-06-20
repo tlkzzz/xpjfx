@@ -5,6 +5,7 @@
 	<sql id="fIncomeRecordColumns">
 		a.id AS "id",
 		a.order_id AS "orderId",
+
 		crk.ddbh AS "ddbh",
 		a.income_account AS "incomeAccount",
 		a.traver_account AS "traverAccount",
@@ -41,7 +42,18 @@
 		FROM f_income_record a
 		<include refid="fIncomeRecordJoins"/>
 		<where>
-			
+			<if test="ddbh != null and ddbh != ''">
+				AND crk.ddbh = #{ddbh}
+			</if>
+			<if test="traverAccount != null and traverAccount != ''">
+				AND a.traver_account = #{traverAccount}
+			</if>
+			<if test="incomeAccount != null and incomeAccount != ''">
+				AND a.income_account = #{incomeAccount}
+			</if>
+			<if test="incomeDate != null and incomeDate != ''">
+				AND a.create_date &gt;= #{incomeDate} AND a.create_date &lt;= #{incomeDate}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

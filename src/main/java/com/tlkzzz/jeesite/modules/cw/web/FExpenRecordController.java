@@ -51,6 +51,7 @@ public class FExpenRecordController extends BaseController {
 	public String list(FExpenRecord fExpenRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FExpenRecord> page = fExpenRecordService.findPage(new Page<FExpenRecord>(request, response), fExpenRecord); 
 		model.addAttribute("page", page);
+		model.addAttribute("fExpenRecord",fExpenRecord);
 		return "modules/cw/fExpenRecordList";
 	}
 

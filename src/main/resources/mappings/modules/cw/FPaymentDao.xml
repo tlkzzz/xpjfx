@@ -89,6 +89,12 @@
 			<if test="thstatus != null and thstatus != ''">
 				AND a.thstatus &gt;= #{thstatus}
 			</if>
+			<if test="paymentAccount != null and paymentAccount != ''">
+				AND a.payment_account = #{paymentAccount}
+			</if>
+			<if test="travelAccount != null and travelAccount != ''">
+				AND a.travel_account = #{travelAccount}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

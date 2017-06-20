@@ -63,6 +63,7 @@ public class FDiscountController extends BaseController {
 		Page<FDiscount> page = fDiscountService.findPage(new Page<FDiscount>(request, response), fDiscount); 
 		model.addAttribute("page", page);
 		model.addAttribute("fDiscount",fDiscount);
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		return "modules/cw/fDiscountList";
 	}
 

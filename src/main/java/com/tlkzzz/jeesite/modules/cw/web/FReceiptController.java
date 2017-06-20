@@ -12,6 +12,7 @@ import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
 import com.tlkzzz.jeesite.modules.cw.entity.FFixedAssetsCgbm;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,6 +193,23 @@ public class FReceiptController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("fReceipt", fReceipt);
 		return "modules/cw/GysReturn";
+	}
+
+	/**	导出 	**/
+	@RequestMapping(value = "yfkexcel")
+	public String yfkexcel(FReceipt fReceipt, String type, Model model,HttpServletResponse response){
+		List<FReceipt> list = new ArrayList<FReceipt>();
+		if(StringUtils.isBlank(type)||"1".equals(type)){
+			list = fReceiptService.findList(fReceipt);
+			ExcelCreateUtils.yskexport(response,list,"1");
+		}else if("2".equals(type)){//通过客户分类查询
+			list = fReceiptService.findListByStore(fReceipt);
+			ExcelCreateUtils.yskexport(response,list,"2");
+		}else if("3".equals(type)){
+			list = fReceiptService.findArrearsList(fReceipt);
+			ExcelCreateUtils.yskexport(response,list,"3");
+		}
+		return null;
 	}
 
 	/**	财务报表开始 	**/

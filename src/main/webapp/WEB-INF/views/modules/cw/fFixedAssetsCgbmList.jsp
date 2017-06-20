@@ -58,6 +58,12 @@
                               					<form:options items="${fns:getDictList('storeState')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                               				</form:select>
                               			</li>
+			<li><label>付款方式：</label>
+				<form:select path="paymentMode" >
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('paymentMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

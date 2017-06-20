@@ -7,7 +7,7 @@
 		a.house_id AS "house.id",
 		ch.name AS "house.name",
 		a.gclassid AS "gclass.id",
-		gclass.name AS "gclass.name",c
+		gclass.name AS "gclass.name",
 		a.inventory_text AS "inventoryText",
 		a.check_date AS "checkDate",
 		a.state AS "state",

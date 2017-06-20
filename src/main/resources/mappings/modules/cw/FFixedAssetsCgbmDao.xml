@@ -45,7 +45,9 @@
 			<if test="ffixedassets != null and ffixedassets.id != null and ffixedassets.id != ''">
 				AND a.ffixedassets = #{ffixedassets.id}
 			</if>
-
+			<if test="paymentMode != null and paymentMode != ''">
+				AND a.payment_mode = #{paymentMode}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

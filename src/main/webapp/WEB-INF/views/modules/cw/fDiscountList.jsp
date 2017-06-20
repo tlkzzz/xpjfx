@@ -25,6 +25,13 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+
+			<li><label>客户：</label>
+				<form:select path="store.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${storeList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -45,7 +52,7 @@
 		<c:forEach items="${page.list}" var="fDiscount">
 			<tr>
 			    <td>${fDiscount.ddid.ddbh}</td>
-				<td>${fDiscount.storeid.name}</td>
+				<td>${fDiscount.store.name}</td>
 			    <td>${fDiscount.yhje}</td>
 			    <td>${fDiscount.lx}</td>
 				<td>
