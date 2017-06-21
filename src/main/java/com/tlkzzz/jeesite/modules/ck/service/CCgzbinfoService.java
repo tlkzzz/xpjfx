@@ -45,7 +45,10 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	public List<CCgzbinfo> findList(CCgzbinfo cCgzbinfo) {
 		return super.findList(cCgzbinfo);
 	}
-	
+	public List<CCgzbinfo> findListxl(CCgzbinfo cCgzbinfo) {
+		return dao.findListxl(cCgzbinfo);
+	}
+
 	public Page<CCgzbinfo> findPage(Page<CCgzbinfo> page, CCgzbinfo cCgzbinfo) {
 		page = super.findPage(page, cCgzbinfo);
 		for(CCgzbinfo cc:page.getList()){

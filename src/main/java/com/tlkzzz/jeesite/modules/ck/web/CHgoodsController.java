@@ -16,6 +16,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.service.FArrearsService;
 import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
 import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -379,7 +380,18 @@ public String kcInquiry(CHgoods cHgoods, HttpServletRequest request, HttpServlet
 		return "modules/report/cHgoodsReportList";
 	}
 
-	@RequiresPermissions("ck:cHgoodsReport:view")
+	@RequestMapping(value = "aqkExcel")
+	public String aqkExcel(CHgoods cHgoods, Model model,HttpServletResponse response){
+		List<CHgoods> list = cHgoodsService.findList(cHgoods);
+		ExcelCreateUtils.kcexport(response,list,"1");
+		model.addAttribute("list", cHgoodsService.findList(cHgoods));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cHgoods", cHgoods);
+		return null;
+	}
+
+//	@RequiresPermissions("ck:cHgoodsReport:view")
 	@RequestMapping(value = "kcReport")
 	public String kcReport(CHgoods cHgoods, String type, Model model){
 		List<CHgoods> list = new ArrayList<CHgoods>();

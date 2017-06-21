@@ -4,7 +4,7 @@
 <head>
 	<title>业务员销售分析</title>
 	<meta name="decorator" content="default"/>
-	<script type="text/javascript">
+	<script type="text/javascript">jiuruodjf9iu
 		$(document).ready(function() {
 			
 		});
