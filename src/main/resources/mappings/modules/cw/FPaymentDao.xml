@@ -76,15 +76,14 @@
 		FROM f_payment a
 		<include refid="fPaymentJoins"/>
 		<where>
-			a.payment_type IN ('6','7','8')
+			<if test="paymentType != null and paymentType != ''">
+				AND FIND_IN_SET(a.payment_type,#{paymentType})
+			</if>
 			<if test="paymentDate != null and paymentDate != ''">
 				AND a.payment_date &gt;= #{paymentDate}
 			</if>
 			<if test="paymentCode != null and paymentCode != ''">
 				AND a.payment_code = #{paymentCode}
-			</if>
-			<if test="paymentType != null and paymentType != ''">
-				AND a.payment_type = #{paymentType}
 			</if>
 			<if test="thstatus != null and thstatus != ''">
 				AND a.thstatus &gt;= #{thstatus}

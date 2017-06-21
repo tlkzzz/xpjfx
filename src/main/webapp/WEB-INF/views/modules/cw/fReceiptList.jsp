@@ -40,7 +40,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<c:if test="${fn:contains('7,8,6',fReceipt.receiptType)}"><li class="active"><a href="${ctx}/cw/fReceipt/list">收款列表</a></li> </c:if>
+		<c:if test="${fn:contains('7,8,6',fReceipt.receiptType)}"></c:if>
+			<li class="active"><a href="${ctx}/cw/fReceipt/list">收款列表</a></li>
 		<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/xjform">现金费用</a></li></shiro:hasPermission>
 		<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/ybform">一般费用</a></li></shiro:hasPermission>
 	  	<shiro:hasPermission name="cw:fReceipt:edit"><li><a href="${ctx}/cw/fReceipt/qtform">其他费用</a></li></shiro:hasPermission>

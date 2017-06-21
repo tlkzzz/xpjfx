@@ -3,6 +3,7 @@
  */
 package com.tlkzzz.jeesite.modules.ck.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
@@ -56,12 +57,15 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 	}
 	
 	public Page<CYkinfo> findPage(Page<CYkinfo> page, CYkinfo cYkinfo) {
-		page = super.findPage(page, cYkinfo);
-		for(CYkinfo cc:page.getList()){
-			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
-			cc.setNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+		page= super.findPage(page, cYkinfo);
+		List<CYkinfo> list=new ArrayList<CYkinfo>();
+		if(list.size()>0) {
+			for (CYkinfo cc : page.getList()) {
+				String[] unit = {cc.getGoods().getBig().getName(), cc.getGoods().getZong().getName(), cc.getGoods().getSmall().getName()};
+				cc.setNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			}
 		}
-		return page;
+			return page;
 	}
 	
 	@Transactional(readOnly = false)

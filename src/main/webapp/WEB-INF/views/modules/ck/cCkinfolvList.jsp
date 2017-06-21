@@ -92,18 +92,18 @@
 			<th>十二月</th>
 		</tr>
 		<tr>
-			<td align="center" valign="middle">$${newD}</td>
-			<td align="center" valign="middle">$${newD2}</td>
-			<td align="center" valign="middle">$${newD3}</td>
-			<td align="center" valign="middle">$${newD4}</td>
-			<td align="center" valign="middle">$${newD5}</td>
-			<td align="center" valign="middle">$${newD6}</td>
-			<td align="center" valign="middle">$${newD7}</td>
-			<td align="center" valign="middle">$${newD8}</td>
-			<td align="center" valign="middle">$${newD9}</td>
-			<td align="center" valign="middle">$${newD10}</td>
-			<td align="center" valign="middle">$${newD11}</td>
-			<td align="center" valign="middle">$${newD12}</td>
+			<td align="center" valign="middle">¥${newD}</td>
+			<td align="center" valign="middle">¥${newD2}</td>
+			<td align="center" valign="middle">¥${newD3}</td>
+			<td align="center" valign="middle">¥${newD4}</td>
+			<td align="center" valign="middle">¥${newD5}</td>
+			<td align="center" valign="middle">¥${newD6}</td>
+			<td align="center" valign="middle">¥${newD7}</td>
+			<td align="center" valign="middle">¥${newD8}</td>
+			<td align="center" valign="middle">¥${newD9}</td>
+			<td align="center" valign="middle">¥${newD10}</td>
+			<td align="center" valign="middle">¥${newD11}</td>
+			<td align="center" valign="middle">¥${newD12}</td>
 		</tr>
 	</table>
 </body>

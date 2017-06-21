@@ -49,7 +49,7 @@
 	</ul>
 -->
 <ul class="nav nav-tabs">
-     <li class="active"><a href="${ctx}/cw/fPayment/list">付款列表</a></li>
+     <li class="active"><a href="${ctx}/cw/fPayment/list?paymentType=${fPayment.paymentType}">付款列表</a></li>
 	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/xjform">现金费用</a></li></shiro:hasPermission>
 	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/ybform">一般费用</a></li></shiro:hasPermission>
 	<shiro:hasPermission name="cw:fPayment:edit"><li><a href="${ctx}/cw/fPayment/qtform">其他费用</a></li></shiro:hasPermission>
