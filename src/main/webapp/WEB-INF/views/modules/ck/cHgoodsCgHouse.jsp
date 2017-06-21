@@ -52,13 +52,14 @@
 	<form:form id="inputForm" modelAttribute="cHgoods" action="${ctx}/ck/cHgoods/saveCG" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="goods.id"/>
+		<form:hidden path="fPayment.travelUnit.id" id="travelUnit"/>
 		<form:hidden path="rkState" value="0"/>
 		<form:hidden path="ckState"/><%--这里保存采购订单ID--%>
 		<sys:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">商品：</label>
 			<div class="controls">
-				<form:input path="goods.name" class="required readOnly" htmlEscape="true"></form:input>
+				<form:input path="goods.name" class="required" readOnly="true" htmlEscape="true"></form:input>
 			</div>
 		</div>
 		<div class="control-group">
@@ -73,7 +74,7 @@
 		<div class="control-group">
 			<label class="control-label">供应商：</label>
 			<div class="controls">
-				<form:select path="supplierid" class="required">
+				<form:select path="supplierid" class="required" onchange="$('#travelUnit').val($(this).val())">
 					<form:option value="" label="请选择" ></form:option>
 					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
@@ -102,13 +103,6 @@
 			<span class="help-inline"><font color="red">* </font> </span>
 		</div>
 	</div>
-		<div class="control-group">
-			<label class="control-label">来往单位：</label>
-			<div class="controls">
-				<form:input path="fPayment.travelUnit" htmlEscape="false" maxlength="64" class="input-xlarge required "/>
-				<span class="help-inline"><font color="red">* </font> </span>
-			</div>
-		</div>
 		<div class="control-group">
 			<label class="control-label">实际支出：</label>
 			<div class="controls">

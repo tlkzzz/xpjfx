@@ -77,11 +77,13 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>订单号</th>
+				<th>订单编号</th>
+				<th>出库仓库</th>
+				<th>客户名称</th>
 				<th>审批状态</th>
 				<th>审批人</th>
 				<th>审批时间</th>
-				<th>创建时间</th>
+				<th>下单时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="ck:cCkinfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -92,6 +94,12 @@
 				<td><a href="javascript:void(0)" onclick="viewSubOrder('${cRkckddinfo.id}')">
 					${cRkckddinfo.ddbh}
 				</a></td>
+				<td>
+					${cRkckddinfo.cHouse.name}
+				</td>
+				<td>
+					${cRkckddinfo.store.name}
+				</td>
 				<td>
 					${fns:getDictLabel(cRkckddinfo.issp, "storeState", "")}
 				</td>
