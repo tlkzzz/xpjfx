@@ -109,9 +109,10 @@
 		SELECT
 		<include refid="cHgoodsColumns"/>
 		FROM c_hgoods a
+		<include refid="cHgoodsJoins"/>
 		<where>
 			a.goodsid=#{goods.id}
-			and a.housid=#{hous.id}
+			and a.housid=#{house.id}
 		</where>
 
 	</select>

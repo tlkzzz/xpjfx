@@ -664,6 +664,17 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="updateCGInfo">
+		UPDATE c_ddinfo SET
+			hous_id = #{house.id},
+			supplier_id = #{supplier.id},
+			je = #{je},
+			rkckdate = #{rkckdate},
+			rkqcbj = #{rkqcbj},
+			rksjcbj = #{rksjcbj}
+		WHERE id = #{id}
+	</update>
+
 	<update id="thUpdate">
 		UPDATE c_ddinfo SET
 		thsl = #{thsl},

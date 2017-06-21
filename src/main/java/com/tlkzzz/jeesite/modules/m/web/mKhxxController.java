@@ -28,9 +28,10 @@ public class mKhxxController extends BaseController {
     private FReceiptService fReceiptService;
     @ResponseBody
     @RequestMapping(value = {"list"})
-    public List<CStore> list() {
+    public List<CStore> list(int fybs) {
         CStore cStore=new CStore();
-        List<CStore> cStoreList=cStoreService.findList(cStore);
+        cStore.setFybs(fybs);
+        List<CStore> cStoreList=cStoreService.fyfindList(cStore);
         return cStoreList;
     }
 

@@ -1,6 +1,7 @@
 package com.tlkzzz.jeesite.modules.m.web;
 
 import com.tlkzzz.jeesite.common.utils.IdGen;
+import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
@@ -42,16 +43,20 @@ public class mXsAddController extends BaseController {
     private FDiscountService fDiscountService;
     @Autowired
     private FArrearsService fArrearsService;
+    @Autowired
+    private CRkckddinfoService cRkckddinfoService;
     @ResponseBody
     @RequestMapping(value = {"list"})
     public String list(String s,String nub,String sj,String storeId,String tjval,String shje,String dates) {
         CXsddls cXsddls=new CXsddls();
-        if("".equals(tjval)&&tjval.equals(null)){
+        if(StringUtils.isBlank(tjval)){
+    //"".equals(tjval)&&tjval.equals(null
             cXsddls.setFid(IdGen.uuid());
         }else{
             cXsddls.setFid(tjval);
         }
-        if("".equals(dates)&&dates.equals(null)){
+        if(StringUtils.isNotBlank(dates)){
+            //"".equals(dates)&&dates.equals(null)
             cXsddls.setDates(dates);
         }
         cXsddls.setNub(nub);
@@ -107,10 +112,11 @@ public class mXsAddController extends BaseController {
         Double zhtje=0.00;
         Double zsjje=0.00;
         //根据名称获取仓库ID
-        List<CHouse> cHouseList=cHouseService.getname(xsck);
-        String houseId=cHouseList.get(0).getId();//仓库ID
+//        List<CHouse> cHouseList=cHouseService.getname(xsck);
+//        String houseId=cHouseList.get(0).getId();//仓库ID
         //获取临时表中数据，销售订单出库信息
-        if(!"".equals(state)&&!state.equals(null)){
+        if(StringUtils.isNotBlank(state)){
+            //!"".equals(state)&&!state.equals(null)
             CXsddls tcXsddls=new CXsddls();
             tcXsddls.setFid(tjval);
             tcXsddls.setState(state);
@@ -121,10 +127,10 @@ public class mXsAddController extends BaseController {
         List<CXsddls> cXsddlsList=cXsddlsService.findList(cXsddls);
         for(int i=0;i<cXsddlsList.size();i++){
             //减少库存
-            String goodsid=cXsddlsList.get(0).getGoodsid();
+            String goodsid=cXsddlsList.get(i).getGoodsid();
             Double nub=Double.parseDouble(cXsddlsList.get(i).getNub());
             CHgoods cHgoods=new CHgoods();
-            cHgoods.setHouse(new CHouse(houseId));
+            cHgoods.setHouse(new CHouse(xsck));
             cHgoods.setGoods(new CGoods(goodsid));
             List<CHgoods> cHgoodsList=cHgoodsService.findList(cHgoods);
             Double kcnub=Double.parseDouble(cHgoodsList.get(0).getNub());
@@ -143,7 +149,7 @@ public class mXsAddController extends BaseController {
             cCkinfo.setCkhcbj(cGoodsList.get(0).getCbj());
             cCkinfo.setNub(cXsddlsList.get(i).getNub());
             cCkinfo.setGoods(new CGoods(goodsid));
-            cCkinfo.setHouse(new CHouse(houseId));
+            cCkinfo.setHouse(new CHouse(xsck));
             cCkinfo.setStore(new CStore(cXsddlsList.get(i).getStoreId()));
             cCkinfo.setCkdate(new Date());
             cCkinfo.setState("4");
@@ -152,7 +158,7 @@ public class mXsAddController extends BaseController {
             //添加子订单
             CDdinfo cDdinfo=new CDdinfo();
             cDdinfo.setRkckddinfo(new CRkckddinfo(cXsddlsList.get(i).getFid()));
-            cDdinfo.setHouse(new CHouse(houseId));
+            cDdinfo.setHouse(new CHouse(xsck));
             cDdinfo.setGoods(new CGoods(goodsid));
             cDdinfo.setStore(new CStore(cXsddlsList.get(i).getStoreId()));
             cDdinfo.setJe(cXsddlsList.get(i).getSj());
@@ -184,7 +190,8 @@ public class mXsAddController extends BaseController {
                 cRkckddinfo.setJe(zysj.toString());
                 cRkckddinfo.setHtje(zhtje.toString());
                 cRkckddinfo.setSjje(zsjje.toString());
-                cRkckddinfo.setcHouse(new CHouse(houseId));
+                cRkckddinfo.setcHouse(new CHouse(xsck));
+                cRkckddinfoService.save(cRkckddinfo);
                 //添加优惠记录表
                 Double zyhje=zysj-zhtje;
                 if(zyhje!=0){

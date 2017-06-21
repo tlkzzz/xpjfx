@@ -16,7 +16,7 @@ import com.tlkzzz.jeesite.modules.ck.dao.CXsddlsDao;
 /**
  * 销售订单临时表Service
  * @author szx
- * @version 2017-05-16
+ * @version 2017-05-1
  */
 @Service
 @Transactional(readOnly = true)
@@ -43,7 +43,11 @@ public class CXsddlsService extends CrudService<CXsddlsDao, CXsddls> {
 	public void delete(CXsddls cXsddls) {
 		super.delete(cXsddls);
 	}
-
+/**
+ *
+ * shizx
+ * */
+	@Transactional(readOnly = false)
 	public void stateUpdate(CXsddls cXsddls){dao.stateUpdate(cXsddls);}
 
 	public List<CXsddls> fyfindList(CXsddls cXsddls){return dao.fyfindList(cXsddls);}

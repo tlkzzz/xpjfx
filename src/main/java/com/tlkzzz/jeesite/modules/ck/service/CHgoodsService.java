@@ -123,6 +123,11 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	}
 
 	@Transactional(readOnly = false)
+	public void appSave(CHgoods cHgoods) {
+		super.save(cHgoods);
+	}
+
+	@Transactional(readOnly = false)
 	public void moveSave(CHgoods cHgoods){//移库
 	    String inHouseId = cHgoods.getHouse().getCode();
 	    String outHouseId = cHgoods.getHouse().getId();

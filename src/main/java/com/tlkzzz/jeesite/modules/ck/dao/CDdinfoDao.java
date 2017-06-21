@@ -21,6 +21,11 @@ public interface CDdinfoDao extends CrudDao<CDdinfo> {
      * @param cDdinfo
      */
     public void updateCgzbInfo(CDdinfo cDdinfo);
+    /**
+     * 保存采购统信息
+     * @param cDdinfo
+     */
+    public void updateCGInfo(CDdinfo cDdinfo);
 
     /**
      * 通过商品分组查询报表信息

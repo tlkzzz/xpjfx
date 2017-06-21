@@ -67,7 +67,7 @@ public class FArrearsController extends BaseController {
 	@RequestMapping(value = "supplierList")
 	public String supplierList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
 		fArrears.setArrearsType("1");
-		Page<FArrears> page = fArrearsService.findPage(new Page<FArrears>(request, response), fArrears);
+		Page<FArrears> page = fArrearsService.findSupplierPage(new Page<FArrears>(request, response), fArrears);
 		model.addAttribute("page", page);
 		model.addAttribute("fArrears",fArrears);
 		return "modules/cw/fArrearsSupplierList";
@@ -111,7 +111,7 @@ public class FArrearsController extends BaseController {
 	@RequestMapping(value = "cgDdList")
 	public String cgDdList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
 		fArrears.setArrearsType("0");
-		Page<FArrears> page = fArrearsService.finPage(new Page<FArrears>(request, response), fArrears);
+		Page<FArrears> page = fArrearsService.findStorePage(new Page<FArrears>(request, response), fArrears);
 		model.addAttribute("fArrears", fArrears);
 		model.addAttribute("page", page);
 		return "modules/cw/storedList";
