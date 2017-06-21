@@ -38,8 +38,10 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 	public List<CYkinfo> findList(CYkinfo cYkinfo) {
 		List<CYkinfo> list = super.findList(cYkinfo);
 		for(CYkinfo cc: list){
-			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
-			cc.setSpecNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			if(cc!=null) {
+				String[] unit = {cc.getGoods().getBig().getName(), cc.getGoods().getZong().getName(), cc.getGoods().getSmall().getName()};
+				cc.setSpecNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			}
 		}
 		return list;
 	}
@@ -49,8 +51,10 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 	public List<CYkinfo> findReportList(CYkinfo cYkinfo) {
 		List<CYkinfo> list = dao.findReportList(cYkinfo);
 		for(CYkinfo cc: list){
-			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
-			cc.setSpecNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			if(cc!=null) {
+				String[] unit = {cc.getGoods().getBig().getName(), cc.getGoods().getZong().getName(), cc.getGoods().getSmall().getName()};
+				cc.setSpecNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			}
 		}
 		return list;
 	}
@@ -58,8 +62,10 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 	public Page<CYkinfo> findPage(Page<CYkinfo> page, CYkinfo cYkinfo) {
 		page = super.findPage(page, cYkinfo);
 		for(CYkinfo cc:page.getList()){
-			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
-			cc.setNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			if(cc!=null) {
+				String[] unit = {cc.getGoods().getBig().getName(), cc.getGoods().getZong().getName(), cc.getGoods().getSmall().getName()};
+				cc.setNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
+			}
 		}
 		return page;
 	}
