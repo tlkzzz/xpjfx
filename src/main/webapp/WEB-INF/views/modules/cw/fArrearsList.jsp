@@ -16,9 +16,9 @@
         	return false;
         }
 
-         function viewSubOrder(id){
+         function viewSubOrder(id,arrearsUnit){
 			if(id!=''){//iframe打开子订单列表
-                top.$.jBox.open("iframe:${ctx}/cw/fArrears/cgDdList?arrearsType.id="+id, "欠款列表", 1000, $(top.document).height()-180, {
+                top.$.jBox.open("iframe:${ctx}/cw/fArrears/cgDdList?arrearsType.id="+id+"&arrearsUnit="+arrearsUnit, "欠款列表", 1000, $(top.document).height()-180, {
                     buttons:{"确定":"ok"}, loaded:function(h){
                         $(".jbox-content", top.document).css("overflow-y","hidden");
                     }
@@ -48,7 +48,7 @@
 		<thead>
 			<tr>
 				<th>欠款客户</th>
-                <th>订单对象</th>
+                <th>订单编号</th>
 				<th>欠款方式</th>
 				<th>欠款金额</th>
 				<th>欠款日期</th>
@@ -58,11 +58,11 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fArrears">
 			<tr>
-				<td><a href="javascript:void(0)" onclick="viewSubOrder('${fArrears.id}')">
+				<td><a href="javascript:void(0)" onclick="viewSubOrder('${fArrears.id}','${fArrears.arrearsUnit}')">
 						${fArrears.unitName}
 				</a></td>
 				<td>
-						${fArrears.rkckdd.id}
+						${fArrears.rkckdd.ddbh}
 				</td>
 				<td>
 					${fns:getDictLabel(fArrears.arrearsMode, "arrearsMode", "")}
