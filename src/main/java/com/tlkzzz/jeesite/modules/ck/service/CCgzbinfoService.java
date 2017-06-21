@@ -146,7 +146,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 			cd.setRkqcbj(goods.getCbj());
 			cd.setRksjcbj(String.valueOf(cHgoods.getCbj()));
 			cd.setJe(String.valueOf(cHgoods.getCbj()));
-			cDdinfoDao.update(cd);
+			cDdinfoDao.updateCGInfo(cd);
 			/**	保存入库信息到总订单中	**/
 			double sumMoney = 0.0;
 			cDdinfo.setCgzbinfo(null);
