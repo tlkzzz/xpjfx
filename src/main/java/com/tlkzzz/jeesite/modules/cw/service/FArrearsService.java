@@ -33,6 +33,18 @@ public class FArrearsService extends CrudService<FArrearsDao, FArrears> {
 		return super.findList(fArrears);
 	}
 
+	public Page<FArrears> findStorePage(Page<FArrears> page, FArrears fArrears){
+		fArrears.setPage(page);
+		page.setList(dao.finStoreList(fArrears));
+		return page;
+	}
+
+	public Page<FArrears> findSupplierPage(Page<FArrears> page, FArrears fArrears){
+		fArrears.setPage(page);
+		page.setList(dao.finSupplierList(fArrears));
+		return page;
+	}
+
 	/**
 	 * 必须通过欠款类型进行查询 0：客户欠款，1：欠供应商款
 	 * @param page 分页对象
