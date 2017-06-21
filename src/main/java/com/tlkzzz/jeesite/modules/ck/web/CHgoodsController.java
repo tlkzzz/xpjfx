@@ -160,9 +160,8 @@ public class CHgoodsController extends BaseController {
 		if (!beanValidator(model, cHgoods)){
 			return form(cHgoods, model);
 		}
-		FPayment fPayment=new FPayment();
 		//shizx 支出记录实体对象
-		fPayment=cHgoods.getfPayment();
+		FPayment fPayment = cHgoods.getfPayment();
 		//shizx set 订单id
 		fPayment.setPaymentCode(cHgoods.getCkState());
 		//shizx set 支出方式
