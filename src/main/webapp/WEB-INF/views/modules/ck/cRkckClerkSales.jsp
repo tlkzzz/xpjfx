@@ -34,6 +34,9 @@
 		<input name="state" type="hidden" value="${cRkckddinfo.state}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+			<li><label>订单号：</label>
+				<form:input path="ddbh" htmlEscape="false" maxlength="64" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

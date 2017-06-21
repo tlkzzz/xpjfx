@@ -25,7 +25,14 @@
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
-
+        <li><label>客户名称：</label>
+            <form:input path="khName" htmlEscape="false" maxlength="64" class="input-medium"/>
+        </li>
+        <li><label>还款日期：</label>
+            <input name="checkDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="<fmt:formatDate value="${fIncomeRecord.incomeDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+        </li>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
         <li class="clearfix"></li>
     </ul>

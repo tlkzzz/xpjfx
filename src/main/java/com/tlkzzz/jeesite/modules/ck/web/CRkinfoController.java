@@ -64,6 +64,8 @@ public class CRkinfoController extends BaseController {
 	public String list(CRkinfo cRkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CRkinfo> page = cRkinfoService.findPage(new Page<CRkinfo>(request, response), cRkinfo); 
 		model.addAttribute("cRkinfo", cRkinfo);
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("page", page);
 		return "modules/ck/cRkinfoList";
 	}

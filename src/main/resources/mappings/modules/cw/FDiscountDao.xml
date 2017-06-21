@@ -38,6 +38,9 @@
 		<include refid="fDiscountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.storeid = #{store.id}
+			</if>
 			<if test="startDate != null and startDate != ''">
 				AND a.create_date &gt; #{startDate}
 			</if>
@@ -54,7 +57,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="FDiscount">
 		SELECT 
 			<include refid="fDiscountColumns"/>

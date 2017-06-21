@@ -54,16 +54,6 @@
 		WHERE a.receipt_code = #{receiptCode}
 	</select>
 
-	<select id="fyfindList" resultType="FReceipt">
-		SELECT o.*
-		FROM (
-		SELECT
-		<include refid="fReceiptColumns"/>
-		FROM f_receipt a
-		<include refid="fReceiptJoins"/>
-		) o LIMIT ${fybs},10
-	</select>
-
 	<select id="findList" resultType="FReceipt">
 		SELECT 
 			<include refid="fReceiptColumns"/>

@@ -25,6 +25,15 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+			<li><label>订单编号：</label>
+				<form:input path="ddbh" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>支出账号：</label>
+				<form:input path="expenAccount" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>来往账号：</label>
+				<form:input path="travelAccount" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

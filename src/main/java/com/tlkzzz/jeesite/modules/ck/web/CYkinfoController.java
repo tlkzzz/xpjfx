@@ -63,6 +63,7 @@ public class CYkinfoController extends BaseController {
 	public String list(CYkinfo cYkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CYkinfo> page = cYkinfoService.findPage(new Page<CYkinfo>(request, response), cYkinfo); 
 		model.addAttribute("cYkinfo", cYkinfo);
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("page", page);
 		return "modules/ck/cYkinfoList";
 	}

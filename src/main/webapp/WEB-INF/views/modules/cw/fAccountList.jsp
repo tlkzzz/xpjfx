@@ -28,6 +28,12 @@
 			<li><label>账户名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
+			<li><label>账户类型：</label>
+				<form:select path="accountType" >
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

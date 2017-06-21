@@ -63,6 +63,10 @@
 		<include refid="cCgzbinfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="rkinfo != null and rkinfo.supplier !=null and rkinfo.supplier.id != null and rkinfo.supplier.id != ''">
+				AND csu.id = #{rkinfo.supplier.id}
+			</if>
+
 			<if test="goods != null and goods.id != null and goods.id != ''">
 				AND a.goodsid = #{goods.id}
 			</if>

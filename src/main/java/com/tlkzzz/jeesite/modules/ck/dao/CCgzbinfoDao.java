@@ -6,6 +6,9 @@ package com.tlkzzz.jeesite.modules.ck.dao;
 import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CCgzbinfo;
+import com.tlkzzz.jeesite.modules.ck.entity.CCkinfo;
+
+import java.util.List;
 
 /**
  * 采购订单DAO接口
@@ -24,6 +27,12 @@ public interface CCgzbinfoDao extends CrudDao<CCgzbinfo> {
      */
 	public CCgzbinfo getZbByGoodsAndState(String goodsId, String state);
 
+    /**
+     * 通过商品的小类查询出他的总价格
+     * @param cCgzbinfo
+     * @return
+     */
+    public List<CCgzbinfo> findListxl(CCgzbinfo cCgzbinfo);
     /**
      * 通过ID修改订单状态
      * @param id

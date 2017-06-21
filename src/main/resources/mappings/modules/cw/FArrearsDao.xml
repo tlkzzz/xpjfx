@@ -81,6 +81,12 @@
 			<if test="arrearsUnit != null and arrearsUnit != ''">
 				AND a.arrears_unit = #{arrearsUnit}
 			</if>
+			<if test="arrearsMode != null and arrearsMode != ''">
+				AND a.arrears_mode = #{arrearsMode}
+			</if>
+			<if test="unitName != null and unitName != ''">
+				AND cs.name = #{unitName}
+			</if>
 		</where>
 		GROUP BY a.arrears_unit
 		<choose>
@@ -104,6 +110,12 @@
 			a.arrears_type = #{arrearsType}
 			<if test="arrearsUnit != null and arrearsUnit != ''">
 				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+			<if test="arrearsMode != null and arrearsMode != ''">
+				AND a.arrears_mode = #{arrearsMode}
+			</if>
+			<if test="unitName != null and unitName != ''">
+				AND cs.name = #{unitName}
 			</if>
 		</where>
 		GROUP BY a.arrears_unit
@@ -130,6 +142,12 @@
 			<if test="arrearsUnit != null and arrearsUnit != ''">
 				AND a.arrears_unit = #{arrearsUnit}
 			</if>
+			<if test="arrearsMode != null and arrearsMode != ''">
+				AND a.arrears_mode = #{arrearsMode}
+			</if>
+			<if test="unitName != null and unitName != ''">
+				AND cs.name = #{unitName}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -152,6 +170,12 @@
 			a.arrears_type = #{arrearsType}
 			<if test="arrearsUnit != null and arrearsUnit != ''">
 				AND a.arrears_unit = #{arrearsUnit}
+			</if>
+			<if test="arrearsMode != null and arrearsMode != ''">
+				AND a.arrears_mode = #{arrearsMode}
+			</if>
+			<if test="unitName != null and unitName != ''">
+				AND cs.name = #{unitName}
 			</if>
 		</where>
 		<choose>

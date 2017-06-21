@@ -38,6 +38,15 @@
 			<li><label>欠款单位：</label>
 				<form:input path="arrearsUnit" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
+			<li><label>欠款客户：</label>
+				<form:input path="unitName" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>欠款方式：</label>
+				<form:select path="arrearsMode" >
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('arrearsMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

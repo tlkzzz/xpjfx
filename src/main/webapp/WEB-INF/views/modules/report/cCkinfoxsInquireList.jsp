@@ -14,11 +14,16 @@
 			$("#searchForm").submit();
         	return false;
         }
+         function derive(){
+        var form = $("#searchForm");
+        window.open('${ctx}/ck/cCkinfo/xsExcel?'+form.serialize());
+		}
+
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/ck/cCkinfo/xsInquire">出库信息列表</a></li>
+		<li class="active"><a href="${ctx}/ck/cCkinfo/xsInquire">销售单列表</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="cCkinfo" action="${ctx}/ck/cCkinfo/xsInquire" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -49,6 +54,7 @@
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id=""  class="btn btn-primary" type="button" onclick="derive()" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

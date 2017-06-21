@@ -10,6 +10,7 @@ import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.ck.service.CRkckddinfoService;
 import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
+import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,7 @@ public class FDiscountController extends BaseController {
 		Page<FDiscount> page = fDiscountService.findPage(new Page<FDiscount>(request, response), fDiscount); 
 		model.addAttribute("page", page);
 		model.addAttribute("fDiscount",fDiscount);
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		return "modules/cw/fDiscountList";
 	}
 
@@ -103,4 +105,11 @@ public class FDiscountController extends BaseController {
 		return "modules/report/fDiscountReportList";
 	}
 
+	//导出
+	@RequestMapping(value = "khyhexcel")
+	public String khyhexcel(FDiscount fDiscount, Model model,HttpServletResponse response) {
+		List<FDiscount> list=fDiscountService.findList(fDiscount);
+		ExcelCreateUtils.khyhexcel(response,list,"1");
+		return null;
+	}
 }

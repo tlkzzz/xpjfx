@@ -67,6 +67,7 @@ public class CHouseCheckInventoryController extends BaseController {
 	public String list(CHouseCheckInventory cHouseCheckInventory, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CHouseCheckInventory> page = cHouseCheckInventoryService.findPage(new Page<CHouseCheckInventory>(request, response), cHouseCheckInventory); 
 		model.addAttribute("cHouseCheckInventory", cHouseCheckInventory);
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("page", page);
 		return "modules/ck/cHouseCheckInventoryList";
 	}

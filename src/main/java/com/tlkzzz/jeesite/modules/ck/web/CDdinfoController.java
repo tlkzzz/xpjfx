@@ -6,12 +6,13 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.common.mapper.JsonMapper;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
 import com.tlkzzz.jeesite.modules.cw.entity.*;
 import com.tlkzzz.jeesite.modules.cw.service.*;
-import com.tlkzzz.jeesite.modules.sys.entity.User;
 import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
+import net.sf.json.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,10 @@ public class CDdinfoController extends BaseController {
 
 	@Autowired
 	private CDdinfoService cDdinfoService;
+	@Autowired
+	private CSupplierService cSupplierService;
+	@Autowired
+	private CStoreService cStoreService;
 	@Autowired
 	private CHouseService cHouseService;
 	@Autowired
@@ -77,6 +82,10 @@ public class CDdinfoController extends BaseController {
 	public String cgDdList(CDdinfo cDdinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CDdinfo> page = cDdinfoService.findPage(new Page<CDdinfo>(request, response), cDdinfo);
 		model.addAttribute("cDdinfo", cDdinfo);
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
+		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("storeList", cStoreService.findList(new CStore()));
 		model.addAttribute("page", page);
 		return "modules/ck/cDdinfoList";
 	}

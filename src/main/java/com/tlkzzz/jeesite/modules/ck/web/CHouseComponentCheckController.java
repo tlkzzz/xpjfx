@@ -63,6 +63,7 @@ public class CHouseComponentCheckController extends BaseController {
 	public String list(CHouseComponentCheck cHouseComponentCheck, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CHouseComponentCheck> page = cHouseComponentCheckService.findPage(new Page<CHouseComponentCheck>(request, response), cHouseComponentCheck); 
 		model.addAttribute("cHouseComponentCheck", cHouseComponentCheck);
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("page", page);
 		return "modules/ck/cHouseComponentCheckList";
 	}

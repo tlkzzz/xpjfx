@@ -32,7 +32,10 @@
 				<form:input path="endHouse.name" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
 			<li><label>商品：</label>
-				<form:input path="goods.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:select path="goods.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${goodsList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>

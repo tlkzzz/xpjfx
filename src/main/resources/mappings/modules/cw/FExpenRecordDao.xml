@@ -38,7 +38,15 @@
 		FROM f_expen_record a
 		<include refid="fExpenRecordJoins"/>
 		<where>
-			
+			<if test="ddbh != null and ddbh != ''">
+				AND crk.ddbh = #{ddbh}
+			</if>
+			<if test="expenAccount != null and expenAccount != ''">
+				AND a.expen_account = #{expenAccount}
+			</if>
+			<if test="travelAccount != null and travelAccount != ''">
+				AND a.travel_account = #{travelAccount}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

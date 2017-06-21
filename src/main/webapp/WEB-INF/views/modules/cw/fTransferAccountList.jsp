@@ -31,6 +31,15 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+			<li><label>来往单位：</label>
+				<form:input path="travelUnit" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>转出账户：</label>
+				<form:input path="outAccount" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>转入账户：</label>
+				<form:input path="inAccount" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>

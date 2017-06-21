@@ -38,11 +38,17 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>商品名称：</label>
-				<form:input path="goods.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+			<li><label>商品：</label>
+				<form:select path="goods.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${goodsList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
 			</li>
-			<li><label>仓库名称：</label>
-				<form:input path="house.name" htmlEscape="false" maxlength="64" class="input-medium"/>
+			<li><label>仓库：</label>
+				<form:select path="house.id">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${houseList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+				</form:select>
 			</li>
 			<li>最后入库时间：
 			&nbsp;&nbsp;<input id="updateDate"  name="updateDate"  type="text" readonly="readonly" maxlength="64" class="input-medium Wdate" style="width:163px;"

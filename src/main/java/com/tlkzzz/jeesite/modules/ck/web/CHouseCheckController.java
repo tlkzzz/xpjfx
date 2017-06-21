@@ -63,6 +63,7 @@ public class CHouseCheckController extends BaseController {
 	public String list(CHouseCheck cHouseCheck, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<CHouseCheck> page = cHouseCheckService.findPage(new Page<CHouseCheck>(request, response), cHouseCheck); 
 		model.addAttribute("cHouseCheck", cHouseCheck);
+		model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 		model.addAttribute("page", page);
 		return "modules/ck/cHouseCheckList";
 	}

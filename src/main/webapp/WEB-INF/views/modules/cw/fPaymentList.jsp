@@ -66,6 +66,12 @@
 			<li><label>单据编号：</label>
 				<form:input path="paymentCode" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
+			<li><label>来往账号：</label>
+				<form:input path="travelAccount" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>付款账号：</label>
+				<form:input path="paymentAccount" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -78,7 +84,7 @@
 			<!--     <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
                </c:if> -->
 				<th>来往账号</th>
-				<th>收款帐号</th>
+				<th>付款帐号</th>
 				<th>来往单位</th>
 				<th>付款日期</th>
 				<th>单据编号</th>

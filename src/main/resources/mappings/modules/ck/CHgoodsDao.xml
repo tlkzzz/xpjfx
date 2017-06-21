@@ -87,7 +87,7 @@
 				AND a.housid = #{house.id}
 			</if>
 			<if test="updateDate != null and updateDate!=''">
-				AND a.update_date &gt;= #{updateDate}
+				AND a.create_by &gt;= #{updateDate} AND  a.create_by &lt;= #{updateDate}
 			</if>
 			<if test="house != null and house.name != null and house.name != ''">
 				AND ch.name LIKE
