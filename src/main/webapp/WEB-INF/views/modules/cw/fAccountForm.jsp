@@ -76,6 +76,21 @@
             }
 
         }
+
+        $(function(){
+            //页面加载完毕后开始执行的事件
+            $("select[name='accountType']").change(function(){
+
+                if($(this).val() !="1")
+                {
+                    $("#DbankName").hide();
+                    $("#DbankCode").hide();
+                }else{
+                    $("#DbankName").show();
+                    $("#DbankCode").show();
+                }
+            });
+        });
 	</script>
 </head>
 <body>
@@ -89,7 +104,7 @@
 		<div class="control-group">
 			<label class="control-label">账户类型：</label>
 			<div class="controls">
-				<form:select path="accountType" class="required" onclick="hide()" id="accountType">
+				<form:select path="accountType" class="required"  id="accountType">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('expenMode')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select>

@@ -129,7 +129,11 @@
 		<div class="control-group">
 			<label class="control-label">付款方式：</label>
 			<div class="controls">
-				<form:input path="paymentMode" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+				<form:select path="paymentMode" cssClass="required">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${fns:getDictList('paymentMode')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
