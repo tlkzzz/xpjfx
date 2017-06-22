@@ -228,7 +228,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{rkckdd},
+			#{rkckdd.id},
 			#{arrearsUnit},
 			#{arrearsType},
 			#{arrearsMode},
@@ -245,7 +245,7 @@
 	
 	<update id="update">
 		UPDATE f_arrears SET 	
-			rkckdd = #{rkckdd},
+			rkckdd = #{rkckdd.id},
 			arrears_unit = #{arrearsUnit},
 			arrears_type = #{arrearsType},
 			arrears_mode = #{arrearsMode},
