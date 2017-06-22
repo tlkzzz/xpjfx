@@ -43,15 +43,13 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">商品分类：</label>
+	<div class="control-group">
+		<label class="control-label">商品分类：</label>
 			<div class="controls">
-				<form:select path="gclass.id">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${houseList}" itemValue="id" itemLabel="name" htmlEscape="false"></form:options>
-				</form:select>
+				<sys:treeselect id="gclassId" name="gclass.id" value="${cHouseCheckInventory.gclass.id}" labelName="gclass.name" labelValue="${cHouseCheckInventory.gclass.name}"
+								title="商品分类选择" url="/ck/cGclass/treeData" cssClass="input-medium"/>
 			</div>
-		</div>
+	</div>
 		<div class="control-group">
 			<label class="control-label">盘点时间：</label>
 			<div class="controls">

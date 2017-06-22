@@ -33,10 +33,12 @@
 		});
 		function checkSpec() {
 		    var str = $("#specId option:selected").text();
-            $("#zongSpan").text("中");
-		    $("#bigId").val('');
-            $("#zongId").val('');
-            $("#smallSeId").val('');//将三个单位下拉按钮置为空
+		    if(str=="") {
+                $("#zongSpan").text("中");
+                $("#bigId").val('');
+                $("#zongId").val('');
+                $("#smallSeId").val('');//将三个单位下拉按钮置为空
+            }
             if(str!=""){
                 $("#unitsId").show();
                 if(checkMi(str)>1){
