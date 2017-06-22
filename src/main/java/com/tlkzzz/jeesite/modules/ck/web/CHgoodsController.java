@@ -228,6 +228,8 @@ public class CHgoodsController extends BaseController {
 		cCkinfo.setGoods(cHgoods.getGoods());
 		cCkinfo.setHouse(cHgoods.getHouse());
 		cCkinfo.setState("9");
+		cCkinfo.setIssp("1");
+		cCkinfo.setJsr(UserUtils.getUser());
 		cCkinfoService.save(cCkinfo);
 		CRkinfo cRkinfo = new CRkinfo();
 		cRkinfo.setGoods(cHgoods.getGoods());
