@@ -13,6 +13,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
 import com.tlkzzz.jeesite.modules.cw.service.*;
 import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
+import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -85,9 +87,39 @@ public class CCgzbinfoController extends BaseController {
 		Page<CCgzbinfo> page = cCgzbinfoService.findPage(new Page<CCgzbinfo>(request, response), cCgzbinfo);
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
 		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
+		model.addAttribute("orderCodeList", cCgzbinfoService.findOrderCodeList(new CCgzbinfo()));
 		model.addAttribute("cCgzbinfo", cCgzbinfo);
 		model.addAttribute("page", page);
 		return "modules/ck/cCgzbinfoList";
+	}
+
+	@RequiresPermissions("ck:cCgzbinfo:view")
+	@RequestMapping(value = "cgPrint")//打印采购单
+	public String cgPrint(CCgzbinfo cCgzbinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if(cCgzbinfo!=null&&StringUtils.isNotBlank(cCgzbinfo.getOrderCode())) {
+			List<CCgzbinfo> list = cCgzbinfoService.findList(cCgzbinfo);
+			double sumMoney = 0;
+			int sumNub = 0;
+			for(CCgzbinfo cc: list){
+				cCgzbinfo = cc;
+				cc.getGoods().setCd(cc.getRknub());
+				int nub = Integer.parseInt(cc.getNub());
+				sumMoney += Double.parseDouble(cc.getJg())*nub;
+				sumNub += nub;
+			}
+			cCgzbinfoService.processUnit(list);
+			BigDecimal numberOfMoney = new BigDecimal(sumMoney);
+			model.addAttribute("CNMoney", NumberToCN.number2CNMontrayUnit(numberOfMoney));
+			model.addAttribute("cCgzbinfo", cCgzbinfo);
+			model.addAttribute("list", list);
+			model.addAttribute("date", new Date());
+			model.addAttribute("sumMoney", sumMoney);
+			model.addAttribute("sumNub", sumNub);
+			model.addAttribute("user", UserUtils.getUser());
+			return "modules/ck/cDdinfoPrintRK";
+		}else {
+			return "error/400";
+		}
 	}
 
 	/**

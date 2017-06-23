@@ -126,6 +126,7 @@ public class CHgoodsController extends BaseController {
 			cHgoods.setCkState(cGddId);
 			model.addAttribute("cHgoods", cHgoods);
 			model.addAttribute("cCgzbinfo", cCgzbinfo);
+
 			model.addAttribute("houseList", cHouseService.findList(new CHouse()));
 			model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 			return "modules/ck/cHgoodsCgHouse";
@@ -203,6 +204,7 @@ public class CHgoodsController extends BaseController {
 		//保存至支出记录表
 		fPaymentService.save(fPayment);
 		cHgoodsService.save(cHgoods);
+		cCgzbinfoService.updateOrderCode(cHgoods.getCkState(),fPayment.getDdbh());//保存批次编号
 		cCgzbinfoService.savePrice(cHgoods);//添加入库信息到采购订单表
 		addMessage(redirectAttributes, "保存仓库商品成功");
 		return "true";
