@@ -26,6 +26,7 @@ public class CCgzbinfo extends DataEntity<CCgzbinfo> {
 	private Date rkDate;		// 入库时间
 	private CRkinfo rkinfo;		//入库记录
 	private String state;		// 采购状态0子订单未审批1审批完采购中2采购完成已入库
+	private String orderCode;	// 订单编号，作为采购批次编号
 	
 	public CCgzbinfo() {
 		super();
@@ -101,5 +102,12 @@ public class CCgzbinfo extends DataEntity<CCgzbinfo> {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
 }
