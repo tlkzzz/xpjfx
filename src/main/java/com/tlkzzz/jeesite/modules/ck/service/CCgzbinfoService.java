@@ -45,19 +45,28 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	public List<CCgzbinfo> findList(CCgzbinfo cCgzbinfo) {
 		return super.findList(cCgzbinfo);
 	}
+
 	public List<CCgzbinfo> findListxl(CCgzbinfo cCgzbinfo) {
 		return dao.findListxl(cCgzbinfo);
 	}
 
+	public List<CCgzbinfo> findOrderCodeList(CCgzbinfo cCgzbinfo) {
+		return dao.findOrderCodeList(cCgzbinfo);
+	}
+
 	public Page<CCgzbinfo> findPage(Page<CCgzbinfo> page, CCgzbinfo cCgzbinfo) {
 		page = super.findPage(page, cCgzbinfo);
-		for(CCgzbinfo cc:page.getList()){
+		return page.setList(processUnit(page.getList()));
+	}
+
+	public List<CCgzbinfo> processUnit(List<CCgzbinfo> list){
+		for(CCgzbinfo cc: list){
 			String[] unit = {cc.getGoods().getBig().getName(),cc.getGoods().getZong().getName(),cc.getGoods().getSmall().getName()};
 			cc.setNub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getNub())));
 			if(StringUtils.isNotBlank(cc.getRknub()))
 				cc.setRknub(ToolsUtils.unitTools(cc.getGoods().getSpec().getName(), unit, Integer.parseInt(cc.getRknub())));
 		}
-		return page;
+		return list;
 	}
 	
 	@Transactional(readOnly = false,rollbackFor = Exception.class)
@@ -171,6 +180,11 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	@Transactional(readOnly = false)
 	public void changeState(String id,String state){
 		dao.changeState(id,state);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateOrderCode(String id,String orderCode){
+		dao.updateOrderCode(id,orderCode);
 	}
 	
 	@Transactional(readOnly = false)
