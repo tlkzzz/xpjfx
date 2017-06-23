@@ -14,6 +14,7 @@
 		cunc.name AS "goods.small.name",
 		cg.specid AS "goods.spec.id",
 		csp.name AS "goods.spec.name",
+		cg.bzq AS "goods.bzq",
 		a.nub AS "nub",
 		a.jg AS "jg",
 		a.rknub AS "rknub",
@@ -23,9 +24,11 @@
 		csu.name AS "rkinfo.supplier.name",
 		a.state AS "state",
 		a.create_by AS "createBy.id",
+		su.name AS "createBy.name",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
+		a.order_code AS "orderCode",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
@@ -38,6 +41,7 @@
 		LEFT JOIN c_unit cunb ON cg.`zong`=cunb.`id`
 		LEFT JOIN c_unit cunc ON cg.`small`=cunc.`id`
 		LEFT JOIN c_spec csp ON cg.`specid`=csp.`id`
+		LEFT JOIN sys_user su ON a.create_by=su.id
 	</sql>
     
 	<select id="get" resultType="CCgzbinfo">
@@ -66,9 +70,11 @@
 			<if test="rkinfo != null and rkinfo.supplier !=null and rkinfo.supplier.id != null and rkinfo.supplier.id != ''">
 				AND csu.id = #{rkinfo.supplier.id}
 			</if>
-
 			<if test="goods != null and goods.id != null and goods.id != ''">
 				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="orderCode != null and orderCode != ''">
+				AND a.order_code = #{orderCode}
 			</if>
 		</where>
 		<choose>
@@ -98,6 +104,15 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findOrderCodeList" resultType="CCgzbinfo">
+		SELECT
+			a.order_code AS "orderCode",
+			a.del_flag AS "delFlag"
+		FROM c_cgzbinfo a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND LENGTH(trim(a.order_code)) > 0
+		GROUP BY a.order_code
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO c_cgzbinfo(
@@ -112,6 +127,7 @@
 			create_date,
 			update_by,
 			update_date,
+			order_code,
 			remarks,
 			del_flag
 		) VALUES (
@@ -126,6 +142,7 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
+			#{orderCode},
 			#{remarks},
 			#{delFlag}
 		)
@@ -141,6 +158,7 @@
 			state = #{state},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
+			order_code = #{orderCode},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
@@ -148,6 +166,12 @@
 	<update id="changeState" parameterType="java.lang.String">
 		UPDATE c_cgzbinfo a SET
 			a.state = #{param2}
+		WHERE id = #{param1}
+	</update>
+
+	<update id="updateOrderCode" parameterType="java.lang.String">
+		UPDATE c_cgzbinfo a SET
+			a.order_code = #{param2}
 		WHERE id = #{param1}
 	</update>
 
