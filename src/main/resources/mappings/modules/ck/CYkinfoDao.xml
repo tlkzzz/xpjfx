@@ -13,6 +13,7 @@
 		cg.name AS "goods.name",
 		cg.sj AS "goods.sj",
 		cg.cbj AS "goods.cbj",
+		cg.tm AS "goods.tm",
 		cg.big AS "goods.big.id",
 		cuna.name AS "goods.big.name",
 		cg.zong AS "goods.zong.id",

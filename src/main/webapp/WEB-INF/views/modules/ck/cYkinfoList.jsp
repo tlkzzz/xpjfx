@@ -14,6 +14,18 @@
 			$("#searchForm").submit();
         	return false;
         }
+        function printPage(orderCode) {
+            if(orderCode==''){
+                top.$.jBox.tip("请选择批次编号！","warning","系统提示");
+                return;
+            }
+            $.jBox.open("iframe:${ctx}/ck/cYkinfo/cgPrint?orderCode="+orderCode,
+                "移库单打印",$(top.document).width()-420,$(top.document).height()-120,{
+                    buttons:{"确定":true}, loaded:function(h){
+                        $(".jbox-content", top.document).css("overflow-y","hidden");
+                    }
+                });
+        }
 	</script>
 </head>
 <body>
@@ -38,13 +50,13 @@
 				</form:select>
 			</li>
 			<li><label>批次编号：</label>
-				<form:select path="orderCode">
+				<form:select path="orderCode" id="orderCode">
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${orderCodeList}" itemLabel="orderCode" itemValue="orderCode" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="btns"><input class="btn" type="button" onclick="" value="打印"/></li>
+			<li class="btns"><input class="btn" type="button" onclick="printPage($('#orderCode').val())" value="打印"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
