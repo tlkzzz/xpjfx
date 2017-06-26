@@ -7,6 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
+import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
+import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
+import com.tlkzzz.jeesite.modules.ck.service.CRkckddinfoService;
+import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
+import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +29,10 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
 import com.tlkzzz.jeesite.modules.cw.service.FArrearsService;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 /**
  * 欠款记录Controller
  * @author xrc
@@ -34,6 +44,12 @@ public class FArrearsController extends BaseController {
 
 	@Autowired
 	private FArrearsService fArrearsService;
+	@Autowired
+	private CRkckddinfoService cRkckddinfoService;
+	@Autowired
+	private CDdinfoService cDdinfoService;
+	@Autowired
+	private CStoreService cStoreService;
 	
 	@ModelAttribute
 	public FArrears get(@RequestParam(required=false) String id) {
@@ -58,6 +74,43 @@ public class FArrearsController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("fArrears",fArrears);
 		return "modules/cw/fArrearsList";
+	}
+
+	/**
+	 * 客户欠款打印
+	 */
+	@RequiresPermissions("cw:fArrears:view")
+	@RequestMapping(value = "storeArrearsPrint")
+	public String storeArrearsPrint(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if(fArrears==null||fArrears.getRkckdd()==null) {//参数为空
+			return "error/400";
+		}
+		CRkckddinfo cRkckddinfo = cRkckddinfoService.get(fArrears.getRkckdd());
+		if(cRkckddinfo==null||StringUtils.isBlank(fArrears.getRkckdd().getId())){//查询不到总订单
+			return "error/400";
+		}
+		CDdinfo cDdinfo = new CDdinfo();
+		cDdinfo.setRkckddinfo(cRkckddinfo);
+		List<CDdinfo> list = cDdinfoService.findList(cDdinfo);
+		double sumMoney = 0;
+		int sumNub =0;
+		for(CDdinfo cd: list){
+			int nub = Integer.parseInt(cd.getNub());
+			sumMoney += Double.parseDouble(cd.getJe())*nub;
+			sumNub += nub;
+		}
+		cDdinfoService.processUnit(list);
+		BigDecimal numberOfMoney = new BigDecimal(sumMoney);
+		model.addAttribute("CNMoney", NumberToCN.number2CNMontrayUnit(numberOfMoney));
+		model.addAttribute("store", cStoreService.get(cRkckddinfo.getStore()));
+		model.addAttribute("user", UserUtils.getUser());
+		model.addAttribute("cRkckddinfo", cRkckddinfo);
+		model.addAttribute("sumMoney", sumMoney);
+		model.addAttribute("sumNub", sumNub);
+		model.addAttribute("date", new Date());
+		model.addAttribute("list", list);
+		model.addAttribute("fArrears", fArrears);
+		return "modules/cw/FArrearsStorePrint";
 	}
 
 	/**
