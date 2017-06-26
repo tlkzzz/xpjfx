@@ -15,7 +15,18 @@
 			$("#searchForm").submit();
         	return false;
         }
-
+        function printPage(id) {
+            if(id==''){
+                top.$.jBox.tip("订单为空！","warning","系统提示");
+                return;
+            }
+            $.jBox.open("iframe:${ctx}/cw/fArrears/storeArrearsPrint?id="+id,
+                "欠款单打印",$(top.document).width()-420,$(top.document).height()-120,{
+                    buttons:{"确定":true}, loaded:function(h){
+                        $(".jbox-content", top.document).css("overflow-y","hidden");
+                    }
+                });
+        }
          function viewSubOrder(id,arrearsUnit){
 			if(id!=''){//iframe打开子订单列表
                 top.$.jBox.open("iframe:${ctx}/cw/fArrears/cgDdList?arrearsType.id="+id+"&arrearsUnit="+arrearsUnit, "欠款列表", 1000, $(top.document).height()-180, {
@@ -62,6 +73,7 @@
 				<th>欠款金额</th>
 				<th>欠款日期</th>
 				<th>备注</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -84,6 +96,9 @@
 				</td>
 				<td>
 					${fArrears.remarks}
+				</td>
+				<td>
+					<a href="javascript:void(0)" onclick="printPage('${fArrears.id}')">打印</a>
 				</td>
 			</tr>
 		</c:forEach>
