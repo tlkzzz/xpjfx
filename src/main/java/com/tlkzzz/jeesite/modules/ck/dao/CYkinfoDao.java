@@ -18,6 +18,12 @@ import java.util.List;
 public interface CYkinfoDao extends CrudDao<CYkinfo> {
 
     /**
+     * 查询所有订单编号列表（批次）
+     * @param cYkinfo
+     * @return
+     */
+    public List<CYkinfo> findOrderCodeList(CYkinfo cYkinfo);
+    /**
      * 通过仓库商品分组查询报表信息
      * @param cYkinfo
      * @return
