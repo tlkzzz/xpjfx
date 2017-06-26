@@ -61,9 +61,10 @@ public class CYkinfoController extends BaseController {
 	@RequiresPermissions("ck:cYkinfo:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(CYkinfo cYkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<CYkinfo> page = cYkinfoService.findPage(new Page<CYkinfo>(request, response), cYkinfo); 
-		model.addAttribute("cYkinfo", cYkinfo);
+		Page<CYkinfo> page = cYkinfoService.findPage(new Page<CYkinfo>(request, response), cYkinfo);
+		model.addAttribute("orderCodeList", cYkinfoService.findOrderCodeList(new CYkinfo()));
 		model.addAttribute("goodsList", cGoodsService.findList(new CGoods()));
+		model.addAttribute("cYkinfo", cYkinfo);
 		model.addAttribute("page", page);
 		return "modules/ck/cYkinfoList";
 	}

@@ -48,6 +48,8 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 
 	public List<CYkinfo> fyfindList(CYkinfo cYkinfo){return dao.fyfindList(cYkinfo);}
 
+	public List<CYkinfo> findOrderCodeList(CYkinfo cYkinfo){return dao.findOrderCodeList(cYkinfo);}
+
 	public List<CYkinfo> findReportList(CYkinfo cYkinfo) {
 		List<CYkinfo> list = dao.findReportList(cYkinfo);
 		for(CYkinfo cc: list){
@@ -76,9 +78,10 @@ public class CYkinfoService extends CrudService<CYkinfoDao, CYkinfo> {
 	}
 
 	@Transactional(readOnly = false)
-	public void saveInfo(CHgoods cHgoods,String outHouseId) {
+	public void saveInfo(CHgoods cHgoods,String outHouseId,String orderCode) {
 		CGoods goods = cGoodsDao.get(cHgoods.getGoods().getId());
 		CYkinfo cYkinfo = new CYkinfo();
+		cYkinfo.setOrderCode(orderCode);
 		cYkinfo.setStartHouse(new CHouse(outHouseId));
 		cYkinfo.setEndHouse(cHgoods.getHouse());
 		cYkinfo.setGoods(cHgoods.getGoods());

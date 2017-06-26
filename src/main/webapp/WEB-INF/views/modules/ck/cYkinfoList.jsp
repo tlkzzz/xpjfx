@@ -34,10 +34,17 @@
 			<li><label>商品：</label>
 				<form:select path="goods.id">
 					<form:option value="" label="请选择"></form:option>
-					<form:options items="${goodsList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
+					<form:options items="${goodsList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
+			</li>
+			<li><label>批次编号：</label>
+				<form:select path="orderCode">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${orderCodeList}" itemLabel="orderCode" itemValue="orderCode" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input class="btn" type="button" onclick="" value="打印"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

@@ -23,6 +23,7 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 	private CGoods goods;			// 商品
 	private String nub;			// 移库数量
 	private String specNub;		//规格数量
+	private String orderCode;	//批次编号（手工输入：批次编号）
 
 	private Date startDate;		//报表起始时间
 	private Date endDate;		//报表结束时间
@@ -122,5 +123,13 @@ public class CYkinfo extends DataEntity<CYkinfo> {
 
 	public void setFybs(int fybs) {
 		this.fybs = fybs;
+	}
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
 	}
 }

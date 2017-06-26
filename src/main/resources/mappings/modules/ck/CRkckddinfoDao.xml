@@ -21,6 +21,7 @@
 		a.rkckdate AS "rkckdate",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
+		sut.name AS "createBy.name",
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
@@ -34,6 +35,7 @@
 		LEFT JOIN c_supplier csu ON a.supplier_id=csu.id
 		LEFT JOIN c_store cst	ON a.store_id=cst.id
 		LEFT JOIN sys_user su ON su.id=a.spr
+		LEFT JOIN sys_user sut ON sut.id=a.create_by
 	</sql>
     
 	<select id="get" resultType="CRkckddinfo">

@@ -34,9 +34,21 @@ public interface CCgzbinfoDao extends CrudDao<CCgzbinfo> {
      */
     public List<CCgzbinfo> findListxl(CCgzbinfo cCgzbinfo);
     /**
+     * 查询所有订单编号（批次）
+     * @param cCgzbinfo
+     * @return
+     */
+    public List<CCgzbinfo> findOrderCodeList(CCgzbinfo cCgzbinfo);
+    /**
      * 通过ID修改订单状态
      * @param id
      * @param state
      */
 	public void changeState(String id,String state);
+    /**
+     * 通过ID修改订单编号（同一批次标识）
+     * @param id
+     * @param orderCode
+     */
+	public void updateOrderCode(String id,String orderCode);
 }

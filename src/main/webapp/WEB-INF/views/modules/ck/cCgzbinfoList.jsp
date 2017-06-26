@@ -24,6 +24,18 @@
                     }
                 });
         }
+        function printPage(orderCode) {
+		    if(orderCode==''){
+		        top.$.jBox.tip("请选择订单编号！","warning","系统提示");
+		        return;
+			}
+            $.jBox.open("iframe:${ctx}/ck/cCgzbinfo/cgPrint?orderCode="+orderCode,
+                "入库单打印",$(top.document).width()-420,$(top.document).height()-120,{
+                    buttons:{"确定":true}, loaded:function(h){
+                        $(".jbox-content", top.document).css("overflow-y","hidden");
+                    }
+                });
+        }
         function changeState(id,state) {
             top.$.jBox.confirm("确认要修改订单状态吗？","系统提示",function(v,h,f) {
                 if(v=="ok"){
@@ -64,7 +76,14 @@
 					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
 			</li>
+			<li><label>订单编号：</label>
+				<form:select path="orderCode" id="orderCode">
+					<form:option value="" label="请选择"></form:option>
+					<form:options items="${orderCodeList}" itemLabel="orderCode" itemValue="orderCode" htmlEscape="false"></form:options>
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input class="btn" type="button" onclick="printPage($('#orderCode').val())" value="打印"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

@@ -57,6 +57,12 @@
 		<form:hidden path="ckState"/><%--这里保存采购订单ID--%>
 		<sys:message content="${message}"/>
 		<div class="control-group">
+			<label class="control-label">批次编号：</label>
+			<div class="controls">
+				<form:input path="fPayment.ddbh" class="required" htmlEscape="true"></form:input>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">商品：</label>
 			<div class="controls">
 				<form:input path="goods.name" class="required" readOnly="true" htmlEscape="true"></form:input>

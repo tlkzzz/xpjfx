@@ -22,6 +22,7 @@ import com.tlkzzz.jeesite.modules.cw.service.FAccountService;
 import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
 import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
+import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -295,14 +297,28 @@ public class CRkckddinfoController extends BaseController {
 			cDdinfo.setRkckddinfo(cRkckddinfo);
 			List<CDdinfo> list = cDdinfoService.findList(cDdinfo);
 			cDdinfoService.processUnit(list);
+			double sumMoney = 0;
+			int sumNub = 0;
+			for(CDdinfo cd: list){
+				int nub = Integer.parseInt(cd.getNub());
+				sumMoney += Double.parseDouble(cd.getJe())*nub;
+				sumNub += nub;
+			}
+			BigDecimal numberOfMoney = new BigDecimal(sumMoney);
+			model.addAttribute("CNMoney", NumberToCN.number2CNMontrayUnit(numberOfMoney));
+			model.addAttribute("store", cStoreService.get(cRkckddinfo.getStore()));
 			model.addAttribute("cRkckddinfo", cRkckddinfo);
 			model.addAttribute("list", list);
-			model.addAttribute("data", new Date());
+			model.addAttribute("date", new Date());
+			model.addAttribute("sumMoney", sumMoney);
+			model.addAttribute("sumNub", sumNub);
+			model.addAttribute("user", UserUtils.getUser());
 			return "modules/ck/cDdinfoPrint";
 		}else {
 			return "error/400";
 		}
 	}
+
 	/**
 	 * 业务员销售单查询
 	 * @param cRkckddinfo
