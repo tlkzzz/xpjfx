@@ -65,6 +65,13 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
+			<label class="control-label">批次编号：</label>
+			<div class="controls">
+				<form:input path="goods.sort" class="required" maxlength="11" htmlEscape="true"></form:input>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">商品：</label>
 			<div class="controls">
 				<form:select path="goods.id" class="required" id="goodsId">
