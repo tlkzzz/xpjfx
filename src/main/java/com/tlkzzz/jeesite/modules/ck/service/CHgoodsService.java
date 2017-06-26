@@ -131,6 +131,7 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 	public void moveSave(CHgoods cHgoods){//移库
 	    String inHouseId = cHgoods.getHouse().getCode();
 	    String outHouseId = cHgoods.getHouse().getId();
+	    String orderCode = cHgoods.getGoods().getSort();//批次编号
         dao.minStock(cHgoods);
         cHgoods.getHouse().setId(inHouseId);
         CHgoods hg = dao.findHGByHG(cHgoods);
@@ -139,7 +140,7 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
         }else{
             super.save(cHgoods);
         }
-		cYkinfoService.saveInfo(cHgoods,outHouseId);
+		cYkinfoService.saveInfo(cHgoods,outHouseId,orderCode);
 	}
 
 	public boolean checkStore(List<CDdinfo> list){
