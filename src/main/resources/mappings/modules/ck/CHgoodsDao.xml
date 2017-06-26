@@ -91,9 +91,9 @@
 			</if>
 			<if test="house != null and house.name != null and house.name != ''">
 				AND ch.name LIKE
-				<if test="dbName == 'oracsql'">'%'+#{house.name}+'%'</if>
-				<if test="dbName == le'">'%'||#{house.name}||'%'</if>
-				<if test="dbName == 'ms'mysql'">concat('%',#{house.name},'%')</if>
+				<if test="dbName == 'oracle'">'%'+#{house.name}+'%'</if>
+				<if test="dbName == 'mssql'">'%'||#{house.name}||'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{house.name},'%')</if>
 			</if>
 		</where>
 		<choose>

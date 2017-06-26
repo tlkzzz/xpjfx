@@ -4,6 +4,7 @@
     
 	<sql id="cYkinfoColumns">
 		a.id AS "id",
+		a.order_code AS "orderCode",
 		a.starthouid AS "startHouse.id",
 		ch.name AS "startHouse.name",
 		a.endhouid AS "endHouse.id",
@@ -71,6 +72,9 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="startHouse != null and startHouse.id != null and startHouse.id != ''">
 				AND a.starthouid = #{startHouse.id}
+			</if>
+			<if test="orderCode != null and orderCode != ''">
+				AND a.order_code = #{orderCode}
 			</if>
 
 			<if test="startHouse != null and startHouse.name != null and startHouse.name != ''">
@@ -172,10 +176,20 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findOrderCodeList" resultType="CYkinfo">
+		SELECT
+			a.order_code AS "orderCode",
+			a.del_flag AS "delFlag"
+		FROM c_ykinfo a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND LENGTH(trim(a.order_code)) > 0
+		GROUP BY a.order_code
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO c_ykinfo(
 			id,
+			order_code,
 			starthouid,
 			endhouid,
 			storeid,
@@ -190,6 +204,7 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{orderCode},
 			#{startHouse.id},
 			#{endHouse.id},
 			#{goods.id},
@@ -206,7 +221,8 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE c_ykinfo SET 	
+		UPDATE c_ykinfo SET
+			order_code = #{orderCode},
 			starthouid = #{startHouse.id},
 			endhouid = #{endHouse.id},
 			storeid = #{goods.id},
