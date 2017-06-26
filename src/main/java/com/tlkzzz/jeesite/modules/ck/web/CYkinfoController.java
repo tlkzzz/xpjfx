@@ -11,6 +11,8 @@ import com.tlkzzz.jeesite.modules.ck.entity.CHouse;
 import com.tlkzzz.jeesite.modules.ck.service.CGoodsService;
 import com.tlkzzz.jeesite.modules.ck.service.CHouseService;
 import com.tlkzzz.jeesite.modules.sys.utils.ExcelCreateUtils;
+import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,9 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.entity.CYkinfo;
 import com.tlkzzz.jeesite.modules.ck.service.CYkinfoService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,6 +71,34 @@ public class CYkinfoController extends BaseController {
 		model.addAttribute("cYkinfo", cYkinfo);
 		model.addAttribute("page", page);
 		return "modules/ck/cYkinfoList";
+	}
+
+
+	@RequiresPermissions("ck:cCgzbinfo:view")
+	@RequestMapping(value = "cgPrint")//打印采购单
+	public String cgPrint(CYkinfo cYkinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if(cYkinfo!=null&&StringUtils.isNotBlank(cYkinfo.getOrderCode())) {
+			List<CYkinfo> list = cYkinfoService.findList(cYkinfo);
+			double sumMoney = 0;
+			int sumNub = 0;
+			for(CYkinfo cc: list){
+				cYkinfo = cc;
+				int nub = Integer.parseInt(cc.getNub());
+				sumMoney += Double.parseDouble(cc.getCbj())*nub;
+				sumNub += nub;
+			}
+			BigDecimal numberOfMoney = new BigDecimal(sumMoney);
+			model.addAttribute("CNMoney", NumberToCN.number2CNMontrayUnit(numberOfMoney));
+			model.addAttribute("cYkinfo", cYkinfo);
+			model.addAttribute("list", list);
+			model.addAttribute("date", new Date());
+			model.addAttribute("sumMoney", sumMoney);
+			model.addAttribute("sumNub", sumNub);
+			model.addAttribute("user", UserUtils.getUser());
+			return "modules/ck/cDdinfoPrintYK";
+		}else {
+			return "error/400";
+		}
 	}
 
 	@RequiresPermissions("ck:cYkinfo:view")
