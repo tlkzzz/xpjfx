@@ -244,7 +244,7 @@ public class CHgoodsController extends BaseController {
 		cRkinfo.setState("9");
 		cRkinfoService.save(cRkinfo);
 		addMessage(redirectAttributes, "保存仓库商品成功");
-		return "redirect:"+Global.getAdminPath()+"/ck/cHgoods/list?repage";
+		return "redirect:"+Global.getAdminPath()+"/ck/cYkinfo/list?repage";
 	}
 
 	/**
