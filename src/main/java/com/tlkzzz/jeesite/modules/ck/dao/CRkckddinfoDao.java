@@ -32,8 +32,10 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
      * shizx 查询总订单ID
      * */
     public List<CRkckddinfo> findListId(CRkckddinfo cRkckddinfo);
-
+   //查询出出库未审核的信息
     public List<CRkckddinfo> shenhelist(CRkckddinfo cRkckddinfo);
+   //查询出采购未审核的信息
+    public List<CRkckddinfo> shenheruku(CRkckddinfo cRkckddinfo);
 
     /**
      * shizx APP分页查询

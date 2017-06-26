@@ -63,7 +63,7 @@
 		<c:forEach items="${page.list}" var="cHouseComponentCheck">
 			<tr>
 				<td><a href="${ctx}/ck/cHouseComponentCheck/form?id=${cHouseComponentCheck.id}">
-					${cHouseComponentCheck.house}
+					${cHouseComponentCheck.house.name}
 				</a></td>
 				<td>
 					${cHouseComponentCheck.cbzje}

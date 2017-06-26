@@ -54,8 +54,8 @@ public class CHouseCheckService extends CrudService<CHouseCheckDao, CHouseCheck>
 			double cbzje = 0;
 			double sszje = 0;
 			for (CHgoods ch : cHgoodsList) {
-				if (StringUtils.isNotBlank(ch.getNub()) && ch.getCbj() > 0) {
-					cbzje += (Integer.parseInt(ch.getNub()) * ch.getCbj());
+				if (StringUtils.isNotBlank(ch.getNub()) && StringUtils.isNotBlank(ch.getGoods().getCbj())) {
+					cbzje += (Double.parseDouble(ch.getNub()) * Double.parseDouble(ch.getGoods().getCbj()));
 					if(ch.getGoods()!=null&&StringUtils.isNotBlank(ch.getGoods().getSj())){
 						sszje += (Integer.parseInt(ch.getNub())*Double.parseDouble(ch.getGoods().getSj()));
 					}

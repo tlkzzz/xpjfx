@@ -5,6 +5,7 @@
 	<sql id="cHouseComponentCheckColumns">
 		a.id AS "id",
 		a.house_id AS "house.id",
+		cb.name AS "house.name",
 		a.cbzje AS "cbzje",
 		a.sszje AS "sszje",
 		a.check_date AS "checkDate",
@@ -18,6 +19,7 @@
 	</sql>
 	
 	<sql id="cHouseComponentCheckJoins">
+		LEFT JOIN c_house cb ON cb.id=a.house_id
 	</sql>
     
 	<select id="get" resultType="CHouseComponentCheck">

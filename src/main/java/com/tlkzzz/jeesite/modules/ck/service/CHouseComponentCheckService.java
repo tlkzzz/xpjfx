@@ -59,12 +59,14 @@ public class CHouseComponentCheckService extends CrudService<CHouseComponentChec
 			componentCheck.setHouse(cHCC.getHouse());
 			double cbzje = 0;
 			double sszje = 0;
+
 			for (CHgoods hg : cHgoodsList) {
-				if (StringUtils.isNotBlank(hg.getNub()) && hg.getCbj() > 0) {
+				if (StringUtils.isNotBlank(hg.getNub()) && StringUtils.isNotBlank(hg.getGoods().getCbj())) {
 					if (hg.getGoods() != null && StringUtils.isNotBlank(hg.getGoods().getSj())) {
 						sszje += (Integer.parseInt(hg.getNub()) * Double.parseDouble(hg.getGoods().getSj()));
 					}
-					cbzje += (Integer.parseInt(hg.getNub()) * hg.getCbj());
+					//cbj=Integer.parseInt( hg.getGoods().getCbj());
+					cbzje += (Double.parseDouble(hg.getNub()) * Double.parseDouble(hg.getGoods().getCbj()));
 				}
 			}
 			componentCheck.setState("0");

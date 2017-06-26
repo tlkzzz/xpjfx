@@ -34,58 +34,58 @@
 		</form:form>
 		<ul id="menuContent">
 			<li>
-				<a href="#">
+				<a href="${ctx}/ck/cRkckddinfo/cgList?state=1">
 					<img src="${ctxStatic}/images/rksh.jpg" alt="入库审核" />
-					<h3>入库审核(<span>0</span>)</h3>
+					<h3>入库审核(<span>${ruku}</span>)</h3>
 				</a>
-				<a href="#">
-					<img src="${ctxStatic}/images/yksh.jpg" alt="移库审核" />
-					<h3>移库审核(<span>0</span>)</h3>
-				</a>
+				<%--<a href="#">--%>
+					<%--<img src="${ctxStatic}/images/yksh.jpg" alt="移库审核" />--%>
+					<%--<h3>移库审核(<span>0</span>)</h3>--%>
+				<%--</a>--%>
 				<a href="${ctx}/ck/cRkckddinfo/libraryList?state=2">
 					<img src="${ctxStatic}/images/cksh.jpg" alt="出库审核" />
 					<h3>出库审核(<span>${a}</span>)</h3>
 				</a>
-				<a href="#">
+				<a href="${ctx}/ck/cRkckddinfo/libraryList?state=5">
 					<img src="${ctxStatic}/images/thsh.jpg" alt="退货审核" />
 					<h3>退货审核(<span>${th}</span>)</h3>
 				</a>
 			</li>
 			<li>
-				<a href="#">
-					<img src="${ctxStatic}/images/yksq.jpg" alt="移库申请" />
-					<h3>移库申请(<span>0</span>)</h3>
-				</a>
-				<a href="${ctx}/ck/cRkckddinfo/libraryList?state=5">
-					<img src="${ctxStatic}/images/thsq.jpg" alt="退货申请" />
-					<h3>退货申请(<span>0</span>)</h3>
-				</a>
+				<%--<a href="#">--%>
+					<%--<img src="${ctxStatic}/images/yksq.jpg" alt="移库申请" />--%>
+					<%--<h3>移库申请(<span>0</span>)</h3>--%>
+				<%--</a>--%>
+				<%--<a href="${ctx}/ck/cRkckddinfo/libraryList?state=5">--%>
+					<%--<img src="${ctxStatic}/images/thsq.jpg" alt="退货申请" />--%>
+					<%--<h3>退货申请(<span>0</span>)</h3>--%>
+				<%--</a>--%>
 				<a href="${ctx}/ck/cRkckddinfo/libraryList?state=4">
 					<img src="${ctxStatic}/images/bfsh.jpg" alt="报废审核" />
 					<h3>报废审核(<span>${bf}</span>)</h3>
 				</a>
-				<a href="#">
-					<img src="${ctxStatic}/images/pysh.jpg" alt="盘盈审核" />
-					<h3>盘盈审核(<span>0</span>)</h3>
-				</a>
+				<%--<a href="#">--%>
+					<%--<img src="${ctxStatic}/images/pysh.jpg" alt="盘盈审核" />--%>
+					<%--<h3>盘盈审核(<span>0</span>)</h3>--%>
+				<%--</a>--%>
 			</li>
 			<li class="clearBorder">
-				<a href="#">
-					<img src="${ctxStatic}/images/pksh.jpg" alt="盘亏审核" />
-					<h3>盘亏审核(<span>0</span>)</h3>
-				</a>
-				<a href="#">
-					<img src="${ctxStatic}/images/cwsh.jpg" alt="财务审核" />
-					<h3>财务审核(<span>0</span>)</h3>
-				</a>
-				<a href="#">
+				<%--<a href="#">--%>
+					<%--<img src="${ctxStatic}/images/pksh.jpg" alt="盘亏审核" />--%>
+					<%--<h3>盘亏审核(<span>0</span>)</h3>--%>
+				<%--</a>--%>
+				<%--<a href="#">--%>
+					<%--<img src="${ctxStatic}/images/cwsh.jpg" alt="财务审核" />--%>
+					<%--<h3>财务审核(<span>0</span>)</h3>--%>
+				<%--</a>--%>
+					<a href="${ctx}/ck/cStore/list">
 					<img src="${ctxStatic}/images/khsh.jpg" alt="客户审核" />
 					<h3>客户审核(<span>0</span>)</h3>
 				</a>
-				<a href="#">
-					<img src="${ctxStatic}/images/fhsk.jpg" alt="发货收款" />
-					<h3>发货收款(<span>0</span>)</h3>
-				</a>
+				<%--<a href="#">--%>
+					<%--<img src="${ctxStatic}/images/fhsk.jpg" alt="发货收款" />--%>
+					<%--<h3>发货收款(<span>0</span>)</h3>--%>
+				<%--</a>--%>
 			</li>
 		</ul>
 	</div>

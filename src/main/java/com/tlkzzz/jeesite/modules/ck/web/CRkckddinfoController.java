@@ -340,7 +340,7 @@ public class CRkckddinfoController extends BaseController {
 
 	@RequiresPermissions("ck:cRkckddinfo:view")
 	@RequestMapping(value = "shenhelist")
-	public String shenhelist(CRkckddinfo cRkckddinfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String shenhelist(CRkckddinfo cRkckddinfo,CStore cStore, HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<CRkckddinfo> list = cRkckddinfoService.selectList("2",cRkckddinfo);
 		int a= list.size();
 			model.addAttribute("a", a);
@@ -350,6 +350,12 @@ public class CRkckddinfoController extends BaseController {
 	     List<CRkckddinfo> list2=cRkckddinfoService.selectList("4",cRkckddinfo);
 	     int bf=list2.size();
 	     model.addAttribute("bf",bf);
+	     List<CRkckddinfo> list3=cRkckddinfoService.selectlx("1",cRkckddinfo);
+	     int ruku=list3.size();
+         model.addAttribute("ruku",ruku);
+         List<CStore> list4=cStoreService.tslist(cStore);
+         int kehu=list4.size();
+         model.addAttribute("kehu",kehu);
 			return "modules/ck/shenheList";
 	}
 

@@ -76,7 +76,7 @@
             }
 
         }
-
+//选择账户类型不同显示不同数据
         $(function(){
             //页面加载完毕后开始执行的事件
             $("select[name='accountType']").change(function(){

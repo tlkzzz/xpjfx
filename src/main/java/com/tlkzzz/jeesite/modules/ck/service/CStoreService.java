@@ -42,6 +42,10 @@ public class CStoreService extends CrudService<CStoreDao, CStore> {
 		return super.findPage(page, cStore);
 	}
 
+	public List<CStore> tslist(CStore cStore) {
+		return dao.tslist(cStore);
+	}
+
 	@Transactional(readOnly = false)
 	public void save(CStore cStore) {
 		super.save(cStore);

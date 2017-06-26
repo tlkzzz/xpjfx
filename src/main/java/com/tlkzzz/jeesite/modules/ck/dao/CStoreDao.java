@@ -17,4 +17,7 @@ import java.util.List;
 @MyBatisDao
 public interface CStoreDao extends CrudDao<CStore> {
 	public List<CStore> fyfindList(CStore cStore);
+
+	//查询出未审核的条数
+	public List<CStore> tslist(CStore cStore);
 }

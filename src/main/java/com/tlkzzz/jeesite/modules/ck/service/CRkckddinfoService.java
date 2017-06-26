@@ -45,6 +45,13 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 		cRkckddinfo.setState(state);
 		return dao.shenhelist(cRkckddinfo);
 	}
+	public List<CRkckddinfo> selectlx(String state, CRkckddinfo cRkckddinfo) {
+		cRkckddinfo.setState(state);
+		return dao.shenheruku(cRkckddinfo);
+	}
+	public List<CRkckddinfo> shenheruku( CRkckddinfo cRkckddinfo) {
+		return dao.shenheruku(cRkckddinfo);
+	}
 /**
  * shizx 查询总订单ID
  * */
