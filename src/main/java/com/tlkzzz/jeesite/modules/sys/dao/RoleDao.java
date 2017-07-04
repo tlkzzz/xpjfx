@@ -7,6 +7,8 @@ import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.sys.entity.Role;
 
+import java.util.List;
+
 /**
  * 角色DAO接口
  * @author tlkzzz
@@ -37,4 +39,5 @@ public interface RoleDao extends CrudDao<Role> {
 
 	public int insertRoleOffice(Role role);
 
+	public List<Role> userRole(Role role);
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CApproleDao">
+    
+	<sql id="cApproleColumns">
+		a.id AS "id",
+		a.userid AS "userid",
+		a.roleid AS "roleid"
+	</sql>
+	
+	<sql id="cApproleJoins">
+	</sql>
+    
+	<select id="get" resultType="CApprole">
+		SELECT 
+			<include refid="cApproleColumns"/>
+		FROM c_approle a
+		<include refid="cApproleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CApprole">
+		SELECT 
+			<include refid="cApproleColumns"/>
+		FROM c_approle a
+		<include refid="cApproleJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CApprole">
+		SELECT 
+			<include refid="cApproleColumns"/>
+		FROM c_approle a
+		<include refid="cApproleJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_approle(
+			id,
+			userid,
+			roleid
+		) VALUES (
+			#{id},
+			#{userid},
+			#{roleid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE c_approle SET 	
+			userid = #{userid},
+			roleid = #{roleid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM c_approle
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

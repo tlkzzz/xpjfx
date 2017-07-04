@@ -46,9 +46,10 @@ public class mkhShoukController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = {"ddbhxz"})
-    public List<CRkckddinfo> ddbhxz(int fybs) {
+    public List<CRkckddinfo> ddbhxz(String fybs,String sous) {
         CRkckddinfo cRkckddinfo=new CRkckddinfo();
-        cRkckddinfo.setFybs(fybs);
+        cRkckddinfo.setFybs(Integer.parseInt(fybs));
+        cRkckddinfo.setDdbh(sous);
         List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.fyfindList(cRkckddinfo);
         return cRkckddinfoList;
     }

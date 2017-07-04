@@ -70,6 +70,9 @@
 				<include refid="cRkckddinfoColumns"/>
 				FROM c_rkckddinfo a
 				<include refid="cRkckddinfoJoins"/>
+				<if test="ddbh != null and ddbh != ''">
+				WHERE a.ddbh LIKE concat('%',#{ddbh},'%')
+				</if>
 			) o LIMIT ${fybs},10
 	</select>
 

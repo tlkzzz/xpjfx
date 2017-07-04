@@ -542,5 +542,11 @@ public class SystemService extends BaseService implements InitializingBean {
 	}
 	
 	///////////////// Synchronized to the Activiti end //////////////////
-	
+	/**
+	 * APP权限管理
+	 * szx
+	 **/
+	public List<Role> userRole(Role role){
+		return roleDao.userRole(role);
+	}
 }

@@ -30,9 +30,10 @@ public class Role extends DataEntity<Role> {
 	private String oldEnname;	// 原英文名称
 	private String sysData; 		//是否是系统数据
 	private String useable; 		//是否是可用
-	
+
 	private User user;		// 根据用户ID查询角色列表
 
+	private Menu menu;    //菜单
 //	private List<User> userList = Lists.newArrayList(); // 拥有用户列表
 	private List<Menu> menuList = Lists.newArrayList(); // 拥有菜单列表
 	private List<Office> officeList = Lists.newArrayList(); // 按明细设置数据范围
@@ -267,4 +268,13 @@ public class Role extends DataEntity<Role> {
 //		}
 //		return StringUtils.join(menuNameList, ",");
 //	}
+
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 }

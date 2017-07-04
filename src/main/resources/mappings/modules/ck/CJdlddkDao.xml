@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tlkzzz.jeesite.modules.ck.dao.CJdlddkDao">
+    
+	<sql id="cJdlddkColumns">
+		a.id AS "id",
+		a.userid AS "userid",
+		a.dkdate AS "dkdate",
+		a.status AS "status",
+		a.jdjd AS "jdjd",
+		a.jdwd AS "jdwd",
+		a.ldjd AS "ldjd",
+		a.ldwd AS "ldwd",
+		a.ldDate AS "ldDate",
+		a.storeId AS "storeId",
+		cs.dpmc AS "cStore.dpmc"
+	</sql>
+	
+	<sql id="cJdlddkJoins">
+		LEFT JOIN c_store cs ON cs.id=a.storeId
+	</sql>
+    
+	<select id="get" resultType="CJdlddk">
+		SELECT 
+			<include refid="cJdlddkColumns"/>
+		FROM c_jdlddk a
+		<include refid="cJdlddkJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="dkfindList" resultType="CJdlddk">
+		SELECT
+		<include refid="cJdlddkColumns"/>
+		FROM c_jdlddk a
+		<include refid="cJdlddkJoins"/>
+		WHERE
+			a.status='1'
+		AND a.userid=#{userid}
+	</select>
+
+	<select id="fyfindList" resultType="CJdlddk">
+		SELECT
+		o.*
+		FROM(
+		SELECT
+		<include refid="cJdlddkColumns"/>
+		FROM c_jdlddk a
+		<include refid="cJdlddkJoins"/>
+			WHERE a.userid=#{userid}
+		) o LIMIT ${fybs},10
+	</select>
+
+	<select id="findList" resultType="CJdlddk">
+		SELECT 
+			<include refid="cJdlddkColumns"/>
+		FROM c_jdlddk a
+		<include refid="cJdlddkJoins"/>
+		<where>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CJdlddk">
+		SELECT 
+			<include refid="cJdlddkColumns"/>
+		FROM c_jdlddk a
+		<include refid="cJdlddkJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO c_jdlddk(
+			id,
+			userid,
+			dkdate,
+			status,
+			jdjd,
+			jdwd,
+			ldjd,
+			ldwd,
+			ldDate,
+			storeId
+		) VALUES (
+			#{id},
+			#{userid},
+			#{dkdate},
+			#{status},
+			#{jdjd},
+			#{jdwd},
+			#{ldjd},
+			#{ldwd},
+			#{ldDate},
+			#{storeId}
+		)
+	</insert>
+
+	<update id="ldupdate">
+		UPDATE c_jdlddk SET
+		status = #{status},
+		ldjd = #{ldjd},
+		ldwd = #{ldwd},
+		ldDate = #{ldDate}
+		WHERE status ='1'
+		and userid=#{userid}
+		and storeId=#{storeId}
+	</update>
+	
+	<update id="update">
+		UPDATE c_jdlddk SET 	
+			userid = #{userid},
+			dkdate = #{dkdate},
+			status = #{status},
+			jdjd = #{jdjd},
+			jdwd = #{jdwd},
+			ldjd = #{ldjd},
+			ldwd = #{ldwd},
+			ldDate = #{ldDate},
+			storeId=#{storeId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM c_jdlddk
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

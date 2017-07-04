@@ -276,4 +276,17 @@ public class RoleController extends BaseController {
 		return "false";
 	}
 
+
+	/**
+	 * App权限控制管理
+	 * szx
+	 * */
+	@ResponseBody
+	@RequestMapping(value = "userRole")
+	public List<Role> userRole() {
+		Role role=new Role();
+		role.setId(UserUtils.getUser().getId());
+		List<Role> roleList=systemService.userRole(role);
+		return roleList;
+	}
 }

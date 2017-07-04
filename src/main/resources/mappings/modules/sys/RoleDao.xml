@@ -45,7 +45,8 @@
     	o.name AS "office.name",
     	o.code,
     	a.useable AS useable,
-    	a.is_sys AS sysData
+    	a.is_sys AS sysData,
+    	sm.id as "menu.id"
     </sql>
     
 	<select id="get" resultMap="roleResult">
@@ -68,8 +69,20 @@
 		LEFT JOIN sys_office uc ON uc.id = u.company_id
 		LEFT JOIN sys_office uo ON uo.id = u.office_id -->
 		LEFT JOIN sys_role_menu rm ON rm.role_id = a.id
+		LEFT JOIN sys_menu sm ON sm.id=rm.menu_id
 		LEFT JOIN sys_role_office ro ON ro.role_id = a.id
 		WHERE a.id = #{id}
+	</select>
+
+	<select id="userRole" resultType="Role">
+		SELECT
+		<include refid="roleColumns"/>
+		FROM sys_role a
+		JOIN sys_office o ON o.id = a.office_id
+		LEFT JOIN sys_role_menu rm ON rm.role_id=a.id
+		LEFT JOIN sys_menu sm ON sm.id=rm.menu_id
+		WHERE a.id=#{id}
+		AND sm.parent_id='a223019857d34739ad3ed7df44db4127'
 	</select>
 	
 	<select id="getByName" resultType="Role">
@@ -97,6 +110,8 @@
 		LEFT JOIN sys_user_role ur ON ur.role_id = a.id
 		LEFT JOIN sys_user u ON u.id = ur.user_id
 		LEFT JOIN sys_role_office ro ON ro.role_id = a.id
+		LEFT JOIN sys_role_menu rm ON rm.role_id=a.id
+		LEFT JOIN sys_menu sm ON sm.id=rm.menu_id
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.useable=#{useable}
 		<if test="user != null and user.id != null and user.id != ''">
 			AND u.id = #{user.id}
