@@ -549,12 +549,12 @@
                 var sum = parseInt($("#bigNum").val())*parseFloat($("#bigPrice").val())+
                     parseInt($("#zongNum").val())*parseFloat($("#zongPrice").val())+
                     parseInt($("#smallNum").val())*parseFloat($("#smallPrice").val());
-                $("#sumPrice").val(sum)
+                $("#sumPrice").val(sum.toFixed(4))
                 sumNum += specList[2]*parseInt($("#zongNum").val())+parseInt($("#smallNum").val());
             }else{
                 var sum = parseInt($("#bigNum").val())*parseFloat($("#bigPrice").val())+
                     parseInt($("#zongNum").val())*parseFloat($("#zongPrice").val());
-                $("#sumPrice").val(sum);
+                $("#sumPrice").val(sum.toFixed(4));
                 sumNum += parseInt($("#zongNum").val());
             }
             $("#orderNum").val(sumNum);
@@ -602,6 +602,7 @@
             }
 //            $(".list .nongjia").remove();
             var goods = eval("("+orderGoods+")");
+            setJsonGoods(goods);//将goods添加到JSON数据中
             var specName = goods.spec.name;
             var specList = specName.split("*");
             var big = parseInt(num/parseInt(eval(specName)));
@@ -617,29 +618,34 @@
                 '</p></td><td style="padding-left: 6.5%;"><p>'+num*price+'</p></td><td></td></tr>'
             $(".list").append(text);
         }
-        function setGoods() {
+        function setJsonGoods(goods) {
             var goodsData = $("#goodsData").val();
-            var goods = $("#orderGoods").val();
-            if(goods=='')return;
+            if(goods==''||goods==null)return;
             if(goodsData==''){
                 goodsData = [];
             }else{
                 goodsData = eval("("+goodsData+")");
             }
-            goods = eval("("+goods+")");
-            goodsData.add(goods);
-            $("#goodsData").val(JSON.stringify(goodsData));
+            var flag = true;
+            for(var i=0;i<goodsData.length;i++){
+                if(goods.id==goodsData[i].id){flag = false;}
+            }
+            if(flag){
+                goodsData.push(goods);
+                $("#goodsData").val(JSON.stringify(goodsData));
+            }
         }
-        function getGoods(id) {
+        function getJsonGoods(id) {
             if(id=='')return null;
             var goodsData = $("#goodsData").val();
             if(goodsData=='')return null;
             goodsData = eval("("+goodsData+")");
             for(var i=0;i<goodsData.length;i++){
                 if(goodsData[i].id==id){
-
+                    return goodsData[i];
                 }
             }
+            return null;
         }
     </script>
 </head>
@@ -795,7 +801,7 @@
                 <span class="aa">生产日期</span>
                 <span class="aa" style="background-color: blue;">体系价</span>
                 <span style="color: blue;">帮助</span>
-                <span><img style="display: inline-block;text-align: center;" src="images/shipintb.png"></span>
+                <span><img style="display: inline-block;text-align: center;" src="${ctxStatic}/images/shipintb.png"></span>
             </div>
         </div>
         <div class="bb" style="height: 430px;">
@@ -807,116 +813,7 @@
                     <td>金额(元)</td>
                     <td style="color: #678AF9">清空</td>
                 </thead>
-                <tr class="nongjia">
-                    <td class="nongjia_bg"><span>1</span></td>
-                    <td style="width: 20%">
-                        <p style="font-weight: bold;">100g农家金典</p>
-                        <p style="color: #B3B3B3;">1*8*10</p>
-                        <p style="color: #B3B3B3;">6956972670359</p>
-                    </td>
-                    <td style="padding-left: 6%;">
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>件</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>中包</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>小包</span></div>
-                    </td>
-                    <td style="padding-left: 5%;">
-                        <p style="margin-bottom: 4%;">104.00/件</p>
-                        <p>1.30/小包</p>
-                    </td>
-                    <td style="padding-left: 6.5%;">
-                        <p>118.30</p>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr class="nongjia">
-                    <td class="nongjia_bg"><span>1</span></td>
-                    <td style="width: 20%">
-                        <p style="font-weight: bold;">100g农家金典</p>
-                        <p style="color: #B3B3B3;">1*8*10</p>
-                        <p style="color: #B3B3B3;">6956972670359</p>
-                    </td>
-                    <td style="padding-left: 6%;">
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>件</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>中包</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>小包</span></div>
-                    </td>
-                    <td style="padding-left: 5%;">
-                        <p style="margin-bottom: 4%;">104.00/件</p>
-                        <p>1.30/小包</p>
-                    </td>
-                    <td style="padding-left: 6.5%;">
-                        <p>118.30</p>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr class="nongjia">
-                    <td class="nongjia_bg"><span>1</span></td>
-                    <td style="width: 20%">
-                        <p style="font-weight: bold;">100g农家金典</p>
-                        <p style="color: #B3B3B3;">1*8*10</p>
-                        <p style="color: #B3B3B3;">6956972670359</p>
-                    </td>
-                    <td style="padding-left: 6%;">
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>件</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>中包</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>小包</span></div>
-                    </td>
-                    <td style="padding-left: 5%;">
-                        <p style="margin-bottom: 4%;">104.00/件</p>
-                        <p>1.30/小包</p>
-                    </td>
-                    <td style="padding-left: 6.5%;">
-                        <p>118.30</p>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr class="nongjia">
-                    <td class="nongjia_bg"><span>1</span></td>
-                    <td style="width: 20%">
-                        <p style="font-weight: bold;">100g农家金典</p>
-                        <p style="color: #B3B3B3;">1*8*10</p>
-                        <p style="color: #B3B3B3;">6956972670359</p>
-                    </td>
-                    <td style="padding-left: 6%;">
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>件</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>中包</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>小包</span></div>
-                    </td>
-                    <td style="padding-left: 5%;">
-                        <p style="margin-bottom: 4%;">104.00/件</p>
-                        <p>1.30/小包</p>
-                    </td>
-                    <td style="padding-left: 6.5%;">
-                        <p>118.30</p>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr class="nongjia">
-                    <td class="nongjia_bg"><span>1</span></td>
-                    <td style="width: 20%">
-                        <p style="font-weight: bold;">100g农家金典</p>
-                        <p style="color: #B3B3B3;">1*8*10</p>
-                        <p style="color: #B3B3B3;">6956972670359</p>
-                    </td>
-                    <td style="padding-left: 6%;">
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>件</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>中包</span></div>
-                        <div style="margin-bottom: 4%;"><input type="text" value="1" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>小包</span></div>
-                    </td>
-                    <td style="padding-left: 5%;">
-                        <p style="margin-bottom: 4%;">104.00/件</p>
-                        <p>1.30/小包</p>
-                    </td>
-                    <td style="padding-left: 6.5%;">
-                        <p>118.30</p>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
+                <%--添加商品列表--%>
             </table>
             <div style="width: 100%;">
                 <div class="xiaozi" style="float: left;"><%--大： 1  中： 1  小： 1--%></div>
