@@ -59,6 +59,14 @@
 		<include refid="cCgzbinfoJoins"/>
 		WHERE a.goodsid = #{param1} AND a.state = #{param2}
 	</select>
+
+	<select id="getZbByGoods" resultType="CCgzbinfo" parameterType="java.lang.String">
+		SELECT
+		<include refid="cCgzbinfoColumns"/>
+		FROM c_cgzbinfo a
+		<include refid="cCgzbinfoJoins"/>
+		WHERE a.goodsid = #{param1}
+	</select>
 	
 	<select id="findList" resultType="CCgzbinfo">
 		SELECT 

@@ -70,18 +70,18 @@
 					<form:options items="${goodsList}" itemValue="id" itemLabel="name"></form:options>
 				</form:select>
 			</li>
-			<li><label>供应商：</label>
-				<form:select path="rkinfo.supplier.id">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
-				</form:select>
-			</li>
-			<li><label>订单编号：</label>
-				<form:select path="orderCode" id="orderCode">
-					<form:option value="" label="请选择"></form:option>
-					<form:options items="${orderCodeList}" itemLabel="orderCode" itemValue="orderCode" htmlEscape="false"></form:options>
-				</form:select>
-			</li>
+			<%--<li><label>供应商：</label>--%>
+				<%--<form:select path="rkinfo.supplier.id">--%>
+					<%--<form:option value="" label="请选择"></form:option>--%>
+					<%--<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>--%>
+				<%--</form:select>--%>
+			<%--</li>--%>
+			<%--<li><label>订单编号：</label>--%>
+				<%--<form:select path="orderCode" id="orderCode">--%>
+					<%--<form:option value="" label="请选择"></form:option>--%>
+					<%--<form:options items="${orderCodeList}" itemLabel="orderCode" itemValue="orderCode" htmlEscape="false"></form:options>--%>
+				<%--</form:select>--%>
+			<%--</li>--%>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="btns"><input class="btn" type="button" onclick="printPage($('#orderCode').val())" value="打印"/></li>
 			<li class="clearfix"></li>
@@ -93,12 +93,12 @@
 			<tr>
 				<th>商品</th>
 				<th>采购数量</th>
-				<th>供应商</th>
-				<th>价格</th>
-				<th>实际入库量</th>
+				<%--<th>供应商</th>--%>
+				<%--<th>价格</th>--%>
+				<%--<th>实际入库量</th>--%>
 				<th>入库时间</th>
 				<th>备注</th>
-				<shiro:hasPermission name="ck:cCgzbinfo:edit"><th>操作</th></shiro:hasPermission>
+				<%--<shiro:hasPermission name="ck:cCgzbinfo:edit"><th>操作</th></shiro:hasPermission>--%>
 			</tr>
 		</thead>
 		<tbody>
@@ -110,26 +110,26 @@
 				<td>
 					${cCgzbinfo.nub}
 				</td>
+				<%--<td>--%>
+					<%--<c:if test="${not empty cCgzbinfo.rkinfo}">${cCgzbinfo.rkinfo.supplier.name}</c:if>--%>
+				<%--</td>--%>
+				<%--<td>--%>
+					<%--${cCgzbinfo.jg}--%>
+				<%--</td>--%>
+				<%--<td>--%>
+					<%--${cCgzbinfo.rknub}--%>
+				<%--</td>--%>
 				<td>
-					<c:if test="${not empty cCgzbinfo.rkinfo}">${cCgzbinfo.rkinfo.supplier.name}</c:if>
-				</td>
-				<td>
-					${cCgzbinfo.jg}
-				</td>
-				<td>
-					${cCgzbinfo.rknub}
-				</td>
-				<td>
-					<fmt:formatDate value="${cCgzbinfo.rkDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${cCgzbinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${cCgzbinfo.remarks}
 				</td>
-				<shiro:hasPermission name="ck:cCgzbinfo:edit"><td>
-					<%--<a href="${ctx}/ck/cCgzbinfo/delete?id=${cCgzbinfo.id}" onclick="return confirmx('确认要删除该采购订单吗？', this.href)">删除</a>--%>
-					<c:if test="${cCgzbinfo.state=='0'}"><a href="javascript:void(0)" onclick="changeState('${cCgzbinfo.id}','1')">采购</a></c:if>
-					<c:if test="${cCgzbinfo.state=='1'}"><a href="javascript:void(0)" onclick="inHouse('${cCgzbinfo.id}')">入库</a></c:if>
-					</td></shiro:hasPermission>
+				<%--<shiro:hasPermission name="ck:cCgzbinfo:edit"><td>--%>
+					<%--&lt;%&ndash;<a href="${ctx}/ck/cCgzbinfo/delete?id=${cCgzbinfo.id}" onclick="return confirmx('确认要删除该采购订单吗？', this.href)">删除</a>&ndash;%&gt;--%>
+					<%--<c:if test="${cCgzbinfo.state=='0'}"><a href="javascript:void(0)" onclick="changeState('${cCgzbinfo.id}','1')">采购</a></c:if>--%>
+					<%--<c:if test="${cCgzbinfo.state=='1'}"><a href="javascript:void(0)" onclick="inHouse('${cCgzbinfo.id}')">入库</a></c:if>--%>
+					<%--</td></shiro:hasPermission>--%>
 			</tr>
 		</c:forEach>
 		</tbody>

@@ -28,6 +28,13 @@ public interface CCgzbinfoDao extends CrudDao<CCgzbinfo> {
 	public CCgzbinfo getZbByGoodsAndState(String goodsId, String state);
 
     /**
+     * 通过商品ID获取对象
+     * @param goodsId
+     * @return
+     */
+	public CCgzbinfo getZbByGoods(String goodsId);
+
+    /**
      * 通过商品的小类查询出他的总价格
      * @param cCgzbinfo
      * @return

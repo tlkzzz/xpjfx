@@ -8,7 +8,7 @@
 		crkck.ddbh AS "rkckddinfo.ddbh",
 		crkck.state AS "rkckddinfo.state",
 		crkck.issp AS "rkckddinfo.issp",
-		a.cgzbinfo = "cgzbinfo.id",
+		a.cgzbinfo AS "cgzbinfo.id",
 		a.hous_id AS "house.id",
 		ch.name AS "house.name",
 		a.goods_id AS "goods.id",
