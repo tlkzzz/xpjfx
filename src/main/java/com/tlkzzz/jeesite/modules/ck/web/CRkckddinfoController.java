@@ -8,20 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
-import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
+import com.tlkzzz.jeesite.modules.cw.entity.*;
 import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
 import com.tlkzzz.jeesite.modules.ck.entity.CStore;
 import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
 import com.tlkzzz.jeesite.modules.ck.service.CShopService;
 import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
-import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
-import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
-import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
-import com.tlkzzz.jeesite.modules.cw.service.FAccountService;
-import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
-import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
-import com.tlkzzz.jeesite.modules.cw.service.FReceiptService;
+import com.tlkzzz.jeesite.modules.cw.service.*;
 import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -73,6 +67,12 @@ public class CRkckddinfoController extends BaseController {
 
 	@Autowired
 	private FDiscountService fDiscountService;
+	@Autowired
+	private FExpenRecordService fExpenRecordService;
+	@Autowired
+	private  FArrearsService fArrearsService;
+
+
 
 	@ModelAttribute
 	public CRkckddinfo get(@RequestParam(required=false) String id) {
@@ -202,63 +202,124 @@ public class CRkckddinfoController extends BaseController {
 		}else {
 			return "error/400";
 		}
+
 	}
 
 	@RequiresPermissions("ck:cCginfo:view")
 	@RequestMapping(value = "saveCgInfo")
-	public String saveCgInfo(CRkckddinfo cRkckddinfo, Model model, RedirectAttributes redirectAttributes) {
+	public String saveCgInfo(CRkckddinfo cRkckddinfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request,HttpServletResponse response) {
+		String a=request.getParameter("cHouse.code");
+		String b=request.getParameter("cHouse.state");
+		int htje=Integer.parseInt(a);
+		int je=Integer.parseInt(b);
 		cRkckddinfo.setIssp("0");
 		String retStr = "error/400";
 		String state = UserUtils.getCache("RKCKSTATE").toString();
 		if(StringUtils.isNotBlank(state)) {
-			if("0".equals(state)||"1".equals(state)) {
+			if ("0".equals(state) || "1".equals(state)) {
 				cRkckddinfo.setLx("0");//入库
-				retStr = "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/cgList?repage&state="+state;
-			}else {
+				retStr = "redirect:" + Global.getAdminPath() + "/ck/cRkckddinfo/cgList?repage&state=" + state;
+			} else {
 				cRkckddinfo.setLx("1");//出库
-				retStr = "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/libraryList?repage&state="+state;
+				retStr = "redirect:" + Global.getAdminPath() + "/ck/cRkckddinfo/libraryList?repage&state=" + state;
 			}
 			cRkckddinfo.setState(state);
 			CShop cs = new CShop();
 			cs.setState(state);
 			cs.setUserid(UserUtils.getUser().getId());
 			List<CShop> shopList = cShopService.findList(cs);
+			for (int i = 0; i < shopList.size(); i++) {
+				cs = shopList.get(i);
+				//更新ccgzbinfo的数量
+				cShopService.upsave(cs);
+			}
 			cRkckddinfoService.saveRkInfo(cRkckddinfo, shopList);
 			cShopService.deleteByUserId(cs.getUserid(), state);
-			if(cRkckddinfo.getReceipt()!=null) {//保存订单ID到收款表
-				//如果receipt中有ID则为出库财务信息保存后跳转过来，并且带有收款记录ID为参数
-				if (!"5".equals(state)) {
-					cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
-					fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
-					FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
-					cRkckddinfo.setStore(receipt.getTravelUnit());
-					cRkckddinfoService.save(cRkckddinfo);//保存来往单位（客户）
-					double yhTotal = 0.0;//优惠总金额
-					double sjTotal = 0.0;//实际总金额
-					for (CShop cShop : shopList) {
-						if (cShop.getYhje() != null && cShop.getYhje() > 0) yhTotal += cShop.getYhje();
-						if (cShop.getJe() != null && cShop.getJe() > 0) sjTotal += cShop.getJe();
-					}
-					if (yhTotal > 0 || Double.parseDouble(receipt.getHtje()) > sjTotal) {
-						FDiscount discount = new FDiscount();
-						discount.setDdid(cRkckddinfo);
-						//		discount.setStore(receipt.getTravelUnit());
-						discount.setYhje(String.valueOf(yhTotal));
-						discount.setLx((yhTotal > 0) ? "0" : "1");
-						fDiscountService.save(discount);
-					}
-				}else {
-					FPayment payment = fPaymentService.get(cRkckddinfo.getReceipt().getId());
-					if(payment!=null) {
-						cRkckddinfo.setSupplier(payment.getTravelUnit());
-						cRkckddinfoService.save(cRkckddinfo);//保存来往单位（供应商）
-						payment.setPaymentCode(cRkckddinfo.getId());
-						fPaymentService.save(payment);
-					}else {
-						redirectAttributes.addAttribute("message","付款信息不存在，系统出现异常，请与管理员联系！");
-					}
-				}
+			if (htje == je) {//全部还款
+				FExpenRecord fex = new FExpenRecord();
+				fex.setDdbh(cs.getSpbh());
+				fex.setJsr(UserUtils.getUser().getId());
+				fex.setExpenMoney(String.valueOf(htje));
+				fex.setExpenDate(new Date());
+				fExpenRecordService.save(fex);
+				FPayment fpa = new FPayment();
+				fpa.setPaymentDate(new Date());
+				fpa.setPaymentCode(cs.getSpbh());
+				fpa.setDdbh(cs.getSpbh());
+				fpa.setHtje(String.valueOf(htje));
+				fpa.setJe(String.valueOf(je));
+				fpa.setJsr(UserUtils.getUser());
+				fPaymentService.save(fpa);
+			} else if (je < htje) { //部分还款
+				int qkje = htje - je;
+				FExpenRecord fex = new FExpenRecord();
+				fex.setDdbh(cs.getSpbh());
+				fex.setJsr(UserUtils.getUser().getId());
+				fex.setExpenMoney(String.valueOf(htje));
+				fex.setExpenDate(new Date());
+				fExpenRecordService.save(fex);
+				FPayment fpa = new FPayment();
+				fpa.setPaymentDate(new Date());
+				fpa.setPaymentCode(cs.getSpbh());
+				fpa.setDdbh(cs.getSpbh());
+				fpa.setHtje(String.valueOf(htje));
+				fpa.setJe(String.valueOf(je));
+				fpa.setJsr(UserUtils.getUser());
+				fPaymentService.save(fpa);
+				FArrears far = new FArrears();
+				far.setArrearsType("1");
+				far.setTotal(String.valueOf(qkje));
+				far.setArrearsDate(new Date());
+				fArrearsService.save(far);
+			} else if (je == 0) { //未付款
+				int qkje = htje - je;
+				FArrears far = new FArrears();
+				far.setArrearsType("1");
+				far.setTotal(String.valueOf(qkje));
+				far.setArrearsDate(new Date());
+				fArrearsService.save(far);
 			}
+			else {
+				addMessage(redirectAttributes, "保存失败，请联系管理员");
+				return "error/500";
+			}
+
+
+//			if(cRkckddinfo.getReceipt()!=null) {//保存订单ID到收款表
+//				//如果receipt中有ID则为出库财务信息保存后跳转过来，并且带有收款记录ID为参数
+//				if (!"5".equals(state)) {
+//					cRkckddinfo.getReceipt().setReceiptCode(cRkckddinfo.getId());
+//					fReceiptService.updateReceiptCode(cRkckddinfo.getReceipt());
+//					FReceipt receipt = fReceiptService.get(cRkckddinfo.getReceipt());
+//					cRkckddinfo.setStore(receipt.getTravelUnit());
+//					cRkckddinfoService.save(cRkckddinfo);//保存来往单位（客户）
+//					double yhTotal = 0.0;//优惠总金额
+//					double sjTotal = 0.0;//实际总金额
+//					for (CShop cShop : shopList) {
+//						if (cShop.getYhje() != null && cShop.getYhje() > 0) yhTotal += cShop.getYhje();
+//						if (cShop.getJe() != null && cShop.getJe() > 0) sjTotal += cShop.getJe();
+//					}
+//					if (yhTotal > 0 || Double.parseDouble(receipt.getHtje()) > sjTotal) {
+//						FDiscount discount = new FDiscount();
+//						discount.setDdid(cRkckddinfo);
+//						//		discount.setStore(receipt.getTravelUnit());
+//						discount.setYhje(String.valueOf(yhTotal));
+//						discount.setLx((yhTotal > 0) ? "0" : "1");
+//						fDiscountService.save(discount);
+//					}
+//				}else {
+//					FPayment payment = fPaymentService.get(cRkckddinfo.getReceipt().getId());
+//					if(payment!=null) {
+//						cRkckddinfo.setSupplier(payment.getTravelUnit());
+//						cRkckddinfoService.save(cRkckddinfo);//保存来往单位（供应商）
+//						payment.setPaymentCode(cRkckddinfo.getId());
+//						fPaymentService.save(payment);
+//					}else {
+//						redirectAttributes.addAttribute("message","付款信息不存在，系统出现异常，请与管理员联系！");
+//					}
+//				}
+//			}
+
 		}
 		return retStr;
 	}
@@ -266,6 +327,16 @@ public class CRkckddinfoController extends BaseController {
 	@RequiresPermissions("ck:cCkinfo:view")
 	@RequestMapping(value = "selectHouse")
 	public String selectHouse(CHouse house, Model model){
+	     CShop cShop=new CShop();
+		 cShop.setUserid(UserUtils.getUser().getId());
+		 cShop.setState(UserUtils.getCache("RKCKSTATE").toString());
+		 List<CShop> list=cShopService.findList(cShop);
+		for (CShop cs: list){
+			Double 	htje=(cs.getJe()-cs.getYhje())*Integer.parseInt(cs.getNub());
+			double htje1=Double.valueOf(htje);
+			int htje3=(int)htje1;
+			house.setCode(String.valueOf(htje3));
+		}
 		model.addAttribute("houseList", houseService.findList(new CHouse()));
 		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		model.addAttribute("house", house);
@@ -386,6 +457,7 @@ public class CRkckddinfoController extends BaseController {
 		double orderTotal = 0.0;
 		double yhTotal = 0.0;
 		for (CShop cShop: csList){
+
 			orderTotal += (cShop.getJe()*Integer.parseInt(cShop.getNub()));
 			if(cShop.getYhje()!=null)yhTotal += cShop.getYhje();
 		}

@@ -11,6 +11,10 @@
 		function submitForm() {
 		    var id = $("#id").val();
 		    var suid = $("#suid").val();
+            var htje = $("#htje").val();
+            var je = $("#je").val();
+
+
             if(id==''){
                 top.$.jBox.tip("请选择仓库", "系统提示", "warning");
                 return;
@@ -19,7 +23,8 @@
                 top.$.jBox.tip("请选择供应商", "系统提示", "warning");
                 return;
             }
-            var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?cHouse.id="+id+"&supplier.id="+suid;
+            var url = "${ctx}/ck/cRkckddinfo/saveCgInfo?cHouse.id="+id+"&supplier.id="+suid+"&cHouse.code="+htje+"&cHouse.state="+je;
+            alert(url);
             if(top!=self){
                 window.parent.setMainFrame(url);
             }else {
@@ -32,7 +37,7 @@
 <body>
 	<ul class="nav nav-tabs">
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="house" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="house"  method="post" class="form-horizontal">
 		<sys:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">仓库选择：</label>
@@ -51,6 +56,20 @@
 					<form:option value="" label="请选择"></form:option>
 					<form:options items="${supplierList}" itemLabel="name" itemValue="id" htmlEscape="false"></form:options>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">合同金额：</label>
+			<div class="controls">
+				<form:input path="code" htmlEscape="false" maxlength="64" class="input-xlarge " id="htje"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">实际金额：</label>
+			<div class="controls">
+				<form:input path="state" htmlEscape="false" maxlength="11" digits="true" class="input-xlarge " id="je"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
