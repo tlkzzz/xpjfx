@@ -122,6 +122,21 @@ public class CGclassController extends BaseController {
 		}
 		return mapList;
 	}
+
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "listByParent")
+	public List<CGclass> listByParent(CGclass gclass, HttpServletResponse response) {
+		if(gclass==null){
+			gclass = new CGclass();
+		}
+		if(gclass.getParent()==null){
+			gclass.setParent(new CGclass("0"));
+		}
+		List<CGclass> list = cGclassService.findList(gclass);
+		return list;
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "checkcode")
 	public String checkcode(String id ,String code ) {

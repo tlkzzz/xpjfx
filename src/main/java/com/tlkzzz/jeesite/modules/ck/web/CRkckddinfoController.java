@@ -59,6 +59,8 @@ public class CRkckddinfoController extends BaseController {
 	@Autowired
 	private CStoreService cStoreService;
 	@Autowired
+	private CGclassService cGclassService;
+	@Autowired
 	private CSupplierService cSupplierService;
 	@Autowired
 	private CDdinfoService cDdinfoService;
@@ -288,6 +290,15 @@ public class CRkckddinfoController extends BaseController {
 			return "error/400";
 		}
 	}
+
+	@RequiresPermissions("ck:cCkinfo:view")
+    @RequestMapping(value = "ckOrder")
+    public String ckOrder(HttpServletRequest request,HttpServletResponse response,Model model){
+		CGclass gclass = new CGclass();
+		gclass.setParent(new CGclass("0"));
+		model.addAttribute("gClass", cGclassService.findList(gclass));
+	    return "modules/ck/ckOrder";
+    }
 
 	@RequiresPermissions("ck:cCkinfo:view")
 	@RequestMapping(value = "libraryPrint")//打印销售单
