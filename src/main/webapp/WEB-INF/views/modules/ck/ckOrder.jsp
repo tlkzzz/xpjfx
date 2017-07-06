@@ -611,10 +611,13 @@
             clearDate();//保存后清除填写信息
             var jsonData = $("#jsonData").val();
             jsonData = eval("("+jsonData+")");
+            var sumMoney = 0;
             for(var i=0;i<jsonData.length;i++){
                 var json = jsonData[i];
+                sumMoney += parseInt(json.num)*parseFloat(json.price);
                 showGoods(json.id,json.num,json.price,json.remark,getJsonGoods(json.id));
             }
+            $("#totalInfo").text("共 "+jsonData.length+" 条，"+sumMoney.toFixed(4)+"元");
         }
         function showGoods(id,num,price,remark,goods) {//显示单个订单商品
             if(id==''||num<=0||price<=0||goods==null){
@@ -645,11 +648,16 @@
                 jsonData = eval("("+jsonData+")");
                 for(var i=0;i<jsonData.length;i++){
                     if(jsonData[i].id==id){
-                        jsonData.remove(i);
-                        $("#jsonData").val(JSON.stringify(jsonData));
+                        jsonData.splice(i,1);
                     }
                 }
+                $("#jsonData").val(JSON.stringify(jsonData));
+                showGoodsList();
             }
+        }
+        function deleteAllGoods() {
+            $("#jsonData").val(JSON.stringify([]));
+            showGoodsList();
         }
         function setJsonGoods(goods) {
             var goodsData = $("#goodsData").val();
@@ -773,7 +781,7 @@
                 <div class="input-group-addon" style="padding: 6px 0;"><span>商品</span></div>
                 <input id="goodsName" type="text" readonly="true" class="shuru" style="padding: 6px 0;width: 250px;">
                 <input id="goodsId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
-                <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" style="margin: 0 auto;"></span>
+                <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" onclick="clearDate()" style="margin: 0 auto;"></span>
                 <div class="clearfix"></div>
             </div>
             <!--规格型号-->
@@ -864,13 +872,13 @@
                     <td>数量</td>
                     <td>单价(元)</td>
                     <td>金额(元)</td>
-                    <td style="color: #678AF9">清空</td>
+                    <td style="color: #678AF9" onclick="deleteAllGoods()">清空</td>
                 </thead>
                 <%--添加商品列表--%>
             </table>
             <div style="width: 100%;">
                 <div class="xiaozi" style="float: left;"><%--大： 1  中： 1  小： 1--%></div>
-                <div class="xiaozi" style="text-align: right;float: right;">共 1 条，118.30元</div>
+                <div class="xiaozi" style="text-align: right;float: right;" id="totalInfo">共 0 条，0元</div>
                 <div class="clearfix"></div>
             </div>
         </div>
