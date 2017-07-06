@@ -3,406 +3,7 @@
 <html>
 <head>
     <title>仓库管理</title>
-    <style>
-        ul{
-            margin: 0;
-            padding: 0;
-            float: left;
-        }
-        li{
-            list-style: none;
-            border-bottom: 1px solid #d3d3d3;
-            border-right: 1px solid #d3d3d3;
-            margin-top: -1px;
-            height: 30px;
-        }
-        p{
-            margin: 0;
-        }
-        img{
-            display: block;
-        }
-        input{
-            border: 0;
-            padding: 0;
-            margin: 0;
-        }
-        table,tr,td{
-            border: 0;
-            margin: 0;
-            padding: 0;
-        }
-        .box1,.box2,.box3,.box4{
-            height: 582px;
-        }
-        .clearfix{
-            clear: both;
-        }
-        .box{
-            width: 1290px;
-        }
-        .box1,.box2{
-            width: 230px;
-            border: 1px solid #d3d3d3;
-            border-radius: 4px;
-            margin-right: 10px;
-            float: left;
-        }
-        .box2{
-            width: 230px;
-        }
-        .bb{
-            padding: 0px;
-            height: 543px;
-            overflow: auto;
-        }
-        ::-webkit-scrollbar{
-            width: 3px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-        .fen1,.fen2{
-            width: 115px;
-            border-left: 1px solid #d3d3d3;
-            box-sizing: border-box;
-            margin-left: -1px;
-        }
-        .fen2{
-            width: calc(50% + 2px);
-            margin-left: 0;
-        }
-        .fen2 li{
-            border-right: 0px;
-            border-right: 0px;
-        }
-        .mingcheng{
-            font-size: 14px;
-            padding: 10px; 5px;
-            border-bottom: 1px solid #d3d3d3;
-            width: 210px;
-            margin-top: -1px;
-        }
-        .bold{
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 8px;
-        }
-        .xi{
-            font-size: 12px;
-            padding: 4px 8px;
-
-        }
-        .xixi{
-            line-height: 30px;
-        }
-        .bg{
-            background-color: #678AF9;
-            color: #fff;
-        }
-        .span{
-            float: right;
-            margin-right: 4px;
-            font-size: 14px;
-            color: #B3B3B3;
-        }
-        .n1,.n2{
-            border-bottom: 1px solid #d3d3d3;
-        }
-        .n1{
-            padding: 4px 4px;
-        }
-        .n1 p{
-            float: left;
-            font-size: 14px;
-            padding: 6px 4px;
-        }
-        .shuzi1{
-            float: left;
-            padding-left: 4px;
-        }
-        .shuzi2{
-            float: right;
-            padding-right: 4px;
-            padding-top: 4px;
-        }
-        .shuzi3{
-            float: left;
-            font-size: 12px;
-            padding-left: 4px;
-            margin-top: -4px;
-            color: #B3B3B3;
-        }
-        .shuzi4{
-            float: right;
-            font-size: 12px;
-            padding-right: 4px;
-            margin-top: -4px;
-            color: #B3B3B3;
-        }
-        .shuzi5{
-            float: left;
-            font-size: 12px;
-            padding-left: 4px;
-            color: #B3B3B3;
-            padding-bottom: 4px;
-        }
-        .box3{
-            width: 340px;
-            float: left;
-            border: 1px solid #d3d3d3;
-            border-radius: 4px;
-        }
-        .panel-heading{
-            width: 340px;
-        }
-        .biaoti{
-            width: 340px;
-            font-size: 14px;
-            padding: 3.2px 4px;
-            border-bottom: 1px solid #d3d3d3;
-        }
-        .biaoti td{
-            width: 170px;
-        }
-        .panel-body{
-            margin: 0 auto;
-            width: 324px;
-            font-size: 12px;
-            padding: 2px 2px;
-            border-bottom: 1px solid #d3d3d3;
-        }
-        .panel-body td{
-            text-align: left;
-            padding: 2px 2px;
-        }
-        .shangpin{
-            margin: 8px auto;
-            width: 324px;
-        }
-        .input-group{
-            border: 1px solid #d3d3d3;
-            border-radius: 4px;
-            width: 324px;
-            margin: 0 auto;
-        }
-        .input-group-addon{
-            padding: 2px 2px;
-            font-size: 14px;
-            text-align: center;
-            background-color: #eee;
-            float: left;
-            border-right: 1px solid #d3d3d3;
-            width: 34px;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-        }
-        .input-group-addon2{
-            width: 30px;
-            padding: 6px 4px;
-            font-size: 14px;
-            text-align: center;
-            background-color: #eee;
-            float: right;
-            border-left: 1px solid #d3d3d3;
-            border-bottom-right-radius: 4px;
-            border-top-right-radius: 4px;
-        }
-        .shuru{
-            font-size: 14px;
-            width: 236px;
-        }
-        .lk-tal{
-            width: 324px;
-            font-size: 12px;
-            color: #B3B3B3;
-        }
-        .left{
-            padding: 8px 4px;
-            float: left;
-        }
-        .right{
-            padding: 8px 0;
-            float: right;
-            text-align: right;
-        }
-        .input-group-1{
-            width: 178px;
-            border-radius: 4px;
-            float: left;
-        }
-        .shuliang{
-            padding: 2px 2px;
-            font-size: 14px;
-            text-align: center;
-            background-color: #eee;
-            float: left;
-            border-right: 1px solid #d3d3d3;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-        }
-        .xiang{
-            float: right;
-            padding: 1.8px 2px;
-            font-size: 14px;
-            text-align: center;
-            background-color: #eee;
-            border-left: 1px solid #d3d3d3;
-            border-bottom-right-radius: 4px;
-            border-top-right-radius: 4px;
-        }
-        .jia{
-            float: right;
-            padding: 1px 4px;
-            border-left: 1px solid #d3d3d3;
-        }
-        .jian{
-            float: left;
-            padding: 1px 4px;
-            border-right: 1px solid #d3d3d3;
-        }
-        .shuru1{
-            font-size: 14px;
-            padding: 4px 4px;
-            display: block;
-            text-align: right;
-            float: left;
-        }
-        .box4{
-            margin-left: 10px;
-            width: 450px;
-            float: left;
-            border: 1px solid #d3d3d3;
-            border-radius: 4px;
-            position: relative;
-        }
-        .bt{
-            font-size: 14px;
-            padding: 1.8% 2%;
-            border-bottom: 1px solid #d3d3d3;
-        }
-        .ha{
-            float: right;
-            width: 47.25%;
-            text-align: right;
-        }
-        .aa{
-            background-color: #888;
-            font-size: 10px;
-            color: #fff;
-            padding: 1% 5%;
-            border-radius: 4px;
-        }
-        .list{
-            font-size: 12px;
-        }
-        .list_bt{
-            font-size: 12px;
-            text-align: center;
-            border: 1px solid;
-            line-height: 200%;
-        }
-        .list_bt td{
-            width: 20%;
-        }
-        .nongjia_bg{
-            width: 6%;
-        }
-        .nongjia{
-            background-color: #d9edf7;
-            vertical-align: top;
-        }
-        .nongjia td{
-            padding: 2% 0;
-
-        }
-        .nongjia_bg span{
-            background-color: #f1ad4e;
-            padding: 2% 12%;
-            color: #fff;
-            margin-left: 24%;
-        }
-        .xiaozi{
-            color: #ff6500;
-            font-size: 12px;
-            padding: 1% 2%;
-        }
-        .input-group4{
-            width: 95%;
-            margin: 0 auto;
-        }
-        .box5{
-            position: relative;
-        }
-        .box5_bt{
-            width: 795px;
-            background-color: #fff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 1027;
-            margin-left: -15%;
-            margin-top: 5%;
-        }
-        .jiben{
-            padding: 4%;
-            border-bottom: 1px solid #d3d3d3;
-        }
-        .input_g{
-            border: 1px solid #d3d3d3;
-            border-radius: 4px;
-            width: 556px;
-            margin: 8px auto;
-        }
-        .width{
-            text-align: center;
-            float: left;
-            width: 84px;
-            padding: 10px;
-            background-color: #eee;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-            border-right: 1px solid #d3d3d3;
-        }
-        .shu{
-            float: left;
-            width: 408px;
-        }
-        .shu input{
-            padding: 11px 0;
-            width: 415px;
-        }
-        .tu2{
-            float: right;
-            padding: 11px;
-            background-color: #eee;
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px;
-            border-left: 1px solid #d3d3d3;
-        }
-        .xx{
-            z-index: 1026;
-            position: fixed;
-            left: 0px;
-            top: 0px;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            opacity: 0.5;
-            background: rgb(0, 0, 0);
-        }
-        .anniu{
-            text-align: center;
-            margin-bottom: 5%;
-        }
-        .anniu input{
-            padding: 2% 4%;
-            border-radius: 4px;
-            background-color: #5cb85c;
-            font-size: 14px;
-            color: #fff;
-        }
-    </style>
+    <link href="${ctxStatic}/css/ckgl.css" type="text/css" rel="stylesheet"/>
     <script src="${ctxStatic}/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
     <link href="${ctxStatic}/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet" />
     <script src="${ctxStatic}/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
@@ -411,6 +12,25 @@
         $(document).ready(function() {
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
         });
+        function  jblist() {
+
+            var supplier = $("#supplier option:selected").text();
+            var house = $("#house option:selected").text();
+            var bz = $("#bz").val();
+             alert(bz);
+            if(supplier!="" || house!="" ) {
+                var supplierlist=  $("#aa").text(supplier);
+                var houselist= $("#bb").text(house);
+                var bzlist= $("#zz").text(bz);
+                $("#supplierlist").val(supplierlist);
+                $("#houselist").val(houselist);
+                $("#bzlist").val(bzlist);
+                document.getElementById("hide").style.display="none";
+            }else {
+                alert("信息填写不完整");
+                return;
+            }
+        }
     </script>
 </head>
 <body>
@@ -462,12 +82,13 @@
                     <tbody>
                     <tr>
                         <td>进货仓库：</td>
-                        <td>北区(李海生)仓库</td>
+                        <td id="aa"></td>
                         <td>供 应 商：</td>
-                        <td>abd榴莲饼厂</td>
+                        <td id="bb"></td>
                     </tr>
                     <tr>
                         <td>备  注：</td>
+                        <td id="zz"></td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -584,39 +205,70 @@
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData">
             <form id="saveForm" action="">
+                <input type="hidden" id="supplierlist">
+                <input type="hidden" id="houselist">
+                <input type="hidden" id="bzlist">
                 <input type="hidden" id="jsonData" name="jsonData">
                 <input type="button" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
     </div>
-    <%--<div class="box5">
+    <div class="box5" id="hide">
         <div class="box5_bt">
             <div class="jiben" style="text-align: center;">
                 <span style="font-size: 22px; font-weight: bold; letter-spacing: 4px;">基本信息</span>
             </div>
             <div class="input_g">
                 <div class="width"><span style="color: red;">*</span> 进货仓库</div>
-                <div class="shu"><input type="text"  style="width: 412px"></div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
+                <div class="shu">
+                        <select class="shu"  id="house">
+                            <c:forEach items="${houseList}" var="house">
+                                <option value="${house.id}">${house.name}</option>
+                            </c:forEach>
+                    </select>
+                </div>
+                <div class="tu2"><img src="images/shanchu.png"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
                 <div class="width"><span style="color: red;">*</span> 供  应  商</div>
-                <div class="shu"><input type="text" style="width: 412px"></div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
+                <div class="shu">
+                    <select class="shu" id="supplier" >
+                        <c:forEach items="${supplierList}" var="supplier">
+                            <option value="${supplier.id}">${supplier.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="tu2"><img src="images/shanchu.png"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
                 <div class="width">备注</div>
-                <div class="shu"><input type="text" style="width: 450px"></div>
+                <div class="shu"><input id="bz" type="text"  style="width: 426px;color: #b3b3b3;font-size: 14px;padding: 11px;"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="anniu">
-                <input type="button" value="确  定">
+                <input type="button" onclick="jblist()" value="确  定">
             </div>
+            <div style="text-align: left; width: 555px;padding: 8px 0;box-sizing: border-box; margin: 0 auto 20px;border: 1px solid #d3d3d3;border-radius: 4px;">
+                <table class="lk-tips">
+                    <tbody><tr>
+                        <td>
+                            <img src="images/小云提示.png" alt="小云提示" title="小云提示">
+                        </td>
+                        <td>
+                            <ul style="margin-left: 10px;">
+                                <li style="list-style: inside;margin-bottom: 20px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">入库即商品采购回来之后进行接收和验收入库，在将商品入库的同时进行支付，从而实现物流和资金流的同步处理。</li>
+                                <li style="list-style: inside;margin-bottom: 20px;padding-bottom: 10px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">若找不到入库仓库，请在【资料】-【仓库档案】中查看用户是否具有该仓库的操作权限。</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </div>
+            <div class="clearfix"></div>
         </div>
         <div tabindex="0" class="xx"></div>
-    </div>--%>
+    </div>
 </div>
 </body>
 </html>
