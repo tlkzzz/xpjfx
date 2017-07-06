@@ -39,7 +39,7 @@
             clear: both;
         }
         .box{
-            width: 1590px;
+            width: 1290px;
         }
         .box1,.box2{
             width: 230px;
@@ -270,7 +270,7 @@
         }
         .box4{
             margin-left: 10px;
-            width: 742px;
+            width: 450px;
             float: left;
             border: 1px solid #d3d3d3;
             border-radius: 4px;
@@ -633,7 +633,7 @@
                 '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+big+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.big.name+'</span></div>'+
                 '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.zong.name+'</span></div>'+smallHtml+
                 '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+specNum*price+'/'+goods.big.name+'</p><p>'+price+'/'+smallUnit+
-                '</p></td><td style="padding-left: 6.5%;"><p>'+num*price+'</p></td><td></td></tr>'
+                '</p></td><td style="padding-left: 6.5%;"><p>'+num*price+'</p></td><td><img src="${ctxStatic}/images/mxcpbianji.png" style="float: left;margin: 0 10px;"><img src="${ctxStatic}/images/shanchu.png"></td></tr>'
             $(".list").append(text);
         }
         function setJsonGoods(goods) {
@@ -697,7 +697,7 @@
 <div class="box">
     <div style="height: 40px;">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="">出库录单</a></li>
+            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">出库录单</a></li>
         </ul>
     </div>
     <div class="box1">
@@ -762,7 +762,7 @@
                 <div class="input-group-addon" style="padding: 6px 0;"><span>商品</span></div>
                 <input id="goodsName" type="text" readonly="true" class="shuru" style="padding: 6px 0;width: 250px;">
                 <input id="goodsId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
-                <span class="input-group-addon2"><img src="images/shanchu.png" style="margin: 0 auto;"></span>
+                <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" style="margin: 0 auto;"></span>
                 <div class="clearfix"></div>
             </div>
             <!--规格型号-->
@@ -785,16 +785,16 @@
                 <div class="input-group-1" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;">
                     <div class="jian" onclick="zongNumChange(parseInt($('#zongNum').val())-1)" style="margin-top: -1px;">-</div>
                     <div style="margin-top: -2px;float: left;">
-                    <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 65px;padding: 2px 0;margin-top: 1px;"></div>
-                    <div class="xiang zongUnit" style="width: 25px;height: 17px;margin-top: -1px;"></div>
+                    <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
+                    <div class="xiang zongUnit" style="width: 25px;height: 20px;margin-top: -1px;"></div>
                     <div class="jia" onclick="zongNumChange(parseInt($('#zongNum').val())+1)" style="margin-top: -1px;">+</div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="input-group-1 smallEle" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;">
+                <div class="clearfix"></div>
+                <div class="input-group-1 smallEle" style="float: right;width: 40%;border: 1px solid #d3d3d3;margin-top: 8px;">
                     <div class="jian" onclick="smallNumChange(parseInt($('#smallNum').val())-1)" style="margin-top: -1px;">-</div>
-                    <div style="margin-top: -2px;float: left;">
-                    <input id="smallNum" onchange="smallNumChange($(this).val())" type="text" style="width: 65px;padding: 2px 0;margin-top: 1px;"></div>
-                    <div class="xiang smallUnit" style="width: 25px;height: 17px;margin-top: -1px;"></div>
+                    <input id="smallNum" onchange="smallNumChange($(this).val())" type="text" style="width: 55px;">
+                    <div class="xiang smallUnit" style="width: 25px;height: 20px;margin-top: -1px;"></div>
                     <div class="jia" onclick="smallNumChange(parseInt($('#smallNum').val())+1)" style="margin-top: -1px;">+</div>
                     <div class="clearfix"></div>
                 </div>
@@ -813,7 +813,8 @@
                     <input id="zongPrice" onchange="setPrice($(this).val(),'zongPrice')" type="text" style="width: 102px;padding: 2px 0;">
                     <div class="xiang" style="padding:2.9px 0;margin-top: -1px;">/<span class="zongUnit"></span></div>
                 </div>
-                <div class="input-group-1 smallEle" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;">
+                <div class="clearfix"></div>
+                <div class="input-group-1 smallEle" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;margin-top: 8px;">
                     <input id="smallPrice" onchange="setPrice($(this).val(),'smallPrice')" type="text" style="width: 102px;padding: 2px 0;">
                     <div class="xiang" style="padding:2.9px 0;margin-top: -1px;">/<span class="smallUnit"></span></div>
                 </div>
@@ -842,16 +843,13 @@
         <div class="bt">
             <span>商品明细</span>
             <div class="ha">
-                <span class="aa">生产日期</span>
-                <span class="aa" style="background-color: blue;">体系价</span>
                 <span style="color: blue;">帮助</span>
-                <span><img style="display: inline-block;text-align: center;" src="${ctxStatic}/images/shipintb.png"></span>
             </div>
         </div>
         <div class="bb" style="height: 430px;">
             <table class="list" cellspacing="0" cellpadding="0" style="border-bottom: 1px solid #d3d3d3;">
                 <thead class="list_bt" style="border-bottom: 1px solid;">
-                    <td colspan="2">商品</td>
+                    <td colspan="2" style="width: 90px;">商品</td>
                     <td>数量</td>
                     <td>单价(元)</td>
                     <td>金额(元)</td>
@@ -881,13 +879,13 @@
             <div class="input_g">
                 <div class="width"><span style="color: red;">*</span> 进货仓库</div>
                 <div class="shu"><input type="text"  style="width: 412px"></div>
-                <div class="tu2"><img src="images/shanchu.png"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
                 <div class="width"><span style="color: red;">*</span> 供  应  商</div>
                 <div class="shu"><input type="text" style="width: 412px"></div>
-                <div class="tu2"><img src="images/shanchu.png"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
