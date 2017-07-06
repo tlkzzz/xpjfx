@@ -368,9 +368,13 @@ public class CRkckddinfoController extends BaseController {
     @RequestMapping(value = "ckOrder")
     public String ckOrder(String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
 		CGclass gclass = new CGclass();
+		CHouse  houseList=new CHouse();
+		CSupplier supplierList=new CSupplier();
 		gclass.setParent(new CGclass("0"));
 		model.addAttribute("gClass", cGclassService.findList(gclass));
-	    return "modules/ck/"+pageName;
+		model.addAttribute("houseList", houseService.findList(houseList));
+		model.addAttribute("supplierList", cSupplierService.findList(supplierList));
+		return "modules/ck/"+pageName;
     }
 
 	/**		新版出库入库方法结束		**/
