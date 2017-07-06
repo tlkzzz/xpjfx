@@ -366,11 +366,11 @@ public class CRkckddinfoController extends BaseController {
 
 	@RequiresPermissions("ck:cCkinfo:view")
     @RequestMapping(value = "ckOrder")
-    public String ckOrder(HttpServletRequest request,HttpServletResponse response,Model model){
+    public String ckOrder(String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
 		CGclass gclass = new CGclass();
 		gclass.setParent(new CGclass("0"));
 		model.addAttribute("gClass", cGclassService.findList(gclass));
-	    return "modules/ck/ckOrder";
+	    return "modules/ck/"+pageName;
     }
 
 	/**		新版出库入库方法结束		**/
