@@ -362,6 +362,8 @@ public class CRkckddinfoController extends BaseController {
 		}
 	}
 
+	/**		新版出库入库方法开始		**/
+
 	@RequiresPermissions("ck:cCkinfo:view")
     @RequestMapping(value = "ckOrder")
     public String ckOrder(HttpServletRequest request,HttpServletResponse response,Model model){
@@ -370,6 +372,8 @@ public class CRkckddinfoController extends BaseController {
 		model.addAttribute("gClass", cGclassService.findList(gclass));
 	    return "modules/ck/ckOrder";
     }
+
+	/**		新版出库入库方法结束		**/
 
 	@RequiresPermissions("ck:cCkinfo:view")
 	@RequestMapping(value = "libraryPrint")//打印销售单
