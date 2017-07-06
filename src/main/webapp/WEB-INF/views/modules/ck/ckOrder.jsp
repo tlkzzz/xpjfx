@@ -583,7 +583,7 @@
             }
             setNum();
         }
-        function clearDate() {
+        function clearDate() {//初始化商品添加页面
             $(".box .box3 .shangpin input:hidden").val("");
             $(".box .box3 .shangpin input:text").val("");
             $("#specName").empty();
@@ -594,27 +594,45 @@
             $(".smallUnit").empty();
             $(".smallEle").css("display","block");
         }
-        function addGoods(id,num,price) {
+        function addGoods(id,num,price,remark) {//添加商品到订单列表
             var orderGoods = $("#orderGoods").val();
             if(id==''||num<=0||price<=0||orderGoods==null){
+                alert("信息不完整!");
+                return;
+            }
+            var goods = eval("("+orderGoods+")");
+            setJsonGoods(goods);//将goods添加到JSON数据中
+            setPostJson(id,num,price,remark);
+            showGoodsList();
+        }
+        function showGoodsList() {//通过隐藏域订单信息展示订单列表
+            $(".list .nongjia").remove();
+            clearDate();//保存后清除填写信息
+            var jsonData = $("#jsonData").val();
+            jsonData = eval("("+jsonData+")");
+            for(var i=0;i<jsonData.length;i++){
+                var json = jsonData[i];
+                showGoods(json.id,json.num,json.price,json.remark,getJsonGoods(json.id));
+            }
+        }
+        function showGoods(id,num,price,remark,goods) {//显示单个订单商品
+            if(id==''||num<=0||price<=0||goods==null){
                 alert("信息不完整");
                 return;
             }
-//            $(".list .nongjia").remove();
-            var goods = eval("("+orderGoods+")");
-            setJsonGoods(goods);//将goods添加到JSON数据中
             var specName = goods.spec.name;
             var specList = specName.split("*");
-            var big = parseInt(num/parseInt(eval(specName)));
-            var zong = parseInt((num-big)/parseInt(eval(specName)));
-            var small = parseInt(num-big-zong);
+            var specNum = parseInt(eval(specName));
+            var big = parseInt(num/specNum);
+            var zong = (specList.length>2)?parseInt((num-(big*specNum))/parseInt(specList[2])):num-(big*specNum);
+            var small = parseInt(num-(big*specNum)-(zong*parseInt(specList[2])));
             var smallUnit = (specList.length>2)?goods.small.name:goods.zong.name;
-            var smallHtml = (specList.length>2)?'<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+small+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>小包</span></div>':'';
+            var smallHtml = (specList.length>2)?'<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+small+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.small.name+'</span></div>':'';
             var text = '<tr class="nongjia"><td class="nongjia_bg"><span>'+($(".list .nongjia").length+1)+'</span></td><td style="width: 20%"><p style="font-weight: bold;">'+ goods.name+
                 '</p><p style="color: #B3B3B3;">'+specName+'</p><p style="color: #B3B3B3;">'+goods.tm +'</p></td><td style="padding-left: 6%;">'+
-                '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+big+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>件</span></div>'+
-                '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>中包</span></div>'+smallHtml+
-                '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+eval(specName)*price+'/'+goods.big.name+'</p><p>'+price+'/'+smallUnit+
+                '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+big+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.big.name+'</span></div>'+
+                '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.zong.name+'</span></div>'+smallHtml+
+                '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+specNum*price+'/'+goods.big.name+'</p><p>'+price+'/'+smallUnit+
                 '</p></td><td style="padding-left: 6.5%;"><p>'+num*price+'</p></td><td></td></tr>'
             $(".list").append(text);
         }
@@ -634,6 +652,31 @@
                 goodsData.push(goods);
                 $("#goodsData").val(JSON.stringify(goodsData));
             }
+        }
+        function setPostJson(id,num,price,remark) {
+            if(id==''||num<=0||price<=0){
+                alert("信息不完整");
+                return;
+            }
+            var jsonData = $("#jsonData").val();
+            var json = {id:id,num:num,price:price,remark:remark};
+            if(jsonData==''){
+                jsonData = [];
+                jsonData.push(json);
+            }else{
+                var flag = true;
+                jsonData = eval("("+jsonData+")");
+                for(var i=0;i<jsonData.length;i++){
+                    if(jsonData[i].id==id){
+                        jsonData[i].num = parseInt(jsonData[i].num)+parseInt(num);
+                        jsonData[i].price = price;
+                        jsonData[i].remark = remark;
+                        flag = false;
+                    }
+                }
+                if(flag)jsonData.push(json);
+            }
+            $("#jsonData").val(JSON.stringify(jsonData));
         }
         function getJsonGoods(id) {
             if(id=='')return null;
@@ -785,12 +828,13 @@
             <!--备注-->
             <div class="input-group" style="margin-top: 2%;">
                 <div class="input-group-addon"><span>备注</span></div>
-                <input type="text" class="shuru" style="padding: 2px 0;width: 285px;">
+                <input id="orderRemark" type="text" class="shuru" style="padding: 2px 0;width: 285px;">
                 <div class="clearfix"></div>
             </div>
             <!--添加按钮-->
             <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0">
-                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),($('#specName').val().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val())" value="添  加">
+                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),
+                ($('#specName').val().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
             </div>
         </div>
     </div>
