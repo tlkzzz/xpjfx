@@ -484,6 +484,7 @@
             for(var i=0;i<goodsList.length;i++){
                 if(goodsList[i].id==id){
                     $("#orderGoods").val(JSON.stringify(goodsList[i]));
+
                     var specName = goodsList[i].spec.name;//规格
                     var specList = specName.split("*");
                     var sj = goodsList[i].sj;//售价
@@ -627,14 +628,28 @@
             var zong = (specList.length>2)?parseInt((num-(big*specNum))/parseInt(specList[2])):num-(big*specNum);
             var small = parseInt(num-(big*specNum)-(zong*parseInt(specList[2])));
             var smallUnit = (specList.length>2)?goods.small.name:goods.zong.name;
-            var smallHtml = (specList.length>2)?'<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+small+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.small.name+'</span></div>':'';
+            var smallPriceHtml = (specList.length>2)?'<p>'+price*parseInt(specList[2])+'/'+goods.zong.name+'</p><p>'+price+'/'+smallUnit+'</p>':'<p>'+price+'/'+smallUnit+'</p>';
+            var smallNumHtml = (specList.length>2)?'<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+small+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.small.name+'</span></div>':'';
             var text = '<tr class="nongjia"><td class="nongjia_bg"><span>'+($(".list .nongjia").length+1)+'</span></td><td style="width: 20%"><p style="font-weight: bold;">'+ goods.name+
                 '</p><p style="color: #B3B3B3;">'+specName+'</p><p style="color: #B3B3B3;">'+goods.tm +'</p></td><td style="padding-left: 6%;">'+
                 '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+big+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.big.name+'</span></div>'+
-                '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.zong.name+'</span></div>'+smallHtml+
-                '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+specNum*price+'/'+goods.big.name+'</p><p>'+price+'/'+smallUnit+
-                '</p></td><td style="padding-left: 6.5%;"><p>'+num*price+'</p></td><td><img src="${ctxStatic}/images/mxcpbianji.png" style="float: left;margin: 0 10px;"><img src="${ctxStatic}/images/shanchu.png"></td></tr>'
+                '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.zong.name+'</span></div>'+smallNumHtml+
+                '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+specNum*price+'/'+goods.big.name+'</p>'+smallPriceHtml+'</td><td style="padding-left: 6.5%;"><p>'+num*price+
+                '</p></td><td><img onclick="deleteGoods(\''+goods.id+'\')" src="${ctxStatic}/images/shanchu.png"></td></tr>'
             $(".list").append(text);
+        }
+        function deleteGoods(id) {
+            if(id=='')return;
+            var jsonData = $("#jsonData").val();
+            if(jsonData!=''){
+                jsonData = eval("("+jsonData+")");
+                for(var i=0;i<jsonData.length;i++){
+                    if(jsonData[i].id==id){
+                        jsonData.remove(i);
+                        $("#jsonData").val(JSON.stringify(jsonData));
+                    }
+                }
+            }
         }
         function setJsonGoods(goods) {
             var goodsData = $("#goodsData").val();
@@ -748,10 +763,6 @@
                         <td>备  注：</td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td>备  注：</td>
-                        <td></td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -835,7 +846,7 @@
             <!--添加按钮-->
             <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0">
                 <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),
-                ($('#specName').val().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
+                ($('#specName').text().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
             </div>
         </div>
     </div>
