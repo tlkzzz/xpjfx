@@ -30,10 +30,10 @@
             }
         }
         function checkFormInfo() {
-            if($("#supplierlist").val()==""){return false;}
-            if($("#houselist").val()==""){return false;}
+            if($("#supplierlist").val()==""){message("供应商未选择");return false;}
+            if($("#houselist").val()==""){message("仓库未选择");return false;}
             var jsonData = $("#jsonData").val();
-            if(jsonData==""||eval("("+jsonData+")").length<=0){return false;}
+            if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
             return true;
         }
     </script>
