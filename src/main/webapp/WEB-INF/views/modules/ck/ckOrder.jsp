@@ -13,19 +13,17 @@
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
         });
         function  jblist() {
-
             var supplier = $("#supplier option:selected").text();
             var house = $("#house option:selected").text();
             var bz = $("#bz").val();
-             alert(bz);
             if(supplier!="" || house!="" ) {
-                var supplierlist=  $("#aa").text(supplier);
-                var houselist= $("#bb").text(house);
-                var bzlist= $("#zz").text(bz);
-                $("#supplierlist").val(supplierlist);
-                $("#houselist").val(houselist);
-                $("#bzlist").val(bzlist);
-                document.getElementById("hide").style.display="none";
+                $("#aa").text(supplier);
+                $("#bb").text(house);
+                $("#zz").text(bz);
+                $("#supplierlist").val($("#supplier").val());
+                $("#houselist").val($("#house").val());
+                $("#bzlist").val(bz);
+                $(".box5").css("display","none");
             }else {
                 alert("信息填写不完整");
                 return;
@@ -72,12 +70,10 @@
             <table class="biaoti">
                 <tr>
                     <td>基本信息</td>
-                    <td style="text-align: right;font-size: 12px;color:#678AF9;">编辑</td>
+                    <td style="text-align: right;font-size: 12px;color:#678AF9;" onclick="$('.box5').css('display','block')">编辑</td>
                 </tr>
             </table>
-            <div style="padding: 0px;
-		height: 60px;
-		overflow: auto;">
+            <div style="padding: 0px;height: 60px;overflow: auto;">
                 <table class="panel-body">
                     <tbody>
                     <tr>
@@ -204,16 +200,16 @@
         </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData">
-            <form id="saveForm" action="">
-                <input type="hidden" id="supplierlist">
-                <input type="hidden" id="houselist">
-                <input type="hidden" id="bzlist">
+            <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return eval('('+$('#jsonData').val()+')').length>0">
+                <input type="hidden" id="supplierlist" name="supplier.id">
+                <input type="hidden" id="houselist" name="cHouse.id">
+                <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="jsonData" name="jsonData">
-                <input type="button" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
+                <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
     </div>
-    <div class="box5" id="hide">
+    <div class="box5">
         <div class="box5_bt">
             <div class="jiben" style="text-align: center;">
                 <span style="font-size: 22px; font-weight: bold; letter-spacing: 4px;">基本信息</span>
@@ -227,7 +223,7 @@
                             </c:forEach>
                     </select>
                 </div>
-                <div class="tu2"><img src="images/shanchu.png"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
@@ -239,7 +235,7 @@
                         </c:forEach>
                     </select>
                 </div>
-                <div class="tu2"><img src="images/shanchu.png"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
@@ -254,7 +250,7 @@
                 <table class="lk-tips">
                     <tbody><tr>
                         <td>
-                            <img src="images/小云提示.png" alt="小云提示" title="小云提示">
+                            <img src="${ctxStatic}/images/小云提示.png" alt="小云提示" title="小云提示">
                         </td>
                         <td>
                             <ul style="margin-left: 10px;">
