@@ -29,6 +29,12 @@
                 return;
             }
         }
+        function checkFormInfo() {
+            if($("#supplierlist").val()==""){return false;}
+            if($("#houselist").val()==""){return false;}
+            if(eval("("+$("#jsonData").val()+")").length<=0){return false;}
+            return true;
+        }
     </script>
 </head>
 <body>
@@ -200,7 +206,7 @@
         </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData">
-            <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return eval('('+$('#jsonData').val()+')').length>0">
+            <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
                 <input type="hidden" id="supplierlist" name="supplier.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="bzlist" name="remarks">
