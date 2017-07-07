@@ -43,6 +43,8 @@
 		a.sj AS "sj",
 		a.yjsj AS "yjsj",
 		a.ckcbj AS "ckcbj",
+		chg.kynub AS "kykc",
+		chg.yjnub AS "aqkc",
 		sg.id AS "shopGoods.id",
 		sg.goods_subtitle AS "shopGoods.goodsSubtitle",
 		sg.shop_id AS "shopGoods.shopId",
@@ -97,6 +99,9 @@
 		LEFT JOIN c_gclass cgc ON a.`gclassid`=cgc.`id`
 		LEFT JOIN c_spec csp ON a.`specid`=csp.`id`
 		LEFT JOIN shop_goods sg ON sg.id=a.id
+		LEFT JOIN (SELECT a.id,a.goodsid,SUM(a.nub) AS 'nub',
+		SUM(a.kynub) AS 'kynub',MAX(a.yjnub) AS 'yjnub' FROM c_hgoods a
+		GROUP BY a.goodsid)  chg ON chg.goodsid=a.id
 	</sql>
     
 	<select id="get" resultType="CGoods">

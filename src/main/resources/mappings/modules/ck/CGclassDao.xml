@@ -87,6 +87,14 @@
 			AND a.parent_ids LIKE #{parentIds}
 		</where>
 	</select>
+
+	<select id="findListByParent" resultType="CGclass">
+		SELECT
+			a.id,
+			a.name AS "name",
+			a.parent_id AS "parent.id"
+		FROM c_gclass a
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO c_gclass(

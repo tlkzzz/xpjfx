@@ -1,0 +1,467 @@
+ul{
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+li{
+    list-style: none;
+    border-bottom: 1px solid #d3d3d3;
+    border-right: 1px solid #d3d3d3;
+    margin-top: -1px;
+    height: 30px;
+}
+p{
+    margin: 0;
+}
+img{
+    display: block;
+}
+input{
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+table,tr,td{
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.box1,.box2,.box3,.box4{
+    height: 582px;
+}
+.clearfix{
+    clear: both;
+}
+.box{
+    width: 1290px;
+}
+.box1,.box2{
+    width: 230px;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    margin-right: 10px;
+    float: left;
+}
+.box2{
+    width: 230px;
+}
+.bb{
+    padding: 0px;
+    height: 543px;
+    overflow: auto;
+}
+::-webkit-scrollbar{
+    width: 3px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.fen1,.fen2{
+    width: 115px;
+    border-left: 1px solid #d3d3d3;
+    box-sizing: border-box;
+    margin-left: -1px;
+}
+.fen2{
+    width: calc(50% + 2px);
+    margin-left: 0;
+}
+.fen2 li{
+    border-right: 0px;
+    border-right: 0px;
+}
+.mingcheng{
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #d3d3d3;
+    width: 210px;
+    margin-top: -1px;
+}
+.bold{
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+}
+.xi{
+    font-size: 12px;
+    padding: 4px 8px;
+
+}
+.xixi{
+    line-height: 30px;
+}
+.bg{
+    background-color: #678AF9;
+    color: #fff;
+}
+.span{
+    float: right;
+    margin-right: 4px;
+    font-size: 14px;
+    color: #B3B3B3;
+}
+.n1,.n2{
+    border-bottom: 1px solid #d3d3d3;
+}
+.n1{
+    padding: 4px 4px;
+}
+.n1 p{
+    float: left;
+    font-size: 14px;
+    padding: 6px 4px;
+}
+.shuzi1{
+    float: left;
+    padding-left: 4px;
+}
+.shuzi2{
+    float: right;
+    padding-right: 4px;
+    padding-top: 4px;
+}
+.shuzi3{
+    float: left;
+    font-size: 12px;
+    padding-left: 4px;
+    margin-top: -4px;
+    color: #B3B3B3;
+}
+.shuzi4{
+    float: right;
+    font-size: 12px;
+    padding-right: 4px;
+    margin-top: -4px;
+    color: #B3B3B3;
+}
+.shuzi5{
+    float: left;
+    font-size: 12px;
+    padding-left: 4px;
+    color: #B3B3B3;
+    padding-bottom: 4px;
+}
+.box3{
+    width: 340px;
+    float: left;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+}
+.panel-heading{
+    width: 340px;
+}
+.biaoti{
+    width: 340px;
+    font-size: 14px;
+    padding: 3.2px 4px;
+    border-bottom: 1px solid #d3d3d3;
+}
+.biaoti td{
+    width: 170px;
+}
+.panel-body{
+    margin: 0 auto;
+    width: 324px;
+    font-size: 12px;
+    padding: 2px 2px;
+    border-bottom: 1px solid #d3d3d3;
+}
+.panel-body td{
+    text-align: left;
+    padding: 2px 2px;
+}
+.shangpin{
+    margin: 8px auto;
+    width: 324px;
+}
+.input-group{
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    width: 324px;
+    margin: 0 auto;
+}
+.input-group-addon{
+    padding: 2px 2px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #eee;
+    float: left;
+    border-right: 1px solid #d3d3d3;
+    width: 34px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.input-group-addon2{
+    width: 30px;
+    padding: 6px 4px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #eee;
+    float: right;
+    border-left: 1px solid #d3d3d3;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.shuru{
+    font-size: 14px;
+    width: 236px;
+}
+.lk-tal{
+    width: 324px;
+    font-size: 12px;
+    color: #B3B3B3;
+}
+.left{
+    padding: 8px 4px;
+    float: left;
+}
+.right{
+    padding: 8px 0;
+    float: right;
+    text-align: right;
+}
+.input-group-1{
+    width: 178px;
+    border-radius: 4px;
+    float: left;
+}
+.shuliang{
+    padding: 2px 2px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #eee;
+    float: left;
+    border-right: 1px solid #d3d3d3;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.xiang{
+    float: right;
+    padding: 1.8px 2px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #eee;
+    border-left: 1px solid #d3d3d3;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.jia{
+    float: right;
+    padding: 1px 4px;
+    border-left: 1px solid #d3d3d3;
+}
+.jian{
+    float: left;
+    padding: 1px 4px;
+    border-right: 1px solid #d3d3d3;
+}
+.shuru1{
+    font-size: 14px;
+    padding: 4px 4px;
+    display: block;
+    text-align: right;
+    float: left;
+}
+.box4{
+    margin-left: 10px;
+    width: 450px;
+    float: left;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    position: relative;
+}
+.bt{
+    font-size: 14px;
+    padding: 1.8% 2%;
+    border-bottom: 1px solid #d3d3d3;
+}
+.ha{
+    float: right;
+    width: 47.25%;
+    text-align: right;
+}
+.aa{
+    background-color: #888;
+    font-size: 10px;
+    color: #fff;
+    padding: 1% 5%;
+    border-radius: 4px;
+}
+.list{
+    font-size: 12px;
+}
+.list_bt{
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid;
+    line-height: 200%;
+}
+.list_bt td{
+    width: 20%;
+}
+.nongjia_bg{
+    width: 6%;
+}
+.nongjia{
+    background-color: #d9edf7;
+    vertical-align: top;
+}
+.nongjia td{
+    padding: 2% 0;
+
+}
+.nongjia_bg span{
+    background-color: #f1ad4e;
+    padding: 2% 12%;
+    color: #fff;
+    margin-left: 24%;
+}
+.xiaozi{
+    color: #ff6500;
+    font-size: 12px;
+    padding: 1% 2%;
+}
+.input-group4{
+    width: 95%;
+    margin: 0 auto;
+}
+.box5{
+    position: relative;
+}
+.box5_bt{
+    width: 795px;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1027;
+    margin-left: -15%;
+    margin-top: 5%;
+}
+.jiben{
+    padding: 4%;
+    border-bottom: 1px solid #d3d3d3;
+}
+.input_g{
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    width: 556px;
+    margin: 8px auto;
+}
+.width{
+    text-align: center;
+    float: left;
+    width: 84px;
+    padding: 10px;
+    background-color: #eee;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-right: 1px solid #d3d3d3;
+}
+.shu{
+    float: left;
+    width: 408px;
+}
+.shu input{
+    padding: 11px 0;
+    width: 415px;
+}
+.tu2{
+    float: right;
+    padding: 11px;
+    background-color: #eee;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left: 1px solid #d3d3d3;
+}
+.xx{
+    z-index: 1026;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0.5;
+    background: rgb(0, 0, 0);
+}
+.anniu{
+    text-align: center;
+    margin-bottom: 5%;
+}
+.anniu input{
+    padding: 2% 4%;
+    border-radius: 4px;
+    background-color: #5cb85c;
+    font-size: 14px;
+    color: #fff;
+}
+.box5_bt{
+    width: 795px;
+    background-color: #fff;
+    position: absolute;
+    top: 40px;
+    left: 350px;
+    z-index: 1027;
+}
+.jiben{
+    padding: 4%;
+    border-bottom: 1px solid #d3d3d3;
+}
+.input_g{
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    width: 556px;
+    margin: 8px auto;
+}
+.width{
+    text-align: center;
+    float: left;
+    width: 84px;
+    padding: 10px;
+    background-color: #eee;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-right: 1px solid #d3d3d3;
+}
+.shu{
+    float: left;
+    width: 408px;
+}
+.shu select{
+    padding: 9.5px 4px;
+    width: 412px;
+    font-size: 14px;
+    border: 0;
+}
+.tu2{
+    float: right;
+    padding: 11px;
+    background-color: #eee;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left: 1px solid #d3d3d3;
+}
+.xx{
+    z-index: 1026;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0.5;
+    background: rgb(0, 0, 0);
+}
+.anniu{
+    text-align: center;
+    margin-bottom: 8px;
+}
+.anniu input{
+    padding: 2% 4%;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #5cb85c;
+    font-size: 14px;
+    color: #fff;
+}

@@ -140,6 +140,18 @@ public class CGoodsController extends BaseController {
 	}
 
 	@ResponseBody
+	@RequestMapping(value = "findGoodsList")
+	public List<CGoods> findGoodsList(CGoods goods){
+		if(goods==null){
+			goods = new CGoods();
+		}
+		if(goods.getGclass()==null||StringUtils.isBlank(goods.getGclass().getId())){
+			goods.setGclass(new CGclass("0"));
+		}
+		return cGoodsService.findList(new CGoods());
+	}
+
+	@ResponseBody
 	@RequestMapping(value = "checksort")
 	public String checksort(String id ,String sort ) {
 		CGoods ch=new CGoods();
