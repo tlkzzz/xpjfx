@@ -35,6 +35,7 @@ public class CHgoods extends DataEntity<CHgoods> {
 	private CStore	store;		//客户
 	private String qkzt;        //shizx 欠款状态
 	private FPayment fPayment;		// shizx付款记录表
+	private String kynub;
 	public CHgoods() {
 		super();
 	}
@@ -153,4 +154,11 @@ public class CHgoods extends DataEntity<CHgoods> {
 		this.fPayment = fPayment;
 	}
 
+	public String getKynub() {
+		return kynub;
+	}
+
+	public void setKynub(String kynub) {
+		this.kynub = kynub;
+	}
 }

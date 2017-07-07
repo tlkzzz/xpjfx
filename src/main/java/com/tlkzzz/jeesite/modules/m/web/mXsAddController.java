@@ -47,7 +47,16 @@ public class mXsAddController extends BaseController {
     private CRkckddinfoService cRkckddinfoService;
     @ResponseBody
     @RequestMapping(value = {"list"})
-    public String list(String s,String nub,String sj,String storeId,String tjval,String shje,String dates) {
+    public String list(String s,String nub,String sj,String storeId,String tjval,String shje,String dates,String ckxz) {
+        CHgoods cHgoods=new CHgoods();
+        cHgoods.setHouse(new CHouse(ckxz));
+        cHgoods.setGoods(new CGoods(s));
+        List<CHgoods> cHgoodsList=cHgoodsService.findList(cHgoods);
+        Double kcnub=Double.parseDouble(cHgoodsList.get(0).getKynub());
+        Double ckhnub=kcnub-Double.parseDouble(nub);
+        if(ckhnub<0){
+                return "false";
+            }
         CXsddls cXsddls=new CXsddls();
         if(StringUtils.isBlank(tjval)){
     //"".equals(tjval)&&tjval.equals(null
@@ -133,11 +142,15 @@ public class mXsAddController extends BaseController {
             cHgoods.setHouse(new CHouse(xsck));
             cHgoods.setGoods(new CGoods(goodsid));
             List<CHgoods> cHgoodsList=cHgoodsService.findList(cHgoods);
-            Double kcnub=Double.parseDouble(cHgoodsList.get(0).getNub());
+            Double kcnub=Double.parseDouble(cHgoodsList.get(0).getKynub());
             Double ckhnub=kcnub-nub;
-            cHgoods.setId(cHgoodsList.get(0).getId());
-            cHgoods.setNub(ckhnub.toString());
-            cHgoodsService.kcsl(cHgoods);
+//            if(ckhnub<0){
+//                return "false";
+//            }else{
+                cHgoods.setId(cHgoodsList.get(0).getId());
+                cHgoods.setKynub(ckhnub.toString());
+                cHgoodsService.kcsl(cHgoods);
+//            }
             //查询商品成本价
             CGoods cGoods=new CGoods();
             cGoods.setId(goodsid);

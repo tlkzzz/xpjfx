@@ -18,6 +18,7 @@
 		csu.name AS "supplier.name",
 		a.store_id AS "store.id",
 		cst.name AS "store.name",
+		cst.mdtp AS "store.mdtp",
 		a.rkckdate AS "rkckdate",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",

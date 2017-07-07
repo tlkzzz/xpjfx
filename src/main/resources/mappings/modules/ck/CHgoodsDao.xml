@@ -44,6 +44,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+		a.kynub AS "kynub",
 		a.del_flag AS "delFlag"
 	</sql>
 	
@@ -244,6 +245,7 @@
 			update_by,
 			update_date,
 			remarks,
+			kynub,
 			del_flag
 		) VALUES (
 			#{id},
@@ -256,6 +258,7 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
+			#{kynub},
 			#{delFlag}
 		)
 	</insert>
@@ -268,13 +271,14 @@
 			yjnub = #{yjnub},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
+			kynub=#{kynub},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 
 	<update id="kcsl">
 		UPDATE c_hgoods SET
-		nub = #{nub}
+		kynub = #{kynub}
 		WHERE id = #{id}
 	</update>
 
