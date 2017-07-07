@@ -29,7 +29,6 @@ function getGoods(id,ele) {
                     $(".box2 .bb").append(text);
                 }
             }else {
-
                 $("#goodsNum").text("共 0 条");
                 $(".box2 .bb").append('<div class="n2"><p class="bold shuzi1">商品为空</p><div class="clearfix"></div></div>');
             }
@@ -206,7 +205,7 @@ function clearDate() {//初始化商品添加页面
 function addGoods(id,num,price,remark) {//添加商品到订单列表
     var orderGoods = $("#orderGoods").val();
     if(id==''||num<=0||price<=0||orderGoods==null){
-        alert("信息不完整!");
+        message("信息不完整!");
         return;
     }
     var goods = eval("("+orderGoods+")");
@@ -229,7 +228,7 @@ function showGoodsList() {//通过隐藏域订单信息展示订单列表
 }
 function showGoods(id,num,price,remark,goods) {//显示单个订单商品
     if(id==''||num<=0||price<=0||goods==null){
-        alert("信息不完整");
+        message("信息不完整");
         return;
     }
     var ctxStatic = $("#ctxStatic").val();
@@ -287,7 +286,7 @@ function setJsonGoods(goods) {
 }
 function setPostJson(id,num,price,remark) {
     if(id==''||num<=0||price<=0){
-        alert("信息不完整");
+        message("信息不完整");
         return;
     }
     var json = {id:id,num:num,price:price,remark:remark};
@@ -313,4 +312,7 @@ function getJsonGoods(id) {
         }
     }
     return null;
+}
+function message(text) {
+    top.$.jBox.tip(text,"warning","系统提示");
 }
