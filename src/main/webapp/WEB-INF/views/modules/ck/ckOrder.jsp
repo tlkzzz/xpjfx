@@ -32,7 +32,8 @@
         function checkFormInfo() {
             if($("#supplierlist").val()==""){return false;}
             if($("#houselist").val()==""){return false;}
-            if(eval("("+$("#jsonData").val()+")").length<=0){return false;}
+            var jsonData = $("#jsonData").val();
+            if(jsonData==""||eval("("+jsonData+")").length<=0){return false;}
             return true;
         }
     </script>
