@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.common.utils.Encodes;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
 import com.tlkzzz.jeesite.modules.cw.entity.*;
@@ -18,6 +19,7 @@ import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
 import com.tlkzzz.jeesite.modules.cw.service.*;
 import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
+import net.sf.json.JSONArray;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -365,8 +367,8 @@ public class CRkckddinfoController extends BaseController {
 	/**		新版出库入库方法开始		**/
 
 	@RequiresPermissions("ck:cCkinfo:view")
-    @RequestMapping(value = "ckOrder")
-    public String ckOrder(String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
+    @RequestMapping(value = "order/{pageName}")
+    public String order(@PathVariable("pageName")String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
 		CGclass gclass = new CGclass();
 		CHouse  houseList=new CHouse();
 		CSupplier supplierList=new CSupplier();
@@ -376,6 +378,22 @@ public class CRkckddinfoController extends BaseController {
 		model.addAttribute("supplierList", cSupplierService.findList(supplierList));
 		return "modules/ck/"+pageName;
     }
+
+    @RequiresPermissions("ck:cCkinfo:edit")
+	@RequestMapping(value = "rkOrderSave")
+	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData){
+    	if(StringUtils.isBlank(jsonData)||cRkckddinfo.getcHouse()==null){
+    		return "error/400";
+		}
+		JSONArray jsonArray = JSONArray.fromObject(Encodes.unescapeHtml(jsonData));
+		if(jsonArray.size()>0){
+			cRkckddinfo.setLx("0");//0入库1出库
+			cRkckddinfo.setState("1");
+			cRkckddinfo.setIssp("0");
+			cRkckddinfoService.saveRkCkInfo(cRkckddinfo,jsonArray);
+		}
+    	return "";
+	}
 
 	/**		新版出库入库方法结束		**/
 
