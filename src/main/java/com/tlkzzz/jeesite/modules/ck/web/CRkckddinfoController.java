@@ -382,13 +382,12 @@ public class CRkckddinfoController extends BaseController {
     @RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "rkOrderSave")
 	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData){
-    	if(StringUtils.isBlank(jsonData)||cRkckddinfo.getcHouse()==null){
+    	if(StringUtils.isBlank(cRkckddinfo.getLx())||StringUtils.isBlank(cRkckddinfo.getState())||
+                StringUtils.isBlank(jsonData)||cRkckddinfo.getcHouse()==null){
     		return "error/400";
 		}
 		JSONArray jsonArray = JSONArray.fromObject(Encodes.unescapeHtml(jsonData));
 		if(jsonArray.size()>0){
-			cRkckddinfo.setLx("0");//0入库1出库
-			cRkckddinfo.setState("1");
 			cRkckddinfo.setIssp("0");
 			cRkckddinfoService.saveRkCkInfo(cRkckddinfo,jsonArray);
 		}
