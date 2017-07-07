@@ -1,3 +1,4 @@
+var editGoodsFlag = false;
 function getGoods(id,ele) {
     if(id=='')return;
     if(ele!=null){
@@ -71,35 +72,52 @@ function setGoods(id,ele) {
         ele.addClass("bg");
     }
     var goodsList = eval(goodsText);
+    editGoodsFlag = false;
+    setGoodsInfo(id,0,0,"",goodsList);
+}
+function editGoods(id,num,price,remark) {
+    if(id==null||id=='')return;
+    var goodsText = $("#goodsData").val();
+    if(goodsText==null||goodsText=='')return;
+    var goodsList = eval(goodsText);
+    editGoodsFlag = true;
+    setGoodsInfo(id,num,price,remark,goodsList);
+}
+function setGoodsInfo(id,num,price,remark,goodsList) {
+    if(id==null||id=='')return;
+    if(goodsList.length<=0)return;
     for(var i=0;i<goodsList.length;i++){
         if(goodsList[i].id==id){
             $("#orderGoods").val(JSON.stringify(goodsList[i]));
-
             var specName = goodsList[i].spec.name;//规格
             var specList = specName.split("*");
-            var sj = goodsList[i].sj;//售价
+            var sj = (price<=0)?goodsList[i].sj:price;//售价
+            var big = (num>0)?parseInt(num/parseInt(eval(specName))):1;
             $("#goodsId").val(goodsList[i].id);
             $("#goodsName").val(goodsList[i].name);
             $("#orderNum").val(eval(goodsList[i].spec.name));
             $("#specName").text(specName);
             $("#keYongKC").text(0);//可用库存
             $("#anQuanKC").text(0);//安全库存
-            $("#bigNum").val(1);
-            $("#zongNum").val(0);
-            $("#smallNum").val(0);
             $(".bigUnit").text(goodsList[i].big.name);
             $(".zongUnit").text(goodsList[i].zong.name);
             $(".smallUnit").text(goodsList[i].small.name);
             $("#sumPrice").val(eval(specName)*sj);
+            $("#bigPrice").val(eval(specName)*sj);
+            $("#orderRemark").val(remark);
+            $("#bigNum").val(big);
             if(specList.length>2){
+                var zong = (num>0)?parseInt((num-big*parseInt(eval(specName)))/specList[2]):0;
                 $(".smallEle").css("display","block");
-                $("#bigPrice").val(eval(specName)*sj);
                 $("#zongPrice").val(specList[2]*sj);
                 $("#smallPrice").val(sj);
+                $("#zongNum").val(zong);
+                $("#smallNum").val((num>0)?parseInt(num-big*parseInt(eval(specName))-zong*specList[2]):0);
             }else {
                 $(".smallEle").css("display","none");
-                $("#bigPrice").val(eval(specName)*sj);
                 $("#zongPrice").val(sj);
+                $("#zongNum").val((num>0)?parseInt(num-big*parseInt(eval(specName))):0);
+                $("#smallNum").val(0);
             }
         }
     }
@@ -214,6 +232,7 @@ function showGoods(id,num,price,remark,goods) {//显示单个订单商品
         alert("信息不完整");
         return;
     }
+    var ctxStatic = $("#ctxStatic").val();
     var specName = goods.spec.name;
     var specList = specName.split("*");
     var specNum = parseInt(eval(specName));
@@ -228,7 +247,7 @@ function showGoods(id,num,price,remark,goods) {//显示单个订单商品
         '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+big+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.big.name+'</span></div>'+
         '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.zong.name+'</span></div>'+smallNumHtml+
         '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+specNum*price+'/'+goods.big.name+'</p>'+smallPriceHtml+'</td><td style="padding-left: 6.5%;"><p>'+num*price+
-        '</p></td><td><img onclick="deleteGoods(\''+goods.id+'\')" src="${ctxStatic}/images/shanchu.png"></td></tr>'
+        '</p></td><td><img onclick="editGoods(\''+goods.id+'\',\''+num+'\',\''+price+'\',\''+remark+'\')" src="'+ctxStatic+'/images/mxcpbianji.png"></td><td><img onclick="deleteGoods(\''+goods.id+'\')" src="'+ctxStatic+'/images/shanchu.png"></td></tr>'
     $(".list").append(text);
 }
 function deleteGoods(id) {
@@ -271,24 +290,16 @@ function setPostJson(id,num,price,remark) {
         alert("信息不完整");
         return;
     }
-    var jsonData = $("#jsonData").val();
     var json = {id:id,num:num,price:price,remark:remark};
-    if(jsonData==''){
-        jsonData = [];
-        jsonData.push(json);
-    }else{
-        var flag = true;
-        jsonData = eval("("+jsonData+")");
-        for(var i=0;i<jsonData.length;i++){
-            if(jsonData[i].id==id){
-                jsonData[i].num = parseInt(jsonData[i].num)+parseInt(num);
-                jsonData[i].price = price;
-                jsonData[i].remark = remark;
-                flag = false;
-            }
+    var jsonData = $("#jsonData").val();
+    if(jsonData==''){jsonData = [];}else{jsonData = eval("("+jsonData+")");}
+    for(var i=0;i<jsonData.length;i++){
+        if(jsonData[i].id==id){//id相同且非编辑模式下数量相加
+            if(!editGoodsFlag)json.num = parseInt(jsonData[i].num)+parseInt(num);
+            jsonData.splice(i,1);
         }
-        if(flag)jsonData.push(json);
     }
+    jsonData.push(json);
     $("#jsonData").val(JSON.stringify(jsonData));
 }
 function getJsonGoods(id) {
