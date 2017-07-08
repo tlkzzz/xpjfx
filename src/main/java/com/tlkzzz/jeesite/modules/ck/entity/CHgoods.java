@@ -16,7 +16,7 @@ import com.tlkzzz.jeesite.common.persistence.DataEntity;
 /**
  * 仓库商品Entity
  * @author xrc
- * @version 2017-03-13
+ * @version 2017-03-13sss
  */
 public class CHgoods extends DataEntity<CHgoods> {
 
