@@ -46,6 +46,8 @@ public class CGoods extends DataEntity<CGoods> {
 	private String ckcbj;   //参考成本价
 
 	private ShopGoods shopGoods;	//商城商品信息
+	private String kykc;		//可用库存（从库存中查询）
+	private String aqkc;		//安全库存（从库存中查询）
 
 
 	public String getYjsj() {
@@ -276,6 +278,22 @@ public class CGoods extends DataEntity<CGoods> {
 
 	public void setSj(String sj) {
 		this.sj = sj;
+	}
+
+	public String getKykc() {
+		return kykc;
+	}
+
+	public void setKykc(String kykc) {
+		this.kykc = kykc;
+	}
+
+	public String getAqkc() {
+		return aqkc;
+	}
+
+	public void setAqkc(String aqkc) {
+		this.aqkc = aqkc;
 	}
 
 	public ShopGoods getShopGoods() {

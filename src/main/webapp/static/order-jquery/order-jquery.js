@@ -20,11 +20,12 @@ function getGoods(id,ele) {
                     var specName = data[i].spec.name;//规格
                     var sumPrice = eval(specName)*data[i].sj;//单个最大规格总价格
                     var smallName = data[i].zong.name;//最小单位
+                    var kykc = (data[i].kykc!=null&&data[i].kykc!="")?data[i].kykc:"0";
                     if(specName.split("*").length>2)smallName = data[i].small.name;
                     var text = '<div class="n2" onclick="setGoods(\''+data[i].id+'\',$(this))"><p class="bold shuzi1">'+data[i].name+'</p>'+
                         '<p class="xi shuzi2">'+sumPrice+'/'+data[i].big.name+'</p><div class="clearfix"></div>'+
                         '<p class="shuzi3">'+data[i].spec.name + smallName+'</p><p class="shuzi4">'+data[i].sj+'/'+smallName+'</p>'+
-                        '<div class="clearfix"></div><p class="shuzi5">0</p>'+
+                        '<div class="clearfix"></div><p class="shuzi5">库存：'+kykc+'</p>'+
                         '<div class="clearfix"></div></div>';
                     $(".box2 .bb").append(text);
                 }
@@ -96,8 +97,8 @@ function setGoodsInfo(id,num,price,remark,goodsList) {
             $("#goodsName").val(goodsList[i].name);
             $("#orderNum").val(eval(goodsList[i].spec.name));
             $("#specName").text(specName);
-            $("#keYongKC").text(0);//可用库存
-            $("#anQuanKC").text(0);//安全库存
+            $("#keYongKC").text((goodsList[i].kykc!=null&&goodsList[i].kykc!="")?goodsList[i].kykc:"0");//可用库存
+            $("#anQuanKC").text((goodsList[i].aqkc!=null&&goodsList[i].aqkc!="")?goodsList[i].aqkc:"0");//安全库存
             $(".bigUnit").text(goodsList[i].big.name);
             $(".zongUnit").text(goodsList[i].zong.name);
             $(".smallUnit").text(goodsList[i].small.name);
