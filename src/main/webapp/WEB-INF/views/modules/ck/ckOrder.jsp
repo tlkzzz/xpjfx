@@ -13,19 +13,27 @@
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
         });
         function  jblist() {
+            if($("#supplier").val()==""){
+                message("请选择供应商")
+                return;
+            }
+            if($("#house").val()==""){
+                message("请选择供应商")
+                return;
+            }
             var supplier = $("#supplier option:selected").text();
             var house = $("#house option:selected").text();
             var bz = $("#bz").val();
             if(supplier!="" || house!="" ) {
-                $("#aa").text(supplier);
-                $("#bb").text(house);
+                $("#bb").text(supplier);
+                $("#aa").text(house);
                 $("#zz").text(bz);
                 $("#supplierlist").val($("#supplier").val());
                 $("#houselist").val($("#house").val());
                 $("#bzlist").val(bz);
                 $(".box5").css("display","none");
-            }else {
-                alert("信息填写不完整");
+            }else{
+                message("信息填写不完整");
                 return;
             }
         }
@@ -84,7 +92,7 @@
                 <table class="panel-body">
                     <tbody>
                     <tr>
-                        <td>进货仓库：</td>
+                        <td>进货仓库:</td>
                         <td id="aa"></td>
                         <td>供 应 商：</td>
                         <td id="bb"></td>
@@ -227,33 +235,36 @@
                 <div class="width"><span style="color: red;">*</span> 进货仓库</div>
                 <div class="shu">
                         <select class="shu"  id="house">
+                            <option value="" />请选择</option>
                             <c:forEach items="${houseList}" var="house">
-                                <option value="${house.id}">${house.name}</option>
+                                <option value="${house.id}">${house.name} </option>
                             </c:forEach>
                     </select>
                 </div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#house').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
                 <div class="width"><span style="color: red;">*</span> 供  应  商</div>
                 <div class="shu">
                     <select class="shu" id="supplier" >
+                        <option value=""/>请选择</option>
                         <c:forEach items="${supplierList}" var="supplier">
                             <option value="${supplier.id}">${supplier.name}</option>
                         </c:forEach>
                     </select>
                 </div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#supplier').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
                 <div class="width">备注</div>
-                <div class="shu"><input id="bz" type="text"  style="width: 426px;color: #b3b3b3;font-size: 14px;padding: 11px;"></div>
+                <div class="shu"><input id="bz" type="text"  style="width: 426px;padding: 11px;"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#bz').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
             <div class="anniu">
-                <input type="button" onclick="jblist()" value="确  定">
+                <input type="button" onclick="jblist()"  value="确  定">
             </div>
             <div style="text-align: left; width: 555px;padding: 8px 0;box-sizing: border-box; margin: 0 auto 20px;border: 1px solid #d3d3d3;border-radius: 4px;">
                 <table class="lk-tips">

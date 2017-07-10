@@ -17,6 +17,7 @@ import com.tlkzzz.jeesite.modules.ck.service.CDdinfoService;
 import com.tlkzzz.jeesite.modules.ck.service.CShopService;
 import com.tlkzzz.jeesite.modules.ck.service.CStoreService;
 import com.tlkzzz.jeesite.modules.cw.service.*;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
 import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import net.sf.json.JSONArray;
@@ -68,11 +69,14 @@ public class CRkckddinfoController extends BaseController {
 	private CHouseService houseService;
 
 	@Autowired
+	private CCarService cCarService;
+	@Autowired
 	private FDiscountService fDiscountService;
 	@Autowired
 	private FExpenRecordService fExpenRecordService;
 	@Autowired
 	private  FArrearsService fArrearsService;
+
 
 
 
@@ -372,7 +376,17 @@ public class CRkckddinfoController extends BaseController {
 		CGclass gclass = new CGclass();
 		CHouse  houseList=new CHouse();
 		CSupplier supplierList=new CSupplier();
+		CCar   cCar =new CCar();
+		CStore   cStorelist =new CStore();
+		String name=UserUtils.getUser().getName();
+		Date date= new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String createDate = sdf.format(date);
 		gclass.setParent(new CGclass("0"));
+		model.addAttribute("createDate",createDate);
+		model.addAttribute("name",name);
+		model.addAttribute("cCar",cCarService.findList(cCar));
+		model.addAttribute("cStorelist", cStoreService.findList(cStorelist));
 		model.addAttribute("gClass", cGclassService.findList(gclass));
 		model.addAttribute("houseList", houseService.findList(houseList));
 		model.addAttribute("supplierList", cSupplierService.findList(supplierList));
