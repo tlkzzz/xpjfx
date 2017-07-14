@@ -365,7 +365,14 @@ public class CRkckddinfoController extends BaseController {
 	}
 
 	/**		新版出库入库方法开始		**/
-
+	/**
+	 * 入库订单填写页面
+	 * @param pageName
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
 	@RequiresPermissions("ck:cCkinfo:view")
     @RequestMapping(value = "order/{pageName}")
     public String order(@PathVariable("pageName")String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
@@ -379,6 +386,12 @@ public class CRkckddinfoController extends BaseController {
 		return "modules/ck/"+pageName;
     }
 
+	/**
+	 * 入库订单保存方法
+	 * @param cRkckddinfo
+	 * @param jsonData
+	 * @return
+	 */
     @RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "rkOrderSave")
 	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData){
@@ -393,6 +406,78 @@ public class CRkckddinfoController extends BaseController {
 		}
     	return "";
 	}
+
+	/**
+	 * 入库订单选择页面
+	 * @param cRkckddinfo
+	 * @param model
+	 * @return
+	 */
+    @RequiresPermissions("ck:cCkinfo:edit")
+	@RequestMapping(value = "rkOrderSelect")
+	public String rkSelect(CRkckddinfo cRkckddinfo,HttpServletRequest request,HttpServletResponse response,Model model){
+    	if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getLx())){
+    		return "error/400";
+		}
+		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
+		model.addAttribute("houseList",houseService.findList(new CHouse()));
+		model.addAttribute("supplierList",cSupplierService.findList(new CSupplier()));
+		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		model.addAttribute("page",page);
+    	return "modules/ck/ckOrderSelect";
+	}
+
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "showRkCkInfo")
+	public String showRkCkInfo(CRkckddinfo cRkckddinfo,Model model){
+
+		return "";
+	}
+
+	/**
+	 * 入库单详细信息页面
+	 * @param cRkckddinfo
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "RKDDetails")
+	public String RKDDetails(CRkckddinfo cRkckddinfo,Model model){
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getId())){
+			return "error/400";
+		}
+		CDdinfo cd = new CDdinfo();
+		cd.setRkckddinfo(cRkckddinfo);
+		List<CDdinfo> cdList = cDdinfoService.findList(cd);
+		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		model.addAttribute("cdList",cDdinfoService.processUnit(cdList));
+		return "modules/ck/rkDDetails";
+	}
+
+	/**
+	 * 订单备注修改
+	 * @param ids
+	 * @param remark
+	 * @param cRkckddinfo
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "orderRemarkChange")
+	public String orderRemarkChange(String[] ids,String[] remark,CRkckddinfo cRkckddinfo){
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getId())){
+			return "error/400";
+		}
+		cRkckddinfoService.updateRemark(cRkckddinfo);
+		if(ids.length==remark.length) {
+			for (int i = 0; i < ids.length; i++) {
+				CDdinfo cd = new CDdinfo(ids[i]);
+				cd.setRemarks(remark[i]);
+				cDdinfoService.updateRemark(cd);
+			}
+		}
+		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/RKDDetails?repage&id="+cRkckddinfo.getId();
+	}
+
 
 	/**		新版出库入库方法结束		**/
 
