@@ -3,6 +3,8 @@ package com.tlkzzz.jeesite.modules.m.web;
 import com.tlkzzz.jeesite.common.web.BaseController;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -111,7 +113,23 @@ public class mYkGoodsController extends BaseController {
     public List<CYkinfo> yikjl(int fybs){
         CYkinfo cYkinfo=new CYkinfo();
         cYkinfo.setFybs(fybs);
-        List<CYkinfo> cYkinfoList=cYkinfoService.fyfindList(cYkinfo);
+        String ids= UserUtils.getUser().getId();
+        if(ids.equals("1")){
+            List<CYkinfo> cYkinfoList=cYkinfoService.fyfindList(cYkinfo);
+            return cYkinfoList;
+        }else{
+            cYkinfo.setCreateBy(new User(UserUtils.getUser().getId()));
+            List<CYkinfo> cYkinfoList=cYkinfoService.fyfindList(cYkinfo);
+            return cYkinfoList;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"ycxq"})
+    public List<CYkinfo> ycxq(String ids){
+        CYkinfo cYkinfo=new CYkinfo();
+        cYkinfo.setId(ids);
+        List<CYkinfo> cYkinfoList=cYkinfoService.findList(cYkinfo);
         return cYkinfoList;
     }
 }

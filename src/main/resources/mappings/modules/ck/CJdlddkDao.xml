@@ -46,7 +46,11 @@
 		<include refid="cJdlddkColumns"/>
 		FROM c_jdlddk a
 		<include refid="cJdlddkJoins"/>
-			WHERE a.userid=#{userid}
+		<where>
+			<if test="userid != null and userid != ''">
+				a.userid=#{userid}
+			</if>
+		</where>
 		) o LIMIT ${fybs},10
 	</select>
 

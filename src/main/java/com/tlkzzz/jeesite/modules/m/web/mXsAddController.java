@@ -10,6 +10,7 @@ import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
 import com.tlkzzz.jeesite.modules.cw.service.FArrearsService;
 import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
 import com.tlkzzz.jeesite.modules.sys.entity.User;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +74,7 @@ public class mXsAddController extends BaseController {
         cXsddls.setStoreId(storeId);
         cXsddls.setGoodsid(s);
         cXsddls.setSjje(shje);
+        cXsddls.setUserid(UserUtils.getUser().getId());
         cXsddlsService.save(cXsddls);
         String fid=cXsddls.getFid();
         return fid;
@@ -82,8 +84,24 @@ public class mXsAddController extends BaseController {
     @RequestMapping(value = {"fylist"})
     public List<CXsddls> fylist(int fybs){
         CXsddls cXsddls=new CXsddls();
-        cXsddls.setFybs(0);
-        List<CXsddls> cXsddlsList=cXsddlsService.fyfindList(cXsddls);
+        cXsddls.setFybs(fybs);
+        String ids= UserUtils.getUser().getId();
+        if(ids.equals("1")){
+            List<CXsddls> cXsddlsList=cXsddlsService.fyfindList(cXsddls);
+            return cXsddlsList;
+        }else{
+            cXsddls.setUserid(ids);
+            List<CXsddls> cXsddlsList=cXsddlsService.fyfindList(cXsddls);
+            return cXsddlsList;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"dhxq"})
+    public List<CXsddls> dhxq(String ids){
+        CXsddls cXsddls=new CXsddls();
+        cXsddls.setId(ids);
+        List<CXsddls> cXsddlsList=cXsddlsService.findList(cXsddls);
         return cXsddlsList;
     }
 
@@ -109,7 +127,7 @@ public class mXsAddController extends BaseController {
     @RequestMapping(value = {"xsckck"})
     public List<CCarUser> xsckck(String userid) {
         CCarUser cCarUser=new CCarUser();
-        cCarUser.setUser(new User(userid));
+        cCarUser.setUser(new User(UserUtils.getUser().getId()));
         List<CCarUser> cCarUserList=cCarUserService.xsckck(cCarUser);
         return cCarUserList;
     }

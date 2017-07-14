@@ -25,8 +25,23 @@ public class mMyDdController extends BaseController {
     public List<CRkckddinfo> list(int fybs, String ywy){
         CRkckddinfo cRkckddinfo=new CRkckddinfo();
         cRkckddinfo.setFybs(fybs);
-        cRkckddinfo.setCreateBy(new User(UserUtils.getUser().getId()));
-        List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.ywyfindList(cRkckddinfo);
+        String ids=UserUtils.getUser().getId();
+        if(ids.equals("1")){
+            List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.ywyfindList(cRkckddinfo);
             return cRkckddinfoList;
+        }else{
+            cRkckddinfo.setCreateBy(new User(UserUtils.getUser().getId()));
+            List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.ywyfindList(cRkckddinfo);
+            return cRkckddinfoList;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"ddxq"})
+    public List<CRkckddinfo> ddxq(String ids){
+        CRkckddinfo cRkckddinfo=new CRkckddinfo();
+        cRkckddinfo.setId(ids);
+        List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.findList(cRkckddinfo);
+        return cRkckddinfoList;
     }
 }

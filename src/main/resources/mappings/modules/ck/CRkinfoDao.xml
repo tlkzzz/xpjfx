@@ -59,7 +59,13 @@
 		FROM
 		(SELECT <include refid="cRkinfoColumns"/>
 			FROM c_rkinfo a
-		<include refid="cRkinfoJoins"/> ) o LIMIT ${fybs},10
+		<include refid="cRkinfoJoins"/>
+		<where>
+			<if test="createBy != null and createBy != ''">
+				a.create_by = #{createBy.id}
+			</if>
+		</where>
+		) o LIMIT ${fybs},10
 	</select>
 
 	<select id="findList" resultType="CRkinfo">
@@ -71,6 +77,9 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="goods != null and goods.id != null and goods.id != ''">
 				AND a.goodsid = #{goods.id}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
 			</if>
 			<if test="goods != null and goods.name != null and goods.name != ''">
 				AND cg.name LIKE

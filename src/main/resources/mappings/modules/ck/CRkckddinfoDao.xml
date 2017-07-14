@@ -56,7 +56,7 @@
 		FROM c_rkckddinfo a
 		<include refid="cRkckddinfoJoins"/>
 		<where>
-			<if test="createBy.id != null and createBy.id != ''">
+			<if test="createBy != null and createBy != ''">
 				a.create_by = #{createBy.id}
 			</if>
 		</where>
@@ -107,6 +107,9 @@
 			</if>
 			<if test="lx != null and lx != ''">
 				AND a.lx = #{lx}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
 			</if>
 			<if	test="state != null and state != ''">
 				AND a.state = #{state}

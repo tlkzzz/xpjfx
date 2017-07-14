@@ -40,10 +40,16 @@ public class mJdlddkController extends BaseController{
     public List<CJdlddk> dkjlList(int fybs) {
         String userId=UserUtils.getUser().getId();
         CJdlddk cJdlddk=new CJdlddk();
-        cJdlddk.setUserid(userId);
         cJdlddk.setFybs(fybs);
-        List<CJdlddk> cJdlddkList=CJdlddkService.fyfindList(cJdlddk);
-        return cJdlddkList;
+        if(userId.equals("1")){
+            List<CJdlddk> cJdlddkList=CJdlddkService.fyfindList(cJdlddk);
+            return cJdlddkList;
+        }else{
+            cJdlddk.setUserid(userId);
+            List<CJdlddk> cJdlddkList=CJdlddkService.fyfindList(cJdlddk);
+            return cJdlddkList;
+        }
+
     }
 
     @ResponseBody

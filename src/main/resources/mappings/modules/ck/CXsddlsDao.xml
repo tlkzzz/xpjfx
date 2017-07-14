@@ -15,7 +15,8 @@
 		cr.ddbh AS "ddbh",
 		cg.name AS "name",
 		cs.dz AS "dz",
-		cs.name AS "csName"
+		cs.name AS "csName",
+		a.userid AS "userid"
 	</sql>
 	
 	<sql id="cXsddlsJoins">
@@ -40,7 +41,12 @@
 		<include refid="cXsddlsColumns"/>
 		FROM c_xsddls a
 		<include refid="cXsddlsJoins"/>
-		WHERE a.state='1'
+		<where>
+			a.state='1'
+			<if test="userid != null and userid != ''">
+			and	a.userid = #{userid}
+			</if>
+		</where>
 		) o LIMIT ${fybs},10
 	</select>
 
@@ -52,6 +58,9 @@
 		<where>
 			<if test="fid != null and fid != ''">
 				AND a.fid = #{fid}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
 			</if>
 			<if test="goodsid != null and goodsid != ''">
 				AND a.goodsid = #{goodsid}
@@ -93,7 +102,8 @@
 			goodsid,
 			sjje,
 			dates,
-			state
+			state,
+			userid
 		) VALUES (
 			#{id},
 			#{fid},
@@ -103,7 +113,8 @@
 			#{goodsid},
 			#{sjje},
 			#{dates},
-			#{state}
+			#{state},
+			#{userid}
 		)
 	</insert>
 
@@ -122,7 +133,8 @@
 			goodsid=#{goodsid},
 			sjje=#{sjje},
 			dates=#{dates},
-			state=#{state}
+			state=#{state},
+			userid=#{userid}
 		WHERE id = #{id}
 	</update>
 	

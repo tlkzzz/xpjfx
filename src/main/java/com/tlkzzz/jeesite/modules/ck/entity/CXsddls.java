@@ -24,6 +24,7 @@ public class CXsddls extends DataEntity<CXsddls> {
 	private String dates;  //订货时间
 	private String state;  //状态
 	private int fybs;  //分页标识
+	private String userid;    //用户
 	
 	public CXsddls() {
 		super();
@@ -106,5 +107,13 @@ public class CXsddls extends DataEntity<CXsddls> {
 
 	public void setFybs(int fybs) {
 		this.fybs = fybs;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 }

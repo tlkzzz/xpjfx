@@ -86,6 +86,15 @@ public class mStorecontroller extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(value = {"khxq"})
+    public List<CStore> khxq(String ids) {
+        CStore cStore=new CStore();
+        cStore.setId(ids);
+        List<CStore> cStoreList=cStoreService.findList(cStore);
+        return cStoreList;
+    }
+
+    @ResponseBody
     @RequestMapping(value = {"save"})
     public String save(String mdtp,String khfl,String qy,String xxdz,
                              String cgy,String dpmc,String khmc,String sjhm,

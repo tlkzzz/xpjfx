@@ -104,18 +104,25 @@ public class mRkGoodsController extends BaseController{
     @ResponseBody
     @RequestMapping(value = {"rukjl"})
     public List<CRkinfo> rukjl(int fybs){
-//        mLoginController mLoginController=new mLoginController();
-//        Map map=mLoginController.list(request,response);
-//        User uer=   UserUtils.getUser();
-//        if(StringUtils.isNotBlank(uer.getLoginName())){
             CRkinfo cRkinfo=new CRkinfo();
             cRkinfo.setFybs(fybs);
-            List<CRkinfo> cRkinfoList=cRkinfoService.fyfindList(cRkinfo);
-            return cRkinfoList;
-//        }else{
-//            List list=new ArrayList();
-//            list.add(0,false);
-//            return list;
-//        }
+            String ids=UserUtils.getUser().getId();
+            if(ids.equals("1")){
+                List<CRkinfo> cRkinfoList=cRkinfoService.fyfindList(cRkinfo);
+                return cRkinfoList;
+            }else{
+                cRkinfo.setCreateBy(new User(UserUtils.getUser().getId()));
+                List<CRkinfo> cRkinfoList=cRkinfoService.fyfindList(cRkinfo);
+                return cRkinfoList;
+            }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"rukxq"})
+    public List<CRkinfo> rukxq(String ids){
+        CRkinfo cRkinfo=new CRkinfo();
+        cRkinfo.setId(ids);
+        List<CRkinfo> cRkinfoList=cRkinfoService.findList(cRkinfo);
+        return cRkinfoList;
     }
 }

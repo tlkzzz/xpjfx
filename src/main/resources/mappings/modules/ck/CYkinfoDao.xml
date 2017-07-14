@@ -61,6 +61,11 @@
 		<include refid="cYkinfoColumns"/>
 		FROM c_ykinfo a
 		<include refid="cYkinfoJoins"/>
+		<where>
+			<if test="createBy != null and createBy != ''">
+				a.create_by = #{createBy.id}
+			</if>
+		</where>
 		) o LIMIT ${fybs},10
 	</select>
 
@@ -73,6 +78,9 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="startHouse != null and startHouse.id != null and startHouse.id != ''">
 				AND a.starthouid = #{startHouse.id}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
 			</if>
 			<if test="orderCode != null and orderCode != ''">
 				AND a.order_code = #{orderCode}
