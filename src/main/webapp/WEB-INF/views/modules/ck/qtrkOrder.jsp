@@ -52,7 +52,7 @@
 <div class="box">
     <div style="height: 40px;">
         <ul class="nav nav-tabs">
-            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">出库录单</a></li>
+            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">其他入库</a></li>
         </ul>
     </div>
     <div class="box1">
@@ -60,7 +60,7 @@
         <div class="bb" style="float: left;">
             <ul class="fen1">
                 <c:forEach items="${gClass}" var="gc">
-                <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
+                    <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
                 </c:forEach>
             </ul>
         </div>
@@ -92,7 +92,7 @@
                 <table class="panel-body">
                     <tbody>
                     <tr>
-                        <td>进货仓库:</td>
+                        <td>入库出库:</td>
                         <td id="aa"></td>
                         <td>供 应 商：</td>
                         <td id="bb"></td>
@@ -135,7 +135,7 @@
                 <div class="input-group-1" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;">
                     <div class="jian" onclick="zongNumChange(parseInt($('#zongNum').val())-1)" style="margin-top: -1px;">-</div>
                     <div style="margin-top: -2px;float: left;">
-                    <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
+                        <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
                     <div class="xiang zongUnit" style="width: 25px;height: 20px;margin-top: -1px;"></div>
                     <div class="jia" onclick="zongNumChange(parseInt($('#zongNum').val())+1)" style="margin-top: -1px;">+</div>
                     <div class="clearfix"></div>
@@ -199,11 +199,11 @@
         <div class="bb" style="height: 430px;">
             <table class="list" cellspacing="0" cellpadding="0" style="border-bottom: 1px solid #d3d3d3;">
                 <thead class="list_bt" style="border-bottom: 1px solid;">
-                    <td colspan="2" style="width: 90px;">商品</td>
-                    <td>数量</td>
-                    <td>单价(元)</td>
-                    <td>金额(元)</td>
-                    <td style="color: #678AF9" onclick="deleteAllGoods()">清空</td>
+                <td colspan="2" style="width: 90px;">商品</td>
+                <td>数量</td>
+                <td>单价(元)</td>
+                <td>金额(元)</td>
+                <td style="color: #678AF9" onclick="deleteAllGoods()">清空</td>
                 </thead>
                 <%--添加商品列表--%>
             </table>
@@ -232,13 +232,13 @@
                 <span style="font-size: 22px; font-weight: bold; letter-spacing: 4px;">基本信息</span>
             </div>
             <div class="input_g">
-                <div class="width"><span style="color: red;">*</span> 进货仓库</div>
+                <div class="width"><span style="color: red;">*</span> 入库出库</div>
                 <div class="shu">
-                        <select class="shu"  id="house">
-                            <option value="" />请选择</option>
-                            <c:forEach items="${houseList}" var="house">
-                                <option value="${house.id}">${house.name} </option>
-                            </c:forEach>
+                    <select class="shu"  id="house">
+                        <option value="" />请选择</option>
+                        <c:forEach items="${houseList}" var="house">
+                            <option value="${house.id}">${house.name} </option>
+                        </c:forEach>
                     </select>
                 </div>
                 <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#house').val('')"> </div>

@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>仓库管理</title>
+    <script src="${ctxStatic}/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <link href="${ctxStatic}/My97DatePicker/skin/WdatePicker.css" type="text/css" rel="stylesheet"/>
     <link href="${ctxStatic}/css/ckgl.css" type="text/css" rel="stylesheet"/>
     <script src="${ctxStatic}/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
     <link href="${ctxStatic}/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet" />
@@ -13,33 +15,57 @@
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
         });
         function  jblist() {
-            if($("#supplier").val()==""){
-                message("请选择供应商")
+            if($("#cStore").val()==""){
+                message("请选择客户")
+                return;
+            }
+            if($("#createBy").val()==""){
+                message("请选择业务员")
                 return;
             }
             if($("#house").val()==""){
-                message("请选择供应商")
+                message("请选择仓库")
                 return;
             }
-            var supplier = $("#supplier option:selected").text();
+            if($("#createDate").val()==""){
+                message("时间不能为空")
+                return;
+            }
+            if($("#cCar").val()==""){
+                message("请选择仓库车辆")
+                return;
+            }
+            var cStore = $("#cStore option:selected").text();
+            var createBy = $("#createBy option:selected").text();
             var house = $("#house option:selected").text();
+            var createDate = $("#createDate").val();
+            var cCar = $("#cCar option:selected").text();
             var bz = $("#bz").val();
-            if(supplier!="" || house!="" ) {
-                $("#bb").text(supplier);
-                $("#aa").text(house);
-                $("#zz").text(bz);
-                $("#supplierlist").val($("#supplier").val());
+            if(cStore!="" || house!="" ||createDate!="" ||cCar!="" || name!="") {
+                $("#kh").text(cStore);
+                $("#ywy").text(createBy);
+                $("#fhck").text(house);
+                $("#date").text(createDate);
+                $("#pscl").text(cCar);
+                $("#rom").text(bz);
+                $("#cStorelist").val($("#cStore").val());
                 $("#houselist").val($("#house").val());
-                $("#bzlist").val(bz);
+                $("#createDatelist").val($("#createDate").val());
+                $("#ywynamelist").val($("#createBy").val());
+                $("#cCarlist").val($("#cCar").val());
+                $("#bzlist").val($("#bz").val());
                 $(".box5").css("display","none");
-            }else{
+            }else {
                 message("信息填写不完整");
                 return;
             }
         }
         function checkFormInfo() {
-            if($("#supplierlist").val()==""){message("供应商未选择");return false;}
-            if($("#houselist").val()==""){message("仓库未选择");return false;}
+            if($("#cStore").val()==""){message("客户未选择");return false;}
+            if($("#createBy").val()==""){message("业务员未选择");return false;}
+            if($("#house").val()==""){message("仓库未选择");return false;}
+            if($("#createDate").val()==""){message("时间不能为空");return false;}
+            if($("#cCar").val()==""){message("仓库车辆未选择");return false;}
             var jsonData = $("#jsonData").val();
             if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
             return true;
@@ -52,7 +78,7 @@
 <div class="box">
     <div style="height: 40px;">
         <ul class="nav nav-tabs">
-            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">出库录单</a></li>
+            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">订单申报</a></li>
         </ul>
     </div>
     <div class="box1">
@@ -60,7 +86,7 @@
         <div class="bb" style="float: left;">
             <ul class="fen1">
                 <c:forEach items="${gClass}" var="gc">
-                <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
+                    <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
                 </c:forEach>
             </ul>
         </div>
@@ -92,15 +118,22 @@
                 <table class="panel-body">
                     <tbody>
                     <tr>
-                        <td>进货仓库:</td>
-                        <td id="aa"></td>
-                        <td>供 应 商：</td>
-                        <td id="bb"></td>
+                        <td>客户：</td>
+                        <td id="kh"></td>
+                        <td>业务员：</td>
+                        <td id="ywy"></td>
                     </tr>
                     <tr>
+                        <td>发货仓库：</td>
+                        <td id="fhck"></td>
+                        <td>发货日期:</td>
+                        <td id="date"></td>
+                    </tr>
+                    <tr>
+                        <td>配送车辆：</td>
+                        <td id="pscl"></td>
                         <td>备  注：</td>
-                        <td id="zz"></td>
-                        <td></td>
+                        <td id="rom"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -135,7 +168,7 @@
                 <div class="input-group-1" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;">
                     <div class="jian" onclick="zongNumChange(parseInt($('#zongNum').val())-1)" style="margin-top: -1px;">-</div>
                     <div style="margin-top: -2px;float: left;">
-                    <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
+                        <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
                     <div class="xiang zongUnit" style="width: 25px;height: 20px;margin-top: -1px;"></div>
                     <div class="jia" onclick="zongNumChange(parseInt($('#zongNum').val())+1)" style="margin-top: -1px;">+</div>
                     <div class="clearfix"></div>
@@ -199,11 +232,11 @@
         <div class="bb" style="height: 430px;">
             <table class="list" cellspacing="0" cellpadding="0" style="border-bottom: 1px solid #d3d3d3;">
                 <thead class="list_bt" style="border-bottom: 1px solid;">
-                    <td colspan="2" style="width: 90px;">商品</td>
-                    <td>数量</td>
-                    <td>单价(元)</td>
-                    <td>金额(元)</td>
-                    <td style="color: #678AF9" onclick="deleteAllGoods()">清空</td>
+                <td colspan="2" style="width: 90px;">商品</td>
+                <td>数量</td>
+                <td>单价(元)</td>
+                <td>金额(元)</td>
+                <td style="color: #678AF9" onclick="deleteAllGoods()">清空</td>
                 </thead>
                 <%--添加商品列表--%>
             </table>
@@ -216,8 +249,11 @@
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData">
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
-                <input type="hidden" id="supplierlist" name="supplier.id">
+                <input type="hidden" id="cStorelist" name="store.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
+                <input type="hidden" id="createDatelist" name="createDate">
+                <input type="hidden" id="ywynamelist" name="createBy">
+                <input type="hidden" id="cCarlist" name="cCar.id">
                 <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="jsonData" name="jsonData">
                 <input type="hidden" name="lx" value="0">
@@ -232,29 +268,65 @@
                 <span style="font-size: 22px; font-weight: bold; letter-spacing: 4px;">基本信息</span>
             </div>
             <div class="input_g">
-                <div class="width"><span style="color: red;">*</span> 进货仓库</div>
+                <div class="width"><span style="color: red;">*</span> 客户</div>
                 <div class="shu">
-                        <select class="shu"  id="house">
-                            <option value="" />请选择</option>
-                            <c:forEach items="${houseList}" var="house">
-                                <option value="${house.id}">${house.name} </option>
-                            </c:forEach>
+                    <select class="shu" id="cStore">
+                        <option value="">请选择</option>
+                        <c:forEach items="${cStorelist}" var="cStore">
+                            <option value="${cStore.id}">${cStore.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#cStore').val('')"> </div>
+                <p class="clearfix"></p>
+            </div>
+            <div class="input_g">
+                <div class="width"><span style="color: red;">*</span> 业务员</div>
+                <div class="shu">
+                    <select class="shu" id="createBy">
+                        <option value="">请选择</option>
+                        <c:forEach items="${name}" var="createBy">
+                            <option value="${createBy}">${name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#createBy').val('')"> </div>
+                <p class="clearfix"></p>
+            </div>
+            <div class="input_g">
+                <div class="width">发货仓库</div>
+                <div class="shu">
+                    <select class="shu"  id="house">
+                        <option value="">请选择</option>
+                        <c:forEach items="${houseList}" var="house">
+                            <option value="${house.id}">${house.name}</option>
+                        </c:forEach>
                     </select>
                 </div>
                 <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#house').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
-                <div class="width"><span style="color: red;">*</span> 供  应  商</div>
+                <div class="width">发货日期</div>
                 <div class="shu">
-                    <select class="shu" id="supplier" >
-                        <option value=""/>请选择</option>
-                        <c:forEach items="${supplierList}" var="supplier">
-                            <option value="${supplier.id}">${supplier.name}</option>
+                    <input name="createDate" id="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                           value="${createDate}"
+                           onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                </div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#createDate').val('')"> </div>
+                <p class="clearfix"></p>
+            </div>
+            <div class="input_g">
+                <div class="width">配送车辆</div>
+                <div class="shu">
+                    <select class="shu" id="cCar">
+                        <option value="">请选择</option>
+                        <c:forEach items="${cCar}" var="cCar">
+                            <option value="${cCar.id}">${cCar.name}</option>
                         </c:forEach>
                     </select>
                 </div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#supplier').val('')"> </div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#cCar').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
             <div class="input_g">
@@ -264,22 +336,7 @@
                 <p class="clearfix"></p>
             </div>
             <div class="anniu">
-                <input type="button" onclick="jblist()"  value="确  定">
-            </div>
-            <div style="text-align: left; width: 555px;padding: 8px 0;box-sizing: border-box; margin: 0 auto 20px;border: 1px solid #d3d3d3;border-radius: 4px;">
-                <table class="lk-tips">
-                    <tbody><tr>
-                        <td>
-                            <img src="${ctxStatic}/images/小云提示.png" alt="小云提示" title="小云提示">
-                        </td>
-                        <td>
-                            <ul style="margin-left: 10px;">
-                                <li style="list-style: inside;margin-bottom: 20px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">入库即商品采购回来之后进行接收和验收入库，在将商品入库的同时进行支付，从而实现物流和资金流的同步处理。</li>
-                                <li style="list-style: inside;margin-bottom: 20px;padding-bottom: 10px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">若找不到入库仓库，请在【资料】-【仓库档案】中查看用户是否具有该仓库的操作权限。</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    </tbody></table>
+                <input type="button"  onclick="jblist()"value="确  定">
             </div>
             <div class="clearfix"></div>
         </div>
