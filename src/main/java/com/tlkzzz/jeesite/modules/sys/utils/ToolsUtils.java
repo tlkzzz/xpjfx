@@ -69,15 +69,11 @@ public class ToolsUtils {
 			String[] specList = spec.split("\\*");
 			for(int i=0;i<specList.length;i++){
 				if(unit.length>i){
-					if(num>Integer.parseInt(specList[i])){
-						int total = 0;
-						String formula = "";
-						for(int j=i+1;j<specList.length;j++){
-							formula += specList[j].toString() + ((j<specList.length-1)?"*":"");
-						}
-						try{
-							total = (int)Double.parseDouble(jse.eval(formula).toString());
-						}catch (Exception e){}
+					int total = 1;
+					for(int j=i+1;j<specList.length;j++){
+						total *= Integer.parseInt(specList[j]);
+					}
+					if(num>=Integer.parseInt(specList[i])){
 						int subTotal = (int)Math.floor(num/total);
 						str.append(subTotal+unit[i]);
 						if(subTotal>0)num-=(subTotal*total);
