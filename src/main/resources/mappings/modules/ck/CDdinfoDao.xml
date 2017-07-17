@@ -694,6 +694,12 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="updateRemark">
+		UPDATE c_ddinfo SET
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
 	<update id="delete">
 		UPDATE c_ddinfo SET
 			del_flag = #{DEL_FLAG_DELETE}
