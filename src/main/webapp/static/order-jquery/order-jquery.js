@@ -233,6 +233,7 @@ function showGoods(cdId,id,num,price,remark,goods) {//显示单个订单商品
         message("信息不完整");
         return;
     }
+    remark = (remark)?remark:"";
     var ctxStatic = $("#ctxStatic").val();
     var specName = goods.spec.name;
     var specList = specName.split("*");
