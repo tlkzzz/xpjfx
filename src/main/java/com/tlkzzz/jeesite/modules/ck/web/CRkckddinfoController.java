@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.common.mapper.JsonMapper;
 import com.tlkzzz.jeesite.common.utils.Encodes;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
@@ -372,31 +373,33 @@ public class CRkckddinfoController extends BaseController {
 	/**
 	 * 入库订单填写页面
 	 * @param pageName
-	 * @param request
-	 * @param response
+	 * @param id
 	 * @param model
 	 * @return
 	 */
 	@RequiresPermissions("ck:cCkinfo:view")
     @RequestMapping(value = "order/{pageName}")
-    public String order(@PathVariable("pageName")String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
-		CGclass gclass = new CGclass();
-		CHouse  houseList=new CHouse();
-		CSupplier supplierList=new CSupplier();
-		CCar   cCar =new CCar();
-		CStore   cStorelist =new CStore();
-		String name=UserUtils.getUser().getName();
-		Date date= new Date();
+    public String order(@PathVariable("pageName")String pageName,String id,Model model){
+		if(StringUtils.isNotBlank(id)){
+			CDdinfo cDdinfo = new CDdinfo();
+			cDdinfo.setRkckddinfo(cRkckddinfoService.get(id));
+			List<CDdinfo> cDdinfoList = cDdinfoService.findList(cDdinfo);
+			JSONArray array	= new JSONArray();
+			for(CDdinfo cd : cDdinfoList){array.add(JsonMapper.toJsonString(cd.getGoods()));}
+			model.addAttribute("goodsJSON", array.toString());
+			model.addAttribute("cRkckddinfo", cDdinfo.getRkckddinfo());
+			model.addAttribute("json",cDdinfoService.processJSON(cDdinfoList).toString());
+		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String createDate = sdf.format(date);
+		CGclass gclass = new CGclass();
 		gclass.setParent(new CGclass("0"));
-		model.addAttribute("createDate",createDate);
-		model.addAttribute("name",name);
-		model.addAttribute("cCar",cCarService.findList(cCar));
-		model.addAttribute("cStorelist", cStoreService.findList(cStorelist));
+		model.addAttribute("createDate",sdf.format(new Date()));
+		model.addAttribute("name",UserUtils.getUser().getName());
+		model.addAttribute("cCar",cCarService.findList(new CCar()));
+		model.addAttribute("cStorelist", cStoreService.findList(new CStore()));
 		model.addAttribute("gClass", cGclassService.findList(gclass));
-		model.addAttribute("houseList", houseService.findList(houseList));
-		model.addAttribute("supplierList", cSupplierService.findList(supplierList));
+		model.addAttribute("houseList", houseService.findList(new CHouse()));
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		return "modules/ck/"+pageName;
     }
 
@@ -408,7 +411,7 @@ public class CRkckddinfoController extends BaseController {
 	 */
     @RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "rkOrderSave")
-	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData){
+	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData,String pageName){
     	if(StringUtils.isBlank(cRkckddinfo.getLx())||StringUtils.isBlank(cRkckddinfo.getState())||
                 StringUtils.isBlank(jsonData)||cRkckddinfo.getcHouse()==null){
     		return "error/400";
@@ -418,7 +421,7 @@ public class CRkckddinfoController extends BaseController {
 			cRkckddinfo.setIssp("0");
 			cRkckddinfoService.saveRkCkInfo(cRkckddinfo,jsonArray);
 		}
-    	return "";
+    	return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/order/"+pageName+"?id="+cRkckddinfo.getId();
 	}
 
 	/**
