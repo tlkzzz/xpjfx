@@ -73,17 +73,17 @@ function setGoods(id,ele) {
     }
     var goodsList = eval(goodsText);
     editGoodsFlag = false;
-    setGoodsInfo(id,0,0,"",goodsList);
+    setGoodsInfo("",id,0,0,"",goodsList);
 }
-function editGoods(id,num,price,remark) {
+function editGoods(cdId,id,num,price,remark) {
     if(id==null||id=='')return;
     var goodsText = $("#goodsData").val();
     if(goodsText==null||goodsText=='')return;
     var goodsList = eval(goodsText);
     editGoodsFlag = true;
-    setGoodsInfo(id,num,price,remark,goodsList);
+    setGoodsInfo(cdId,id,num,price,remark,goodsList);
 }
-function setGoodsInfo(id,num,price,remark,goodsList) {
+function setGoodsInfo(cdId,id,num,price,remark,goodsList) {
     if(id==null||id=='')return;
     if(goodsList.length<=0)return;
     for(var i=0;i<goodsList.length;i++){
@@ -93,9 +93,10 @@ function setGoodsInfo(id,num,price,remark,goodsList) {
             var specList = specName.split("*");
             var sj = (price<=0)?goodsList[i].sj:price;//售价
             var big = (num>0)?parseInt(num/parseInt(eval(specName))):1;
+            $("#cdId").val(cdId);
             $("#goodsId").val(goodsList[i].id);
             $("#goodsName").val(goodsList[i].name);
-            $("#orderNum").val(eval(goodsList[i].spec.name));
+            $("#orderNum").val((num>0)?num:eval(goodsList[i].spec.name));
             $("#specName").text(specName);
             $("#keYongKC").text((goodsList[i].kykc!=null&&goodsList[i].kykc!="")?goodsList[i].kykc:"0");//可用库存
             $("#anQuanKC").text((goodsList[i].aqkc!=null&&goodsList[i].aqkc!="")?goodsList[i].aqkc:"0");//安全库存
@@ -203,7 +204,7 @@ function clearDate() {//初始化商品添加页面
     $(".smallUnit").empty();
     $(".smallEle").css("display","block");
 }
-function addGoods(id,num,price,remark) {//添加商品到订单列表
+function addGoods(cdId,id,num,price,remark) {//添加商品到订单列表
     var orderGoods = $("#orderGoods").val();
     if(id==''||num<=0||price<=0||orderGoods==null){
         message("信息不完整!");
@@ -211,7 +212,7 @@ function addGoods(id,num,price,remark) {//添加商品到订单列表
     }
     var goods = eval("("+orderGoods+")");
     setJsonGoods(goods);//将goods添加到JSON数据中
-    setPostJson(id,num,price,remark);
+    setPostJson(cdId,id,num,price,remark);
     showGoodsList();
 }
 function showGoodsList() {//通过隐藏域订单信息展示订单列表
@@ -223,11 +224,11 @@ function showGoodsList() {//通过隐藏域订单信息展示订单列表
     for(var i=0;i<jsonData.length;i++){
         var json = jsonData[i];
         sumMoney += parseInt(json.num)*parseFloat(json.price);
-        showGoods(json.id,json.num,json.price,json.remark,getJsonGoods(json.id));
+        showGoods(json.cdId,json.id,json.num,json.price,json.remark,getJsonGoods(json.id));
     }
     $("#totalInfo").text("共 "+jsonData.length+" 条，"+sumMoney.toFixed(4)+"元");
 }
-function showGoods(id,num,price,remark,goods) {//显示单个订单商品
+function showGoods(cdId,id,num,price,remark,goods) {//显示单个订单商品
     if(id==''||num<=0||price<=0||goods==null){
         message("信息不完整");
         return;
@@ -247,7 +248,7 @@ function showGoods(id,num,price,remark,goods) {//显示单个订单商品
         '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+big+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.big.name+'</span></div>'+
         '<div style="margin-bottom: 4%;"><input type="text" readonly="true" value="'+zong+'" style="width: 30%;border: 1px solid #d3d3d3;margin-right: 8%;text-align: right;"><span>'+goods.zong.name+'</span></div>'+smallNumHtml+
         '</td><td style="padding-left: 5%;"><p style="margin-bottom: 4%;">'+specNum*price+'/'+goods.big.name+'</p>'+smallPriceHtml+'</td><td style="padding-left: 6.5%;"><p>'+num*price+
-        '</p></td><td><img onclick="editGoods(\''+goods.id+'\',\''+num+'\',\''+price+'\',\''+remark+'\')" src="'+ctxStatic+'/images/mxcpbianji.png"></td><td><img onclick="deleteGoods(\''+goods.id+'\')" src="'+ctxStatic+'/images/shanchu.png"></td></tr>'
+        '</p></td><td><img onclick="editGoods(\''+cdId+'\',\''+goods.id+'\',\''+num+'\',\''+price+'\',\''+remark+'\')" src="'+ctxStatic+'/images/mxcpbianji.png"></td><td><img onclick="deleteGoods(\''+goods.id+'\')" src="'+ctxStatic+'/images/shanchu.png"></td></tr>'
     $(".list").append(text);
 }
 function deleteGoods(id) {
@@ -285,12 +286,12 @@ function setJsonGoods(goods) {
         $("#goodsData").val(JSON.stringify(goodsData));
     }
 }
-function setPostJson(id,num,price,remark) {
+function setPostJson(cdId,id,num,price,remark) {
     if(id==''||num<=0||price<=0){
         message("信息不完整");
         return;
     }
-    var json = {id:id,num:num,price:price,remark:remark};
+    var json = {cdId:cdId,id:id,num:num,price:price,remark:remark};
     var jsonData = $("#jsonData").val();
     if(jsonData==''){jsonData = [];}else{jsonData = eval("("+jsonData+")");}
     for(var i=0;i<jsonData.length;i++){
