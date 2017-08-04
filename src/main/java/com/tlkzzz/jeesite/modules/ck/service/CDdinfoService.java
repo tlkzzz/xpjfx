@@ -10,6 +10,8 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import com.tlkzzz.jeesite.modules.ck.entity.CShop;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.tlkzzz.jeesite.common.persistence.Page;
@@ -62,7 +64,6 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	}
 
 	public List<CDdinfo> setgclass(CDdinfo cDdinfo) {
-
 		return dao.setgclass(cDdinfo);
 	}
 	public List<CDdinfo> ywylist(CDdinfo cDdinfo) {
@@ -127,6 +128,20 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 		return cDdinfo;
 	}
 
+	public JSONArray processJSON(List<CDdinfo> list){
+		JSONArray array = new JSONArray();
+		for(CDdinfo cd: list){
+			JSONObject o = new JSONObject();
+			o.put("cdId",cd.getId());
+			o.put("id",cd.getGoods().getId());
+			o.put("num",cd.getNub());
+			o.put("price",cd.getJe());
+			o.put("remark",cd.getRemarks());
+			array.add(o);
+		}
+		return array;
+	}
+
 	public Page<CDdinfo> findPage(Page<CDdinfo> page, CDdinfo cDdinfo) {
 		return super.findPage(page, cDdinfo);
 	}
@@ -175,6 +190,14 @@ public class CDdinfoService extends CrudService<CDdinfoDao, CDdinfo> {
 	@Transactional(readOnly = false)
 	public void thUpdate(CDdinfo cddinfo) {
 		dao.thUpdate(cddinfo);
+	}
+
+	/**
+	 * 订单修改备注
+	 * */
+	@Transactional(readOnly = false)
+	public void updateRemark(CDdinfo cddinfo) {
+		dao.updateRemark(cddinfo);
 	}
 
 	/**

@@ -97,16 +97,28 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	@Transactional(readOnly = false,rollbackFor = Exception.class)
 	public void saveRkCkInfo(CRkckddinfo cRkckddinfo, JSONArray jsonArray) {
 		if(jsonArray.size()<=0)return;
-		cRkckddinfo.preInsert();
-		cRkckddinfo.setDdbh("Z"+new Date().getTime());
+		boolean isNewRecord = cRkckddinfo.getIsNewRecord();
+		if(isNewRecord) {
+			cRkckddinfo.preInsert();
+			cRkckddinfo.setDdbh("Z" + new Date().getTime());
+		}else {
+			cRkckddinfo.preUpdate();
+		}
 		double htje = 0;
 		for (Object o:jsonArray){
 			JSONObject object = JSONObject.fromObject(o);
 			if(object.get("id")==null||object.get("num")==null||object.get("price")==null)continue;
 			CGoods goods = cGoodsDao.get(object.get("id").toString().trim());
 			CDdinfo cd = new CDdinfo();
-			cd.setDdbh("P"+new Date().getTime());
-			cd.setGoods(goods);
+			if(object.get("cdId")!=null&&!"".equals(object.get("cdId"))){
+				cd = cDdinfoService.get(object.get("cdId").toString().trim());
+			}
+			if(cd==null||cd.getGoods()==null){
+				cd = new CDdinfo();
+				cd.setDdbh("P"+new Date().getTime());
+				cd.setRkckddinfo(cRkckddinfo);
+				cd.setGoods(goods);
+			}
 			cd.setNub(object.get("num").toString().trim());
 			cd.setJe(object.get("price").toString().trim());
 			cd.setRemarks(object.get("remark").toString().trim());
@@ -116,7 +128,11 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 			cDdinfoService.save(cd);
 		}
 		cRkckddinfo.setHtje(String.valueOf(htje));
-		dao.insert(cRkckddinfo);
+		if(isNewRecord){
+			dao.insert(cRkckddinfo);
+		}else {
+			dao.update(cRkckddinfo);
+		}
 	}
 
 	@Transactional(readOnly = false)
@@ -127,6 +143,11 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	@Transactional(readOnly = false)
 	public void changeIssp(CRkckddinfo cRkckddinfo) {
 		dao.changeIssp(cRkckddinfo);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateRemark(CRkckddinfo cRkckddinfo) {
+		dao.updateRemark(cRkckddinfo);
 	}
 	
 	@Transactional(readOnly = false)
