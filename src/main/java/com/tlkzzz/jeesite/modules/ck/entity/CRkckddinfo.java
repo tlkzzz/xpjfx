@@ -39,6 +39,9 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private CStore store;		// 客户
 	private Date rkckdate;		// 入库出库时间(就是审批时间)
 
+	private Date startDate;		// 查询开始时间
+	private Date endDate;		// 查询结束时间
+
 	private String thxx;  //退货信息
 
 	private int fybs;     //分页标识
@@ -198,5 +201,21 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 
 	public void setRkckdate(Date rkckdate) {
 		this.rkckdate = rkckdate;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }
