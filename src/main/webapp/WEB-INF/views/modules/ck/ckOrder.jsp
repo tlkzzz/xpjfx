@@ -218,6 +218,7 @@
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
+                <input type="hidden" name="pageName" value="ckOrder">
                 <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
                 <input type="hidden" id="supplierlist" name="supplier.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
