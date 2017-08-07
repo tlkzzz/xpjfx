@@ -181,6 +181,17 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="getNotIsspCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(a.id)
+		FROM c_rkckddinfo a
+		<where>
+			a.del_flag = '0' AND a.issp= '0'
+			<if	test="_parameter != null and _parameter != ''">
+				AND a.state = #{_parameter}
+			</if>
+		</where>
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO c_rkckddinfo(

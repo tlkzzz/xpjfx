@@ -44,6 +44,13 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
     public List<CRkckddinfo> shenheruku(CRkckddinfo cRkckddinfo);
 
     /**
+     * 通过状态查询未审批订单数量
+     * @param state
+     * @return
+     */
+    public Integer getNotIsspCount(String state);
+
+    /**
      * shizx APP分页查询
      * */
     public List<CRkckddinfo> fyfindList(CRkckddinfo cRkckddinfo);

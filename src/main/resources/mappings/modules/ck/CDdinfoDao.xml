@@ -9,7 +9,7 @@
 		crkck.state AS "rkckddinfo.state",
 		crkck.issp AS "rkckddinfo.issp",
 		a.cgzbinfo AS "cgzbinfo.id",
-		a.hous_id AS "house.id",
+		ch.id AS "house.id",
 		ch.name AS "house.name",
 		a.goods_id AS "goods.id",
 		cg.name AS "goods.name",
@@ -53,7 +53,7 @@
 	
 	<sql id="cDdinfoJoins">
 		LEFT JOIN c_rkckddinfo crkck ON a.rkckddinfoid=crkck.id
-		LEFT JOIN c_house ch ON a.hous_id=ch.id
+		LEFT JOIN c_house ch ON crkck.cHouse=ch.id
 		LEFT JOIN c_goods cg ON a.goods_id=cg.id
 		LEFT JOIN c_supplier csu ON a.supplier_id=csu.id
 		LEFT JOIN c_store cst	ON a.store_id=cst.id
