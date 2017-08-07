@@ -180,8 +180,8 @@
 		FROM c_rkckddinfo a
 		<where>
 			a.del_flag = '0' AND a.issp= '0'
-			<if	test="param1 != null and param1 != ''">
-				AND a.state = #{param1}
+			<if	test="_parameter != null and _parameter != ''">
+				AND a.state = #{_parameter}
 			</if>
 		</where>
 	</select>
