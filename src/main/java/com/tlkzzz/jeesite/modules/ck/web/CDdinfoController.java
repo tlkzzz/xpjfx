@@ -1092,4 +1092,13 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 		}
 		return mapList;
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "findListByCrk")
+	public List<CDdinfo> findListByCrk(CDdinfo cDdinfo){
+		if(cDdinfo==null||cDdinfo.getRkckddinfo()==null){
+			return null;
+		}
+		return cDdinfoService.processUnit(cDdinfoService.findList(cDdinfo));
+	}
 }

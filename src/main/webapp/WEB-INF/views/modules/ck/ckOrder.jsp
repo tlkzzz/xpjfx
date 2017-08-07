@@ -11,6 +11,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
+            <c:if test="${not empty cRkckddinfo}">jblist();</c:if>
+            <c:if test="${not empty json}">showGoodsList();</c:if>
         });
         function  jblist() {
             if($("#supplier").val()==""){
@@ -93,13 +95,13 @@
                     <tbody>
                     <tr>
                         <td>进货仓库:</td>
-                        <td id="aa"></td>
+                        <td id="aa">${cRkckddinfo.cHouse.name}</td>
                         <td>供 应 商：</td>
-                        <td id="bb"></td>
+                        <td id="bb">${cRkckddinfo.supplier.name}</td>
                     </tr>
                     <tr>
                         <td>备  注：</td>
-                        <td id="zz"></td>
+                        <td id="zz">${cRkckddinfo.remarks}</td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -111,7 +113,7 @@
             <div class="input-group">
                 <div class="input-group-addon" style="padding: 6px 0;"><span>商品</span></div>
                 <input id="goodsName" type="text" readonly="true" class="shuru" style="padding: 6px 0;width: 250px;">
-                <input id="goodsId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
+                <input id="goodsId" type="hidden"><input id="cdId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
                 <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" onclick="clearDate()" style="margin: 0 auto;"></span>
                 <div class="clearfix"></div>
             </div>
@@ -184,7 +186,7 @@
             </div>
             <!--添加按钮-->
             <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0">
-                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),
+                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#cdId').val(),$('#goodsId').val(),$('#orderNum').val(),
                 ($('#specName').text().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
             </div>
         </div>
@@ -214,12 +216,14 @@
             </div>
         </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
-            <input type="hidden" id="goodsData">
+            <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
+                <input type="hidden" name="pageName" value="ckOrder">
+                <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
                 <input type="hidden" id="supplierlist" name="supplier.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="bzlist" name="remarks">
-                <input type="hidden" id="jsonData" name="jsonData">
+                <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
                 <input type="hidden" name="lx" value="0">
                 <input type="hidden" name="state" value="1">
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
@@ -237,7 +241,7 @@
                         <select class="shu"  id="house">
                             <option value="" />请选择</option>
                             <c:forEach items="${houseList}" var="house">
-                                <option value="${house.id}">${house.name} </option>
+                                <option value="${house.id}" <c:if test="${cRkckddinfo.cHouse.id eq house.id}">selected="selected"</c:if>>${house.name} </option>
                             </c:forEach>
                     </select>
                 </div>
@@ -250,7 +254,7 @@
                     <select class="shu" id="supplier" >
                         <option value=""/>请选择</option>
                         <c:forEach items="${supplierList}" var="supplier">
-                            <option value="${supplier.id}">${supplier.name}</option>
+                            <option value="${supplier.id}"<c:if test="${cRkckddinfo.supplier.id eq supplier.id}">selected="selected"</c:if>>${supplier.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -259,7 +263,7 @@
             </div>
             <div class="input_g">
                 <div class="width">备注</div>
-                <div class="shu"><input id="bz" type="text"  style="width: 426px;padding: 11px;"></div>
+                <div class="shu"><input id="bz" type="text"  style="width: 426px;padding: 11px;" value="${cRkckddinfo.remarks}"></div>
                 <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#bz').val('')"> </div>
                 <p class="clearfix"></p>
             </div>

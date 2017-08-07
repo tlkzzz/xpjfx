@@ -14,6 +14,7 @@
 		a.goods_id AS "goods.id",
 		cg.name AS "goods.name",
 		cg.sj AS "goods.sj",
+		cg.tm AS "goods.tm",
 		cg.big AS "goods.big.id",
 		cuna.name AS "goods.big.name",
 		cg.zong AS "goods.zong.id",
@@ -691,6 +692,12 @@
 	<update id="updateCgzbInfo">
 		UPDATE c_ddinfo SET 
 			cgzbinfo = #{cgzbinfo.id}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateRemark">
+		UPDATE c_ddinfo SET
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 

@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.ck.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tlkzzz.jeesite.common.mapper.JsonMapper;
 import com.tlkzzz.jeesite.common.utils.Encodes;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
 import com.tlkzzz.jeesite.modules.ck.service.*;
@@ -369,33 +370,48 @@ public class CRkckddinfoController extends BaseController {
 	}
 
 	/**		新版出库入库方法开始		**/
-
+	/**
+	 * 入库订单填写页面
+	 * @param pageName
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequiresPermissions("ck:cCkinfo:view")
     @RequestMapping(value = "order/{pageName}")
-    public String order(@PathVariable("pageName")String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
-		CGclass gclass = new CGclass();
-		CHouse  houseList=new CHouse();
-		CSupplier supplierList=new CSupplier();
-		CCar   cCar =new CCar();
-		CStore   cStorelist =new CStore();
-		String name=UserUtils.getUser().getName();
-		Date date= new Date();
+    public String order(@PathVariable("pageName")String pageName,String id,Model model){
+		if(StringUtils.isNotBlank(id)){
+			CDdinfo cDdinfo = new CDdinfo();
+			cDdinfo.setRkckddinfo(cRkckddinfoService.get(id));
+			List<CDdinfo> cDdinfoList = cDdinfoService.findList(cDdinfo);
+			JSONArray array	= new JSONArray();
+			for(CDdinfo cd : cDdinfoList){array.add(JsonMapper.toJsonString(cd.getGoods()));}
+			model.addAttribute("goodsJSON", array.toString());
+			model.addAttribute("cRkckddinfo", cDdinfo.getRkckddinfo());
+			model.addAttribute("json",cDdinfoService.processJSON(cDdinfoList).toString());
+		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String createDate = sdf.format(date);
+		CGclass gclass = new CGclass();
 		gclass.setParent(new CGclass("0"));
-		model.addAttribute("createDate",createDate);
-		model.addAttribute("name",name);
-		model.addAttribute("cCar",cCarService.findList(cCar));
-		model.addAttribute("cStorelist", cStoreService.findList(cStorelist));
+		model.addAttribute("createDate",sdf.format(new Date()));
+		model.addAttribute("name",UserUtils.getUser().getName());
+		model.addAttribute("cCar",cCarService.findList(new CCar()));
+		model.addAttribute("cStorelist", cStoreService.findList(new CStore()));
 		model.addAttribute("gClass", cGclassService.findList(gclass));
-		model.addAttribute("houseList", houseService.findList(houseList));
-		model.addAttribute("supplierList", cSupplierService.findList(supplierList));
+		model.addAttribute("houseList", houseService.findList(new CHouse()));
+		model.addAttribute("supplierList", cSupplierService.findList(new CSupplier()));
 		return "modules/ck/"+pageName;
     }
 
+	/**
+	 * 入库订单保存方法
+	 * @param cRkckddinfo
+	 * @param jsonData
+	 * @return
+	 */
     @RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "rkOrderSave")
-	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData){
+	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData,String pageName){
     	if(StringUtils.isBlank(cRkckddinfo.getLx())||StringUtils.isBlank(cRkckddinfo.getState())||
                 StringUtils.isBlank(jsonData)||cRkckddinfo.getcHouse()==null){
     		return "error/400";
@@ -405,8 +421,80 @@ public class CRkckddinfoController extends BaseController {
 			cRkckddinfo.setIssp("0");
 			cRkckddinfoService.saveRkCkInfo(cRkckddinfo,jsonArray);
 		}
-    	return "";
+    	return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/order/"+pageName+"?id="+cRkckddinfo.getId();
 	}
+
+	/**
+	 * 入库订单选择页面
+	 * @param cRkckddinfo
+	 * @param model
+	 * @return
+	 */
+    @RequiresPermissions("ck:cCkinfo:edit")
+	@RequestMapping(value = "rkOrderSelect")
+	public String rkSelect(CRkckddinfo cRkckddinfo,HttpServletRequest request,HttpServletResponse response,Model model){
+    	if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getLx())){
+    		return "error/400";
+		}
+		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
+		model.addAttribute("houseList",houseService.findList(new CHouse()));
+		model.addAttribute("supplierList",cSupplierService.findList(new CSupplier()));
+		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		model.addAttribute("page",page);
+    	return "modules/ck/ckOrderSelect";
+	}
+
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "showRkCkInfo")
+	public String showRkCkInfo(CRkckddinfo cRkckddinfo,Model model){
+
+		return "";
+	}
+
+	/**
+	 * 入库单详细信息页面
+	 * @param cRkckddinfo
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "RKDDetails")
+	public String RKDDetails(CRkckddinfo cRkckddinfo,Model model){
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getId())){
+			return "error/400";
+		}
+		CDdinfo cd = new CDdinfo();
+		cd.setRkckddinfo(cRkckddinfo);
+		List<CDdinfo> cdList = cDdinfoService.findList(cd);
+		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		model.addAttribute("cdList",cDdinfoService.processUnit(cdList));
+		return "modules/ck/rkDDetails";
+	}
+
+	/**
+	 * 订单备注修改
+	 * @param ids
+	 * @param remark
+	 * @param cRkckddinfo
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "orderRemarkChange")
+	public String orderRemarkChange(String[] ids,String[] remark,CRkckddinfo cRkckddinfo){
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getId())){
+			return "error/400";
+		}
+		cRkckddinfoService.updateRemark(cRkckddinfo);
+		if(ids.length==remark.length) {
+			for (int i = 0; i < ids.length; i++) {
+				CDdinfo cd = new CDdinfo(ids[i]);
+				cd.setRemarks(remark[i]);
+				cDdinfoService.updateRemark(cd);
+			}
+		}
+		return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/RKDDetails?repage&id="+cRkckddinfo.getId();
+	}
+
 
 	/**		新版出库入库方法结束		**/
 

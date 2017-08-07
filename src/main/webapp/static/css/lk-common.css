@@ -1,0 +1,561 @@
+/*!
+* by zhangxinxu(.com) 2010-?
+* https://github.com/zhangxinxu/zxx.lib.css
+* under MIT license
+*/
+/*
+* 2010-07-12 v1.0
+* 2010-07-21 v1.1 添加block元素居中之auto属性，增加鼠标手形样式
+* 2010-09-17 v1.2 添加z-index层级属性
+* 2010-09-29 v1.3 添加break-word属性
+* 2010-11-12 v1.4 添加white-space:nowrap;值，去掉Georgia字体
+* 2011-01-17 v1.5 去除red颜色，添加cell双栏自适应属性，z样式影响扩至IE7，样式位置以及顺序调整，dib样式忽略Firefox 2，去除Lucida Console字体，添加Verdana字体，添加letter-spacing样式
+* 2011-07-28 v1.6 增加vertical-align:bottom属性，增加点点点效果多样
+* 2012-01-18 v1.7 点点点效果样式去除-moz-前缀，多余；增加修复cell下连续单词字符换行问题；去除.ovs{overflow:scroll;}
+                  去除.vimg{margin-bottom:-3px;}
+* 2013-05-24 v2.0 为开源到github上做大改
+                  1. 增加margin负值范围
+                  2. margin/padding增加15px/30px组
+                  3. 中文字体改成英文字符表示，例如“微软雅黑” → "microsoft yahei"
+                  4. 新增border系列, background-color系列, width(fixed value/percent value)系列以及.ell以下所有样式
+* 2013-07-31 v2.1 inline_any等12px字体大小限制去除，inline_box的-3px间距缩进改成-.25em, 以便适应各种字体大小环境
+* 2013-09-13 v2.2 12px字体大小限制修改为1px笔误了，应该为1em, 删除-ms-transition
+* 2013-10-11 v2.3 float_seven一直没删除，清掉。增加两个绝对定位隐藏：abs_out和abs_clip
+* 2013-11-23 v2.4 add p0, ova, f18. 去除trans中-moz-和-o-私有前缀
+* 2014-02-26 v2.5 fix two name mistake
+* 2014-02-27 v2.6 add fl
+*/
+
+/* ---------------------single CSS----------------------- 
+
+lk-d		display
+lk-h		hieght
+lk-w		width	
+lk-pct		width 百分比
+lk-lh		line-height
+lk-m		margin
+lk-p		padding
+lk-b		border
+lk-bg		background-color
+lk-c		color
+lk-fs		font-size
+lk-ta		text-align
+lk-va		vertical-align
+lk-f		float		fl、fr
+lk-of		overflow
+
+lk-auto		块状元素水平居中
+lk-dib_vm  	大小不定元素垂直居中
+
+*/
+/* display*/
+.lk-dn { display: none; }
+
+.lk-di { display: inline; }
+
+.lk-db { display: block; }
+
+.lk-dib { display: inline-block; }
+/* if the element is block level(eg. div, li), using 'inline_any' instead */
+/* height(lk-h) */
+.lk-h14 { height: 14px; }
+
+.lk-h16 { height: 16px; }
+
+.lk-h18 { height: 18px; }
+
+.lk-h20 { height: 20px; }
+
+.lk-h22 { height: 22px; }
+
+.lk-h24 { height: 24px; }
+/* width(lk-w)(lk-pct) */
+/* fixed width value */
+.lk-w20 { width: 20px; }
+
+.lk-w50 { width: 50px; }
+
+.lk-w70 { width: 70px; }
+
+.lk-w80 { width: 80px; }
+
+.lk-w100 { width: 100px; }
+
+.lk-w120 { width: 120px; }
+
+.lk-w140 { width: 140px; }
+
+.lk-w160 { width: 160px; }
+
+.lk-w180 { width: 180px; }
+
+.lk-w200 { width: 200px; }
+
+.lk-w220 { width: 220px; }
+
+.lk-w250 { width: 250px; }
+
+.lk-w280 { width: 280px; }
+
+.lk-w300 { width: 280px; }
+
+.lk-w320 { width: 320px; }
+
+.lk-w360 { width: 360px; }
+
+.lk-w400 { width: 400px; }
+
+.lk-w460 { width: 460px; }
+
+.lk-w500 { width: 500px; }
+
+.lk-w600 { width: 600px; }
+
+.lk-w640 { width: 640px; }
+
+.lk-w700 { width: 700px; }
+/* percent width value */
+
+.lk-pct10 { width: 10%; }
+
+.lk-pct15 { width: 15%; }
+
+.lk-pct20 { width: 20%; }
+
+.lk-pct25 { width: 25%; }
+
+.lk-pct30 { width: 30%; }
+
+.lk-pct33 { width: 33.3%; }
+
+.lk-pct40 { width: 40%; }
+
+.lk-pct50 { width: 50%; }
+
+.lk-pct60 { width: 60%; }
+
+.lk-pct66 { width: 66.6%; }
+
+.lk-pct70 { width: 70%; }
+
+.lk-pct75 { width: 75%; }
+
+.lk-pct80 { width: 80%; }
+
+.lk-pct90 { width: 90%; }
+
+.lk-pct100 { width: 100%; }
+/* line-height(lk-lh) */
+.lk-lh14 { line-height: 14px; }
+
+.lk-lh16 { line-height: 16px; }
+
+.lk-lh18 { line-height: 18px; }
+
+.lk-lh20 { line-height: 20px; }
+
+.lk-lh22 { line-height: 22px; }
+
+.lk-lh24 { line-height: 24px; }
+/* margin (lk-m) */
+.lk-m0 { margin: 0; }
+
+.lk-ml1 { margin-left: 1px; }
+
+.lk-ml2 { margin-left: 2px; }
+
+.lk-ml5 { margin-left: 5px; }
+
+.lk-ml10 { margin-left: 10px; }
+
+.lk-ml15 { margin-left: 15px; }
+
+.lk-ml20 { margin-left: 20px; }
+
+.lk-ml30 { margin-left: 30px; }
+
+.lk-ml40 { margin-left: 40px; }
+
+.lk-mr1 { margin-right: 1px; }
+
+.lk-mr2 { margin-right: 2px; }
+
+.lk-mr5 { margin-right: 5px; }
+
+.lk-mr10 { margin-right: 10px; }
+
+.lk-mr15 { margin-right: 15px; }
+
+.lk-mr20 { margin-right: 20px; }
+
+.lk-mr30 { margin-right: 30px; }
+
+.lk-mr40 { margin-right: 40px; }
+
+.lk-mt1 { margin-top: 1px; }
+
+.lk-mt2 { margin-top: 2px; }
+
+.lk-mt5 { margin-top: 5px; }
+
+.lk-mt10 { margin-top: 10px; }
+
+.lk-mt15 { margin-top: 15px; }
+
+.lk-mt20 { margin-top: 20px; }
+
+.lk-mt30 { margin-top: 30px; }
+
+.lk-mt40 { margin-top: 40px; }
+
+.lk-mb1 { margin-bottom: 1px; }
+
+.lk-mb2 { margin-bottom: 2px; }
+
+.lk-mb5 { margin-bottom: 5px; }
+
+.lk-mb10 { margin-bottom: 10px; }
+
+.lk-mb15 { margin-bottom: 15px; }
+
+.lk-mb20 { margin-bottom: 20px; }
+
+.lk-mb30 { margin-bottom: 30px; }
+
+.lk-mb40 { margin-bottom: 40px; }
+/* margin negative */
+.lk-ml-1 { margin-left: -1px; }
+
+.lk-mr-1 { margin-right: -1px; }
+
+.lk-mt-1 { margin-top: -1px; }
+
+.lk-mb-1 { margin-bottom: -1px; }
+
+.lk-ml-3 { margin-left: -3px; }
+
+.lk-mr-3 { margin-right: -3px; }
+
+.lk-mt-3 { margin-top: -3px; }
+
+.lk-mb-3 { margin-bottom: -3px; }
+
+.lk-ml-20 { margin-left: -20px; }
+
+.lk-mr-20 { margin-right: -20px; }
+
+.lk-mt-20 { margin-top: -20px; }
+
+.lk-mb-20 { margin-bottom: -20px; }
+/* padding (lk-p) */
+.lk-p0 { padding: 0px; }
+
+.lk-p1 { padding: 1px; }
+
+.lk-pl1 { padding-left: 1px; }
+
+.lk-pt1 { padding-top: 1px; }
+
+.lk-pr1 { padding-right: 1px; }
+
+.lk-pb1 { padding-bottom: 1px; }
+
+.lk-p2 { padding: 2px; }
+
+.lk-p3 { padding: 3px; }
+
+.lk-p5 { padding: 5px; }
+
+.lk-pl2 { padding-left: 2px; }
+
+.lk-pt2 { padding-top: 2px; }
+
+.lk-pr2 { padding-right: 2px; }
+
+.lk-pb2 { padding-bottom: 2px; }
+
+.lk-pl5 { padding-left: 5px; }
+
+.lk-pt5 { padding-top: 5px; }
+
+.lk-pr5 { padding-right: 5px; }
+
+.lk-pb5 { padding-bottom: 5px; }
+
+.lk-p10 { padding: 10px; }
+
+.lk-pl10 { padding-left: 10px; }
+
+.lk-pt10 { padding-top: 10px; }
+
+.lk-pr10 { padding-right: 10px; }
+
+.lk-pb10 { padding-bottom: 10px; }
+
+.lk-p15 { padding: 15px; }
+
+.lk-pl15 { padding-left: 15px; }
+
+.lk-pt15 { padding-top: 15px; }
+
+.lk-pr15 { padding-right: 15px; }
+
+.lk-pb15 { padding-bottom: 15px; }
+
+.lk-p20 { padding: 20px; }
+
+.lk-pl20 { padding-left: 20px; }
+
+.lk-pt20 { padding-top: 20px; }
+
+.lk-pr20 { padding-right: 20px; }
+
+.lk-pb20 { padding-bottom: 20px; }
+
+.lk-p30 { padding: 30px; }
+
+.lk-pl30 { padding-left: 30px; }
+
+.lk-pt30 { padding-top: 30px; }
+
+.lk-pr30 { padding-right: 30px; }
+
+.lk-pb30 { padding-bottom: 30px; }
+/* border-color name rule: border(b)-position(l/r/t/b/d)-width(null/2)-style(null/sh)-color(first one letter/first two letter) |-> All colors are safe color*/
+.lk-b-0 { border: 0px; }
+
+.lk-bt-0 { border-top: 0px; }
+
+.lk-bb-0 { border-bottom: 0px; }
+
+.lk-bl-0 { border-left: 0px; }
+
+.lk-br-0 { border-right: 0px; }
+
+.lk-bc { border: 1px solid #ccc; }
+
+.lk-blc { border-left: 1px solid #ccc; }
+
+.lk-brc { border-right: 1px solid #ccc; }
+
+.lk-btc { border-top: 1px solid #ccc; }
+
+.lk-bbc { border-bottom: 1px solid #ccc; }
+
+.lk-bdd { border: 1px solid #ddd; }
+
+.lk-bld { border-left: 1px solid #ddd; }
+
+.lk-brd { border-right: 1px solid #ddd; }
+
+.lk-btd { border-top: 1px solid #ddd; }
+
+.lk-bbd { border-bottom: 1px solid #ddd; }
+
+.lk-bde { border: 1px solid #eee; }
+
+.lk-ble { border-left: 1px solid #eee; }
+
+.lk-bre { border-right: 1px solid #eee; }
+
+.lk-bte { border-top: 1px solid #eee; }
+
+.lk-bbe { border-bottom: 1px solid #eee; }
+/* background-color name rule: bg - (key word/Hex color) |-> All colors are safe color */
+.lk-bgf { background-color: #fff; }
+
+.lk-bgg { background-color: #E3E3E3; }
+
+.lk-bgfb { background-color: #fbfbfb; }
+
+.lk-bgf5 { background-color: #f5f5f5; }
+
+.lk-bgf0 { background-color: #f0f0f0; }
+
+.lk-bgeb { background-color: #ebebeb; }
+
+.lk-bge0 { background-color: #e0e0e0; }
+/* safe color */
+.lk-c0 { color: #000; }
+
+.lk-c3 { color: #333; }
+
+.lk-c6 { color: #666; }
+
+.lk-c9 { color: #999; }
+
+.lk-cc { color: #ccc; }
+
+.lk-cf { color: #fff; }
+/* font-size */
+.lk-fs0 { font-size: 0; }
+
+.lk-fs10 { font-size: 10px; }
+
+.lk-fs12 { font-size: 12px; }
+
+.lk-fs13 { font-size: 13px; }
+
+.lk-fs14 { font-size: 14px; }
+
+.lk-fs16 { font-size: 16px; }
+
+.lk-fs18 { font-size: 18px; }
+
+.lk-fs20 { font-size: 20px; }
+
+.lk-fs24 { font-size: 24px; }
+/* font-style */
+.lk-n { font-weight: normal; font-style: normal; }
+
+.lk-b { font-weight: bold; }
+
+.lk-i { font-style: italic; }
+/* text-align */
+.lk-tac { text-align: center; }
+
+.lk-tar { text-align: right; }
+
+.lk-tal { text-align: left; }
+
+.lk-taj { text-align: justify; }
+/* text-decoration */
+.lk-tdl { text-decoration: underline; }
+
+.lk-tdn, .tdn:hover, .tdn a:hover, a.tdl:hover { text-decoration: none; }
+/* letter-spacing */
+.lk-lt-1 { letter-spacing: -1px; }
+
+.lk-lt0 { letter-spacing: 0; }
+
+.lk-lt1 { letter-spacing: 1px; }
+/* white-space */
+.lk-nowrap { white-space: nowrap; }
+/* word-wrap */
+.lk-bk { word-wrap: break-word; }
+/* vertical-align */
+.lk-vam { vertical-align: middle; }
+
+.lk-vatb { vertical-align: text-bottom; }
+
+.lk-vab { vertical-align: bottom; }
+
+.lk-vat { vertical-align: top; }
+
+.lk-van { vertical-align: -2px; }
+/* float */
+.lk-fl { float: left; }
+
+.lk-fr { float: right; }
+/* clear */
+.lk-clear { clear: both; }
+/* position */
+.lk-rel { position: relative; }
+
+.lk-abs { position: absolute; }
+/* cursor */
+.lk-poi { cursor: pointer; }
+
+.lk-def { cursor: default; }
+/* overflow */
+.lk-ofh { overflow: hidden; }
+
+.lk-ofa { overflow: auto; }
+/* visibility */
+.lk-vh { visibility: hidden; }
+
+.lk-vv { visibility: visible; }
+
+
+/* ------------------- multiply CSS ------------------ */
+/* 块状元素水平居中 */
+.lk-auto { margin-left: auto; margin-right: auto; }
+/* 清除浮 动*/
+.lk-fix { *zoom: 1; }
+
+.lk-fix:after { display: table; content: ''; clear: both; }
+/* 基于display:table-cell的自适应布局 */
+.lk-cell { display: table-cell; *display: inline-block; width: 2000px; *width: auto; }
+/* 双栏自适应cell部分连续英文字符换行 */
+.lk-cell_bk { display: table; width: 100%; table-layout: fixed; word-wrap: break-word; }
+/* 单行文字溢出虚点显 示*/
+.lk-ell { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+/* css3过渡动画效果 */
+.lk-trans { -webkit-transition: all 0.3s; transition: all 0.3s; }
+/* 大小不定元素垂直居中 */
+.lk-dib_vm { display: inline-block; width: 0; height: 100%; vertical-align: middle; }
+
+
+
+.hideReport { position: absolute; left: -2000px; height: 0px; }
+
+.showReport { width: 100%; height: 560px; }
+
+.noData_Chart { text-align: center; padding: 40px; font-family: 'Microsoft YaHei'; color: #555555; display: none; }
+
+.divMenu { display: none; position: absolute; border: solid 1px #CFCFCF; width: 120px; line-height: 25px; z-index: 9999; background-color: white; color: #4D5154; font-size: 0.9em; }
+
+.divMenu div:hover { background-color: #0081C2; color: white; }
+
+.iframeStyle { position: absolute; border: 0px; z-index: 80; }
+
+.divSeleted { font-weight: bolder; }
+
+/*报表样式*/
+.baobiaoSetCssIn { background-color: #0080D9	; color: white; font-size: 13px; vertical-align: middle; }
+
+.baobiaoSetCssOut { background-color: white; color: #333333; font-size: 13px; vertical-align: middle; }
+
+.btn-xs2 {
+          font-size: 10px;
+          border-radius: 3px;
+          height:20px;
+          background-color:#337AB7;
+          color:white;
+          padding:2px 5px;
+        }
+
+.MyShadowDiv { /*
+	第一个参数是x轴阴影段长度
+	第二个参数是y轴阴影段长度
+	第三个参数是往四周阴影段长度
+	第四个参数是阴影段颜色
+	*/ box-shadow: 0px 0px 10px #CCCCCC; -moz-box-shadow: 0px 0px 10px #CCCCCC; -webkit-box-shadow: 0px 0px 10px #CCCCCC; /*direction 阴影角度 0°为从下往上 顺时针方向 strength 阴影段长度*/ -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=0, strength=6)\
+                progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=90, strength=6)\
+                progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=180, strength=6)\
+                progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=270, strength=6)"; *filter: progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=0, strength=6) progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=90, strength=6) progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=180, strength=6) progid:DXImageTransform.Microsoft.Shadow(color=#E9E9E9, direction=270, strength=6); }
+
+
+/*微信相关样式*/
+.wx-title { font-family: -apple-system-font,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; margin-bottom: 10px; line-height: 1.4; font-weight: 400; font-size: 24px; margin: 0; padding: 0; } 
+.wx-title-info { font-family: -apple-system-font,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; margin-bottom: 0px; line-height: 20px; font-size: 16px; color: #ABABAB; vertical-align: middle; padding-right: 8px; padding-top: 3px; padding-bottom:
+5px; z-index: 1; } 
+.wx-content { margin: 0 auto; margin: 0; overflow-y: auto; overflow-x: visible; display: block; border: 0; white-space: normal; word-break: break-all; word-wrap: break-word; width: 100%; text-align: left; padding-top: 0px; }
+.wx-a-font4{ font-weight: normal; font-size: 12px; width: 40px; color: #337AB7; }
+
+/*拜访照片预览*/
+.lk-nav-div{ display: block; white-space: nowrap; width: 100%; height: 34px; overflow-x: auto; overflow-y: hidden; }
+.lk-nav { padding-left: 0; margin-bottom: 0; list-style: none; }
+.lk-nav > li { width: auto; height: 32px; margin: 2px; display: inline-block; cursor: pointer; margin-bottom: -5px; font-size: 14px; }
+.lk-nav > li > a { position: relative; display: block; padding: 3px 3px;margin-bottom: -5px; }
+.lk-nav > li > a:hover,
+.lk-nav > li > a:focus { text-decoration: none; background-color: #eee; }
+.lk-nav > li.disabled > a { color: #777; }
+.lk-nav > li.disabled > a:hover,
+.lk-nav > li.disabled > a:focus { color: #777; text-decoration: none; cursor: not-allowed; background-color: transparent; }
+.lk-nav .open > a,
+.lk-nav .open > a:hover,
+.lk-nav .open > a:focus { background-color: #eee; border-color: #337ab7; }
+.lk-nav .lk-nav-divider { height: 1px; margin: 9px 0; overflow: hidden; background-color: #e5e5e5; }
+.lk-nav > li > a > img { max-width: none; }
+.lk-nav-tabs { border-bottom: 1px solid #ddd; }
+.lk-nav-tabs > li { margin-bottom: -1px; }
+.lk-nav-tabs > li > a { margin-right: 2px; line-height: 1.42857143; border: 1px solid transparent; border-radius: 4px 4px 0 0; }
+.lk-nav-tabs > li > a:hover { border-color: #eee #eee #ddd; }
+.lk-nav-tabs > li.active > a,
+.lk-nav-tabs > li.active > a:hover,
+.lk-nav-tabs > li.active > a:focus { color: #555; cursor: default; background-color: #fff; border: 1px solid #ddd; border-bottom-color: transparent; }
+.lk-nav-tabs.lk-nav-justified { width: 100%; border-bottom: 0; }
+.lk-nav-tabs.lk-nav-justified > li { float: none; }
+.lk-nav-tabs.lk-nav-justified > li > a { margin-bottom: 5px; text-align: center; }
+.lk-nav-tabs.lk-nav-justified > .dropdown .dropdown-menu { top: auto; left: auto; }
