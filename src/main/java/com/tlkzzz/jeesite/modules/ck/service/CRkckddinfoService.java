@@ -45,7 +45,6 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	}
 
 	public List<CRkckddinfo> shenhelist(CRkckddinfo cRkckddinfo) {
-
 		return dao.shenhelist(cRkckddinfo);
 	}
 
@@ -57,6 +56,11 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 		cRkckddinfo.setState(state);
 		return dao.shenheruku(cRkckddinfo);
 	}
+
+	public Integer getNotIsspCount(String state){
+		return dao.getNotIsspCount(state);
+	}
+
 	public List<CRkckddinfo> shenheruku( CRkckddinfo cRkckddinfo) {
 		return dao.shenheruku(cRkckddinfo);
 	}
