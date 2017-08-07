@@ -47,4 +47,6 @@ public interface FPaymentDao extends CrudDao<FPayment> {
 	public void minHTJE(FPayment payment);
 
 	public List<FPayment> fyfindList(FPayment payment);
+
+	public List<FPayment> sfFindList(FPayment payment);
 }

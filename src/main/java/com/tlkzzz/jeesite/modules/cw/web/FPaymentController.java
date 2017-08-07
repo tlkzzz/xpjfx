@@ -25,6 +25,8 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.service.FPaymentService;
 
+import java.util.List;
+
 /**
  * 付款Controller
  * @author xrc
@@ -56,6 +58,17 @@ public class FPaymentController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("fPayment", fPayment);
 		return "modules/cw/fPaymentList";
+	}
+
+	@RequiresPermissions("cw:fPayment:view")
+	@RequestMapping(value = {"sflist"})
+	public String sflist(FPayment fPayment, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<FPayment> page = fPaymentService.findPage(new Page<FPayment>(request, response), fPayment);
+		List<FPayment> fPaymentList=fPaymentService.sfFindList(fPayment);
+		model.addAttribute("page", page);
+		model.addAttribute("fPaymentList", fPaymentList);
+		model.addAttribute("fPayment", fPayment);
+		return "modules/cw/shouFList";
 	}
 
 	@RequiresPermissions("cw:fPayment:view")

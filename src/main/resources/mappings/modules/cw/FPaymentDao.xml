@@ -45,6 +45,23 @@
 		<include refid="fPaymentJoins"/>
 		WHERE a.id = #{id}
 	</select>
+	<select id="sfFindList" resultType="FPayment">
+		SELECT fp.*,cs.name as "csName",fa.name as "faName",cr.ddbh as "ddbh",1 as "fybs" FROM f_payment fp
+		LEFT JOIN c_sclass cs ON cs.id=fp.travel_unit
+		LEFT JOIN f_account fa ON fa.bank_code=fp.travel_account
+		LEFT JOIN c_rkckddinfo cr ON cr.id=fp.payment_code
+		<if test="paymentDate != null and paymentDate != ''">
+		WHERE STR_TO_DATE(fp.payment_date,'%Y-%m-%d')=STR_TO_DATE(#{paymentDate},'%Y-%m-%d')
+		</if>
+		UNION ALL
+		SELECT fr.*,cs.name as "csName",fa.name as "faName",cr.ddbh as "ddbh",2 as "fybs" FROM f_receipt fr
+		LEFT JOIN c_sclass cs ON cs.id=fr.travel_unit
+		LEFT JOIN f_account fa ON fa.bank_code=fr.travel_account
+		LEFT JOIN c_rkckddinfo cr ON cr.id=fr.receipt_code
+		<if test="paymentDate != null and paymentDate != ''">
+		WHERE STR_TO_DATE(fr.receipt_date,'%Y-%m-%d') = STR_TO_DATE(#{paymentDate},'%Y-%m-%d')
+		</if>
+	</select>
 
 	<select id="getByPaymentCode" resultType="FPayment">
 		SELECT

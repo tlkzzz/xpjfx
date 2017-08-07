@@ -47,6 +47,10 @@ public class FPaymentService extends CrudService<FPaymentDao, FPayment> {
 		return super.findList(fPayment);
 	}
 
+	public List<FPayment> sfFindList(FPayment fPayment) {
+		return dao.sfFindList(fPayment);
+	}
+
 	public Page<FPayment> findPage(Page<FPayment> page, FPayment fPayment) {
 		return super.findPage(page, fPayment);
 	}
