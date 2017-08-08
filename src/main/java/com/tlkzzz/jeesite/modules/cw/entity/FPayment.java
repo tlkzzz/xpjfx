@@ -197,5 +197,19 @@ public class FPayment extends DataEntity<FPayment> {
 		this.fybs = fybs;
 	}
 
+	public String getCsName() {
+		return csName;
+	}
 
+	public void setCsName(String csName) {
+		this.csName = csName;
+	}
+
+	public String getFaName() {
+		return faName;
+	}
+
+	public void setFaName(String faName) {
+		this.faName = faName;
+	}
 }
