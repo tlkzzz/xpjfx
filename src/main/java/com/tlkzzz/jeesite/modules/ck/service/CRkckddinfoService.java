@@ -82,7 +82,10 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	public Page<CRkckddinfo> findPage(Page<CRkckddinfo> page, CRkckddinfo cRkckddinfo) {
 		return super.findPage(page, cRkckddinfo);
 	}
-	
+	public List<CRkckddinfo> ddywy(CRkckddinfo cRkckddinfo) {
+		return dao.ddywy(cRkckddinfo);
+	}
+
 	@Transactional(readOnly = false)
 	public void saveRkInfo(CRkckddinfo cRkckddinfo, List<CShop> shopList) {
 		if(shopList.size()==0)return;
@@ -157,6 +160,10 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	@Transactional(readOnly = false)
 	public void delete(CRkckddinfo cRkckddinfo) {
 		super.delete(cRkckddinfo);
+	}
+
+	public List<CRkckddinfo> findOrderCodeList(CRkckddinfo cRkckddinfo) {
+		return dao.findOrderCodeList(cRkckddinfo);
 	}
 	
 }

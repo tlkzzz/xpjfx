@@ -77,6 +77,8 @@ public class CRkckddinfoController extends BaseController {
 	private FExpenRecordService fExpenRecordService;
 	@Autowired
 	private  FArrearsService fArrearsService;
+	@Autowired
+	private  CGoodsService cGoodsService;
 
 
 
@@ -527,6 +529,36 @@ public class CRkckddinfoController extends BaseController {
 			return "error/400";
 		}
 	}
+	@RequestMapping(value = "query")
+	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model,String id){
+       if(StringUtils.isNotBlank(id)) {
+		   cRkckddinfo.setCreateBy(new User(id));
+	   }
+		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
+		int cd=page.getList().size();
+		Double  mony=0.0;
+		Double htje=0.0;
+		Double sum =0.0;
+		for(int i=0; i<page.getList().size();i++){
+			cRkckddinfo=page.getList().get(i);
+			htje =(StringUtils.isNotBlank(cRkckddinfo.getHtje()))?Double.parseDouble(cRkckddinfo.getHtje()):0.0;
+			mony=htje;
+			sum=sum+mony;
+		}
+		List<CRkckddinfo> list=cRkckddinfoService.findOrderCodeList(cRkckddinfo);
+		model.addAttribute("list",list);
+		model.addAttribute("houseList",houseService.findList(new CHouse()));
+		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));
+		model.addAttribute("cd",cd);
+//		model.addAttribute("ywycd",ywycd);
+		model.addAttribute("list",list);
+		model.addAttribute("page",page);
+		model.addAttribute("sum",sum);
+		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		return "modules/ck/ckQuery";
+	}
+
+
 
 	/**
 	 * 业务员销售单查询

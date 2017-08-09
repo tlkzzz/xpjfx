@@ -11,15 +11,68 @@
     <script type="text/javascript">
         $(document).ready(function() {
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
+            <c:if test="${not empty cRkckddinfo}">jblist();</c:if>
+            <c:if test="${not empty json}">showGoodsList();</c:if>
         });
+        function  jblist() {
+            if($("#cStore").val()==""){
+
+                message("请选择客户")
+                return;
+            }
+            if($("#createBy").val()==""){
+                message("请选择业务员")
+                return;
+            }
+            if($("#gccreateBy").val()==""){
+                message("请选择跟车配送员")
+                return;
+            }
+            if($("#house").val()==""){
+                message("请选择退入仓库")
+                return;
+            }
+            var cStore = $("#cStore option:selected").text();
+            var createBy = $("#createBy option:selected").text();
+            var gccreateBy = $("#gccreateBy option:selected").text();
+            var house = $("#house option:selected").text();
+            var bz = $("#bz").val();
+            if(cStore!="" || createBy!="" ||gccreateBy!="" ||house!="" ) {
+                $("#aa").text(cStore);
+                $("#bb").text(createBy);
+                $("#gcywy").text(gccreateBy);
+                $("#trck").text(house);
+                $("#zz").text(bz);
+
+                $("#cStorelist").val($("#cStore").val());
+                $("#ywy").val($("#createBy").val());
+                $("#gcy").val($("#gccreateBy").val());
+                $("#houselist").val($("#house").val());
+                $("#bzlist").val($("#bz").val());
+                $(".box5").css("display","none");
+            }else {
+                message("信息填写不完整");
+                return;
+            }
+        }
+        function checkFormInfo() {
+            if($("#cStore").val()==""){message("客户未选择");return false;}
+            if($("#createBy").val()==""){message("业务员未选择");return false;}
+            if($("#gccreateBy").val()==""){message("跟车配送员未选择");return false;}
+            if($("#house").val()==""){message("退入仓库未选择");return false;}
+            var jsonData = $("#jsonData").val();
+            if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
+            return true;
+        }
     </script>
 </head>
 <body>
-
+<input id="ctx" type="hidden" value="${ctx}">
+<input id="ctxStatic" type="hidden" value="${ctxStatic}">
 <div class="box">
     <div style="height: 40px;">
         <ul class="nav nav-tabs">
-            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">退货录单</a></li>
+            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">出库录单</a></li>
         </ul>
     </div>
     <div class="box1">
@@ -27,7 +80,7 @@
         <div class="bb" style="float: left;">
             <ul class="fen1">
                 <c:forEach items="${gClass}" var="gc">
-                <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
+                    <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
                 </c:forEach>
             </ul>
         </div>
@@ -52,26 +105,27 @@
             <table class="biaoti">
                 <tr>
                     <td>基本信息</td>
-                    <td style="text-align: right;font-size: 12px;color:#678AF9;">编辑</td>
+                    <td style="text-align: right;font-size: 12px;color:#678AF9;" onclick="$('.box5').css('display','block')">编辑</td>
                 </tr>
             </table>
-            <div style="padding: 0px;
-		height: 60px;
-		overflow: auto;">
+            <div style="padding: 0px;height: 60px;overflow: auto;">
                 <table class="panel-body">
                     <tbody>
                     <tr>
-                        <td>进货仓库：</td>
-                        <td>北区(李海生)仓库</td>
-                        <td>供 应 商：</td>
-                        <td>abd榴莲饼厂</td>
+                        <td>客户:</td>
+                        <td id="aa"></td>
+                        <td>业务员：</td>
+                        <td id="bb"></td>
+                    </tr>
+                    <tr>
+                        <td>跟车配送员:</td>
+                        <td id="gcywy"></td>
+                        <td>退入仓库：</td>
+                        <td id="trck"></td>
                     </tr>
                     <tr>
                         <td>备  注：</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>备  注：</td>
+                        <td id="zz"></td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -83,8 +137,8 @@
             <div class="input-group">
                 <div class="input-group-addon" style="padding: 6px 0;"><span>商品</span></div>
                 <input id="goodsName" type="text" readonly="true" class="shuru" style="padding: 6px 0;width: 250px;">
-                <input id="goodsId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
-                <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" style="margin: 0 auto;"></span>
+                <input id="goodsId" type="hidden"><input id="cdId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
+                <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" onclick="clearDate()" style="margin: 0 auto;"></span>
                 <div class="clearfix"></div>
             </div>
             <!--规格型号-->
@@ -107,7 +161,7 @@
                 <div class="input-group-1" style="float: right;width: 40%;padding: 0.2% 0; border: 1px solid #d3d3d3;">
                     <div class="jian" onclick="zongNumChange(parseInt($('#zongNum').val())-1)" style="margin-top: -1px;">-</div>
                     <div style="margin-top: -2px;float: left;">
-                    <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
+                        <input id="zongNum" onchange="zongNumChange($(this).val())" type="text" style="width: 54px;padding: 1px 0;margin-top: 1px;"></div>
                     <div class="xiang zongUnit" style="width: 25px;height: 20px;margin-top: -1px;"></div>
                     <div class="jia" onclick="zongNumChange(parseInt($('#zongNum').val())+1)" style="margin-top: -1px;">+</div>
                     <div class="clearfix"></div>
@@ -156,8 +210,8 @@
             </div>
             <!--添加按钮-->
             <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0">
-                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),
-                ($('#specName').val().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
+                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#cdId').val(),$('#goodsId').val(),$('#orderNum').val(),
+                ($('#specName').text().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
             </div>
         </div>
     </div>
@@ -171,56 +225,122 @@
         <div class="bb" style="height: 430px;">
             <table class="list" cellspacing="0" cellpadding="0" style="border-bottom: 1px solid #d3d3d3;">
                 <thead class="list_bt" style="border-bottom: 1px solid;">
-                    <td colspan="2" style="width: 90px;">商品</td>
-                    <td>数量</td>
-                    <td>单价(元)</td>
-                    <td>金额(元)</td>
-                    <td style="color: #678AF9">清空</td>
+                <td colspan="2" style="width: 90px;">商品</td>
+                <td>数量</td>
+                <td>单价(元)</td>
+                <td>金额(元)</td>
+                <td style="color: #678AF9" onclick="deleteAllGoods()">清空</td>
                 </thead>
                 <%--添加商品列表--%>
             </table>
             <div style="width: 100%;">
                 <div class="xiaozi" style="float: left;"><%--大： 1  中： 1  小： 1--%></div>
-                <div class="xiaozi" style="text-align: right;float: right;">共 1 条，118.30元</div>
+                <div class="xiaozi" style="text-align: right;float: right;" id="totalInfo">共 0 条，0元</div>
                 <div class="clearfix"></div>
             </div>
         </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
-            <input type="hidden" id="goodsData">
-            <form id="saveForm" action="">
-                <input type="hidden" id="jsonData" name="jsonData">
-                <input type="button" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
+            <input type="hidden" id="goodsData" value='${goodsJSON}'>
+            <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
+                <input type="hidden" name="pageName" value="ckOrder">
+                <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
+                <input type="hidden" id="cStorelist" name="cStore.id">
+                <input type="hidden" id="ywy" name="createBy">
+                <input type="hidden" id="gcy" name="createBy">
+                <input type="hidden" id="houselist" name="cHouse.id">
+                <input type="hidden" id="bzlist" name="remarks">
+                <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
+                <input type="hidden" name="lx" value="0">
+                <input type="hidden" name="state" value="1">
+                <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
     </div>
-    <%--<div class="box5">
+    <div class="box5">
         <div class="box5_bt">
             <div class="jiben" style="text-align: center;">
                 <span style="font-size: 22px; font-weight: bold; letter-spacing: 4px;">基本信息</span>
             </div>
             <div class="input_g">
-                <div class="width"><span style="color: red;">*</span> 进货仓库</div>
-                <div class="shu"><input type="text"  style="width: 412px"></div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
+                <div class="width"><span style="color: red;">*</span> 客户</div>
+                <div class="shu">
+                    <select class="shu" id="cStore">
+                        <option value="">请选择</option>
+                        <c:forEach items="${cStorelist}" var="cStore">
+                            <option value="${cStore.id}">${cStore.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#house').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
-            <div class="input_g">
-                <div class="width"><span style="color: red;">*</span> 供  应  商</div>
-                <div class="shu"><input type="text" style="width: 412px"></div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png"></div>
-                <p class="clearfix"></p>
+        <div class="input_g">
+            <div class="width"><span style="color: red;">*</span> 业务员</div>
+            <div class="shu">
+                <select class="shu" id="createBy">
+                    <option value="">请选择</option>
+                    <c:forEach items="${name}" var="createBy">
+                        <option value="${createBy}">${name}</option>
+                    </c:forEach>
+                </select>
             </div>
+            <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#createBy').val('')"> </div>
+            <p class="clearfix"></p>
+        </div>
+        <div class="input_g">
+            <div class="width"><span style="color: red;">*</span> 跟车配送员</div>
+            <div class="shu">
+                <select class="shu" id="gccreateBy">
+                    <option value="">请选择</option>
+                    <c:forEach items="${name}" var="createBy">
+                        <option value="${createBy}">${name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#createBy').val('')"> </div>
+            <p class="clearfix"></p>
+        </div>
+        <div class="input_g">
+            <div class="width">退入仓库</div>
+            <div class="shu">
+                <select class="shu"  id="house">
+                    <option value="">请选择</option>
+                    <c:forEach items="${houseList}" var="house">
+                        <option value="${house.id}">${house.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#house').val('')"> </div>
+            <p class="clearfix"></p>
+        </div>
             <div class="input_g">
                 <div class="width">备注</div>
-                <div class="shu"><input type="text" style="width: 450px"></div>
+                <div class="shu"><input id="bz" type="text"  style="width: 426px;padding: 11px;" value="${cRkckddinfo.remarks}"></div>
+                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#bz').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
             <div class="anniu">
-                <input type="button" value="确  定">
+                <input type="button" onclick="jblist()"  value="确  定">
             </div>
+            <div style="text-align: left; width: 555px;padding: 8px 0;box-sizing: border-box; margin: 0 auto 20px;border: 1px solid #d3d3d3;border-radius: 4px;">
+                <table class="lk-tips">
+                    <tbody><tr>
+                        <td>
+                            <img src="${ctxStatic}/images/小云提示.png" alt="小云提示" title="小云提示">
+                        </td>
+                        <td>
+                            <ul style="margin-left: 10px;">
+                                <li style="list-style: inside;margin-bottom: 20px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">入库即商品采购回来之后进行接收和验收入库，在将商品入库的同时进行支付，从而实现物流和资金流的同步处理。</li>
+                                <li style="list-style: inside;margin-bottom: 20px;padding-bottom: 10px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">若找不到入库仓库，请在【资料】-【仓库档案】中查看用户是否具有该仓库的操作权限。</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </div>
+            <div class="clearfix"></div>
         </div>
         <div tabindex="0" class="xx"></div>
-    </div>--%>
+    </div>
 </div>
 </body>
 </html>

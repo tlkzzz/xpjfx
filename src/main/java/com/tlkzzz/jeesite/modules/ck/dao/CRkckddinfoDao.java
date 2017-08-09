@@ -59,4 +59,13 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
      * shizx APP分页查询
      * */
     public List<CRkckddinfo> ywyfindList(CRkckddinfo cRkckddinfo);
+
+    /**
+     * 查询当前登录的业务员的销售额
+     * @param cRkckddinfo
+     * @return
+     */
+    public List<CRkckddinfo> ddywy(CRkckddinfo cRkckddinfo);
+
+    public List<CRkckddinfo> findOrderCodeList(CRkckddinfo cRkckddinfo);
 }
