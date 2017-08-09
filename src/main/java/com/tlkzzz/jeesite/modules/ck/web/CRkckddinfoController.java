@@ -498,6 +498,125 @@ public class CRkckddinfoController extends BaseController {
 	}
 
 
+
+	/**
+	 * 销售出库审核接口
+	 * **/
+	@ResponseBody
+	@RequestMapping(value = "xsckSh")
+	public String xsckSh(String zddId,String lwzh,String skzh,String skfs){//总订单ID 来往单位账户 收款账户 收款方式
+		String biaoshi="";
+		//通过总订单ID 获取订单信息
+		CRkckddinfo cRkckddinfo=new CRkckddinfo(zddId);//总订单
+		FDiscount fDiscount=new FDiscount();//new优惠记录表对象
+		fDiscount.preInsert();
+		CDdinfo cDdinfo=new CDdinfo();//new 子订单
+		cDdinfo.setRkckddinfo(new CRkckddinfo(zddId));//set父级订单ID
+		List<CDdinfo> cDdinfoList=new ArrayList<CDdinfo>();//new 子订单对象
+		FReceipt fReceipt=new FReceipt();//new 收款表对象
+		fReceipt.preInsert();
+		FIncomeRecord fIncomeRecord=new FIncomeRecord();//new 收款记录表对象
+		fIncomeRecord.preInsert();
+		FAccount fAccount=new FAccount();//new 账户对象
+		FAccount fAccounttwo=new FAccount();//new 账户对象
+		List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.findList(cRkckddinfo);//获取总订单信息
+		Double htje=Double.parseDouble(cRkckddinfoList.get(0).getHtje());//获取总订单合同金额
+		Double sjje=Double.parseDouble(cRkckddinfoList.get(0).getSjje());//获取总订单实际金额
+		Double yhje=htje-sjje;
+		fDiscount.setStore(new CStore(cRkckddinfoList.get(0).getStore().getId()));//set客户ID
+		fDiscount.setDdid(new CRkckddinfo(zddId));//set总订单ID
+		if(yhje!=0){//判断总订单中是否存在优惠 存在
+			//增加优惠记录
+			fDiscount.setYhje(yhje.toString());//set优惠金额
+			fDiscount.setLx("1");//set优惠状态，总体抹零
+			//--------------------------调用优惠记录保存方法
+		}else{//判断总订单中是否存在优惠 不存在
+			if(cRkckddinfoList.get(0).getIssp().equals("0")) {//判断审批状态为0未审核
+				if (cRkckddinfoList.get(0).getLx().equals("1")) {//判断状态为1出库
+					cDdinfoList=cDdinfoService.findList(cDdinfo);//查询子订单集合
+					if (cRkckddinfoList.get(0).getState().equals("5")) {//判断状态为5退货录单
+						biaoshi="5";
+//					收款表添加
+
+						fReceipt.setReceiptDate(new Date());//set 收款时间
+						fReceipt.setReceiptCode(zddId);//set 收据编号
+						fReceipt.setTravelUnit(new CStore(cRkckddinfoList.get(0).getSupplier().getId()));//set 来往单位
+						fReceipt.setTravelAccount(lwzh);//set 来往账户
+						fReceipt.setReceiptAccount(skzh);//set收款账户
+						fReceipt.setJe(cRkckddinfoList.get(0).getSjje());//set 收款金额
+						fReceipt.setReceiptType("5");//set 类型5退货录单   9预售录单
+						fReceipt.setReceiptMode(skfs);//set 收款方式 现金  银行卡
+						fReceipt.setJsr(new User(UserUtils.getUser().getId()));//set 经手人
+						fReceipt.setApprovalStatus("1");//set 审批状态1已审批
+						//----------------------------调用收款账户保存方法
+
+						//    收款记录表添加
+
+						fIncomeRecord.setOrderId(zddId);
+						fIncomeRecord.setIncomeAccount(skzh);
+						fIncomeRecord.setTraverAccount(lwzh);
+						fIncomeRecord.setIncomeMoney(cRkckddinfoList.get(0).getSjje());
+						fIncomeRecord.setIncomeDate(new Date());
+						fIncomeRecord.setJsr(UserUtils.getUser().getId());
+						fIncomeRecord.setIncomeMode("5");
+						fIncomeRecord.setIncomeType(skfs);
+						//--------------------------调用收款记录表保存方法
+
+						//账户表余额减少f_account
+
+						fAccount.setId(skzh);
+						fAccount.setAccountBalance(cRkckddinfoList.get(0).getSjje());
+						//------------------调用账户增加方法
+
+						fAccounttwo.setId(lwzh);
+						fAccounttwo.setAccountBalance(cRkckddinfoList.get(0).getSjje());
+						//------------------调用账户减少方法
+					} else if (cRkckddinfoList.get(0).getState().equals("9")) {//判断状态为9预收录单
+						biaoshi="9";
+						//					收款表添加
+
+						fReceipt.setReceiptDate(new Date());//set 收款时间
+						fReceipt.setReceiptCode(zddId);//set 收据编号
+						fReceipt.setTravelUnit(new CStore(cRkckddinfoList.get(0).getStore().getId()));//set 来往单位
+						fReceipt.setTravelAccount(lwzh);//set 来往账户
+						fReceipt.setReceiptAccount(skzh);//set收款账户
+						fReceipt.setJe(cRkckddinfoList.get(0).getSjje());//set 收款金额
+						fReceipt.setReceiptType("9");//set 类型5退货录单   9预售录单
+						fReceipt.setReceiptMode(skfs);//set 收款方式 现金  银行卡
+						fReceipt.setJsr(new User(UserUtils.getUser().getId()));//set 经手人
+						fReceipt.setApprovalStatus("1");//set 审批状态1已审批
+						//----------------------------调用收款账户保存方法
+
+						//    收款记录表添加
+
+						fIncomeRecord.setOrderId(zddId);
+						fIncomeRecord.setIncomeAccount(skzh);
+						fIncomeRecord.setTraverAccount(lwzh);
+						fIncomeRecord.setIncomeMoney(cRkckddinfoList.get(0).getSjje());
+						fIncomeRecord.setIncomeDate(new Date());
+						fIncomeRecord.setJsr(UserUtils.getUser().getId());
+						fIncomeRecord.setIncomeMode("9");
+						fIncomeRecord.setIncomeType(skfs);
+						//--------------------------调用收款记录表保存方法
+
+						//账户表余额减少f_account
+
+						fAccount.setId(skzh);
+						fAccount.setAccountBalance(cRkckddinfoList.get(0).getSjje());
+						//------------------调用账户增加方法
+
+						fAccounttwo.setId(lwzh);
+						fAccounttwo.setAccountBalance(cRkckddinfoList.get(0).getSjje());
+						//------------------调用账户减少方法
+					}
+				}
+			}
+		}
+
+		cRkckddinfoService.saveInfo(cRkckddinfo,fDiscount,cDdinfoList,fReceipt,fIncomeRecord,fAccount,fAccounttwo,biaoshi);
+		return "true";
+	}
+
 	/**		新版出库入库方法结束		**/
 
 	@RequiresPermissions("ck:cCkinfo:view")

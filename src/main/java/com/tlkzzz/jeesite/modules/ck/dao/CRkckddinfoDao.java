@@ -60,6 +60,12 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
      * */
     public List<CRkckddinfo> ywyfindList(CRkckddinfo cRkckddinfo);
 
+
+    /**
+     * shizx 更新状态updateIssp
+     * */
+    public void updateIssp(CRkckddinfo cRkckddinfo);
+
     /**
      * 查询当前登录的业务员的销售额
      * @param cRkckddinfo

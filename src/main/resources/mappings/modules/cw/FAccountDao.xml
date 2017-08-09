@@ -132,6 +132,18 @@
 			 subject_id= #{subject.id}
 		WHERE id = #{id}
 	</update>
+
+	<update id="BalanceAdd">
+		UPDATE f_account SET
+		account_balance = account_balance-#{accountBalance},
+		WHERE id = #{id}
+	</update>
+
+	<update id="Balancejs">
+		UPDATE f_account SET
+		account_balance = account_balance+#{accountBalance},
+		WHERE id = #{id}
+	</update>
 	
 	<update id="delete">
 		DELETE FROM f_account

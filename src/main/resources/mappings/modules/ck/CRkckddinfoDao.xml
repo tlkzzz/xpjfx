@@ -333,6 +333,12 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="updateIssp">
+		UPDATE c_rkckddinfo SET
+		issp = #{issp}
+		WHERE id = #{id}
+	</update>
+
 	<update id="updateRemark">
 		UPDATE c_rkckddinfo SET
 			remarks = #{remarks}

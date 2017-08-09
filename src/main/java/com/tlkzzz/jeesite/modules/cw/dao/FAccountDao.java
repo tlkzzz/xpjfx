@@ -17,4 +17,8 @@ public interface FAccountDao extends CrudDao<FAccount> {
 	public FAccount capitalHtje(FAccount fAccount);
 
 	public void syjeUpdate(FAccount fAccount);
+
+	public void BalanceAdd(FAccount fAccount);
+
+	public void Balancejs(FAccount fAccount);
 }

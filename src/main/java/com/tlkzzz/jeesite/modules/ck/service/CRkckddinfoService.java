@@ -7,10 +7,22 @@ import java.util.Date;
 import java.util.List;
 
 import com.tlkzzz.jeesite.common.utils.IdGen;
+import com.tlkzzz.jeesite.common.utils.StringUtils;
+import com.tlkzzz.jeesite.modules.ck.dao.CCkinfoDao;
 import com.tlkzzz.jeesite.modules.ck.dao.CGoodsDao;
-import com.tlkzzz.jeesite.modules.ck.entity.CDdinfo;
-import com.tlkzzz.jeesite.modules.ck.entity.CGoods;
-import com.tlkzzz.jeesite.modules.ck.entity.CShop;
+import com.tlkzzz.jeesite.modules.ck.dao.CHgoodsDao;
+import com.tlkzzz.jeesite.modules.ck.entity.*;
+import com.tlkzzz.jeesite.modules.cw.dao.FAccountDao;
+import com.tlkzzz.jeesite.modules.cw.dao.FDiscountDao;
+import com.tlkzzz.jeesite.modules.cw.dao.FIncomeRecordDao;
+import com.tlkzzz.jeesite.modules.cw.dao.FReceiptDao;
+import com.tlkzzz.jeesite.modules.cw.entity.FAccount;
+import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
+import com.tlkzzz.jeesite.modules.cw.entity.FIncomeRecord;
+import com.tlkzzz.jeesite.modules.cw.entity.FReceipt;
+import com.tlkzzz.jeesite.modules.cw.service.FDiscountService;
+import com.tlkzzz.jeesite.modules.sys.entity.User;
+import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tlkzzz.jeesite.common.persistence.Page;
 import com.tlkzzz.jeesite.common.service.CrudService;
-import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
 import com.tlkzzz.jeesite.modules.ck.dao.CRkckddinfoDao;
 
 /**
@@ -34,7 +45,19 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	@Autowired
 	private CDdinfoService cDdinfoService;
 	@Autowired
+	private FDiscountDao fDiscountDao;
+	@Autowired
 	private CGoodsDao cGoodsDao;
+	@Autowired
+	private FReceiptDao fReceiptDao;
+	@Autowired
+	private FIncomeRecordDao fIncomeRecordDao;
+	@Autowired
+	private FAccountDao fAccountDao;
+	@Autowired
+	private CHgoodsDao cHgoodsDao;
+	@Autowired
+	private CCkinfoDao cCkinfoDao;
 
 	public CRkckddinfo get(String id) {
 		return super.get(id);
@@ -165,5 +188,80 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	public List<CRkckddinfo> findOrderCodeList(CRkckddinfo cRkckddinfo) {
 		return dao.findOrderCodeList(cRkckddinfo);
 	}
-	
+
+
+	/**
+	 * shizx 2017/08/08
+	 * 销售出库审批方法
+	 * */
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
+	public void saveInfo(CRkckddinfo cRkckddinfo, FDiscount fDiscount, List<CDdinfo> cDdinfoList,
+						 FReceipt fReceipt, FIncomeRecord fIncomeRecord, FAccount fAccount,
+						 FAccount fAccounttwo,String biaoshi){
+		if(cRkckddinfo!=null){
+			cRkckddinfo.setIssp("1");
+			dao.updateIssp(cRkckddinfo);
+		}
+		if(fReceipt!=null){
+			fReceiptDao.insert(fReceipt);
+		}
+		if(fIncomeRecord!=null){
+			fIncomeRecordDao.insert(fIncomeRecord);
+		}
+		if(fAccount!=null){
+			fAccountDao.BalanceAdd(fAccount);
+		}
+		if(fAccounttwo!=null){
+			fAccountDao.Balancejs(fAccount);
+		}
+		Double zh=0.0;
+		if(cDdinfoList.size()>0){
+			for (int i = 0; i < cDdinfoList.size(); i++) {//遍历子订单集合
+			//库存表减少
+			CHgoods cHgoods=new CHgoods();//new  库存对象
+			cHgoods.setGoods(new CGoods(cDdinfoList.get(i).getGoods().getId()));//set商品ID
+			cHgoods.setHouse(new CHouse(cDdinfoList.get(i).getHouse().getId()));//set仓库ID
+			cHgoods.setNub(cDdinfoList.get(i).getNub());
+			//-----------------调用库存增加减少方法
+			cHgoodsDao.minStock(cHgoods);
+
+			Double yhje=Double.parseDouble(cDdinfoList.get(i).getYhje());
+			zh+=yhje;//子订单优惠金额
+				/**
+				 * 出库记录预留
+				 * */
+				if(StringUtils.isNotBlank(biaoshi)){
+					CCkinfo cCkinfo=new CCkinfo();
+					cCkinfo.preInsert();
+					cCkinfo.setJe(cDdinfoList.get(i).getSjje());
+					cCkinfo.setCkqcbj(cDdinfoList.get(i).getRksjcbj());
+					cCkinfo.setCkhcbj(cDdinfoList.get(i).getRksjcbj());
+					cCkinfo.setNub(cDdinfoList.get(i).getNub());
+					cCkinfo.setGoods(new CGoods(cDdinfoList.get(i).getGoods().getId()));
+					cCkinfo.setHouse(new CHouse(cDdinfoList.get(i).getHouse().getId()));
+					cCkinfo.setCkdate(cDdinfoList.get(i).getRkckdate());
+					cCkinfo.setJsr(new User(UserUtils.getUser().getId()));
+					cCkinfo.setDdinfo(new CDdinfo(cDdinfoList.get(i).getId()));
+					cCkinfo.setIssp("1");
+					if(biaoshi.equals("5")){
+						cCkinfo.setSupplier(new CSupplier(cDdinfoList.get(i).getSupplier().getId()));
+						cCkinfo.setState("1");
+					}else{
+						cCkinfo.setStore(new CStore(cDdinfoList.get(i).getStore().getId()));
+						cCkinfo.setState("4");
+					}
+					cCkinfoDao.insert(cCkinfo);
+				}
+
+		}
+		}
+		if(StringUtils.isNotBlank(fDiscount.getYhje())){
+			fDiscountDao.insert(fDiscount);
+		}else{
+			fDiscount.setYhje(zh.toString());
+			fDiscount.setLx("0");
+			fDiscountDao.insert(fDiscount);
+		}
+	}
+
 }
