@@ -11,6 +11,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
+            <c:if test="${not empty cRkckddinfo}">jblist();</c:if>
+            <c:if test="${not empty json}">showGoodsList();</c:if>
         });
         function  jblist() {
             if($("#supplier").val()==""){
@@ -36,13 +38,6 @@
                 message("信息填写不完整");
                 return;
             }
-        }
-        function checkFormInfo() {
-            if($("#supplierlist").val()==""){message("供应商未选择");return false;}
-            if($("#houselist").val()==""){message("仓库未选择");return false;}
-            var jsonData = $("#jsonData").val();
-            if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
-            return true;
         }
     </script>
 </head>
@@ -80,38 +75,38 @@
         </div>
         <div class="bb"><%--商品内容列表--%></div>
     </div>
-    <div class="box3">
-        <div class="panel-heading">
-            <table class="biaoti">
+    <  <div class="box3">
+    <div class="panel-heading">
+        <table class="biaoti">
+            <tr>
+                <td>基本信息</td>
+                <td style="text-align: right;font-size: 12px;color:#678AF9;" onclick="$('.box5').css('display','block')">编辑</td>
+            </tr>
+        </table>
+        <div style="padding: 0px;height: 60px;overflow: auto;">
+            <table class="panel-body">
+                <tbody>
                 <tr>
-                    <td>基本信息</td>
-                    <td style="text-align: right;font-size: 12px;color:#678AF9;" onclick="$('.box5').css('display','block')">编辑</td>
+                    <td>进货仓库:</td>
+                    <td id="aa"></td>
+                    <td>供 应 商：</td>
+                    <td id="bb"></td>
                 </tr>
+                <tr>
+                    <td>备  注：</td>
+                    <td id="zz"></td>
+                    <td></td>
+                </tr>
+                </tbody>
             </table>
-            <div style="padding: 0px;height: 60px;overflow: auto;">
-                <table class="panel-body">
-                    <tbody>
-                    <tr>
-                        <td>进货仓库:</td>
-                        <td id="aa"></td>
-                        <td>供 应 商：</td>
-                        <td id="bb"></td>
-                    </tr>
-                    <tr>
-                        <td>备  注：</td>
-                        <td id="zz"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
+    </div>
         <div class="shangpin">
             <!--商品-->
             <div class="input-group">
                 <div class="input-group-addon" style="padding: 6px 0;"><span>商品</span></div>
                 <input id="goodsName" type="text" readonly="true" class="shuru" style="padding: 6px 0;width: 250px;">
-                <input id="goodsId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
+                <input id="goodsId" type="hidden"><input id="cdId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
                 <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" onclick="clearDate()" style="margin: 0 auto;"></span>
                 <div class="clearfix"></div>
             </div>
@@ -179,12 +174,12 @@
             <!--备注-->
             <div class="input-group" style="margin-top: 2%;">
                 <div class="input-group-addon"><span>备注</span></div>
-                <div class="shu"><input id="bz" type="text"  style="width: 426px;padding: 11px;"></div>
+                <input id="orderRemark" type="text" class="shuru" style="padding: 2px 0;width: 285px;">
                 <div class="clearfix"></div>
             </div>
             <!--添加按钮-->
             <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0">
-                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),
+                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#cdId').val(),$('#goodsId').val(),$('#orderNum').val(),
                 ($('#specName').text().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
             </div>
         </div>
@@ -214,12 +209,14 @@
             </div>
         </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
-            <input type="hidden" id="goodsData">
+            <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
+                <input type="hidden" name="pageName" value="jhthOrder">
+                <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
                 <input type="hidden" id="supplierlist" name="supplier.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="bzlist" name="remarks">
-                <input type="hidden" id="jsonData" name="jsonData">
+                <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
                 <input type="hidden" name="lx" value="0">
                 <input type="hidden" name="state" value="1">
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">

@@ -92,6 +92,16 @@
 	</choose>
 </select>
 
+	<select id="findOrderCodeList" resultType="CRkckddinfo">
+		SELECT
+		a.create_by AS "createBy.id",
+		sut.name AS "createBy.name",
+		a.del_flag AS "delFlag"
+		FROM c_rkckddinfo a
+		LEFT JOIN sys_user sut ON sut.id=a.create_by
+		GROUP BY a.create_by
+	</select>
+
 	<select id="findList" resultType="CRkckddinfo">
 		SELECT 
 			<include refid="cRkckddinfoColumns"/>
@@ -99,6 +109,54 @@
 		<include refid="cRkckddinfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ddbh != null and ddbh != ''">
+				AND a.ddbh = #{ddbh}
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
+			<if test="cHouse != null and cHouse.id != null and cHouse.id != ''">
+				AND a.cHouse = #{cHouse.id}
+			</if>
+			<if test="lx != null and lx != ''">
+				AND a.lx = #{lx}
+			</if>
+			<if	test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="issp != null and	issp != ''">
+				AND a.issp= #{issp}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND a.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt; #{endDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="ddywy" resultType="CRkckddinfo">
+		SELECT
+		<include refid="cRkckddinfoColumns"/>
+		FROM c_rkckddinfo a
+		<include refid="cRkckddinfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
 			<if test="ddbh != null and ddbh != ''">
 				AND a.ddbh = #{ddbh}
 			</if>
@@ -272,6 +330,12 @@
 	<update id="updateJe">
 		UPDATE c_rkckddinfo SET
 			je = #{je}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateIssp">
+		UPDATE c_rkckddinfo SET
+		issp = #{issp}
 		WHERE id = #{id}
 	</update>
 

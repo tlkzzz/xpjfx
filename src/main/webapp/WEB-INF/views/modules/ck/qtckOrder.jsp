@@ -11,6 +11,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             getGclass('${gClass[0].id}',$(".box1 .fen1 .xixi:first"));
+            <c:if test="${not empty cRkckddinfo}">jblist();</c:if>
+            <c:if test="${not empty json}">showGoodsList();</c:if>
         });
         function  jblist() {
             if($("#cStore").val()==""){
@@ -60,7 +62,7 @@
 <div class="box">
     <div style="height: 40px;">
         <ul class="nav nav-tabs">
-            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">进货退货</a></li>
+            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">其他出库</a></li>
         </ul>
     </div>
     <div class="box1">
@@ -120,7 +122,7 @@
             <div class="input-group">
                 <div class="input-group-addon" style="padding: 6px 0;"><span>商品</span></div>
                 <input id="goodsName" type="text" readonly="true" class="shuru" style="padding: 6px 0;width: 250px;">
-                <input id="goodsId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
+                <input id="goodsId" type="hidden"><input id="cdId" type="hidden"><input id="orderNum" type="hidden"><input id="orderGoods" type="hidden"><%--商品ID/订单数量/商品信息--%>
                 <span class="input-group-addon2"><img src="${ctxStatic}/images/shanchu.png" onclick="clearDate()" style="margin: 0 auto;"></span>
                 <div class="clearfix"></div>
             </div>
@@ -193,7 +195,7 @@
             </div>
             <!--添加按钮-->
             <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0">
-                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#goodsId').val(),$('#orderNum').val(),
+                <input type="button" style="background-color: #499B5A;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" onclick="addGoods($('#cdId').val(),$('#goodsId').val(),$('#orderNum').val(),
                 ($('#specName').text().split('*').length>2)?$('#smallPrice').val():$('#zongPrice').val(),$('#orderRemark').val())" value="添  加">
             </div>
         </div>
@@ -223,13 +225,15 @@
             </div>
         </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
-            <input type="hidden" id="goodsData">
+            <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
+                <input type="hidden" name="pageName" value="qtckOrder">
+                <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
                 <input type="hidden" id="cStorelist" name="cStore.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="namelist" name="createBy">
-                <input type="hidden" id="jsonData" name="jsonData">
+                <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
                 <input type="hidden" name="lx" value="0">
                 <input type="hidden" name="state" value="1">
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">

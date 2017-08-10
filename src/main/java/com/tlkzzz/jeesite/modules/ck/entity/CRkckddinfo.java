@@ -35,6 +35,8 @@ public class CRkckddinfo extends DataEntity<CRkckddinfo> {
 	private CHouse cHouse;	//仓库信息
 	private FPayment fPayment;//付款信息
 
+
+
 	private CSupplier supplier;		// 供应商	//新增字段，出库入库填写信息 子订单信息从这里关联查询到
 	private CStore store;		// 客户
 	private Date rkckdate;		// 入库出库时间(就是审批时间)
