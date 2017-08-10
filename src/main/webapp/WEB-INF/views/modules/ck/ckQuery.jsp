@@ -161,7 +161,7 @@
                 <div style="width: 280px; background-color: white;">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav_pt5" role="tablist" style="width: 270px;">
-                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;0&#39;}" ng-click="selectType(&#39;0&#39;)" class="active"><a>业务员</a></li>
+                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;0&#39;}" ng-click="selectType(&#39;0&#39;)" class="active"><a>业务员11</a></li>
                         <li ng-class="{&#39;active&#39;:jbxx.type == &#39;2&#39;}" ng-click="selectType(&#39;2&#39;)"><a>客户</a></li>
                     </ul>
                     <!-- 左边合计表格 -->

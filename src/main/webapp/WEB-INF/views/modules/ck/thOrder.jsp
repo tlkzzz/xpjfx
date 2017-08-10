@@ -113,19 +113,19 @@
                     <tbody>
                     <tr>
                         <td>客户:</td>
-                        <td id="aa"></td>
+                        <td id="aa">${cRkckddinfo.store.name}</td>
                         <td>业务员：</td>
-                        <td id="bb"></td>
+                        <td id="bb">${cRkckddinfo.createBy}</td>
                     </tr>
                     <tr>
                         <td>跟车配送员:</td>
-                        <td id="gcywy"></td>
+                        <td id="gcywy">${cRkckddinfo.createBy}</td>
                         <td>退入仓库：</td>
-                        <td id="trck"></td>
+                        <td id="trck">${cRkckddinfo.cHouse.name}</td>
                     </tr>
                     <tr>
                         <td>备  注：</td>
-                        <td id="zz"></td>
+                        <td id="zz">${cRkckddinfo.remarks}</td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -242,7 +242,7 @@
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
-                <input type="hidden" name="pageName" value="ckOrder">
+                <input type="hidden" name="pageName" value="thOrder">
                 <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
                 <input type="hidden" id="cStorelist" name="cStore.id">
                 <input type="hidden" id="ywy" name="createBy">
@@ -251,7 +251,7 @@
                 <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
                 <input type="hidden" name="lx" value="0">
-                <input type="hidden" name="state" value="1">
+                <input type="hidden" name="state" value="5">
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
@@ -267,7 +267,7 @@
                     <select class="shu" id="cStore">
                         <option value="">请选择</option>
                         <c:forEach items="${cStorelist}" var="cStore">
-                            <option value="${cStore.id}">${cStore.name}</option>
+                            <option value="${cStore.id}" <c:if test="${cRkckddinfo.cStore.id eq cStore.id}">selected="selected"</c:if>>${cStore.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -306,7 +306,7 @@
                 <select class="shu"  id="house">
                     <option value="">请选择</option>
                     <c:forEach items="${houseList}" var="house">
-                        <option value="${house.id}">${house.name}</option>
+                        <option value="${house.id}" <c:if test="${cRkckddinfo.cHouse.id eq house.id}">selected="selected"</c:if>>${house.name} </option>
                     </c:forEach>
                 </select>
             </div>

@@ -95,13 +95,13 @@
                     <tbody>
                     <tr>
                         <td>入库出库:</td>
-                        <td id="aa"></td>
+                        <td id="aa">${cRkckddinfo.cHouse.name}</td>
                         <td>供 应 商：</td>
-                        <td id="bb"></td>
+                        <td id="bb">${cRkckddinfo.supplier.name}</td>
                     </tr>
                     <tr>
                         <td>备  注：</td>
-                        <td id="zz"></td>
+                        <td id="zz">${cRkckddinfo.remarks}</td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -241,7 +241,7 @@
                     <select class="shu"  id="house">
                         <option value="" />请选择</option>
                         <c:forEach items="${houseList}" var="house">
-                            <option value="${house.id}">${house.name} </option>
+                            <option value="${house.id}" <c:if test="${cRkckddinfo.cHouse.id eq house.id}">selected="selected"</c:if>>${house.name} </option>
                         </c:forEach>
                     </select>
                 </div>
@@ -254,7 +254,7 @@
                     <select class="shu" id="supplier" >
                         <option value=""/>请选择</option>
                         <c:forEach items="${supplierList}" var="supplier">
-                            <option value="${supplier.id}">${supplier.name}</option>
+                            <option value="${supplier.id}"<c:if test="${cRkckddinfo.supplier.id eq supplier.id}">selected="selected"</c:if>>${supplier.name}</option>
                         </c:forEach>
                     </select>
                 </div>

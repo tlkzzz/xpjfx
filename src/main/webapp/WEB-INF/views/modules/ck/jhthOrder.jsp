@@ -88,13 +88,13 @@
                 <tbody>
                 <tr>
                     <td>进货仓库:</td>
-                    <td id="aa"></td>
+                    <td id="aa">${cRkckddinfo.cHouse.name}</td>
                     <td>供 应 商：</td>
-                    <td id="bb"></td>
+                    <td id="bb">${cRkckddinfo.supplier.name}</td>
                 </tr>
                 <tr>
                     <td>备  注：</td>
-                    <td id="zz"></td>
+                    <td id="zz">${cRkckddinfo.remarks}</td>
                     <td></td>
                 </tr>
                 </tbody>
@@ -234,7 +234,7 @@
                     <select class="shu"  id="house">
                         <option value="" />请选择</option>
                         <c:forEach items="${houseList}" var="house">
-                            <option value="${house.id}">${house.name} </option>
+                            <option value="${house.id}" <c:if test="${cRkckddinfo.cHouse.id eq house.id}">selected="selected"</c:if>>${house.name} </option>
                         </c:forEach>
                     </select>
                 </div>
@@ -247,7 +247,7 @@
                     <select class="shu" id="supplier" >
                         <option value=""/>请选择</option>
                         <c:forEach items="${supplierList}" var="supplier">
-                            <option value="${supplier.id}">${supplier.name}</option>
+                            <option value="${supplier.id}" <c:if test="${cRkckddinfo.supplier.id eq supplier.id}">selected="selected"</c:if>>${supplier.name} </option>
                         </c:forEach>
                     </select>
                 </div>
@@ -265,6 +265,7 @@
             </div>
             <div style="text-align: left; width: 555px;padding: 8px 0;box-sizing: border-box; margin: 0 auto 20px;border: 1px solid #d3d3d3;border-radius: 4px;">
                 <table class="lk-tips">
+
                     <tbody><tr>
                         <td>
                             <img src="${ctxStatic}/images/小云提示.png" alt="小云提示" title="小云提示">

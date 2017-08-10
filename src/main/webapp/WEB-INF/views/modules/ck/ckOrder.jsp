@@ -253,6 +253,7 @@
                 <div class="shu">
                     <select class="shu" id="supplier" >
                         <option value=""/>请选择</option>
+
                         <c:forEach items="${supplierList}" var="supplier">
                             <option value="${supplier.id}"<c:if test="${cRkckddinfo.supplier.id eq supplier.id}">selected="selected"</c:if>>${supplier.name}</option>
                         </c:forEach>
