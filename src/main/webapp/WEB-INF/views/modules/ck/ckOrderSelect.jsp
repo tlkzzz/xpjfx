@@ -76,60 +76,51 @@
                 <div style="position: relative; margin-top: 10px; margin-left: 10px;">
                     <!-- Nav tabs -->
                     <ul id="myTab" class="nav nav-tabs" role="tablist">
-                        <li class="active" style="width: 70px;">
+                        <li class="active" style="width: 90px;">
                             <a>全部&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                         <div style="margin: 0px 5px; line-height: 1.4">
-                                            <span id="Anthem_lblqb__"><span id="lblqb">4</span></span>
+                                            <span id="Anthem_lblqb__"><span id="lblqb">${allNotIsspCount}</span></span>
                                         </div>
                                     </span>
                             </a>
                         </li>
-                        <li style="width: 70px;">
-                            <a>进货&nbsp;
+                        <li style="width: 120px;">
+                            <a>进货录单&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                         <div style="margin: 0px 5px; line-height: 1.4">
-                                            <span id="Anthem_lbljh__"><span id="lbljh">1</span></span>
+                                            <span id="Anthem_lbljh__"><span id="lbljh">${ckNotIsspCount}</span></span>
                                         </div>
                                     </span>
                             </a>
                         </li>
-                        <li style="width: 95px;">
-                            <a>期初入库&nbsp;
-                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
-                                        <div style="margin: 0px 5px; line-height: 1.4">
-                                            <span id="Anthem_lblqcrk__"><span id="lblqcrk"></span></span>
-                                        </div>
-                                    </span>
-                            </a>
-                        </li>
-                        <li style="width: 95px;">
+                        <li style="width: 125px;">
                             <a>其他入库&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                             <div style="margin: 0px 5px; line-height: 1.4">
-                                                <span id="Anthem_lblqtrk__"><span id="lblqtrk"></span></span>
+                                                <span id="Anthem_lblqtrk__"><span id="lblqtrk">${qtNotIsspCount}</span></span>
                                             </div>
                                         </span>
                             </a>
                         </li>
-                        <li style="width: 95px;">
+                        <li style="width: 125px;">
                             <a>进货退货&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                             <div style="margin: 0px 5px; line-height: 1.4">
-                                                <span id="Anthem_lbljhth__"><span id="lbljhth"></span></span>
+                                                <span id="Anthem_lbljhth__"><span id="lbljhth">${thNotIsspCount}</span></span>
                                             </div>
                                         </span>
                             </a>
                         </li>
-                        <li style="width: 95px;">
-                            <a>换货入库&nbsp;
+                        <li style="width: 125px;">
+                            <a>临时入库&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                             <div style="margin: 0px 5px; line-height: 1.4">
-                                                <span id="Anthem_lblhhrk__"><span id="lblhhrk"></span></span>
+                                                <span id="Anthem_lblhhrk__"><span id="lblhhrk">${lsNotIsspCount}</span></span>
                                             </div>
                                         </span>
                             </a>
-                        </li>
+                        </li><%--
                         <li style="width: 100px;">
                             <a>移库入库&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
@@ -138,7 +129,7 @@
                                             </div>
                                         </span>
                             </a>
-                        </li>
+                        </li>--%>
                     </ul>
                     <div id="helpTip" style="position: absolute; padding: 0px; color: #088AE3; font-size: 13px; top: 8px; right: 0px; text-align: right; z-index: 999" data-hasqtip="0">
                         <a href="javascript: void(0);" style="font-size: 13px; text-decoration: none">帮助
@@ -150,9 +141,10 @@
                 <div class="panel panel-default" style="width: 100%; margin-right: 10px; border-top: none;">
                     <div id="zbBodyDiv" class="panel-body" style="padding: 0px; height: 582px; overflow: auto;">
                         <div id="Anthem_pnlSearch__"><div id="pnlSearch">
-                        <form:form id="searchForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cCar/" method="post" class="breadcrumb form-search">
+                        <form:form id="searchForm" modelAttribute="cRkckddinfo" action="${ctx}/ck/cRkckddinfo/rkOrderSelect" method="post" class="breadcrumb form-search">
                             <table cellpadding="0" cellspacing="0" style="margin-left: 10px; margin-top: 10px;">
                                 <tbody><tr>
+                                    <input name="lx" type="hidden" value="${cRkckddinfo.lx}"/>
                                     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                                     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                                     <td style="padding-right: 5px;">
