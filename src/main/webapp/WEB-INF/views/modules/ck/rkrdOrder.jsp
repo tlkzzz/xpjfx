@@ -289,7 +289,7 @@
                         <tr>
                             <td>
                                 <div style="padding: 2px 0px">
-                                    <span style="width: 80px;">付款账户 :</span>
+                                    <span style="width: 80px;">来往账户 :</span>
                                     <input id="fkAccount" style="height: 24px; width: 60px;border: 1px" value="${payment.travelAccount}">
                                 </div>
                             </td>
