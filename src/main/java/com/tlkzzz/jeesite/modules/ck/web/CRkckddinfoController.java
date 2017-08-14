@@ -814,6 +814,13 @@ public class CRkckddinfoController extends BaseController {
 	/**		出库结束		**/
 
 
+	@ResponseBody
+	@RequestMapping(value = "zhanghuAdd")
+	public List<FAccount> zhanghuAdd() {
+		List<FAccount> fAccountList=fAccountService.findList(new FAccount());
+		return fAccountList;
+	}
+
 
 
 	@RequiresPermissions("ck:cCginfo:view")

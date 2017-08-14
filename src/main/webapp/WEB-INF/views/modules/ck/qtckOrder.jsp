@@ -103,15 +103,15 @@
                     <tbody>
                     <tr>
                         <td>客  户:</td>
-                        <td id="kh"></td>
+                        <td id="kh">${cRkckddinfo.store.name}</td>
                         <td>业 务 员：</td>
-                        <td id="ywy"></td>
+                        <td id="ywy">${cRkckddinfo.createBy}</td>
                     </tr>
                     <tr>
                         <td>出库仓库:</td>
-                        <td id="ck"></td>
+                        <td id="ck">${cRkckddinfo.cHouse.name}</td>
                         <td>备  注：</td>
-                        <td id="rom"></td>
+                        <td id="rom">${cRkckddinfo.remarks}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -234,8 +234,8 @@
                 <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="namelist" name="createBy">
                 <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
-                <input type="hidden" name="lx" value="0">
-                <input type="hidden" name="state" value="1">
+                <input type="hidden" name="lx" value="1">
+                <input type="hidden" name="state" value="3">
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
@@ -248,10 +248,11 @@
             <div class="input_g">
                 <div class="width"><span style="color: red;">*</span> 客户</div>
                 <div class="shu">
-                    <select class="shu"  id="cStore">
+                    <select class="shu" id="cStore">
                         <option value="">请选择</option>
-                        <c:forEach items="${storeList}" var="cStore">
-                            <option value="${cStore.id}">${cStore.name}</option>
+                        <c:forEach items="${cStorelist}" var="cStore">
+                            <option value="${cStore.id}" <c:if test="${cRkckddinfo.cStore.id eq cStore.id}">selected="selected"</c:if>>${cStore.name}</option>
+                            <%--<option value="${cStore.id}">${cStore.name}</option>--%>
                         </c:forEach>
                     </select>
                 </div>
@@ -277,7 +278,7 @@
                     <select class="shu"  id="house">
                         <option value="">请选择</option>
                         <c:forEach items="${houseList}" var="house">
-                            <option value="${house.id}">${house.name}</option>
+                            <option value="${house.id}" <c:if test="${cRkckddinfo.cHouse.id eq house.id}">selected="selected"</c:if>>${house.name} </option>
                         </c:forEach>
                     </select>
                 </div>

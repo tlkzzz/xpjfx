@@ -34,29 +34,29 @@
                 message("时间不能为空")
                 return;
             }
-            if($("#cCar").val()==""){
-                message("请选择仓库车辆")
-                return;
-            }
+//            if($("#cCar").val()==""){
+//                message("请选择仓库车辆")
+//                return;
+//            }
             var cStore = $("#cStore option:selected").text();
             var createBy = $("#createBy option:selected").text();
             var house = $("#house option:selected").text();
             var createDate = $("#createDate").val();
-            var cCar = $("#cCar option:selected").text();
+//            var cCar = $("#cCar option:selected").text();
             var bz = $("#bz").val();
-            if(cStore!="" || house!="" ||createDate!="" ||cCar!="" || name!="") {
+            if(cStore!="" || house!="" ||createDate!=""  || name!="") {
                 $("#kh").text(cStore);
                 $("#ywy").text(createBy);
                 $("#fhck").text(house);
                 $("#date").text(createDate);
-                $("#pscl").text(cCar);
+//                $("#pscl").text(cCar);
                 $("#rom").text(bz);
 
                 $("#cStorelist").val($("#cStore").val());
                 $("#houselist").val($("#house").val());
                 $("#createDatelist").val($("#createDate").val());
                 $("#ywynamelist").val($("#createBy").val());
-                $("#cCarlist").val($("#cCar").val());
+//                $("#cCarlist").val($("#cCar").val());
                 $("#bzlist").val($("#bz").val());
                 $(".box5").css("display","none");
             }else {
@@ -69,7 +69,7 @@
             if($("#createBy").val()==""){message("业务员未选择");return false;}
             if($("#house").val()==""){message("仓库未选择");return false;}
             if($("#createDate").val()==""){message("时间不能为空");return false;}
-            if($("#cCar").val()==""){message("仓库车辆未选择");return false;}
+//            if($("#cCar").val()==""){message("仓库车辆未选择");return false;}
             var jsonData = $("#jsonData").val();
             if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
             return true;
@@ -134,8 +134,8 @@
                         <td id="date">	<fmt:formatDate value="${cRkckddinfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     </tr>
                     <tr>
-                        <td>配送车辆：</td>
-                        <td id="pscl">${cRkckddinfo.cHouse.name}</td>
+                        <%--<td>配送车辆：</td>--%>
+                        <%--<td id="pscl">${cRkckddinfo.cHouse.name}</td>--%>
                         <td>备  注：</td>
                         <td id="rom">${cRkckddinfo.remarks}</td>
                     </tr>
@@ -260,10 +260,10 @@
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="createDatelist" name="createDate">
                 <input type="hidden" id="ywynamelist" name="createBy">
-                <input type="hidden" id="cCarlist" name="cCar.id">
+                <%--<input type="hidden" id="cCarlist" name="cCar.id">--%>
                 <input type="hidden" id="bzlist" name="remarks">
-                <input type="hidden" name="lx" value="0">
-                <input type="hidden" name="state" value="1">
+                <input type="hidden" name="lx" value="1">
+                <input type="hidden" name="state" value="9">
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
@@ -279,7 +279,8 @@
                     <select class="shu" id="cStore">
                         <option value="">请选择</option>
                         <c:forEach items="${cStorelist}" var="cStore">
-                            <option value="${cStore.id}">${cStore.name}</option>
+                            <option value="${cStore.id}" <c:if test="${cRkckddinfo.cStore.id eq cStore.id}">selected="selected"</c:if>>${cStore.name}</option>
+                            <%--<option value="${cStore.id}">${cStore.name}</option>--%>
                         </c:forEach>
                     </select>
                 </div>
@@ -293,6 +294,7 @@
                         <option value="">请选择</option>
                         <c:forEach items="${name}" var="createBy">
                             <option value="${createBy}">${name}</option>
+                            <%--<option value="${createBy}" <c:if test="${createBy.id eq createBy.id}">selected="selected"</c:if>>${name}</option>--%>
                         </c:forEach>
                     </select>
                 </div>
@@ -305,7 +307,7 @@
                     <select class="shu"  id="house">
                         <option value="">请选择</option>
                         <c:forEach items="${houseList}" var="house">
-                            <option value="${house.id}">${house.name}</option>
+                            <option value="${house.id}" <c:if test="${cRkckddinfo.cHouse.id eq house.id}">selected="selected"</c:if>>${house.name} </option>
                         </c:forEach>
                     </select>
                 </div>
@@ -322,19 +324,19 @@
                 <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#createDate').val('')"> </div>
                 <p class="clearfix"></p>
             </div>
-            <div class="input_g">
-                <div class="width">配送车辆</div>
-                <div class="shu">
-                    <select class="shu" id="cCar">
-                        <option value="">请选择</option>
-                        <c:forEach items="${cCar}" var="cCar">
-                            <option value="${cCar.id}">${cCar.name}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#cCar').val('')"> </div>
-                <p class="clearfix"></p>
-            </div>
+            <%--<div class="input_g">--%>
+                <%--<div class="width">配送车辆</div>--%>
+                <%--<div class="shu">--%>
+                    <%--<select class="shu" id="cCar">--%>
+                        <%--<option value="">请选择</option>--%>
+                        <%--<c:forEach items="${cCar}" var="cCar">--%>
+                            <%--<option value="${cCar.id}">${cCar.name}</option>--%>
+                        <%--</c:forEach>--%>
+                    <%--</select>--%>
+                <%--</div>--%>
+                <%--<div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#cCar').val('')"> </div>--%>
+                <%--<p class="clearfix"></p>--%>
+            <%--</div>--%>
             <div class="input_g">
                 <div class="width">备注</div>
                 <div class="shu"><input id="bz" type="text"  style="width: 426px;padding: 11px;"></div>
