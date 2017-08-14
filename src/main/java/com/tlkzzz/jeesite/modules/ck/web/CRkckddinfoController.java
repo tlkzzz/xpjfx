@@ -468,10 +468,10 @@ public class CRkckddinfoController extends BaseController {
 
 	/**
 	 * 入库审核
-	 * @param cRkckddinfo
-	 * @param account
-	 * @param travelAccount
-	 * @param total
+	 * @param cRkckddinfo 总订单ID
+	 * @param account 付款账户ID
+	 * @param travelAccount 来往单位账户
+	 * @param total 付款金额
 	 * @return
 	 */
 	@ResponseBody
