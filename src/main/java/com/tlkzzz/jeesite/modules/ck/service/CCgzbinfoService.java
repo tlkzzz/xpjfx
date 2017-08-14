@@ -9,6 +9,9 @@ import java.util.List;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.dao.*;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
+import com.tlkzzz.jeesite.modules.cw.dao.FPaymentDao;
+import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
+import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,8 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	@Autowired
 	private CHgoodsService cHgoodsService;
 	@Autowired
+	private FExpenRecordService fExpenRecordService;
+	@Autowired
 	private CHouseDao cHouseDao;
 	@Autowired
 	private CGoodsDao cGoodsDao;
@@ -37,6 +42,8 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	private CRkckddinfoDao cRkckddinfoDao;
 	@Autowired
 	private CDdinfoDao cDdinfoDao;
+	@Autowired
+	private FPaymentDao fPaymentDao;
 
 	public CCgzbinfo get(String id) {
 		return super.get(id);
@@ -133,6 +140,66 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		super.save(cCgzbinfo);
 		cDdinfo.setCgzbinfo(cCgzbinfo);
 		cDdinfoDao.updateCgzbInfo(cDdinfo);
+		return true;
+	}
+
+	@Transactional(readOnly = false,rollbackFor = Exception.class)
+	public boolean saveCdList(List<CDdinfo> cdList,CRkckddinfo rkckddinfo,
+							  String account,String travelAccount,String total) {//商品列表入库
+		Date date = new Date();
+		double sumMoney = 0.0;
+		for (CDdinfo cd: cdList) {
+			sumMoney += Integer.parseInt(cd.getNub())*Double.parseDouble(cd.getJe());
+			/**修改采购申请信息**/
+			CCgzbinfo cCgzbinfo = dao.getZbByGoodsAndState(cd.getGoods().getId(),"0");
+			if(cCgzbinfo!=null) {
+				cCgzbinfo.setRknub(cd.getNub());
+				cCgzbinfo.setRkDate(date);
+				cCgzbinfo.setJg(String.valueOf(cd.getJe()));
+				cCgzbinfo.setState("2");
+				super.save(cCgzbinfo);
+			}
+			/**修改库存信息**/
+			CHgoods cHgoods = new CHgoods();
+			cHgoods.setRkState("0");
+			cHgoods.setGoods(cd.getGoods());
+			cHgoods.setHouse(rkckddinfo.getcHouse());
+			cHgoods.setNub(cd.getNub());
+			cHgoods.setCkState(cCgzbinfo.getId());
+			cHgoods.setCbj(Double.parseDouble(cd.getJe()));
+			cHgoods.setSupplierid(rkckddinfo.getSupplier().getId());
+			cHgoods.setRemarks(cd.getRemarks());
+			cHgoodsService.save(cHgoods);
+			/**修改订单信息**/
+			cd.setRkckdate(date);
+			cd.setHouse(cHgoods.getHouse());
+			cd.setSupplier(new CSupplier(cHgoods.getSupplierid()));
+			cd.setRkqcbj(String.valueOf(cHgoods.getCbj()));
+			cd.setRksjcbj(String.valueOf(cHgoods.getCbj()));
+			cd.setJe(String.valueOf(cHgoods.getCbj()));
+			cDdinfoDao.updateCGInfo(cd);
+			cd.setCgzbinfo(cCgzbinfo);
+			cDdinfoDao.updateCgzbInfo(cd);
+		}
+		/**添加财务信息**/
+		FPayment payment = new FPayment();
+		payment.preInsert();
+		payment.setPaymentCode(rkckddinfo.getId());
+		payment.setPaymentDate(date);
+		payment.setPaymentAccount(account);
+		payment.setTravelAccount(travelAccount);
+		payment.setTravelUnit(rkckddinfo.getSupplier());
+		payment.setJe(total);
+		payment.setApprovalStatus("1");
+		payment.setAuditor(UserUtils.getUser());
+		payment.setHtje(String.valueOf(sumMoney));
+		fPaymentDao.insert(payment);
+		fExpenRecordService.saveByPayment(payment);
+		/**修改总订单审批状态**/
+		rkckddinfo.setIssp("1");
+		rkckddinfo.setSpr(UserUtils.getUser());
+		rkckddinfo.setSpsj(new Date());
+		cRkckddinfoDao.changeIssp(rkckddinfo);
 		return true;
 	}
 

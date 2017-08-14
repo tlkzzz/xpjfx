@@ -151,7 +151,7 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 			}
 			cd.setNub(object.get("num").toString().trim());
 			cd.setJe(object.get("price").toString().trim());
-			cd.setRemarks(object.get("remark").toString().trim());
+			if(object.get("remark")!=null)cd.setRemarks(object.get("remark").toString().trim());
 			double yhje = Double.parseDouble(goods.getSj())-Double.parseDouble(cd.getJe());
 			if(yhje>0)cd.setYhje(String.valueOf(yhje));
 			htje += Integer.parseInt(cd.getNub())*Double.parseDouble(cd.getJe());
