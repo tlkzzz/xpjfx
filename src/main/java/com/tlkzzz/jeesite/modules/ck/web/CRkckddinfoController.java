@@ -79,6 +79,8 @@ public class CRkckddinfoController extends BaseController {
 	private  FArrearsService fArrearsService;
 	@Autowired
 	private  CGoodsService cGoodsService;
+	@Autowired
+	private  CCgzbinfoService cCgzbinfoService;
 
 
 
@@ -381,16 +383,29 @@ public class CRkckddinfoController extends BaseController {
 	 */
 	@RequiresPermissions("ck:cCkinfo:view")
     @RequestMapping(value = "order/{pageName}")
-    public String order(@PathVariable("pageName")String pageName,String id,Model model){
+    public String order(@PathVariable("pageName")String pageName,String id,String review,Model model){
 		if(StringUtils.isNotBlank(id)){
 			CDdinfo cDdinfo = new CDdinfo();
 			cDdinfo.setRkckddinfo(cRkckddinfoService.get(id));
 			List<CDdinfo> cDdinfoList = cDdinfoService.findList(cDdinfo);
 			JSONArray array	= new JSONArray();
-			for(CDdinfo cd : cDdinfoList){array.add(JsonMapper.toJsonString(cd.getGoods()));}
+			Double total = 0.0;
+			for(CDdinfo cd : cDdinfoList){
+				array.add(JsonMapper.toJsonString(cd.getGoods()));
+				total += Integer.parseInt(cd.getNub())*Double.parseDouble(cd.getJe());
+			}
 			model.addAttribute("goodsJSON", array.toString());
+			model.addAttribute("total", total);
 			model.addAttribute("cRkckddinfo", cDdinfo.getRkckddinfo());
 			model.addAttribute("json",cDdinfoService.processJSON(cDdinfoList).toString());
+			if(StringUtils.isNotBlank(review)){
+				FPayment payment = new FPayment();
+				payment.setPaymentCode(cDdinfo.getRkckddinfo().getId());
+				model.addAttribute("review", review);
+				model.addAttribute("payment", fPaymentService.getByPaymentCode(payment));
+				model.addAttribute("accountList", fAccountService.findList(new FAccount()));
+				model.addAttribute("supplier", cSupplierService.get(cDdinfo.getRkckddinfo().getSupplier()));
+			}
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		CGclass gclass = new CGclass();
@@ -413,7 +428,7 @@ public class CRkckddinfoController extends BaseController {
 	 */
     @RequiresPermissions("ck:cCkinfo:edit")
 	@RequestMapping(value = "rkOrderSave")
-	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData,String pageName){
+	public String rkOrderSave(CRkckddinfo cRkckddinfo,String jsonData,String pageName,String review){
     	if(StringUtils.isBlank(cRkckddinfo.getLx())||StringUtils.isBlank(cRkckddinfo.getState())||
                 StringUtils.isBlank(jsonData)||cRkckddinfo.getcHouse()==null){
     		return "error/400";
@@ -423,7 +438,7 @@ public class CRkckddinfoController extends BaseController {
 			cRkckddinfo.setIssp("0");
 			cRkckddinfoService.saveRkCkInfo(cRkckddinfo,jsonArray);
 		}
-    	return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/order/"+pageName+"?id="+cRkckddinfo.getId();
+    	return "redirect:"+Global.getAdminPath()+"/ck/cRkckddinfo/order/"+pageName+"?id="+cRkckddinfo.getId()+"&review="+review;
 	}
 
 	/**
@@ -441,16 +456,39 @@ public class CRkckddinfoController extends BaseController {
 		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
 		model.addAttribute("houseList",houseService.findList(new CHouse()));
 		model.addAttribute("supplierList",cSupplierService.findList(new CSupplier()));
+		model.addAttribute("allNotIsspCount",cRkckddinfoService.getNotIsspCount(null));
+		model.addAttribute("lsNotIsspCount",cRkckddinfoService.getNotIsspCount("0"));
+		model.addAttribute("ckNotIsspCount",cRkckddinfoService.getNotIsspCount("1"));
+		model.addAttribute("qtNotIsspCount",cRkckddinfoService.getNotIsspCount("3"));
+		model.addAttribute("thNotIsspCount",cRkckddinfoService.getNotIsspCount("5"));
 		model.addAttribute("cRkckddinfo",cRkckddinfo);
 		model.addAttribute("page",page);
     	return "modules/ck/ckOrderSelect";
 	}
 
+	/**
+	 * 入库审核
+	 * @param cRkckddinfo
+	 * @param account
+	 * @param travelAccount
+	 * @param total
+	 * @return
+	 */
+	@ResponseBody
 	@RequiresPermissions("ck:cCkinfo:view")
-	@RequestMapping(value = "showRkCkInfo")
-	public String showRkCkInfo(CRkckddinfo cRkckddinfo,Model model){
-
-		return "";
+	@RequestMapping(value = "rkReview")
+	public String rkReview(CRkckddinfo cRkckddinfo,String account,String travelAccount,String total){
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getId())){
+			return "false";
+		}
+		if(StringUtils.isBlank(account)||StringUtils.isBlank(travelAccount)||StringUtils.isBlank(total)){
+			return "false";
+		}
+		CDdinfo cDdinfo = new CDdinfo();
+		cDdinfo.setRkckddinfo(cRkckddinfo);
+		List<CDdinfo> cdList = cDdinfoService.findList(cDdinfo);
+		cCgzbinfoService.saveCdList(cdList,cRkckddinfo,account,travelAccount,total);
+		return "true";
 	}
 
 	/**
