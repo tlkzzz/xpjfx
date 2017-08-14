@@ -198,20 +198,20 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	public void saveInfo(CRkckddinfo cRkckddinfo, FDiscount fDiscount, List<CDdinfo> cDdinfoList,
 						 FReceipt fReceipt, FIncomeRecord fIncomeRecord, FAccount fAccount,
 						 FAccount fAccounttwo,String biaoshi){
-		if(cRkckddinfo!=null){
+		if(StringUtils.isNotBlank(cRkckddinfo.getId())){
 			cRkckddinfo.setIssp("1");
 			dao.updateIssp(cRkckddinfo);
 		}
-		if(fReceipt!=null){
+		if(StringUtils.isNotBlank(fReceipt.getReceiptCode())){
 			fReceiptDao.insert(fReceipt);
 		}
-		if(fIncomeRecord!=null){
+		if(StringUtils.isNotBlank(fIncomeRecord.getOrderId())){
 			fIncomeRecordDao.insert(fIncomeRecord);
 		}
-		if(fAccount!=null){
+		if(StringUtils.isNotBlank(fAccount.getId())){
 			fAccountDao.BalanceAdd(fAccount);
 		}
-		if(fAccounttwo!=null){
+		if(StringUtils.isNotBlank(fAccounttwo.getId())){
 			fAccountDao.Balancejs(fAccount);
 		}
 		Double zh=0.0;
