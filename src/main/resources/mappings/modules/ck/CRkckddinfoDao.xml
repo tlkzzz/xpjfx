@@ -102,6 +102,16 @@
 		GROUP BY a.create_by
 	</select>
 
+	<select id="findcxOrderList" resultType="CRkckddinfo">
+		SELECT
+		a.store_id AS "store.id",
+		cst.name AS "store.name",
+		a.del_flag AS "delFlag"
+		FROM c_rkckddinfo a
+		LEFT JOIN c_store cst ON cst.id=a.store_id
+		GROUP BY a.store_id
+	</select>
+
 	<select id="findList" resultType="CRkckddinfo">
 		SELECT 
 			<include refid="cRkckddinfoColumns"/>
@@ -114,6 +124,9 @@
 			</if>
 			<if test="createBy != null and createBy.id != null and createBy.id != ''">
 				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="store != null and store.id != null and store.id != ''">
+				AND a.store_id = #{store.id}
 			</if>
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}

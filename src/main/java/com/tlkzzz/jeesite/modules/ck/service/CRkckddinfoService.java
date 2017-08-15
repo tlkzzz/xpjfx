@@ -188,8 +188,9 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 	public List<CRkckddinfo> findOrderCodeList(CRkckddinfo cRkckddinfo) {
 		return dao.findOrderCodeList(cRkckddinfo);
 	}
-
-
+	public List<CRkckddinfo> findcxOrderList(CRkckddinfo cRkckddinfo) {
+		return dao.findcxOrderList(cRkckddinfo);
+	}
 	/**
 	 * shizx 2017/08/08
 	 * 销售出库审批方法

@@ -51,6 +51,7 @@
             $("#"+change).css("display","none");
         }
         function Auditing(id) {
+
             var account = $("#dropFKZH").val();
             var travelAccount = $("#fkAccount").val();
             var total = $("#sfje").val();

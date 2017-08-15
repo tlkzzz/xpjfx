@@ -54,6 +54,40 @@
             if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
             return true;
         }
+
+        function onCspmx() {
+            document.getElementById("spmx").style.display="block";
+            document.getElementById("skxx").style.display="none";
+        }
+        function onCfkxx() {
+            document.getElementById("spmx").style.display="none";
+            document.getElementById("skxx").style.display="block";
+
+        }
+
+        function zhanghu() {
+            $.ajax({
+                type: "POST",
+                url: "${adminPath}/a/ck/cRkckddinfo/zhanghuAdd",
+                success: function(data){
+                    for(var i=0;i<data.length;i++){
+//                   alert(data[0].name);
+                        var s=document.getElementById("level3");
+                        s.add(new Option(data[i].name,data[i].id));
+                    }
+                }
+            });
+        }
+        window.onload=zhanghu;
+        function fktijiao() {
+            var lwzh=document.getElementById("lwzh").value;
+            alert(lwzh);
+            var level3=document.getElementById("level3").value;
+            alert(level3);
+            var skfs=document.getElementById("skfs").value;
+            alert(skfs);
+            window.location="${adminPath}/a/ck/cRkckddinfo/xsckSh?zddId=1f418a8910a14b8ab1d0d86635981e7a"+"&lwzh="+lwzh+"&skzh="+level3+"&skfs="+skfs;
+        }
     </script>
 </head>
 <body>
@@ -202,12 +236,13 @@
     </div>
     <div class="box4">
         <div class="bt">
-            <span>商品明细</span>
+            <a onclick="onCspmx();" style="border: 2px"><span>商品明细</span></a>
+            <a onclick="onCfkxx();" style="border: 2px"><span>付款信息</span></a>
             <div class="ha">
                 <span style="color: blue;">帮助</span>
             </div>
         </div>
-        <div class="bb" style="height: 430px;">
+        <div id="spmx" class="bb" style="height: 430px;">
             <table class="list" cellspacing="0" cellpadding="0" style="border-bottom: 1px solid #d3d3d3;">
                 <thead class="list_bt" style="border-bottom: 1px solid;">
                 <td colspan="2" style="width: 90px;">商品</td>
@@ -224,6 +259,48 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        <%--收款信息开始--%>
+
+        <div id="skxx" class="bb" style="height: 430px;" hidden>
+            <table style="width: 100%">
+                <tbody><!-- ngIf: jbxx.cklx !=309 --><tr ng-if="jbxx.cklx !=309" class="ng-scope">
+                    <td style="">
+                        <div class="input_g">
+                            <div class="width">来往账户</div>
+                            <div class="shu"><input id="lwzh" type="text"  style="width: 426px;padding: 11px;" value="${cRkckddinfo.remarks}"></div>
+                            <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#bz').val('')"> </div>
+                            <p class="clearfix"></p>
+                        </div>
+                    </td>
+                </tbody>
+                <tbody>
+                <td style="">
+                    <div class="input-group" style="width: 175px;">
+                        <span class="input-group-addon lk-p5"><span style="">收款账户</span></span>
+                        <select name="level3" id="level3" style="border: 1px solid #ccc; height: 30px; width: 100px;">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </td>
+                </tbody>
+                <tbody>
+                <td style="margin-left: auto">
+                    <div class="input-group" style="width: 175px;">
+                                <span class="input-group-addon lk-p5" style="padding-left: 5px; padding-right: 5px;">
+                                    <span style="">收款方式</span>
+                                </span>
+                        <select  id="skfs" ng-model="configInfo.xsskfs" ng-change="changeKHSKFS()" ng-options="item.id as item.mc for item in khskfsList" style="border: 1px solid #ccc; height: 30px; width: 100px;" class="ng-pristine ng-valid ng-touched">
+                            <option value="" selected="selected">请选择</option>
+                            <option value="1" >银行卡</option>
+                            <option value="2" >现金</option>
+                            <option value="3" >其他</option>
+                        </select>
+                    </div>
+                </td>
+                </tbody>
+            </table>
+        </div>
+        <%--收款信息结束--%>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
@@ -236,7 +313,7 @@
                 <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
                 <input type="hidden" name="lx" value="1">
                 <input type="hidden" name="state" value="3">
-                <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
+                <input type="button" onclick="fktijiao();" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
     </div>
@@ -251,8 +328,8 @@
                     <select class="shu" id="cStore">
                         <option value="">请选择</option>
                         <c:forEach items="${cStorelist}" var="cStore">
-                            <option value="${cStore.id}" <c:if test="${cRkckddinfo.cStore.id eq cStore.id}">selected="selected"</c:if>>${cStore.name}</option>
-                            <%--<option value="${cStore.id}">${cStore.name}</option>--%>
+                            <%--<option value="${cStore.id}" <c:if test="${cRkckddinfo.cStore.id eq cStore.id}">selected="selected"</c:if>>${cStore.name}</option>--%>
+                            <option value="${cStore.id}">${cStore.name}</option>
                         </c:forEach>
                     </select>
                 </div>

@@ -74,4 +74,6 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
     public List<CRkckddinfo> ddywy(CRkckddinfo cRkckddinfo);
 
     public List<CRkckddinfo> findOrderCodeList(CRkckddinfo cRkckddinfo);
+
+    public List<CRkckddinfo> findcxOrderList(CRkckddinfo cRkckddinfo);
 }

@@ -22,6 +22,7 @@ import com.tlkzzz.jeesite.modules.sys.entity.User;
 import com.tlkzzz.jeesite.modules.sys.utils.NumberToCN;
 import com.tlkzzz.jeesite.modules.sys.utils.UserUtils;
 import net.sf.json.JSONArray;
+import netscape.security.UserTarget;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -412,6 +413,7 @@ public class CRkckddinfoController extends BaseController {
 		gclass.setParent(new CGclass("0"));
 		model.addAttribute("createDate",sdf.format(new Date()));
 		model.addAttribute("name",UserUtils.getUser().getName());
+//		model.addAttribute("name", UserUtils.getUser());
 		model.addAttribute("cCar",cCarService.findList(new CCar()));
 		model.addAttribute("cStorelist", cStoreService.findList(new CStore()));
 		model.addAttribute("gClass", cGclassService.findList(gclass));
@@ -687,10 +689,13 @@ public class CRkckddinfoController extends BaseController {
 		}
 	}
 	@RequestMapping(value = "query")
-	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model,String id){
+	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model,String id,String name){
        if(StringUtils.isNotBlank(id)) {
 		   cRkckddinfo.setCreateBy(new User(id));
 	   }
+		if(StringUtils.isNotBlank(name)) {
+			cRkckddinfo.setStore(new CStore(name));
+		}
 		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
 		int cd=page.getList().size();
 		Double  mony=0.0;
@@ -703,6 +708,8 @@ public class CRkckddinfoController extends BaseController {
 			sum=sum+mony;
 		}
 		List<CRkckddinfo> list=cRkckddinfoService.findOrderCodeList(cRkckddinfo);
+		List<CRkckddinfo> storelist=cRkckddinfoService.findcxOrderList(cRkckddinfo);
+		model.addAttribute("storelist",storelist);
 		model.addAttribute("list",list);
 		model.addAttribute("houseList",houseService.findList(new CHouse()));
 		model.addAttribute("goodsList",cGoodsService.findList(new CGoods()));

@@ -46,6 +46,30 @@
             if(jsonData==""||eval("("+jsonData+")").length<=0){message("请填写单据");return false;}
             return true;
         }
+        function changePayTable(restore,change) {
+            $("#"+restore).css("display","block");
+            $("#"+change).css("display","none");
+        }
+        function Auditing(id) {
+            var account = $("#dropFKZH").val();
+            var travelAccount = $("#fkAccount").val();
+            var total = $("#sfje").val();
+            if(id==""){message("请先提交订单后在进行审核!");return false;}
+            if(total==""){message("付款金额必须大于零!");return false;}
+            if(account==""){message("请选择付款账户!");return false;}
+            if(travelAccount==""){message("请填写收款账户!");return false;}
+            $("#aSubmitAndAudit").css("display","none");
+            $("#aAfterSubmitAndAudit").css("display","block");
+            $.post("../rkReview",{id:id,account:account,travelAccount:travelAccount,total:total},function (data) {
+                if(data=="true"){
+                    message("审核成功!");
+                }else {
+                    $("#aSubmitAndAudit").css("display","block");
+                    $("#aAfterSubmitAndAudit").css("display","none");
+                    message("审核失败,请刷新后重新审核!");
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -192,13 +216,22 @@
         </div>
     </div>
     <div class="box4">
-        <div class="bt">
-            <span>商品明细</span>
+        <div class="bt" style="height: 20px">
+            <ul class="nav nav-tabs" style="height: 20px">
+                <li style="width: 80px;float: left;padding-left: 5px;border: 0px" class="active">
+                    <span class="badge" onclick="changePayTable('spxxDiv','skxxDiv')">商品明细</span>
+                </li>
+                <c:if test="${not empty review}">
+                    <li style="width: 80px;float: left;padding-left: 5px;border: 0px">
+                        <span class="badge" onclick="changePayTable('skxxDiv','spxxDiv')">付款信息</span>
+                    </li>
+                </c:if>
+            </ul>
             <div class="ha">
                 <span style="color: blue;">帮助</span>
             </div>
         </div>
-        <div class="bb" style="height: 430px;">
+        <div id="spxxDiv" class="bb" style="height: 430px;<c:if test="${not empty review}">display: none</c:if>">
             <table class="list" cellspacing="0" cellpadding="0" style="border-bottom: 1px solid #d3d3d3;">
                 <thead class="list_bt" style="border-bottom: 1px solid;">
                 <td colspan="2" style="width: 90px;">商品</td>
@@ -209,12 +242,6 @@
                 </thead>
                 <%--添加商品列表--%>
             </table>
-            <div style="width: 100%;">
-                <div class="xiaozi" style="float: left;"><%--大： 1  中： 1  小： 1--%></div>
-                <div class="xiaozi" style="text-align: right;float: right;" id="totalInfo">共 0 条，0元</div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
@@ -229,6 +256,81 @@
                 <input type="submit" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>
+    </div>
+        <c:if test="${not empty review}">
+            <div id="skxxDiv" class="" style="width: 100%;display: block">
+                <div class="panel panel-default">
+                    <div id="skxxTabContent" style="padding: 10px; height: 517px; overflow: auto;">
+                        <table style="width: 100%">
+                            <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <div style="padding: 2px 0px">
+                                        <span style="width: 80px;">付款账户 :</span>
+                                        <select id="dropFKZH" style="border: 1px solid #ccc; width: 120px; height: 24px;" class="ng-pristine ng-untouched ng-valid">
+                                            <c:forEach items="${accountList}" var="ac">
+                                                <option value="${ac.id}" label="${ac.name}">${ac.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td class="lk-pt10">总&nbsp;&nbsp;金&nbsp;&nbsp;额 :
+                                    <span class="ng-scope">
+                                    <span style="color: #E55548" class="ng-binding">${total}</span>
+                                </span>&nbsp;元
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="padding: 2px 0px">
+                                        <span style="width: 80px;">付款账户 :</span>
+                                        <input id="fkAccount" style="height: 24px; width: 60px;border: 1px" value="${payment.travelAccount}">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>供应商余额:
+                                    <span style="color: #E55548" class="ng-binding">0</span>&nbsp;元
+                                </td>
+                                <td>
+                                    <div style="padding: 2px 0px">
+                                        预&nbsp; 付&nbsp; 款:
+                                        <input class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" disabled="disabled" value="${(payment)?payment.je:0}">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0px;">应付款金额：
+                                    <span class="ng-binding ng-scope">${total-((payment)?payment.je:0)}</span>
+                                </td>
+                                <td>
+                                    <div style="padding: 2px 0px">
+                                        实付金额 :
+                                        <span class="ng-scope">
+                                            <input id="sfje" class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" value="${total-((payment)?payment.je:0)}">
+                                    </span>
+                                    </div>
+                                    <div style="padding: 2px 0px">
+                                        优惠金额 :
+                                        <span class="ng-scope">
+                                            <input class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" value="${cRkckddinfo.htje-cRkckddinfo.sjje}">
+                                    </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody></table>
+                        <div id="submitAndAudit" class="input-group " style="width: 320px; margin: 10px auto; text-align: center; padding-bottom: 4px">
+                            <div class="input-group " style="width: 310px;">
+                                <div class="input-group-btn">
+                                    <a id="aSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" onclick="Auditing('${cRkckddinfo.id}')">提交并审核</a>
+                                    <a id="aAfterSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" style="display: none;">提交中...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:if>
     </div>
     <div class="box5">
         <div class="box5_bt">

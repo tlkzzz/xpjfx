@@ -131,6 +131,7 @@
                         <td id="aa">${cRkckddinfo.cHouse.name}</td>
                         <td>供 应 商：</td>
                         <td id="bb">${cRkckddinfo.supplier.name}</td>
+
                     </tr>
                     <tr>
                         <td>备  注：</td>
@@ -300,8 +301,8 @@
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
-                <input type="hidden" name="lx" value="0">
-                <input type="hidden" name="state" value="1">
+                <input type="hidden" name="lx" value="1">
+                <input type="hidden" name="state" value="2">
                 <input type="button" onclick="fktijiao();" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>

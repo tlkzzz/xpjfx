@@ -92,6 +92,73 @@
                     }
         }
         )}
+        function chaxunstore(name){
+            alert(111);
+            $.ajax({
+                    url:"${ctx}/ck/cRkckddinfo/query",
+                    type:"POST",
+                    dataType:"json",
+                    data:{name:name},
+                    success:function(data){
+
+                    }
+                }
+            )}
+
+//        function setTab(name,cursel){
+//            cursel_0=cursel;
+//            for(var i=1; i<=links_len; i++){
+//                var menu = document.getElementById(name+i);
+//                var menudiv = document.getElementById("con_"+name+"_"+i);
+//                if(i==cursel){
+//                    menu.className="off";
+//                    menudiv.style.display="block";
+//                }
+//                else{
+//                    menu.className="";
+//                    menudiv.style.display="none";
+//                }
+//            }
+//        }
+//        function Next(){
+//            cursel_0++;
+//            if (cursel_0>links_len)cursel_0=1
+//            setTab(name_0,cursel_0);
+//        }
+//        var name_0='one';
+//        var cursel_0=1;
+//        var ScrollTime=3000;//循环周期（毫秒）
+//        var links_len,iIntervalId;
+//        onload=function(){
+//            var links = document.getElementById("tab1").getElementsByTagName('li')
+//            links_len=links.length;
+//            for(var i=0; i<links_len; i++){
+//                links[i].onmouseover=function(){
+//                    clearInterval(iIntervalId);
+//                    this.onmouseout=function(){
+//                        iIntervalId = setInterval(Next,ScrollTime);;
+//                    }
+//                }
+//            }
+//            document.getElementById("con_"+name_0+"_"+links_len).parentNode.onmouseover=function(){
+//                clearInterval(iIntervalId);
+//                this.onmouseout=function(){
+//                    iIntervalId = setInterval(Next,ScrollTime);;
+//                }
+//            }
+//            setTab(name_0,cursel_0);
+//            iIntervalId = setInterval(Next,ScrollTime);
+//        }
+
+        function ywy() {
+            document.getElementById("ywyxs").style.display="block";
+            document.getElementById("kh").style.display="none";
+        }
+        function kh() {
+            document.getElementById("ywyxs").style.display="none";
+            document.getElementById("kh").style.display="block";
+
+        }
     </script>
     <style type="text/css">
         .positionRight {
@@ -149,6 +216,11 @@
         .bgColorGray {
             background-color: #F9F9F9;
         }
+        .hide{
+            display:none;
+        }
+
+
     </style>
 </head>
 <%--<body ng-controller="mainCtrl" onload="StartPoint()" class="ng-scope">--%>
@@ -157,20 +229,24 @@
     <table style="width: 100%">
         <tbody>
         <tr>
-            <td style="vertical-align: top; width: 280px;">
+            <td style="vertical-align: top; width: 280px;" >
+
                 <div style="width: 280px; background-color: white;">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav_pt5" role="tablist" style="width: 270px;">
-                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;0&#39;}" ng-click="selectType(&#39;0&#39;)" class="active"><a>业务员11</a></li>
-                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;2&#39;}" ng-click="selectType(&#39;2&#39;)"><a>客户</a></li>
+                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;0&#39;}" ng-click="selectType(&#39;0&#39;)" class="active" onclick="ywy()"><a>业务员</a></li>
+                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;2&#39;}" ng-click="selectType(&#39;2&#39;)" onclick="kh()"><a>客户</a></li>
                     </ul>
+                    </div>
                     <!-- 左边合计表格 -->
-                    <div ng-show="jbxx.type == &#39;0&#39;" style="margin-right: 10px; border-width: 0px 1px 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221);height: 584px;">
+                    <div  class="div"   ng-show="jbxx.type == &#39;0&#39;" style="margin-right: 10px; border-width: 0px 1px 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221);height: 584px;">
                         <table cellspacing="0" width="100%" cellpadding="0">
-                            <tbody><tr>
+                            <tbody>
+                            <tr>
                                 <td>
                                     <!--第一栏-->
-                                    <div ng-class="{&#39;lk-selected001&#39; : selectYWYID == item.ywyid}" style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
+                                    <div id="ywyxs">
+                                    <div   ng-class="{&#39;lk-selected001&#39; : selectYWYID == item.ywyid}" style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
                                         <!--合计-->
                                         <table style="width: 100%; font-size: 14px; height: 30px">
                                             <tbody><tr>
@@ -181,10 +257,9 @@
                                                             </span><!-- end ngIf: item.zje != 0 -->
                                                 </td>
                                                 <td style="width: 30px; text-align: right">
-                                                    <!-- ngIf: item.qbcksl>0 --><div>
+                                                    <div>
                                                     <span class="badge ng-binding" style="border-radius: 8px; background-color: #ff5500;">${cd}</span>
-                                                </div><!-- end ngIf: item.qbcksl>0 -->
-
+                                                    </div>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -197,7 +272,8 @@
                                                 <td width="25%" title="处理出库">处:<span class="ng-binding">--</span></td>
                                                 <td style="text-align: left; padding-right: 4px;" title="其他出库">其他:<span class="ng-binding">--</span></td>
                                             </tr>
-                                            </tbody></table>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <!--第二栏-->
                                     <div style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;" class="ng-scope">
@@ -233,12 +309,44 @@
                                                 </tr>
                                                 </tbody></table>
                                     </div>
+                                    </div>
                                 </td>
                             </tr>
-                            </tbody></table>
+                            </tbody>
+                        </table>
+                    <!-- 右边边合计表格 -->
+                                    <!--第一栏-->
+                        <div id="kh" hidden>
+                                    <div   ng-class="{&#39;lk-selected001&#39; : selectYWYID == item.ywyid}" style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
+                                        <!--合计-->
+                                        <table style="width: 100%; font-size: 14px; height: 30px">
+                                            <tbody><tr>
+                                                <td style="text-align: left; font-weight: bold;"><span>全部</span></td>
+                                                <td style="width: 30px; text-align: right">
+                                                    <!-- ngIf: item.qbcksl>0 --><div>
+                                                    <span  >${cd}</span>
+                                                </div><!-- end ngIf: item.qbcksl>0 -->
+
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    <!--第二栏-->
+                                    <div style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;" class="ng-scope">
+                                        <table style="width: 100%; font-size: 14px; height: 30px">
+                                            <tbody>
+                                            <c:forEach items="${storelist}" var="cck" varStatus="state">
+                                            <tr class="lk-selected001" onclick="chaxunstore('${cck.store.id}')" >
+                                                <td style="text-align: left; font-weight: bold;"><span class="lk-selected001" id="sname">${cck.store.id}</span></td>
+                                            </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
                     </div>
-                </div>
-            </td>
+                    </div>
+
 
             <td valign="top">
                 <!--顶部-->
@@ -249,7 +357,7 @@
                             <a style="width: 75px">全部
                                 <!-- ngIf: ckSl.qbck > 0 --><span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
                                             <div style="margin: 0px 5px; line-height: 1.4;">
-                                                <span class="ng-binding">2</span>
+                                                <span class="ng-binding"></span>
                                             </div>
                                         </span><!-- end ngIf: ckSl.qbck > 0 -->
                             </a>
@@ -258,7 +366,7 @@
                             <a style="width: 105px">销售出库
                                 <!-- ngIf: ckSl.xsck > 0 --><span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
                                             <div style="margin: 0px 5px; line-height: 1.4;">
-                                                <span class="ng-binding">2</span>
+                                                <span class="ng-binding"></span>
                                             </div>
                                         </span><!-- end ngIf: ckSl.xsck > 0 -->
                             </a>
@@ -463,18 +571,12 @@
                                 </tr>
                                         <c:forEach items="${page.list}" var="cRkckddinfo" varStatus="status">
                                             <tr <c:if test="${status.first}">class="lk-selected001"</c:if> onclick="showSubOrder('${cRkckddinfo.id}',$(this),'${cRkckddinfo.createBy.name}','${cRkckddinfo.store.name}','${cRkckddinfo.rkckdate}')">
-                                            <%--<tr <c:if test="${status.first}">class="lk-selected001"</c:if> onclick="showSubOrder('${crk.id}',$(this),'${crk.createBy.name}','${crk.store.name}')">--%>
-                                            <%--<tr <c:if test="${status.first}">class="lk-selected001"</c:if> onclick="showSubOrder('${cRkckddinfo.id}',$(this))">--%>
                                                 <td align="center" style="width:35px;">
                                                     <input type="checkbox" name="chkSelect" value="${cRkckddinfo.id}" style="margin: 2px 0px 0px 1px"/>
                                                 </td>
                                                 <td align="center">
                                                     <div title="出库单号">
                                                         <a href="javascript:Show('${cRkckddinfo.id}');">${cRkckddinfo.ddbh}</a>
-                                                        <%--<a href="javascript:void(0)" onclick="openForm('${cRkckddinfo.id}')">--%>
-                                                                <%--${cRkckddinfo.ddbh}--%>
-                                                        <%--<a href="javascript:Show('${cRkckddinfo.id}');">${cRkckddinfo.ddbh}</a>--%>
-                                                        <%--<a href="javascript:void(0)" onclick="openForm('${cRkckddinfo.id}')">${cRkckddinfo.ddbh}</a>--%>
                                                     </div>
                                                 </td>
                                                 <td align="center">${cRkckddinfo.store.name}</td>
@@ -489,6 +591,7 @@
                                                 <td align="center">${cRkckddinfo.htje}</td>
                                                 <td align="center">
                                                 ${fns:getDictLabel(cRkckddinfo.issp, "storeState", "")}
+
                                                 </td>
                                             </tr>
                                         </c:forEach>
