@@ -296,8 +296,8 @@
                 <input type="hidden" id="houselist" name="cHouse.id">
                 <input type="hidden" id="bzlist" name="remarks">
                 <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
-                <input type="hidden" name="lx" value="1">
-                <input type="hidden" name="state" value="1">
+                <input type="hidden" name="lx" value="0">
+                <input type="hidden" name="state" value="5">
                 <input type="button" onclick="fktijiao();" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
             </form>
         </div>

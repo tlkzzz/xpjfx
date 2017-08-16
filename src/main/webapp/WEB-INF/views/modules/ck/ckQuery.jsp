@@ -80,30 +80,16 @@
             $("#searchForm").submit();
             return false;
         }
-        function chaxun(id){
-            alert(ckname)
-            $.ajax({
-                url:"${ctx}/ck/cRkckddinfo/query",
-                type:"POST",
-                dataType:"json",
-                data:{id:id},
-                success:function(data){
-
-                    }
+        function chaxun(id) {
+            $("#create").val(id);
+            $("#searchForm").submit();
         }
-        )}
-        function chaxunstore(name){
-            alert(111);
-            $.ajax({
-                    url:"${ctx}/ck/cRkckddinfo/query",
-                    type:"POST",
-                    dataType:"json",
-                    data:{name:name},
-                    success:function(data){
 
-                    }
-                }
-            )}
+        function chaxunstore(name){
+          $("#cstore").val(name);
+            $("#searchForm").submit();
+
+           }
 
 //        function setTab(name,cursel){
 //            cursel_0=cursel;
@@ -153,11 +139,14 @@
         function ywy() {
             document.getElementById("ywyxs").style.display="block";
             document.getElementById("kh").style.display="none";
+            $("#khLi").removeClass("active");
+            $("#ywyxsLi").addClass("active");
         }
         function kh() {
             document.getElementById("ywyxs").style.display="none";
             document.getElementById("kh").style.display="block";
-
+            $("#ywyxsLi").removeClass("active");
+            $("#khLi").addClass("active");
         }
     </script>
     <style type="text/css">
@@ -234,19 +223,18 @@
                 <div style="width: 280px; background-color: white;">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav_pt5" role="tablist" style="width: 270px;">
-                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;0&#39;}" ng-click="selectType(&#39;0&#39;)" class="active" onclick="ywy()"><a>业务员</a></li>
-                        <li ng-class="{&#39;active&#39;:jbxx.type == &#39;2&#39;}" ng-click="selectType(&#39;2&#39;)" onclick="kh()"><a>客户</a></li>
+                        <li id="ywyxsLi" class="${(not empty cRkckddinfo.store.id)?"":"active"}" onclick="ywy()"><a>业务员</a></li>
+                        <li id="khLi" class="${(not empty cRkckddinfo.store.id)?"active":""}" onclick="kh()"><a>客户</a></li>
                     </ul>
                     </div>
                     <!-- 左边合计表格 -->
-                    <div  class="div"   ng-show="jbxx.type == &#39;0&#39;" style="margin-right: 10px; border-width: 0px 1px 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221);height: 584px;">
+                    <div  class="div"  style="margin-right: 10px; border-width: 0px 1px 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221);height: 584px;">
                         <table cellspacing="0" width="100%" cellpadding="0">
                             <tbody>
                             <tr>
                                 <td>
-                                    <!--第一栏-->
-                                    <div id="ywyxs">
-                                    <div   ng-class="{&#39;lk-selected001&#39; : selectYWYID == item.ywyid}" style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
+                                    <div id="ywyxs" style="${(not empty cRkckddinfo.store.id)?"display: none":"display: block"}">
+                                    <div   style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
                                         <!--合计-->
                                         <table style="width: 100%; font-size: 14px; height: 30px">
                                             <tbody><tr>
@@ -316,8 +304,8 @@
                         </table>
                     <!-- 右边边合计表格 -->
                                     <!--第一栏-->
-                        <div id="kh" hidden>
-                                    <div   ng-class="{&#39;lk-selected001&#39; : selectYWYID == item.ywyid}" style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
+                        <div id="kh" style="${(not empty cRkckddinfo.store.id)?"display: block":"display: none"}" >
+                                    <div  style="border-bottom: 1px solid #e0e0e0; padding: 4px; cursor: pointer;">
                                         <!--合计-->
                                         <table style="width: 100%; font-size: 14px; height: 30px">
                                             <tbody><tr>
@@ -337,7 +325,7 @@
                                             <tbody>
                                             <c:forEach items="${storelist}" var="cck" varStatus="state">
                                             <tr class="lk-selected001" onclick="chaxunstore('${cck.store.id}')" >
-                                                <td style="text-align: left; font-weight: bold;"><span class="lk-selected001" id="sname">${cck.store.id}</span></td>
+                                                <td style="text-align: left; font-weight: bold;"><span class="lk-selected001" id="sname">${cck.store.name}</span></td>
                                             </tr>
                                             </c:forEach>
                                             </tbody>
@@ -355,35 +343,32 @@
                     <ul id="rightTab" class="nav nav-tabs nav_pt5" role="tablist">
                         <li>
                             <a style="width: 75px">全部
-                                <!-- ngIf: ckSl.qbck > 0 --><span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
+                                <span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
                                             <div style="margin: 0px 5px; line-height: 1.4;">
                                                 <span class="ng-binding"></span>
                                             </div>
-                                        </span><!-- end ngIf: ckSl.qbck > 0 -->
+                                        </span>
                             </a>
                         </li>
                         <li>
                             <a style="width: 105px">销售出库
-                                <!-- ngIf: ckSl.xsck > 0 --><span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
+                                <span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
                                             <div style="margin: 0px 5px; line-height: 1.4;">
                                                 <span class="ng-binding"></span>
                                             </div>
-                                        </span><!-- end ngIf: ckSl.xsck > 0 -->
+                                        </span>
                             </a>
                         </li>
                         <li>
                             <a style="width: 105px">还货出库
-                                <!-- ngIf: ckSl.hhck > 0 -->
                             </a>
                         </li>
                         <li>
                             <a style="width: 105px">处理出库
-                                <!-- ngIf: ckSl.clck > 0 -->
                             </a>
                         </li>
                         <li>
                             <a style="width: 105px">其他出库
-                                <!-- ngIf: ckSl.qtck > 0 -->
                             </a>
                         </li>
                     </ul>
@@ -408,6 +393,8 @@
                         <tr>
                             <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                             <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+                            <input type="hidden" id="cstore" name="store.id">
+                            <input type="hidden" id="create" name="createBy.id">
                             <td>
                                 <div class="input-group" style="width: 180px;">
                                     <div class="input-group-btn" >
