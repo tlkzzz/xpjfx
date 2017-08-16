@@ -690,25 +690,26 @@ public class CRkckddinfoController extends BaseController {
 	}
 	@RequestMapping(value = "query")
 	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model,String id,String name){
-       if(StringUtils.isNotBlank(id)) {
-		   cRkckddinfo.setCreateBy(new User(id));
-	   }
-		if(StringUtils.isNotBlank(name)) {
-			cRkckddinfo.setStore(new CStore(name));
-		}
+
+//       if(StringUtils.isNotBlank(id)) {
+//		   cRkckddinfo.setCreateBy(new User(id));
+//	   }
+//		if(StringUtils.isNotBlank(name)) {
+//			cRkckddinfo.setStore(new CStore(name));
+//		}
 		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
 		int cd=page.getList().size();
 		Double  mony=0.0;
 		Double htje=0.0;
 		Double sum =0.0;
 		for(int i=0; i<page.getList().size();i++){
-			cRkckddinfo=page.getList().get(i);
-			htje =(StringUtils.isNotBlank(cRkckddinfo.getHtje()))?Double.parseDouble(cRkckddinfo.getHtje()):0.0;
+			CRkckddinfo crkck = page.getList().get(i);
+			htje =(StringUtils.isNotBlank(crkck.getHtje()))?Double.parseDouble(crkck.getHtje()):0.0;
 			mony=htje;
 			sum=sum+mony;
 		}
-		List<CRkckddinfo> list=cRkckddinfoService.findOrderCodeList(cRkckddinfo);
-		List<CRkckddinfo> storelist=cRkckddinfoService.findcxOrderList(cRkckddinfo);
+		List<CRkckddinfo> list=cRkckddinfoService.findOrderCodeList(new CRkckddinfo());
+		List<CRkckddinfo> storelist=cRkckddinfoService.findcxOrderList(new CRkckddinfo());
 		model.addAttribute("storelist",storelist);
 		model.addAttribute("list",list);
 		model.addAttribute("houseList",houseService.findList(new CHouse()));
