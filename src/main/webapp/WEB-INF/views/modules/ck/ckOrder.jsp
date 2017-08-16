@@ -255,12 +255,12 @@
         <div id="skxx" class="bb" style="height: 430px;" hidden>
             <table style="width: 100%">
                 <tbody><!-- ngIf: jbxx.cklx !=309 --><tr ng-if="jbxx.cklx !=309" class="ng-scope">
-                    <td style="">
+                    <td>
                         <div class="input_g">
-                            <div class="width">来往账户</div>
-                            <div class="shu"><input id="lwzh" type="text"  style="width: 426px;padding: 11px;" value="${cRkckddinfo.remarks}"></div>
+                            <div class="width" style="width: 80px;">来往账户</div>
+                            <div class="shu" style="width: 126px;"><input id="lwzh" type="text" ></div>
                             <div class="tu2"><img src="${ctxStatic}/images/shanchu.png" onclick="$('#bz').val('')"> </div>
-                            <p class="clearfix"></p>
+                            <p class="clearfix" style="width: 300px;"></p>
                         </div>
                     </td>
                 </tbody>
