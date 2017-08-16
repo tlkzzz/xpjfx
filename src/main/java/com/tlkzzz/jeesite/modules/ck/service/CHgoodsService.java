@@ -100,12 +100,16 @@ public class CHgoodsService extends CrudService<CHgoodsDao, CHgoods> {
 		if(oldHgoods!=null){//商品库存已存在
 			String numStr = String.valueOf(dao.findStockNum(cHgoods));//库存数
 			int stockNum = (!numStr.equals("null"))?Integer.parseInt(numStr):0;
+			int oldKyNum = (StringUtils.isNotBlank(oldHgoods.getKynub()))?Integer.parseInt(oldHgoods.getKynub()):0;
 			newNum = String.valueOf(stockNum+Integer.parseInt(newNum));
+			String kyNum = String.valueOf(Integer.parseInt(newNum)+oldKyNum);
 			if(StringUtils.isNotBlank(cHgoods.getYjnub()))
 				oldHgoods.setYjnub(cHgoods.getYjnub());
 			oldHgoods.setNub(newNum);
+			oldHgoods.setKynub(kyNum);
 			super.save(oldHgoods);
 		}else {//商品库存不存在
+			cHgoods.setKynub(newNum);
 			super.save(cHgoods);
 		}
 		goods.setCbj(String.valueOf(dBPrice));
