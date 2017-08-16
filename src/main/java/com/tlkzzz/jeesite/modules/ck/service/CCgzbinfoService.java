@@ -165,7 +165,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 			cHgoods.setGoods(cd.getGoods());
 			cHgoods.setHouse(rkckddinfo.getcHouse());
 			cHgoods.setNub(cd.getNub());
-			cHgoods.setCkState(cCgzbinfo.getId());
+			cHgoods.setCkState((cCgzbinfo!=null)?cCgzbinfo.getId():null);
 			cHgoods.setCbj(Double.parseDouble(cd.getJe()));
 			cHgoods.setSupplierid(rkckddinfo.getSupplier().getId());
 			cHgoods.setRemarks(cd.getRemarks());
