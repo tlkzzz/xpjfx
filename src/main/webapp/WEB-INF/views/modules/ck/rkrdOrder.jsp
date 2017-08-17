@@ -62,6 +62,7 @@
             $("#aAfterSubmitAndAudit").css("display","block");
             $.post("../rkReview",{id:id,account:account,travelAccount:travelAccount,total:total},function (data) {
                 if(data=="true"){
+                    window.parent.dialogClose();
                     message("审核成功!");
                 }else {
                     $("#aSubmitAndAudit").css("display","block");
