@@ -317,5 +317,9 @@ function getJsonGoods(id) {
     return null;
 }
 function message(text) {
-    top.$.jBox.tip(text,"warning","系统提示");
+    if(top!=null){
+        top.$.jBox.tip(text,"warning","系统提示");
+    }else {
+        $.jBox.tip(text,"warning","系统提示");
+    }
 }
