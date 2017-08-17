@@ -74,6 +74,8 @@
 			 	<th>收款方式</th>
 				<th>审核状态</th>
 			    <th>收款日期</th>
+				<th>合同金额</th>
+				<th>金额</th>
 				<th>创建时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="cw:fReceipt:edit"><th>操作</th></shiro:hasPermission>
@@ -107,6 +109,12 @@
                 <fmt:formatDate value="${fReceipt.receiptDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 				</td>
 				<td>
+						${fReceipt.htje}
+				</td>
+				<td>
+						${fReceipt.je}
+				</td>
+				<td>
 					<fmt:formatDate value="${fReceipt.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
@@ -121,6 +129,11 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tr>
+			<td colspan="8"><b>合计</b></td>
+			<td colspan="1"><b>${htSum}￥</b></td>
+			<td colspan="4"><b>${Sum}￥</b></td>
+		</tr>
 	</table>
 	<div class="pagination">${page}</div>
 </body>

@@ -73,8 +73,25 @@ public class FReceiptController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(FReceipt fReceipt, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FReceipt> page = fReceiptService.findPage(new Page<FReceipt>(request, response), fReceipt);
+		Double Sum=0.00;
+		Double htSum=0.00;
+		if(page.getList().size()>0){
+		List<FReceipt> fReceiptList=page.getList();
+		for(int i=0;i<fReceiptList.size();i++) {
+			if (StringUtils.isNotBlank(fReceiptList.get(i).getJe())) {
+				Double je = Double.parseDouble(fReceiptList.get(i).getJe());
+				Sum += je;
+				}
+			if (StringUtils.isNotBlank(fReceiptList.get(i).getHtje())) {
+				Double htje = Double.parseDouble(fReceiptList.get(i).getHtje());
+				htSum += htje;
+			}
+		}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fReceipt", fReceipt);
+		model.addAttribute("Sum",Sum);
+		model.addAttribute("htSum",htSum);
 		return "modules/cw/fReceiptList";
 	}
 	/**

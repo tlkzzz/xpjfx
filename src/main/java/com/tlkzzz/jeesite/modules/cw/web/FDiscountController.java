@@ -61,10 +61,21 @@ public class FDiscountController extends BaseController {
 	@RequiresPermissions("cw:fDiscount:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FDiscount fDiscount, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FDiscount> page = fDiscountService.findPage(new Page<FDiscount>(request, response), fDiscount); 
+		Page<FDiscount> page = fDiscountService.findPage(new Page<FDiscount>(request, response), fDiscount);
+		Double Sum=0.00;
+		if(page.getList().size()>0){
+			List<FDiscount> fDiscountList=page.getList();
+			for(int i=0;i<fDiscountList.size();i++) {
+				if (StringUtils.isNotBlank(fDiscountList.get(i).getYhje())) {
+					Double je = Double.parseDouble(fDiscountList.get(i).getYhje());
+					Sum += je;
+				}
+			}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fDiscount",fDiscount);
 		model.addAttribute("storeList", cStoreService.findList(new CStore()));
+		model.addAttribute("Sum", Sum);
 		return "modules/cw/fDiscountList";
 	}
 

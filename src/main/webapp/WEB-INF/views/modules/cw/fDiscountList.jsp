@@ -42,8 +42,8 @@
 			<tr>
 				<th>订单编号</th>
 			    <th>客户名称</th>
-			    <th>优惠金额</th>
 			    <th>类型</th>
+				<th>优惠金额</th>
 				<th>修改时间</th>
 				<shiro:hasPermission name="cw:fDiscount:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -53,8 +53,8 @@
 			<tr>
 			    <td>${fDiscount.ddid.ddbh}</td>
 				<td>${fDiscount.store.name}</td>
-			    <td>${fDiscount.yhje}</td>
 			    <td>${fDiscount.lx}</td>
+				<td>${fDiscount.yhje}</td>
 				<td>
 					<fmt:formatDate value="${fDiscount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
@@ -64,6 +64,10 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tr>
+			<td colspan="3"><b>合计</b></td>
+			<td colspan="3"><b>${Sum}￥</b></td>
+		</tr>
 	</table>
 	<div class="pagination">${page}</div>
 </body>

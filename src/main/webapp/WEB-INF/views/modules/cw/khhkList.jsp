@@ -42,9 +42,9 @@
     <thead>
     <tr>
         <th>客户名称</th>
-        <th>还款金额</th>
         <th>还款日期</th>
         <th>创建时间</th>
+        <th>还款金额</th>
         <%--<shiro:hasPermission name="cw:fIncomeRecord:edit"><th>操作</th></shiro:hasPermission>--%>
     </tr>
     </thead>
@@ -55,13 +55,13 @@
                     ${fIncomeRecord.khName}
             </td>
             <td>
-                    ${fIncomeRecord.incomeMoney}
-            </td>
-            <td>
                 <fmt:formatDate value="${fIncomeRecord.incomeDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
             <td>
                 <fmt:formatDate value="${fIncomeRecord.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+            </td>
+            <td>
+                    ${fIncomeRecord.incomeMoney}
             </td>
             <%--<shiro:hasPermission name="cw:fIncomeRecord:edit"><td>--%>
                 <%--<a href="${ctx}/cw/fIncomeRecord/form?id=${fIncomeRecord.id}">修改</a>--%>
@@ -70,6 +70,10 @@
         </tr>
     </c:forEach>
     </tbody>
+    <tr>
+        <td colspan="3"><b>合计</b></td>
+        <td colspan="1"><b>${Sum}￥</b></td>
+    </tr>
 </table>
 <div class="pagination">${page}</div>
 </body>

@@ -54,9 +54,26 @@ public class FPaymentController extends BaseController {
 	@RequiresPermissions("cw:fPayment:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FPayment fPayment, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FPayment> page = fPaymentService.findPage(new Page<FPayment>(request, response), fPayment); 
+		Page<FPayment> page = fPaymentService.findPage(new Page<FPayment>(request, response), fPayment);
+		Double Sum=0.00;
+		Double htSum=0.00;
+		if(page.getList().size()>0){
+			List<FPayment> fPaymentList=page.getList();
+			for(int i=0;i<fPaymentList.size();i++) {
+				if (StringUtils.isNotBlank(fPaymentList.get(i).getJe())) {
+					Double je = Double.parseDouble(fPaymentList.get(i).getJe());
+					Sum += je;
+				}
+				if (StringUtils.isNotBlank(fPaymentList.get(i).getHtje())) {
+					Double htje = Double.parseDouble(fPaymentList.get(i).getHtje());
+					htSum += htje;
+				}
+			}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fPayment", fPayment);
+		model.addAttribute("Sum",Sum);
+		model.addAttribute("htSum",htSum);
 		return "modules/cw/fPaymentList";
 	}
 

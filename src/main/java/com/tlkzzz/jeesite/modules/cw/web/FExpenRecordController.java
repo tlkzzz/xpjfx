@@ -22,6 +22,8 @@ import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.cw.entity.FExpenRecord;
 import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
 
+import java.util.List;
+
 /**
  * 支出记录Controller
  * @author xrc
@@ -49,9 +51,20 @@ public class FExpenRecordController extends BaseController {
 	@RequiresPermissions("cw:fExpenRecord:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(FExpenRecord fExpenRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<FExpenRecord> page = fExpenRecordService.findPage(new Page<FExpenRecord>(request, response), fExpenRecord); 
+		Page<FExpenRecord> page = fExpenRecordService.findPage(new Page<FExpenRecord>(request, response), fExpenRecord);
+		Double Sum=0.00;
+		if(page.getList().size()>0){
+			List<FExpenRecord> fExpenRecordList=page.getList();
+			for(int i=0;i<fExpenRecordList.size();i++) {
+				if (StringUtils.isNotBlank(fExpenRecordList.get(i).getExpenMoney())) {
+					Double je = Double.parseDouble(fExpenRecordList.get(i).getExpenMoney());
+					Sum += je;
+				}
+			}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fExpenRecord",fExpenRecord);
+		model.addAttribute("Sum", Sum);
 		return "modules/cw/fExpenRecordList";
 	}
 
