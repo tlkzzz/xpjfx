@@ -259,8 +259,11 @@
 		FROM c_rkckddinfo a
 		<where>
 			a.del_flag = '0' AND a.issp= '0'
-			<if	test="_parameter != null and _parameter != ''">
-				AND a.state = #{_parameter}
+			<if	test="lx != null and lx != ''">
+				AND a.lx = #{lx}
+			</if>
+			<if	test="state != null and state != ''">
+				AND a.state = #{state}
 			</if>
 		</where>
 	</select>
