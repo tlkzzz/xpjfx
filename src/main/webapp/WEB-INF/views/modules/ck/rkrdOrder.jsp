@@ -302,19 +302,19 @@
                             <td>
                                 <div style="padding: 2px 0px">
                                     预&nbsp; 付&nbsp; 款:
-                                    <input class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" disabled="disabled" value="${(payment)?payment.je:0}">
+                                    <input class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" disabled="disabled" value="${(not empty payment)?payment.je:0}">
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding: 2px 0px;">应付款金额：
-                                <span class="ng-binding ng-scope">${total-((payment)?payment.je:0)}</span>
+                                <span class="ng-binding ng-scope">${total-((not empty payment)?payment.je:0)}</span>
                             </td>
                             <td>
                                 <div style="padding: 2px 0px">
                                     实付金额 :
                                     <span class="ng-scope">
-                                            <input id="sfje" class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" value="${total-((payment)?payment.je:0)}">
+                                            <input id="sfje" class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" value="${total-((not empty payment)?payment.je:0)}">
                                     </span>
                                 </div>
                                 <div style="padding: 2px 0px">

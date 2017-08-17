@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-    <title>仓库管理</title>
+    <title>退货录单</title>
     <link href="${ctxStatic}/css/ckgl.css" type="text/css" rel="stylesheet"/>
     <script src="${ctxStatic}/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
     <link href="${ctxStatic}/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet" />
@@ -106,7 +106,7 @@
 <div class="box">
     <div style="height: 40px;">
         <ul class="nav nav-tabs">
-            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">出库录单</a></li>
+            <li class="active" style="border: 0;border-top: 1px solid #d3d3d3;border-left: 1px solid #d3d3d3;border-right: 1px solid #d3d3d3;padding: 4px 4px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;"><a href="" style="text-decoration: none;out-line: none;color: #000;">退货录单</a></li>
         </ul>
     </div>
     <div class="box1">
