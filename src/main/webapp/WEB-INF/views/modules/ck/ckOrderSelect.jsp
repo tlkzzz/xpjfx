@@ -61,7 +61,7 @@
             if(id==""||state=="")return;
             var pageName = (state=="1")?"rkrdOrder":(state=="3")?"qtrkOrder":(state=="5")?"jhthOrder":"";
             if(pageName=="")return;
-            $("#rkdmx").attr("src","order/"+pageName+"?lx=0&id="+id);
+            $("#rkdmx").attr("src","order/"+pageName+"?lx=0&review=true&id="+id);
             $("#content").css("width","1100px");
             $(".details").css("display","block");
         }
