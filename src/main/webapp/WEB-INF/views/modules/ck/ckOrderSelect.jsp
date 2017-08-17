@@ -20,6 +20,7 @@
         function Show(id) {
             if(id=='')return;
             $("#rkdmx").attr("src","RKDDetails?id="+id);
+            $("#content").css("width","900px");
             $(".details").css("display","block");
         }
         function showSubOrder(id,ele) {
@@ -56,6 +57,14 @@
                 }
             })
         }
+        function AuditingPage(id,state) {
+            if(id==""||state=="")return;
+            var pageName = (state=="1")?"rkrdOrder":(state=="3")?"qtrkOrder":(state=="5")?"jhthOrder":"";
+            if(pageName=="")return;
+            $("#rkdmx").attr("src","order/"+pageName+"?lx=0&id="+id);
+            $("#content").css("width","1100px");
+            $(".details").css("display","block");
+        }
         function page(n,s){
             $("#pageNo").val(n);
             $("#pageSize").val(s);
@@ -76,8 +85,8 @@
                 <div style="position: relative; margin-top: 10px; margin-left: 10px;">
                     <!-- Nav tabs -->
                     <ul id="myTab" class="nav nav-tabs" role="tablist">
-                        <li class="active" style="width: 90px;">
-                            <a>全部&nbsp;
+                        <li <c:if test="${empty cRkckddinfo.state}">class="active"</c:if> style="width: 90px;">
+                            <a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0">全部&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                         <div style="margin: 0px 5px; line-height: 1.4">
                                             <span id="Anthem_lblqb__"><span id="lblqb">${allNotIsspCount}</span></span>
@@ -85,8 +94,8 @@
                                     </span>
                             </a>
                         </li>
-                        <li style="width: 120px;">
-                            <a>进货录单&nbsp;
+                        <li <c:if test="${cRkckddinfo.state eq '1'}">class="active"</c:if> style="width: 120px;">
+                            <a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0&state=1">进货录单&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                         <div style="margin: 0px 5px; line-height: 1.4">
                                             <span id="Anthem_lbljh__"><span id="lbljh">${ckNotIsspCount}</span></span>
@@ -94,8 +103,8 @@
                                     </span>
                             </a>
                         </li>
-                        <li style="width: 125px;">
-                            <a>其他入库&nbsp;
+                        <li <c:if test="${cRkckddinfo.state eq '3'}">class="active"</c:if> style="width: 125px;">
+                            <a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0&state=3">其他入库&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                             <div style="margin: 0px 5px; line-height: 1.4">
                                                 <span id="Anthem_lblqtrk__"><span id="lblqtrk">${qtNotIsspCount}</span></span>
@@ -103,8 +112,8 @@
                                         </span>
                             </a>
                         </li>
-                        <li style="width: 125px;">
-                            <a>进货退货&nbsp;
+                        <li <c:if test="${cRkckddinfo.state eq '5'}">class="active"</c:if> style="width: 125px;">
+                            <a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0&state=5">进货退货&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                             <div style="margin: 0px 5px; line-height: 1.4">
                                                 <span id="Anthem_lbljhth__"><span id="lbljhth">${thNotIsspCount}</span></span>
@@ -112,24 +121,15 @@
                                         </span>
                             </a>
                         </li>
-                        <li style="width: 125px;">
-                            <a>临时入库&nbsp;
+                        <li <c:if test="${cRkckddinfo.state eq '0'}">class="active"</c:if> style="width: 125px;">
+                            <a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0&state=0">临时入库&nbsp;
                                 <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
                                             <div style="margin: 0px 5px; line-height: 1.4">
                                                 <span id="Anthem_lblhhrk__"><span id="lblhhrk">${lsNotIsspCount}</span></span>
                                             </div>
                                         </span>
                             </a>
-                        </li><%--
-                        <li style="width: 100px;">
-                            <a>移库入库&nbsp;
-                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
-                                            <div style="margin: 0px 5px; line-height: 1.4">
-                                                <span id="Anthem_lblykrk__"><span id="lblykrk">3</span></span>
-                                            </div>
-                                        </span>
-                            </a>
-                        </li>--%>
+                        </li>
                     </ul>
                     <div id="helpTip" style="position: absolute; padding: 0px; color: #088AE3; font-size: 13px; top: 8px; right: 0px; text-align: right; z-index: 999" data-hasqtip="0">
                         <a href="javascript: void(0);" style="font-size: 13px; text-decoration: none">帮助
@@ -270,7 +270,9 @@
                                                 <div title="操作人：${crk.createBy.name}">${crk.createBy.name}</div>
                                             </td>
                                             <td align="center" valign="middle" style="width:80px;">
-                                                <div id="Anthem_grid_ctl02_pnlTop__">${fns:getDictLabel(crk.issp, "storeState", "")}</div>
+                                                <div <c:if test="${crk.issp eq '0'}">onClick="AuditingPage('${crk.id}','${crk.state}')"</c:if>>
+                                                    ${fns:getDictLabel(crk.issp, "storeState", "")}
+                                                </div>
                                             </td>
                                             <td align="left" style="width:80px;">
                                                 <div style="width: 45px;">
@@ -332,7 +334,7 @@
         </tr>
         </tbody></table>
 </div>
-<div tabindex="-1" aria-labelledby="title:rkdmx" aria-describedby="content:rkdmx" class="details ui-popup ui-popup-modal ui-popup-show ui-popup-focus" role="alertdialog" style="position: absolute; outline: 0px; left: 349px; top: 46px; z-index: 1051;display:none;">
+<div tabindex="-1" aria-labelledby="title:rkdmx" aria-describedby="content:rkdmx" class="details ui-popup ui-popup-modal ui-popup-show ui-popup-focus" role="alertdialog" style="position: absolute; outline: 0px; left: 5px; top: 1px; z-index: 1051;display:none;">
     <div i="dialog" class="ui-dialog">
         <div class="ui-dialog-arrow-a"></div>
         <div class="ui-dialog-arrow-b"></div>
@@ -346,7 +348,7 @@
             </tr>
             <tr>
                 <td i="body" class="ui-dialog-body" style="padding: 0px;">
-                    <div i="content" class="ui-dialog-content" id="content:rkdmx" style="width: 900px; height: 550px;">
+                    <div class="ui-dialog-content" id="content" style="width: 900px; height: 550px;">
                         <iframe src="" id="rkdmx" name="rkdmx" width="100%" height="100%" allowtransparency="yes" frameborder="no" scrolling="auto"></iframe>
                     </div>
                 </td>
