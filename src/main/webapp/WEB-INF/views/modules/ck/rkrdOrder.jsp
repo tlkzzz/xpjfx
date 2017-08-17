@@ -63,6 +63,7 @@
             $.post("../rkReview",{id:id,account:account,travelAccount:travelAccount,total:total},function (data) {
                 if(data=="true"){
                     window.parent.dialogClose();
+                    window.parent.location.reload();
                     message("审核成功!");
                 }else {
                     $("#aSubmitAndAudit").css("display","block");

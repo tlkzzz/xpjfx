@@ -12,11 +12,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $(".ui-dialog-close").click(function () {
-                $("#rkdmx").attr("src","");
-                $(".details").css("display","none");
+                dialogClose();
             });
             showSubOrder('${page.list[0].id}',null);
         });
+        function dialogClose() {
+            $("#rkdmx").attr("src","");
+            $(".details").css("display","none");
+        }
         function Show(id) {
             if(id=='')return;
             $("#rkdmx").attr("src","RKDDetails?id="+id);
