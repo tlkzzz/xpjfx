@@ -458,11 +458,11 @@ public class CRkckddinfoController extends BaseController {
 		Page<CRkckddinfo> page = cRkckddinfoService.findPage(new Page<CRkckddinfo>(request,response),cRkckddinfo);
 		model.addAttribute("houseList",houseService.findList(new CHouse()));
 		model.addAttribute("supplierList",cSupplierService.findList(new CSupplier()));
-		model.addAttribute("allNotIsspCount",cRkckddinfoService.getNotIsspCount(null));
-		model.addAttribute("lsNotIsspCount",cRkckddinfoService.getNotIsspCount("0"));
-		model.addAttribute("ckNotIsspCount",cRkckddinfoService.getNotIsspCount("1"));
-		model.addAttribute("qtNotIsspCount",cRkckddinfoService.getNotIsspCount("3"));
-		model.addAttribute("thNotIsspCount",cRkckddinfoService.getNotIsspCount("5"));
+		model.addAttribute("allNotIsspCount",cRkckddinfoService.getNotIsspCount("0",null));
+		model.addAttribute("lsNotIsspCount",cRkckddinfoService.getNotIsspCount("0","0"));
+		model.addAttribute("ckNotIsspCount",cRkckddinfoService.getNotIsspCount("0","1"));
+		model.addAttribute("qtNotIsspCount",cRkckddinfoService.getNotIsspCount("0","3"));
+		model.addAttribute("thNotIsspCount",cRkckddinfoService.getNotIsspCount("0","5"));
 		model.addAttribute("cRkckddinfo",cRkckddinfo);
 		model.addAttribute("page",page);
     	return "modules/ck/ckOrderSelect";
