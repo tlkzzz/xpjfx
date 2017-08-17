@@ -561,9 +561,11 @@ public class CRkckddinfoController extends BaseController {
 		FAccount fAccounttwo=new FAccount();//new 账户对象
 		List<CRkckddinfo> cRkckddinfoList=cRkckddinfoService.findList(cRkckddinfo);//获取总订单信息
 		Double htje=Double.parseDouble(cRkckddinfoList.get(0).getHtje());//获取总订单合同金额
-		Double sjje=Double.parseDouble(cRkckddinfoList.get(0).getSjje());//获取总订单实际金额
+//		Double sjje=Double.parseDouble(cRkckddinfoList.get(0).getSjje());//获取总订单实际金额
+		Double sjje =(StringUtils.isNotBlank(cRkckddinfoList.get(0).getSjje()))?Double.parseDouble(cRkckddinfoList.get(0).getSjje()):0.0;
 		Double yhje=htje-sjje;
-		fDiscount.setStore(new CStore(cRkckddinfoList.get(0).getStore().getId()));//set客户ID
+		fDiscount.setStore(new CStore((cRkckddinfoList.get(0).getStore()!=null)?cRkckddinfoList.get(0).getStore().getId():null));//set客户ID
+//		cHgoods.setCkState((cCgzbinfo!=null)?cCgzbinfo.getId():null);
 		fDiscount.setDdid(new CRkckddinfo(zddId));//set总订单ID
 		if(yhje!=0){//判断总订单中是否存在优惠 存在
 			//增加优惠记录

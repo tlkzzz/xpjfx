@@ -193,6 +193,7 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		payment.setApprovalStatus("1");
 		payment.setAuditor(UserUtils.getUser());
 		payment.setHtje(String.valueOf(sumMoney));
+		payment.setJsr(UserUtils.getUser());
 		fPaymentDao.insert(payment);
 		fExpenRecordService.saveByPayment(payment);
 		/**修改总订单审批状态**/
