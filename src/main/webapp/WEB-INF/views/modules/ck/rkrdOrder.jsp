@@ -51,7 +51,6 @@
             $("#"+change).css("display","none");
         }
         function Auditing(id) {
-
             var account = $("#dropFKZH").val();
             var travelAccount = $("#fkAccount").val();
             var total = $("#sfje").val();
@@ -222,7 +221,7 @@
                 <li style="width: 80px;float: left;padding-left: 5px;border: 0px" class="active">
                     <span class="badge" onclick="changePayTable('spxxDiv','skxxDiv')">商品明细</span>
                 </li>
-                <c:if test="${not empty review}">
+                <c:if test="${not empty review && cRkckddinfo.issp eq '0'}">
                 <li style="width: 80px;float: left;padding-left: 5px;border: 0px">
                     <span class="badge" onclick="changePayTable('skxxDiv','spxxDiv')">付款信息</span>
                 </li>
@@ -264,7 +263,7 @@
                 </form>
             </div>
         </div>
-        <c:if test="${not empty review}">
+        <c:if test="${not empty review && cRkckddinfo.issp eq '0'}">
         <div id="skxxDiv" class="" style="width: 100%;display: block">
             <div class="panel panel-default">
                 <div id="skxxTabContent" style="padding: 10px; height: 517px; overflow: auto;">
