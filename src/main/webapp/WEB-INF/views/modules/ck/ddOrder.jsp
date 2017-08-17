@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-    <title>仓库管理</title>
+    <title>订单申报</title>
     <script src="${ctxStatic}/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
     <link href="${ctxStatic}/My97DatePicker/skin/WdatePicker.css" type="text/css" rel="stylesheet"/>
     <link href="${ctxStatic}/css/ckgl.css" type="text/css" rel="stylesheet"/>
