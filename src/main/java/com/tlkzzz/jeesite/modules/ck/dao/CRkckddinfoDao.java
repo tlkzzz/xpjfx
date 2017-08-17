@@ -6,6 +6,7 @@ package com.tlkzzz.jeesite.modules.ck.dao;
 import com.tlkzzz.jeesite.common.persistence.CrudDao;
 import com.tlkzzz.jeesite.common.persistence.annotation.MyBatisDao;
 import com.tlkzzz.jeesite.modules.ck.entity.CRkckddinfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -45,10 +46,11 @@ public interface CRkckddinfoDao extends CrudDao<CRkckddinfo> {
 
     /**
      * 通过状态查询未审批订单数量
+     * @param lx
      * @param state
      * @return
      */
-    public Integer getNotIsspCount(String state);
+    public Integer getNotIsspCount(@Param("lx")String lx, @Param("state")String state);
 
     /**
      * shizx APP分页查询
