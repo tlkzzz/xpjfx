@@ -80,8 +80,8 @@ public class CRkckddinfoService extends CrudService<CRkckddinfoDao, CRkckddinfo>
 		return dao.shenheruku(cRkckddinfo);
 	}
 
-	public Integer getNotIsspCount(String state){
-		return dao.getNotIsspCount(state);
+	public Integer getNotIsspCount(String lx,String state){
+		return dao.getNotIsspCount(lx,state);
 	}
 
 	public List<CRkckddinfo> shenheruku( CRkckddinfo cRkckddinfo) {
