@@ -201,6 +201,8 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 		rkckddinfo.setSpr(UserUtils.getUser());
 		rkckddinfo.setSpsj(new Date());
 		cRkckddinfoDao.changeIssp(rkckddinfo);
+		rkckddinfo.setJe(String.valueOf(sumMoney));
+		cRkckddinfoDao.updateJe(rkckddinfo);
 		return true;
 	}
 
