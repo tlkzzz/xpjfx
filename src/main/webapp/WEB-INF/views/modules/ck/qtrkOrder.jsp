@@ -62,6 +62,8 @@
             $("#aAfterSubmitAndAudit").css("display","block");
             $.post("../rkReview",{id:id,account:account,travelAccount:travelAccount,total:total},function (data) {
                 if(data=="true"){
+                    window.parent.dialogClose();
+                    window.parent.location.reload();
                     message("审核成功!");
                 }else {
                     $("#aSubmitAndAudit").css("display","block");
@@ -221,7 +223,7 @@
                 <li style="width: 80px;float: left;padding-left: 5px;border: 0px" class="active">
                     <span class="badge" onclick="changePayTable('spxxDiv','skxxDiv')">商品明细</span>
                 </li>
-                <c:if test="${not empty review}">
+                <c:if test="${not empty review && cRkckddinfo.issp eq '0'}">
                     <li style="width: 80px;float: left;padding-left: 5px;border: 0px">
                         <span class="badge" onclick="changePayTable('skxxDiv','spxxDiv')">付款信息</span>
                     </li>
@@ -242,10 +244,17 @@
                 </thead>
                 <%--添加商品列表--%>
             </table>
+            <div style="width: 100%;">
+                <div class="xiaozi" style="float: left;"><%--大： 1  中： 1  小： 1--%></div>
+                <div class="xiaozi" style="text-align: right;float: right;" id="totalInfo">共 0 条，0元</div>
+                <div class="clearfix"></div>
+            </div>
+
         <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
             <input type="hidden" id="goodsData" value='${goodsJSON}'>
             <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
                 <input type="hidden" name="pageName" value="qtrkOrder">
+                <input type="hidden" name="review" value="${review}">
                 <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
                 <input type="hidden" id="supplierlist" name="supplier.id">
                 <input type="hidden" id="houselist" name="cHouse.id">
@@ -257,7 +266,8 @@
             </form>
         </div>
     </div>
-        <c:if test="${not empty review}">
+
+        <c:if test="${not empty review && cRkckddinfo.issp eq '0'}">
             <div id="skxxDiv" class="" style="width: 100%;display: block">
                 <div class="panel panel-default">
                     <div id="skxxTabContent" style="padding: 10px; height: 517px; overflow: auto;">
@@ -283,7 +293,7 @@
                             <tr>
                                 <td>
                                     <div style="padding: 2px 0px">
-                                        <span style="width: 80px;">付款账户 :</span>
+                                        <span style="width: 80px;">来往账户 :</span>
                                         <input id="fkAccount" style="height: 24px; width: 60px;border: 1px" value="${payment.travelAccount}">
                                     </div>
                                 </td>
@@ -295,19 +305,19 @@
                                 <td>
                                     <div style="padding: 2px 0px">
                                         预&nbsp; 付&nbsp; 款:
-                                        <input class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" disabled="disabled" value="${(payment)?payment.je:0}">
+                                        <input class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" disabled="disabled" value="${(not empty payment)?payment.je:0}">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 2px 0px;">应付款金额：
-                                    <span class="ng-binding ng-scope">${total-((payment)?payment.je:0)}</span>
+                                    <span class="ng-binding ng-scope">${total-((not empty payment)?payment.je:0)}</span>
                                 </td>
                                 <td>
                                     <div style="padding: 2px 0px">
                                         实付金额 :
                                         <span class="ng-scope">
-                                            <input id="sfje" class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" value="${total-((payment)?payment.je:0)}">
+                                            <input id="sfje" class="lk-bc lk-tar ng-pristine ng-untouched ng-valid" style="height: 24px; width: 60px;" value="${total-((not empty payment)?payment.je:0)}">
                                     </span>
                                     </div>
                                     <div style="padding: 2px 0px">

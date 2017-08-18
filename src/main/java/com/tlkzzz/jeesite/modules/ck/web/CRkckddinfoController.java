@@ -692,7 +692,9 @@ public class CRkckddinfoController extends BaseController {
 	}
 	@RequestMapping(value = "query")
 	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model,String id,String name){
-
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getLx())){
+			return "error/400";
+		}
 //       if(StringUtils.isNotBlank(id)) {
 //		   cRkckddinfo.setCreateBy(new User(id));
 //	   }
@@ -722,6 +724,11 @@ public class CRkckddinfoController extends BaseController {
 		model.addAttribute("page",page);
 		model.addAttribute("sum",sum);
 		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		model.addAttribute("allNotIsspCount",cRkckddinfoService.getNotIsspCount("1",null));
+		model.addAttribute("ckNotIsspCount",cRkckddinfoService.getNotIsspCount("1","2"));
+		model.addAttribute("ddNotIsspCount",cRkckddinfoService.getNotIsspCount("1","9"));
+		model.addAttribute("qtNotIsspCount",cRkckddinfoService.getNotIsspCount("1","3"));
+		model.addAttribute("thNotIsspCount",cRkckddinfoService.getNotIsspCount("1","5"));
 		return "modules/ck/ckQuery";
 	}
 

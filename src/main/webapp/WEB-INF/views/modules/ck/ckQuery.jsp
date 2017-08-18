@@ -16,14 +16,18 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $(".ui-dialog-close").click(function () {
-                $("#rkdmx").attr("src","");
-                $(".details").css("display","none");
+                dialogClose();
             });
             showSubOrder('${page.list[0].id}',null);
         });
+        function dialogClose() {
+            $("#rkdmx").attr("src","");
+            $(".details").css("display","none");
+        }
         function Show(id) {
             if(id=='')return;
             $("#rkdmx").attr("src","xqlist?id="+id);
+            $("#content").css("width","900px");
             $(".details").css("display","block");
         }
         function showSubOrder(id,ele,name,store,rkckdate) {
@@ -147,6 +151,15 @@
             document.getElementById("kh").style.display="block";
             $("#ywyxsLi").removeClass("active");
             $("#khLi").addClass("active");
+        }
+//审核
+        function AuditingPage(id,state) {
+            if(id==""||state=="")return;
+            var pageName = (state=="2")?"ckOrder":(state=="3")?"qtckOrder ":(state=="5")?"thOrder":(state=="9")?"ddOrder":"";
+            if(pageName=="")return;
+            $("#rkdmx").attr("src","order/"+pageName+"?lx=1&review=true&id="+id);
+            $("#content").css("width","1100px");
+            $(".details").css("display","block");
         }
     </script>
     <style type="text/css">
@@ -341,34 +354,49 @@
                 <div style="position: relative;">
                     <!-- 菜单列表 -->
                     <ul id="rightTab" class="nav nav-tabs nav_pt5" role="tablist">
-                        <li>
-                            <a style="width: 75px">全部
-                                <span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
-                                            <div style="margin: 0px 5px; line-height: 1.4;">
-                                                <span class="ng-binding"></span>
+                        <li <c:if test="${empty cRkckddinfo.state}">class="active"</c:if> style="width: 90px;">
+                            <a href="${ctx}/ck/cRkckddinfo/query?lx=1">全部&nbsp;
+                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
+                                        <div style="margin: 0px 5px; line-height: 1.4">
+                                            <span id="Anthem_lblqb__"><span id="lblqb">${allNotIsspCount}</span></span>
+                                        </div>
+                                    </span>
+                            </a>
+                        </li>
+                        <li <c:if test="${cRkckddinfo.state eq '2'}">class="active"</c:if> style="width: 120px;">
+                            <a href="${ctx}/ck/cRkckddinfo/query?lx=1&state=2">销售出库&nbsp;
+                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
+                                        <div style="margin: 0px 5px; line-height: 1.4">
+                                            <span id="Anthem_lbljh__"><span id="lbljh">${ckNotIsspCount}</span></span>
+                                        </div>
+                                    </span>
+                            </a>
+                        </li>
+                        <li <c:if test="${cRkckddinfo.state eq '5'}">class="active"</c:if> style="width: 125px;">
+                            <a href="${ctx}/ck/cRkckddinfo/query?lx=1&state=5">换货出库&nbsp;
+                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
+                                            <div style="margin: 0px 5px; line-height: 1.4">
+                                                <span id="Anthem_lblqtrk__"><span id="lblqtrk">${thNotIsspCount}</span></span>
                                             </div>
                                         </span>
                             </a>
                         </li>
-                        <li>
-                            <a style="width: 105px">销售出库
-                                <span style="padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; position: absolute; top: 6px; z-index: 1;border-radius: 8px;">
-                                            <div style="margin: 0px 5px; line-height: 1.4;">
-                                                <span class="ng-binding"></span>
+                        <li <c:if test="${cRkckddinfo.state eq '9'}">class="active"</c:if> style="width: 125px;">
+                            <a href="${ctx}/ck/cRkckddinfo/query?lx=1&state=9">处理出库&nbsp;
+                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
+                                            <div style="margin: 0px 5px; line-height: 1.4">
+                                                <span id="Anthem_lbljhth__"><span id="lbljhth">${ddNotIsspCount}</span></span>
                                             </div>
                                         </span>
                             </a>
                         </li>
-                        <li>
-                            <a style="width: 105px">还货出库
-                            </a>
-                        </li>
-                        <li>
-                            <a style="width: 105px">处理出库
-                            </a>
-                        </li>
-                        <li>
-                            <a style="width: 105px">其他出库
+                        <li <c:if test="${cRkckddinfo.state eq '3'}">class="active"</c:if> style="width: 125px;">
+                            <a href="${ctx}/ck/cRkckddinfo/query?lx=1&state=3">其他出库&nbsp;
+                                <span class="badge" style="position: absolute; padding: 0px; background-color: #FF6400; color: #fff; font-weight: bold; top: 3px; text-align: center; z-index: 999">
+                                            <div style="margin: 0px 5px; line-height: 1.4">
+                                                <span id="Anthem_lblhhrk__"><span id="lblhhrk">${qtNotIsspCount}</span></span>
+                                            </div>
+                                        </span>
                             </a>
                         </li>
                     </ul>
@@ -393,6 +421,7 @@
                         <tr>
                             <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                             <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+                            <input name="lx" type="hidden" value="${cRkckddinfo.lx}"/>
                             <input type="hidden" id="cstore" name="store.id">
                             <input type="hidden" id="create" name="createBy.id">
                             <td>
@@ -535,8 +564,8 @@
                     <!--全部单据菜单栏-->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active"><a>全部单据</a></li>
-                        <li><a>变价单据</a></li>
-                        <li><a>未变价单据</a></li>
+                        <%--<li><a>变价单据</a></li>--%>
+                        <%--<li><a>未变价单据</a></li>--%>
                     </ul>
 
                     <div style="padding: 10px 10px">
@@ -554,7 +583,7 @@
                                     <th scope="col">操作人</th>
                                     <th scope="col">出库时间</th>
                                     <th scope="col">金额</th>
-                                    <th scope="col">状态</th>
+                                    <th scope="col">审核</th>
                                 </tr>
                                         <c:forEach items="${page.list}" var="cRkckddinfo" varStatus="status">
                                             <tr <c:if test="${status.first}">class="lk-selected001"</c:if> onclick="showSubOrder('${cRkckddinfo.id}',$(this),'${cRkckddinfo.createBy.name}','${cRkckddinfo.store.name}','${cRkckddinfo.rkckdate}')">
@@ -576,9 +605,10 @@
                                                     <div title="出库时间：<fmt:formatDate value='${cRkckddinfo.rkckdate}' pattern='yyyy-MM-dd HH:mm'/>"><fmt:formatDate value='${cRkckddinfo.rkckdate}' pattern='yyyy-MM-dd HH:mm'/></div>
                                                 </td>
                                                 <td align="center">${cRkckddinfo.htje}</td>
-                                                <td align="center">
-                                                ${fns:getDictLabel(cRkckddinfo.issp, "storeState", "")}
-
+                                                <td align="center" valign="middle" style="width:80px;">
+                                                    <div <c:if test="${cRkckddinfo.issp eq '0'}">onClick="AuditingPage('${cRkckddinfo.id}','${cRkckddinfo.state}')"</c:if>>
+                                                            ${fns:getDictLabel(cRkckddinfo.issp, "storeState", "")}
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -647,36 +677,37 @@
 
 
 
+<div tabindex="-1" aria-labelledby="title:rkdmx" aria-describedby="content:rkdmx" class="details ui-popup ui-popup-modal ui-popup-show ui-popup-focus" role="alertdialog" style="position: absolute; outline: 0px; left: 5px; top: 1px; z-index: 1051;display:none;">
+    <div i="dialog" class="ui-dialog">
+        <div class="ui-dialog-arrow-a"></div>
+        <div class="ui-dialog-arrow-b"></div>
+        <table class="ui-dialog-grid">
+            <tbody>
+            <tr>
+                <td i="header" class="ui-dialog-header">
+                    <button i="close" class="ui-dialog-close" title="cancel">×</button>
+                    <div i="title" class="ui-dialog-title" id="title:rkdmx">入库单详细信息</div>
+                </td>
+            </tr>
+            <tr>
+                <td i="body" class="ui-dialog-body" style="padding: 0px;">
+                    <div class="ui-dialog-content" id="content" style="width: 900px; height: 550px;">
+                        <iframe src="" id="rkdmx" name="rkdmx" width="100%" height="100%" allowtransparency="yes" frameborder="no" scrolling="auto"></iframe>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td i="footer" class="ui-dialog-footer" style="display: none;">
+                    <div i="statusbar" class="ui-dialog-statusbar" style="display: none;"></div>
+                    <div i="button" class="ui-dialog-button"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div tabindex="0" class="details" style="z-index: 1050; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; -webkit-user-select: none; opacity: 0.5; background: rgb(0, 0, 0);display:none;"></div>
 
-  <div tabindex="-1" aria-labelledby="title:rkdmx" aria-describedby="content:rkdmx" class="details ui-popup ui-popup-modal ui-popup-show ui-popup-focus" role="alertdialog" style="position: absolute; outline: 0px; left: 349px; top: 46px; z-index: 1051;display:none;">
-                                    <div i="dialog" class="ui-dialog">
-                                        <div class="ui-dialog-arrow-a"></div>
-                                        <div class="ui-dialog-arrow-b"></div>
-                                        <table class="ui-dialog-grid">
-                                            <tbody>
-                                            <tr>
-                                                <td i="header" class="ui-dialog-header">
-                                                    <button i="close" class="ui-dialog-close" title="cancel">×</button>
-                                                    <div i="title" class="ui-dialog-title" id="title:rkdmx">入库单详细信息</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td i="body" class="ui-dialog-body" style="padding: 0px;">
-                                                    <div i="content" class="ui-dialog-content" id="content:rkdmx" style="width: 900px; height: 550px;">
-                                                        <iframe src="" id="rkdmx" name="rkdmx" width="100%" height="100%" allowtransparency="yes" frameborder="no" scrolling="auto"></iframe>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td i="footer" class="ui-dialog-footer" style="display: none;">
-                                                    <div i="statusbar" class="ui-dialog-statusbar" style="display: none;"></div>
-                                                    <div i="button" class="ui-dialog-button"></div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+
 </body>
-
 </html>
