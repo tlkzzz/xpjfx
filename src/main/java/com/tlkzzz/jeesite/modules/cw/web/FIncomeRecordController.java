@@ -63,8 +63,19 @@ public class FIncomeRecordController extends BaseController {
 	@RequestMapping(value = {"list",""})
 	public String list(FIncomeRecord fIncomeRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord);
+		Double Sum=0.00;
+		if(page.getList().size()>0){
+			List<FIncomeRecord> fIncomeRecordList=page.getList();
+			for(int i=0;i<fIncomeRecordList.size();i++) {
+				if (StringUtils.isNotBlank(fIncomeRecordList.get(i).getIncomeMoney())) {
+					Double je = Double.parseDouble(fIncomeRecordList.get(i).getIncomeMoney());
+					Sum += je;
+				}
+			}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fIncomeRecord",fIncomeRecord);
+		model.addAttribute("Sum", Sum);
 		return "modules/cw/fIncomeRecordList";
 	}
 
@@ -98,6 +109,17 @@ public class FIncomeRecordController extends BaseController {
 	@RequestMapping(value = "khhk")
 	public String khhk(FIncomeRecord fIncomeRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<FIncomeRecord> page = fIncomeRecordService.findPage(new Page<FIncomeRecord>(request, response), fIncomeRecord);
+		Double Sum=0.00;
+		if(page.getList().size()>0){
+			List<FIncomeRecord> fIncomeRecordList=page.getList();
+			for(int i=0;i<fIncomeRecordList.size();i++) {
+				if (StringUtils.isNotBlank(fIncomeRecordList.get(i).getIncomeMoney())) {
+					Double je = Double.parseDouble(fIncomeRecordList.get(i).getIncomeMoney());
+					Sum += je;
+				}
+			}
+		}
+		model.addAttribute("Sum", Sum);
 		model.addAttribute("page", page);
 		model.addAttribute("fIncomeRecord", fIncomeRecord);
 		model.addAttribute("fIncomeRecordList", fIncomeRecordService.khFindList(fIncomeRecord));

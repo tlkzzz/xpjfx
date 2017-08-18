@@ -83,6 +83,10 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tr>
+			<td colspan="2"><b>合计</b></td>
+			<td colspan="3"><b>${Sum}￥</b></td>
+		</tr>
 	</table>
 	<div class="pagination">${page}</div>
 </body>

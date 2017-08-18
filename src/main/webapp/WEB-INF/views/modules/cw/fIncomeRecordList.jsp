@@ -43,10 +43,10 @@
 		<thead>
 			<tr>
 				<th>订单编号</th>
-			    <th>收入金额</th>
 				<th>来往帐号</th>
 				<th>收入帐号</th>
 				<th>支付时间</th>
+				<th>收入金额</th>
 				<th>备注</th>
 				<shiro:hasPermission name="cw:fIncomeRecord:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -58,9 +58,6 @@
 						${fIncomeRecord.ddbh}
 				</td>
 				<td>
-						${fIncomeRecord.incomeMoney}
-				</td>
-				<td>
 						${fIncomeRecord.traverAccount}
 				</td>
 				<td>
@@ -68,6 +65,9 @@
 				</td>
 				<td>
 					<fmt:formatDate value="${fIncomeRecord.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+						${fIncomeRecord.incomeMoney}
 				</td>
 				<td>
 						${fIncomeRecord.remarks}
@@ -79,6 +79,10 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tr>
+			<td colspan="4"><b>合计</b></td>
+			<td colspan="3"><b>${Sum}￥</b></td>
+		</tr>
 	</table>
 	<div class="pagination">${page}</div>
 </body>

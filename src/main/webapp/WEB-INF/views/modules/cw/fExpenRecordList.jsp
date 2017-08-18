@@ -45,8 +45,8 @@
 				<th>订单编号</th>
 				<th>支出帐号</th>
 				<th>来往帐号</th>
-				<th>支出金额</th>
 				<th>支出方式</th>
+				<th>支出金额</th>
 				<th>支出时间</th>
 				<th>备注</th>
 			</tr>
@@ -64,10 +64,10 @@
 					${fExpenRecord.travelAccount}
 				</td>
 				<td>
-					${fExpenRecord.expenMoney}
+					${fns:getDictLabel(fExpenRecord.expenMode, "expenMode", "")}
 				</td>
 				<td>
-					${fns:getDictLabel(fExpenRecord.expenMode, "expenMode", "")}
+						${fExpenRecord.expenMoney}
 				</td>
 				<td>
 					<fmt:formatDate value="${fExpenRecord.expenDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -78,6 +78,10 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tr>
+			<td colspan="4"><b>合计</b></td>
+			<td colspan="3"><b>${Sum}￥</b></td>
+		</tr>
 	</table>
 	<div class="pagination">${page}</div>
 </body>

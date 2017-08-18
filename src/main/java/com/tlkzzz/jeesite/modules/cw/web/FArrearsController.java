@@ -71,8 +71,19 @@ public class FArrearsController extends BaseController {
 	public String storeList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
 		fArrears.setArrearsType("0");
 		Page<FArrears> page = fArrearsService.findPage(new Page<FArrears>(request, response), fArrears);
+		Double Sum=0.00;
+		if(page.getList().size()>0){
+			List<FArrears> fArrearsList=page.getList();
+			for(int i=0;i<fArrearsList.size();i++) {
+				if (StringUtils.isNotBlank(fArrearsList.get(i).getTotal())) {
+					Double je = Double.parseDouble(fArrearsList.get(i).getTotal());
+					Sum += je;
+				}
+			}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fArrears",fArrears);
+		model.addAttribute("Sum", Sum);
 		return "modules/cw/fArrearsList";
 	}
 
@@ -121,8 +132,19 @@ public class FArrearsController extends BaseController {
 	public String supplierList(FArrears fArrears, HttpServletRequest request, HttpServletResponse response, Model model) {
 		fArrears.setArrearsType("1");
 		Page<FArrears> page = fArrearsService.findSupplierPage(new Page<FArrears>(request, response), fArrears);
+		Double Sum=0.00;
+		if(page.getList().size()>0){
+			List<FArrears> fArrearsList=page.getList();
+			for(int i=0;i<fArrearsList.size();i++) {
+				if (StringUtils.isNotBlank(fArrearsList.get(i).getTotal())) {
+					Double je = Double.parseDouble(fArrearsList.get(i).getTotal());
+					Sum += je;
+				}
+			}
+		}
 		model.addAttribute("page", page);
 		model.addAttribute("fArrears",fArrears);
+		model.addAttribute("Sum", Sum);
 		return "modules/cw/fArrearsSupplierList";
 	}
 

@@ -90,6 +90,8 @@
 				<th>单据编号</th>
 				<th>审核状态</th>
 				<th>付款方式</th>
+				<th>合同金额</th>
+				<th>金额</th>
 				<th>创建时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="cw:fPayment:edit"><th>操作</th></shiro:hasPermission>
@@ -125,6 +127,12 @@
 						${fns:getDictLabel(fPayment.paymentMode, "paymentMode", "")}
 				</td>
 				<td>
+						${fPayment.htje}
+				</td>
+				<td>
+						${fPayment.je}
+				</td>
+				<td>
 					<fmt:formatDate value="${fPayment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
@@ -140,6 +148,11 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tr>
+			<td colspan="8"><b>合计</b></td>
+			<td colspan="1"><b>${htSum}￥</b></td>
+			<td colspan="4"><b>${Sum}￥</b></td>
+		</tr>
 	</table>
 	<div class="pagination">${page}</div>
 </body>
