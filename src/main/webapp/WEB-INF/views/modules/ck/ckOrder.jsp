@@ -70,14 +70,38 @@
             });
         }
         window.onload=zhanghu;
-        function fktijiao() {
+        function aa() {
             var lwzh=document.getElementById("lwzh").value;
             alert(lwzh);
             var level3=document.getElementById("level3").value;
             alert(level3);
             var skfs=document.getElementById("skfs").value;
             alert(skfs);
+            $("#aSubmitAndAudit").css("display","none");
+            $("#aAfterSubmitAndAudit").css("display","block");
             window.location="${adminPath}/a/ck/cRkckddinfo/xsckSh?zddId=1f418a8910a14b8ab1d0d86635981e7a"+"&lwzh="+lwzh+"&skzh="+level3+"&skfs="+skfs;
+        }
+        function fktijiao(id) {
+            var lwzh = $("#lwzh").val();
+            var level3 = $("#level3").val();
+            var skfs = $("#skfs").val();
+            if(id==""){message("请先提交订单后在进行审核!");return false;}
+            if(lwzh==""){message("lwzh!");return false;}
+            if(level3==""){message("level3!");return false;}
+            if(skfs==""){message("skfs!");return false;}
+            $("#aSubmitAndAudit").css("display","none");
+            $("#aAfterSubmitAndAudit").css("display","block");
+            $.post("../xsckSh",{id:id,lwzh:lwzh,level3:level3,skfs:skfs},function (data) {
+                if(data=="true"){
+                    window.parent.dialogClose();
+                    window.parent.location.reload();
+                    message("审核成功!");
+                }else {
+                    $("#aSubmitAndAudit").css("display","block");
+                    $("#aAfterSubmitAndAudit").css("display","none");
+                    message("审核失败,请刷新后重新审核!");
+                }
+            });
         }
     </script>
 </head>
@@ -261,8 +285,9 @@
                     <input type="hidden" id="bzlist" name="remarks">
                     <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
                     <input type="hidden" name="lx" value="1">
+                    <input type="hidden" name="review" value="${review}">
                     <input type="hidden" name="state" value="2">
-                    <input type="button" onclick="fktijiao();" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
+                    <input type="submit"  style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
                 </form>
             </div>
         </div>
@@ -306,6 +331,14 @@
                     </td>
                     </tbody>
                 </table>
+                <div id="submitAndAudit" class="input-group " style="width: 320px; margin: 10px auto; text-align: center; padding-bottom: 4px">
+                    <div class="input-group " style="width: 310px;">
+                        <div class="input-group-btn">
+                            <a id="aSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" onclick="fktijiao('${cRkckddinfo.id}')">提交并审核</a>
+                            <a id="aAfterSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" style="display: none;">提交中...</a>
+                        </div>
+                    </div>
+                </div>
         </div>
         </c:if>
         <%--收款信息结束--%>
