@@ -9,7 +9,11 @@ import java.util.List;
 import com.tlkzzz.jeesite.common.utils.StringUtils;
 import com.tlkzzz.jeesite.modules.ck.dao.*;
 import com.tlkzzz.jeesite.modules.ck.entity.*;
+import com.tlkzzz.jeesite.modules.cw.dao.FArrearsDao;
+import com.tlkzzz.jeesite.modules.cw.dao.FDiscountDao;
 import com.tlkzzz.jeesite.modules.cw.dao.FPaymentDao;
+import com.tlkzzz.jeesite.modules.cw.entity.FArrears;
+import com.tlkzzz.jeesite.modules.cw.entity.FDiscount;
 import com.tlkzzz.jeesite.modules.cw.entity.FPayment;
 import com.tlkzzz.jeesite.modules.cw.service.FExpenRecordService;
 import com.tlkzzz.jeesite.modules.sys.utils.ToolsUtils;
@@ -44,6 +48,10 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	private CDdinfoDao cDdinfoDao;
 	@Autowired
 	private FPaymentDao fPaymentDao;
+	@Autowired
+	private FDiscountDao fDiscountDao;
+	@Autowired
+	private FArrearsDao fArrearsDao;
 
 	public CCgzbinfo get(String id) {
 		return super.get(id);
@@ -147,9 +155,10 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 	public boolean saveCdList(List<CDdinfo> cdList,CRkckddinfo rkckddinfo,
 							  String account,String travelAccount,String total) {//商品列表入库
 		Date date = new Date();
-		double sumMoney = 0.0;
+		double sumMoney = 0.0,sumYhje = 0.0;
 		for (CDdinfo cd: cdList) {
 			sumMoney += Integer.parseInt(cd.getNub())*Double.parseDouble(cd.getJe());
+			if(StringUtils.isNotBlank(cd.getYhje()))sumYhje += Double.parseDouble(cd.getYhje());
 			/**修改采购申请信息**/
 			CCgzbinfo cCgzbinfo = dao.getZbByGoodsAndState(cd.getGoods().getId(),"0");
 			if(cCgzbinfo!=null) {
@@ -180,6 +189,28 @@ public class CCgzbinfoService extends CrudService<CCgzbinfoDao, CCgzbinfo> {
 			cDdinfoDao.updateCGInfo(cd);
 			cd.setCgzbinfo(cCgzbinfo);
 			cDdinfoDao.updateCgzbInfo(cd);
+		}
+		/**添加优惠记录(如果有)**/
+		if(sumYhje>0){
+			FDiscount fDiscount=new FDiscount();
+			fDiscount.preInsert();
+			fDiscount.setLx("0");
+			fDiscount.setDdid(rkckddinfo);
+			fDiscount.setYhje(String.valueOf(sumYhje));
+			fDiscount.setStore(new CStore(rkckddinfo.getSupplier().getId()));
+			fDiscountDao.insert(fDiscount);
+		}
+		/**添加欠款记录(如果有)**/
+		if((sumMoney-Double.parseDouble(total))>0){
+			FArrears arrears = new FArrears();
+			arrears.preInsert();
+			arrears.setRkckdd(rkckddinfo);
+			arrears.setArrearsUnit(rkckddinfo.getSupplier().getId());
+			arrears.setTotal(String.valueOf(sumMoney-Double.parseDouble(total)));
+			arrears.setArrearsType("1");
+			arrears.setArrearsMode("0");
+			arrears.setArrearsDate(date);
+			fArrearsDao.insert(arrears);
 		}
 		/**添加财务信息**/
 		FPayment payment = new FPayment();
