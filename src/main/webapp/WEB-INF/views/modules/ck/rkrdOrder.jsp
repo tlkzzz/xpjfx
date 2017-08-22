@@ -52,8 +52,11 @@
         }
         function Auditing(id) {
             var account = $("#dropFKZH").val();
+            alert(account);
             var travelAccount = $("#fkAccount").val();
+            alert(travelAccount)
             var total = $("#sfje").val();
+            alert(total);
             if(id==""){message("请先提交订单后在进行审核!");return false;}
             if(total==""){message("付款金额必须大于零!");return false;}
             if(account==""){message("请选择付款账户!");return false;}

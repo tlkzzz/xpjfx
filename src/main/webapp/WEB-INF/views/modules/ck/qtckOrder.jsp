@@ -65,28 +65,50 @@
 
         }
 
-        function zhanghu() {
-            $.ajax({
-                type: "POST",
-                url: "${adminPath}/a/ck/cRkckddinfo/zhanghuAdd",
-                success: function(data){
-                    for(var i=0;i<data.length;i++){
-//                   alert(data[0].name);
-                        var s=document.getElementById("level3");
-                        s.add(new Option(data[i].name,data[i].id));
-                    }
+        <%--function zhanghu() {--%>
+            <%--$.ajax({--%>
+                <%--type: "POST",--%>
+                <%--url: "${adminPath}/a/ck/cRkckddinfo/zhanghuAdd",--%>
+                <%--success: function(data){--%>
+                    <%--for(var i=0;i<data.length;i++){--%>
+<%--//                   alert(data[0].name);--%>
+                        <%--var s=document.getElementById("level3");--%>
+                        <%--s.add(new Option(data[i].name,data[i].id));--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--});--%>
+        <%--}--%>
+        <%--window.onload=zhanghu;--%>
+        <%--function fktijiao() {--%>
+            <%--var lwzh=document.getElementById("lwzh").value;--%>
+            <%--alert(lwzh);--%>
+            <%--var level3=document.getElementById("level3").value;--%>
+            <%--alert(level3);--%>
+            <%--var skfs=document.getElementById("skfs").value;--%>
+            <%--alert(skfs);--%>
+            <%--window.location="${adminPath}/a/ck/cRkckddinfo/xsckSh?zddId=1f418a8910a14b8ab1d0d86635981e7a"+"&lwzh="+lwzh+"&skzh="+level3+"&skfs="+skfs;--%>
+        <%--}--%>
+        function fktijiao(zddId) {
+            var lwzh = $("#lwzh").val();
+            var skzh = $("#skzh").val();
+            var skfs = $("#skfs").val();
+            if(zddId==""){message("请先提交订单后在进行审核!");return false;}
+            if(lwzh==""){message("请填写来往单位账户!");return false;}
+            if(skzh==""){message("请选择收款账户!");return false;}
+            if(skfs==""){message("请选择收款方式!");return false;}
+            $("#aSubmitAndAudit").css("display","none");
+            $("#aAfterSubmitAndAudit").css("display","block");
+            $.post("../xsckSh",{zddId:zddId,lwzh:lwzh,skzh:skzh,skfs:skfs},function (data) {
+                if(data=="true"){
+                    window.parent.dialogClose();
+                    window.parent.location.reload();
+                    message("审核成功!");
+                }else {
+                    $("#aSubmitAndAudit").css("display","block");
+                    $("#aAfterSubmitAndAudit").css("display","none");
+                    message("审核失败,请刷新后重新审核!");
                 }
             });
-        }
-        window.onload=zhanghu;
-        function fktijiao() {
-            var lwzh=document.getElementById("lwzh").value;
-            alert(lwzh);
-            var level3=document.getElementById("level3").value;
-            alert(level3);
-            var skfs=document.getElementById("skfs").value;
-            alert(skfs);
-            window.location="${adminPath}/a/ck/cRkckddinfo/xsckSh?zddId=1f418a8910a14b8ab1d0d86635981e7a"+"&lwzh="+lwzh+"&skzh="+level3+"&skfs="+skfs;
         }
     </script>
 </head>
@@ -294,8 +316,11 @@
                 <td style="">
                     <div class="input-group" style="width: 175px;">
                         <span class="input-group-addon lk-p5"><span style="">收款账户</span></span>
-                        <select name="level3" id="level3" style="border: 1px solid #ccc; height: 30px; width: 100px;">
+                        <select name="skzh" id="skzh" style="border: 1px solid #ccc; height: 30px; width: 100px;">
                             <option value="">请选择</option>
+                            <c:forEach items="${accountList}" var="ac">
+                                <option value="${ac.id}" label="${ac.name}">${ac.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </td>
@@ -316,6 +341,14 @@
                 </td>
                 </tbody>
             </table>
+            <div id="submitAndAudit" class="input-group " style="width: 320px; margin: 10px auto; text-align: center; padding-bottom: 4px">
+                <div class="input-group " style="width: 310px;">
+                    <div class="input-group-btn">
+                        <a id="aSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" onclick="fktijiao('${cRkckddinfo.id}')">提交并审核</a>
+                        <a id="aAfterSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" style="display: none;">提交中...</a>
+                    </div>
+                </div>
+            </div>
         </div>
 </c:if>
         <%--收款信息结束--%>
