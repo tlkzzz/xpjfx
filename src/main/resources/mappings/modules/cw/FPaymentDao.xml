@@ -7,9 +7,12 @@
 		a.payment_date AS "paymentDate",
 		a.payment_code AS "paymentCode",
 		a.payment_account AS "paymentAccount",
+		fao.back_code AS "faName",
 		a.travel_unit AS "travelUnit.id",
 		csu.name AS "travelUnit.name",
+		cst.name AS "travelUnit.code",
 		a.travel_account AS "travelAccount",
+		fat.back_code AS "csName",
 		a.payment_type AS "paymentType",
 		a.payment_mode AS "paymentMode",
 		a.je AS "je",
@@ -33,9 +36,12 @@
 	<sql id="fPaymentJoins">
 		LEFT JOIN c_rkckddinfo rck ON rck.id = a.payment_code
 		LEFT JOIN c_supplier csu ON csu.id=a.travel_unit
+		LEFT JOIN c_store cst ON cst.id=a.travel_unit
 		LEFT JOIN c_km ck ON ck.id=a.subject_code
 		LEFT JOIN sys_user su ON su.id=a.auditor
 		LEFT JOIN sys_user cb ON cb.id=a.jsr
+		LEFT JOIN f_account fao ON fao.id=a.payment_account
+		LEFT JOIN f_account fat ON fat.id=a.travel_account
 	</sql>
 
 	<select id="get" resultType="FPayment">
