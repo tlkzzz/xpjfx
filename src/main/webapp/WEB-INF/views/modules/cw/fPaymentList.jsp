@@ -101,7 +101,7 @@
 		<c:forEach items="${page.list}" var="fPayment" varStatus="status">
 			<tr>
 				<td>
-						${fPayment.paymentCode}
+						${(not empty fPayment.ddbh)?fPayment.ddbh:fPayment.paymentCode}
 				</td>
 			 <td>
                         ${fns:getDictLabel(fPayment.paymentType, "receiptType", "")}
