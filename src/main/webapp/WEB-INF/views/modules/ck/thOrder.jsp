@@ -75,28 +75,50 @@
 
         }
 
-        function zhanghu() {
-            $.ajax({
-                type: "POST",
-                url: "${adminPath}/a/ck/cRkckddinfo/zhanghuAdd",
-                success: function(data){
-                    for(var i=0;i<data.length;i++){
-//                   alert(data[0].name);
-                        var s=document.getElementById("level3");
-                        s.add(new Option(data[i].name,data[i].id));
-                    }
+        <%--function zhanghu() {--%>
+            <%--$.ajax({--%>
+                <%--type: "POST",--%>
+                <%--url: "${adminPath}/a/ck/cRkckddinfo/zhanghuAdd",--%>
+                <%--success: function(data){--%>
+                    <%--for(var i=0;i<data.length;i++){--%>
+<%--//                   alert(data[0].name);--%>
+                        <%--var s=document.getElementById("level3");--%>
+                        <%--s.add(new Option(data[i].name,data[i].id));--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--});--%>
+        <%--}--%>
+        <%--window.onload=zhanghu;--%>
+        <%--function fktijiao() {--%>
+            <%--var lwzh=document.getElementById("lwzh").value;--%>
+            <%--alert(lwzh);--%>
+            <%--var level3=document.getElementById("level3").value;--%>
+            <%--alert(level3);--%>
+            <%--var skfs=document.getElementById("skfs").value;--%>
+            <%--alert(skfs);--%>
+            <%--window.location="${adminPath}/a/ck/cRkckddinfo/xsckSh?zddId=1f418a8910a14b8ab1d0d86635981e7a"+"&lwzh="+lwzh+"&skzh="+level3+"&skfs="+skfs;--%>
+        <%--}--%>
+        function fktijiao(zddId) {
+            var lwzh = $("#lwzh").val();
+            var skzh = $("#skzh").val();
+            var skfs = $("#skfs").val();
+            if(zddId==""){message("请先提交订单后在进行审核!");return false;}
+            if(lwzh==""){message("请填写来往单位账户!");return false;}
+            if(skzh==""){message("请选择收款账户!");return false;}
+            if(skfs==""){message("请选择收款方式!");return false;}
+            $("#aSubmitAndAudit").css("display","none");
+            $("#aAfterSubmitAndAudit").css("display","block");
+            $.post("../xsckSh",{zddId:zddId,lwzh:lwzh,skzh:skzh,skfs:skfs},function (data) {
+                if(data=="true"){
+                    window.parent.dialogClose();
+                    window.parent.location.reload();
+                    message("审核成功!");
+                }else {
+                    $("#aSubmitAndAudit").css("display","block");
+                    $("#aAfterSubmitAndAudit").css("display","none");
+                    message("审核失败,请刷新后重新审核!");
                 }
             });
-        }
-        window.onload=zhanghu;
-        function fktijiao() {
-            var lwzh=document.getElementById("lwzh").value;
-            alert(lwzh);
-            var level3=document.getElementById("level3").value;
-            alert(level3);
-            var skfs=document.getElementById("skfs").value;
-            alert(skfs);
-            window.location="${adminPath}/a/ck/cRkckddinfo/xsckSh?zddId=1f418a8910a14b8ab1d0d86635981e7a"+"&lwzh="+lwzh+"&skzh="+level3+"&skfs="+skfs;
         }
     </script>
 </head>
@@ -252,7 +274,9 @@
     <div class="box4">
         <div class="bt">
             <a onclick="onCspmx();" style="border: 2px"><span>商品明细</span></a>
-            <a onclick="onCfkxx();" style="border: 2px"><span>付款信息</span></a>
+            <c:if test="${not empty review && cRkckddinfo.issp eq '0'}">
+                <a onclick="onCfkxx();" style="border: 2px"><span>付款信息</span></a>
+            </c:if>
             <div class="ha">
                 <span style="color: blue;">帮助</span>
             </div>
@@ -273,9 +297,26 @@
                 <div class="xiaozi" style="text-align: right;float: right;" id="totalInfo">共 0 条，0元</div>
                 <div class="clearfix"></div>
             </div>
+            <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
+                <input type="hidden" id="goodsData" value='${goodsJSON}'>
+                <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
+                    <input type="hidden" name="pageName" value="thOrder">
+                    <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
+                    <input type="hidden" name="review" value="${review}">
+                    <input type="hidden" id="cStorelist" name="cStore.id">
+                    <input type="hidden" id="ywy" name="createBy">
+                    <input type="hidden" id="gcy" name="createBy">
+                    <input type="hidden" id="houselist" name="cHouse.id">
+                    <input type="hidden" id="bzlist" name="remarks">
+                    <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
+                    <input type="hidden" name="lx" value="1">
+                    <input type="hidden" name="state" value="5">
+                    <input type="button"  style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
+                </form>
+            </div>
         </div>
         <%--收款信息开始--%>
-
+<c:if test="${not empty review && cRkckddinfo.issp eq '0'}">
         <div id="skxx" class="bb" style="height: 430px;" hidden>
             <table style="width: 100%">
                 <tbody><!-- ngIf: jbxx.cklx !=309 --><tr ng-if="jbxx.cklx !=309" class="ng-scope">
@@ -292,8 +333,11 @@
                 <td style="">
                     <div class="input-group" style="width: 175px;">
                         <span class="input-group-addon lk-p5"><span style="">收款账户</span></span>
-                        <select name="level3" id="level3" style="border: 1px solid #ccc; height: 30px; width: 100px;">
+                        <select name="skzh" id="skzh" style="border: 1px solid #ccc; height: 30px; width: 100px;">
                             <option value="">请选择</option>
+                            <c:forEach items="${accountList}" var="ac">
+                                <option value="${ac.id}" label="${ac.name}">${ac.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </td>
@@ -314,24 +358,17 @@
                 </td>
                 </tbody>
             </table>
+            <div id="submitAndAudit" class="input-group " style="width: 320px; margin: 10px auto; text-align: center; padding-bottom: 4px">
+                <div class="input-group " style="width: 310px;">
+                    <div class="input-group-btn">
+                        <a id="aSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" onclick="fktijiao('${cRkckddinfo.id}')">提交并审核</a>
+                        <a id="aAfterSubmitAndAudit" class="btn btn-warning lk-w100" href="javascript:void(0)" style="display: none;">提交中...</a>
+                    </div>
+                </div>
+            </div>
         </div>
+</c:if>
         <%--收款信息结束--%>
-        <div style="width: 100%;margin: 0 auto;text-align: center;padding:4% 0;position: absolute;bottom: 0;">
-            <input type="hidden" id="goodsData" value='${goodsJSON}'>
-            <form id="saveForm" action="../rkOrderSave" method="post" onsubmit="return checkFormInfo();">
-                <input type="hidden" name="pageName" value="thOrder">
-                <input type="hidden" id="id" name="id" value="${cRkckddinfo.id}">
-                <input type="hidden" id="cStorelist" name="cStore.id">
-                <input type="hidden" id="ywy" name="createBy">
-                <input type="hidden" id="gcy" name="createBy">
-                <input type="hidden" id="houselist" name="cHouse.id">
-                <input type="hidden" id="bzlist" name="remarks">
-                <input type="hidden" id="jsonData" name="jsonData" value='${json}'>
-                <input type="hidden" name="lx" value="1">
-                <input type="hidden" name="state" value="5">
-                <input type="button" onclick="fktijiao();" style="background-color: #f1ad4e;color: #fff;border-radius: 4px;font-size: 16px;padding: 2% 8%;" value="提  交">
-            </form>
-        </div>
     </div>
     <div class="box5">
         <div class="box5_bt">
