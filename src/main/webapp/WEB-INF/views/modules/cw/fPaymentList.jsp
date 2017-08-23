@@ -116,7 +116,7 @@
                               ${(not empty fPayment.faName)?fPayment.faName:fPayment.paymentAccount}
                             </td>
                             <td>
-                            	${fPayment.travelUnit.id}
+                            	${(not empty fPayment.travelUnit.name)?fPayment.travelUnit.name:(not empty fPayment.travelUnit.code)?fPayment.travelUnit.code:fPayment.travelUnit.id}
                             	</td>
 				<td>
 					<fmt:formatDate value="${fPayment.paymentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
