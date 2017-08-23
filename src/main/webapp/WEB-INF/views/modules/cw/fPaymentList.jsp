@@ -80,6 +80,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>单据编号</th>
 			    <th>付款类型</th>
 			<!--     <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
                </c:if> -->
@@ -87,7 +88,6 @@
 				<th>付款帐号</th>
 				<th>来往单位</th>
 				<th>付款日期</th>
-				<th>单据编号</th>
 				<th>审核状态</th>
 				<th>付款方式</th>
 				<th>合同金额</th>
@@ -100,16 +100,20 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="fPayment" varStatus="status">
 			<tr>
+				<td>
+						${fPayment.paymentCode}
+				</td>
 			 <td>
                         ${fns:getDictLabel(fPayment.paymentType, "receiptType", "")}
              </td>
                 <!--  <c:if test="${fn:contains('0,1,2,3,4,5,7,8',fPayment.paymentType)}">
 				  </c:if> -->
+
                               <td>
-                               ${fPayment.travelAccount}
+                               ${(not empty fPayment.csName)?fPayment.csName:fPayment.travelAccount}
                               </td>
              			    <td>
-                              ${fPayment.paymentAccount}
+                              ${(not empty fPayment.faName)?fPayment.faName:fPayment.paymentAccount}
                             </td>
                             <td>
                             	${fPayment.travelUnit.id}
@@ -117,9 +121,6 @@
 				<td>
 					<fmt:formatDate value="${fPayment.paymentDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</td>
-				<td>
-						${fPayment.paymentCode}
-				</td>
 				<td id="approvalStatus${status.index}">
                         ${fns:getDictLabel(fPayment.approvalStatus, "storeState", "")}
                 </td>

@@ -514,6 +514,26 @@ public class CRkckddinfoController extends BaseController {
 	}
 
 	/**
+	 * 出库单详细信息页面
+	 * @param cRkckddinfo
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("ck:cCkinfo:view")
+	@RequestMapping(value = "xqlist")
+	public String xqlist(CRkckddinfo cRkckddinfo,Model model){
+		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getId())){
+			return "error/400";
+		}
+		CDdinfo cd = new CDdinfo();
+		cd.setRkckddinfo(cRkckddinfo);
+		List<CDdinfo> cdList = cDdinfoService.findList(cd);
+		model.addAttribute("cRkckddinfo",cRkckddinfo);
+		model.addAttribute("cdList",cDdinfoService.processUnit(cdList));
+		return "modules/ck/CKDDetails";
+	}
+
+	/**
 	 * 订单备注修改
 	 * @param ids
 	 * @param remark
@@ -691,7 +711,7 @@ public class CRkckddinfoController extends BaseController {
 		}
 	}
 	@RequestMapping(value = "query")
-	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model,String id,String name){
+	public String query(CRkckddinfo cRkckddinfo,String pageName,HttpServletRequest request,HttpServletResponse response,Model model){
 		if(cRkckddinfo==null||StringUtils.isBlank(cRkckddinfo.getLx())){
 			return "error/400";
 		}

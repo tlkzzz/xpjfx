@@ -1012,7 +1012,7 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 		List<CDdinfo> list=cDdinfoService.ywylrlist(cDdinfo);
 		for(int i=0; i< list.size(); i++) {
 			cDdinfo=list.get(i);
-			if(StringUtils.isNotBlank(cDdinfo.getHouse().getName())){
+			if(cDdinfo.getHouse()!=null){
 				Double lr = cDdinfoService.lr(cDdinfo);
 				String a=cDdinfo.getHouse().getName();
 				if(list.get(i).getHouse().getName().contains(a)){
@@ -1075,7 +1075,7 @@ public String bfexcel(CDdinfo cDdinfo, String type, Model model,HttpServletRespo
 		List<CDdinfo> list=cDdinfoService.ywylrlist(cDdinfo);
 		for(int i=0; i< list.size(); i++) {
 			cDdinfo=list.get(i);
-			if(StringUtils.isNotBlank(cDdinfo.getStore().getName())){
+			if(cDdinfo.getStore()!=null){
 				Double lr = cDdinfoService.lr(cDdinfo);
 				String a=cDdinfo.getStore().getName();
 				if(list.get(i).getStore().getName().contains(a)){
