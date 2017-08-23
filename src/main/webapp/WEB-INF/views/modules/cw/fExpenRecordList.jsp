@@ -58,7 +58,7 @@
 					${empty fExpenRecord.ddbh?"采购订单":fExpenRecord.ddbh}
 				</td>
 				<td>
-					${fExpenRecord.expenAccount}
+					${(not empty fExpenRecord.zcName)?fExpenRecord.zcName:fExpenRecord.expenAccount}
 				</td>
 				<td>
 					${fExpenRecord.travelAccount}
