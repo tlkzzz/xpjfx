@@ -148,7 +148,7 @@ public class CGoodsController extends BaseController {
 		if(goods.getGclass()==null||StringUtils.isBlank(goods.getGclass().getId())){
 			goods.setGclass(new CGclass("0"));
 		}
-		return cGoodsService.findList(new CGoods());
+		return cGoodsService.findList(goods);
 	}
 
 	@ResponseBody
