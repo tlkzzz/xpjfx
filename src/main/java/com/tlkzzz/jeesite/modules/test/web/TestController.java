@@ -121,7 +121,17 @@ public class TestController extends BaseController {
 		addMessage(redirectAttributes, "保存测试'" + test.getName() + "'成功");
 		return "redirect:" + adminPath + "/test/test/?repage";
 	}
-	
+
+	/**
+	 * app,ios下载链接页面
+	 * @return
+	 */
+	@RequiresPermissions("test:test:edit")
+	@RequestMapping(value = "download")
+	public String download() {
+		return "modules/test/Download";
+	}
+
 	/**
 	 * 删除数据方法
 	 * @param test
