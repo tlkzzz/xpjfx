@@ -8,6 +8,7 @@
 		a.parent_id AS "parent.id",
 		a.parent_ids AS "parentIds",
 		a.code AS "code",
+		COUNT(cg.id) AS "sort",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
@@ -17,6 +18,7 @@
 	</sql>
 	
 	<sql id="cGclassJoins">
+		LEFT JOIN c_goods cg ON cg.gclassid=a.id
 	</sql>
     
 	<select id="get" resultType="CGclass">
@@ -63,6 +65,7 @@
 					<if test="dbName == 'mysql'">concat('%',#{code},'%')</if>
 			</if>
 		</where>
+		GROUP BY a.id
 	</select>
 	
 	<select id="findAllList" resultType="CGclass">
