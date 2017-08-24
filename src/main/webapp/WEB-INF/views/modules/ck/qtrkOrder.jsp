@@ -88,7 +88,7 @@
         <div class="bb" style="float: left;">
             <ul class="fen1">
                 <c:forEach items="${gClass}" var="gc">
-                    <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">4</span></li>
+                    <li class="xi xixi" onclick="getGclass('${gc.id}',$(this));">${gc.name}<span class="span">${gc.sort}</span></li>
                 </c:forEach>
             </ul>
         </div>
