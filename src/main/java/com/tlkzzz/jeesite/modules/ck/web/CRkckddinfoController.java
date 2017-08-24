@@ -776,7 +776,9 @@ public class CRkckddinfoController extends BaseController {
 	@RequiresPermissions("ck:cRkckddinfo:view")
 	@RequestMapping(value = "shenhelist")
 	public String shenhelist(CRkckddinfo cRkckddinfo,CStore cStore, HttpServletRequest request, HttpServletResponse response, Model model) {
-		List<CRkckddinfo> list = cRkckddinfoService.selectList("2",cRkckddinfo);
+
+
+				List<CRkckddinfo> list = cRkckddinfoService.selectList("2",cRkckddinfo);
 		int a= list.size();
 			model.addAttribute("a", a);
 	    List<CRkckddinfo> list1=cRkckddinfoService.selectList("5",cRkckddinfo);
@@ -791,10 +793,14 @@ public class CRkckddinfoController extends BaseController {
          List<CStore> list4=cStoreService.tslist(cStore);
          int kehu=list4.size();
          model.addAttribute("kehu",kehu);
-			return "modules/ck/shenheList";
+
+		model.addAttribute("ckNotIsspCount",cRkckddinfoService.getNotIsspCount("0","1"));
+		model.addAttribute("ccNotIsspCount",cRkckddinfoService.getNotIsspCount("1","2"));
+		model.addAttribute("thNotIsspCount",cRkckddinfoService.getNotIsspCount("0","5"));
+				return "modules/ck/shenheList";
 	}
 
-	/**
+	/**q
 	 * 出库提交订单打开填写财务信息页面（收款）
 	 * @param fReceipt
 	 * @param model

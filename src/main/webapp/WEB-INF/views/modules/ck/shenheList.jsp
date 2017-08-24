@@ -34,21 +34,21 @@
 		</form:form>
 		<ul id="menuContent">
 			<li>
-				<a href="${ctx}/ck/cRkckddinfo/cgList?state=1">
+				<a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0&state=1">
 					<img src="${ctxStatic}/images/rksh.jpg" alt="入库审核" />
-					<h3>入库审核(<span>${ruku}</span>)</h3>
+					<h3>入库审核(<span>${ckNotIsspCount}</span>)</h3>
 				</a>
 				<%--<a href="#">--%>
 					<%--<img src="${ctxStatic}/images/yksh.jpg" alt="移库审核" />--%>
 					<%--<h3>移库审核(<span>0</span>)</h3>--%>
 				<%--</a>--%>
-				<a href="${ctx}/ck/cRkckddinfo/libraryList?state=2">
+				<a href="${ctx}/ck/cRkckddinfo/query?lx=1&state=2">
 					<img src="${ctxStatic}/images/cksh.jpg" alt="出库审核" />
-					<h3>出库审核(<span>${a}</span>)</h3>
+					<h3>出库审核(<span>${ccNotIsspCount}</span>)</h3>
 				</a>
-				<a href="${ctx}/ck/cRkckddinfo/libraryList?state=5">
+				<a href="${ctx}/ck/cRkckddinfo/rkOrderSelect?lx=0&state=5">
 					<img src="${ctxStatic}/images/thsh.jpg" alt="退货审核" />
-					<h3>退货审核(<span>${th}</span>)</h3>
+					<h3>退货审核(<span>${thNotIsspCount}</span>)</h3>
 				</a>
 			</li>
 			<li>
