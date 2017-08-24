@@ -436,21 +436,6 @@
             <div class="anniu">
                 <input type="button" onclick="jblist()"  value="确  定">
             </div>
-            <div style="text-align: left; width: 555px;padding: 8px 0;box-sizing: border-box; margin: 0 auto 20px;border: 1px solid #d3d3d3;border-radius: 4px;">
-                <table class="lk-tips">
-                    <tbody><tr>
-                        <td>
-                            <img src="${ctxStatic}/images/小云提示.png" alt="小云提示" title="小云提示">
-                        </td>
-                        <td>
-                            <ul style="margin-left: 10px;">
-                                <li style="list-style: inside;margin-bottom: 20px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">入库即商品采购回来之后进行接收和验收入库，在将商品入库的同时进行支付，从而实现物流和资金流的同步处理。</li>
-                                <li style="list-style: inside;margin-bottom: 20px;padding-bottom: 10px;font-size: 14px;line-height:  20px;color: #b3b3b3;border: 0px;">若找不到入库仓库，请在【资料】-【仓库档案】中查看用户是否具有该仓库的操作权限。</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    </tbody></table>
-            </div>
             <div class="clearfix"></div>
         </div>
         <div tabindex="0" class="xx"></div>
