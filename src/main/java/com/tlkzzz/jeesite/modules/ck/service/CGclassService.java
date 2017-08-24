@@ -26,9 +26,13 @@ public class CGclassService extends TreeService<CGclassDao, CGclass> {
 		return super.get(id);
 	}
 	public List<CGclass> getcode(String code) {
-
 		return dao.getcode(code);
 	}
+
+	public List<CGclass> findListContainGoodsNum(CGclass cGclass) {
+		return dao.findListContainGoodsNum(cGclass);
+	}
+
 	public List<CGclass> findList(CGclass cGclass) {
 		if (StringUtils.isNotBlank(cGclass.getParentIds())){
 			cGclass.setParentIds(","+cGclass.getParentIds()+",");
