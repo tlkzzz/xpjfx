@@ -17,4 +17,11 @@ import java.util.List;
 @MyBatisDao
 public interface CGclassDao extends TreeDao<CGclass> {
 	public List<CGclass> getcode(String code);
+
+	/**
+	 * t通过父ID查询子列表,其中sort中包含商品数量
+	 * @param cGclass
+	 * @return
+	 */
+	public List<CGclass> findListContainGoodsNum(CGclass cGclass);
 }
