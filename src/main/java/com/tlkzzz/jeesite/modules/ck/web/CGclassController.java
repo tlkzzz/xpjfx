@@ -133,7 +133,7 @@ public class CGclassController extends BaseController {
 		if(gclass.getParent()==null){
 			gclass.setParent(new CGclass("0"));
 		}
-		List<CGclass> list = cGclassService.findList(gclass);
+		List<CGclass> list = cGclassService.findListContainGoodsNum(gclass);
 		return list;
 	}
 
