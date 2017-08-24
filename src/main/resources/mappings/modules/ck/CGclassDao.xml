@@ -36,9 +36,11 @@
 	</select>
 	<select id="findList" resultType="CGclass">
 		SELECT 
-			<include refid="cGclassColumns"/>
+			<include refid="cGclassColumns"/>,
+			COUNT(cgc.id) AS "sort"
 		FROM c_gclass a
 		<include refid="cGclassJoins"/>
+		LEFT JOIN c_gclass cgc ON cgc.parent_id = a.id
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="name != null and name != ''">
@@ -63,6 +65,23 @@
 					<if test="dbName == 'mysql'">concat('%',#{code},'%')</if>
 			</if>
 		</where>
+		GROUP BY a.id
+	</select>
+
+	<select id="findListContainGoodsNum" resultType="CGclass">
+		SELECT
+			<include refid="cGclassColumns"/>,
+			COUNT(cg.id) AS "sort"
+		FROM c_gclass a
+		<include refid="cGclassJoins"/>
+		LEFT JOIN c_goods cg ON cg.gclassid = a.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+		</where>
+		GROUP BY a.id
 	</select>
 	
 	<select id="findAllList" resultType="CGclass">
