@@ -54,7 +54,7 @@ function getGclass(id,ele) {
                 $("#gClassNum").text(data.length);
                 for(var i=0;i<data.length;i++){
                     $(".box1 .fen2").append('<li class="xi xixi" onclick="getGoods(\''+data[i].id+'\',$(this))">'+
-                        data[i].name+'<span class="span">5</span></li>');
+                        data[i].name+'<span class="span">'+data[i].sort+'</span></li>');
                 }
                 getGoods(data[0].id,$(".box1 .fen2 .xixi:first"));
             }else {
