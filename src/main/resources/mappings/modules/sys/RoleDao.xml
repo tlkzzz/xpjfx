@@ -34,8 +34,8 @@
     	a.office_id AS "office.id",
     	a.name,
     	a.enname,
-    	a.role_type AS roleType,
-		a.data_scope AS dataScope,
+    	a.role_type AS "roleType",
+		a.data_scope AS "dataScope",
 		a.remarks,
 		a.create_by AS "createBy.id",
 		a.create_date,
@@ -44,11 +44,13 @@
 		a.del_flag,
     	o.name AS "office.name",
     	o.code,
-    	a.useable AS useable,
-    	a.is_sys AS sysData,
-    	sm.id as "menu.id"
+    	a.useable AS "useable",
+    	a.is_sys AS "sysData",
+    	sm.id   AS  "menu.id"
     </sql>
-    
+	<sql id="roleJoins">
+		LEFT JOIN sys_menu sm ON sm.id=a.id
+	</sql>
 	<select id="get" resultMap="roleResult">
 		SELECT
 			<include refid="roleColumns"/>,<!-- 
@@ -63,7 +65,7 @@
 			rm.menu_id AS "menuList.id",
 			ro.office_id AS "officeList.id"
 		FROM sys_role a
-		JOIN sys_office o ON o.id = a.office_id<!-- 
+		JOIN sys_office o ON o.id = a.office_id<!--
 		LEFT JOIN sys_user_role ur ON ur.role_id = a.id
 		LEFT JOIN sys_user u ON u.id = ur.user_id
 		LEFT JOIN sys_office uc ON uc.id = u.company_id
@@ -112,6 +114,7 @@
 		LEFT JOIN sys_role_office ro ON ro.role_id = a.id
 		LEFT JOIN sys_role_menu rm ON rm.role_id=a.id
 		LEFT JOIN sys_menu sm ON sm.id=rm.menu_id
+
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.useable=#{useable}
 		<if test="user != null and user.id != null and user.id != ''">
 			AND u.id = #{user.id}
@@ -129,6 +132,7 @@
 			<include refid="roleColumns"/>
 		FROM sys_role a
 		LEFT JOIN sys_office o ON o.id = a.office_id
+		LEFT JOIN sys_menu sm ON sm.id=a.id
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		ORDER BY o.code, a.name
 	</select>
